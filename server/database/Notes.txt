@@ -1,0 +1,5 @@
+Suggestions for the coding of the project:
+
+1.) Instead of a Restrict Function, I suggest doing Conditional Rendering which uses more of the items based stored on the database
+2.) We (database team) think that the user interface in the erd is not entirely needed due to it being statically loaded na into the program by react
+we only need to include data which is changing if ever within the erd.
