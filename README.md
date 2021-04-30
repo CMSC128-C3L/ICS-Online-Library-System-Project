@@ -7,7 +7,7 @@ The Institute of Computer Science (ICS) Library System maintains a lot of materi
 It is required to have an IDE, Visual Studio Code is highly recommended.
 It is also a need to install Git, in order use the Git repository.
 
-Install Node.js [here](https://nodejs.org/en/ and download the latest) version of node and install it on your machine. 
+Install Node.js [here](https://nodejs.org/en/) and download the latest version of node and install it on your machine. 
 Install MongoDB [here](https://www.mongodb.com/try/download/community) and install it on your machine.
 React JS is already part of the directory. 
 
