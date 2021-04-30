@@ -4,11 +4,11 @@
 The Institute of Computer Science (ICS) Library System maintains a lot of materials such as Special Problems and thesis of BSCS/MSCS/PhD alumni, books and journals. These materials are used as a reference by current researchers and students. Currently, the only way to access them is through physically visiting the library. With the current pandemic situation and the need for social distancing, there is a need to offer such services online in a secured, efficient, and maintained manner, hence this proposed system.
 
 ## Installation
-It is required to have an IDE, Visual Studio Code is highly recommended.
+It is required to have an IDE, Visual Studio Code is highly recommended.\
 It is also a need to install Git, in order use the Git repository.
 
-Install Node.js [here](https://nodejs.org/en/) and download the latest version of node and install it on your machine. 
-Install MongoDB [here](https://www.mongodb.com/try/download/community) and install it on your machine.
+Install Node.js [here](https://nodejs.org/en/) and download the latest version of node and install it on your machine.\
+Install MongoDB [here](https://www.mongodb.com/try/download/community) and install it on your machine.\
 React JS is already part of the directory. 
 
 ## Usage
