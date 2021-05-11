@@ -1,0 +1,7 @@
+.footer-container{
+    justify-content: center;
+    margin-top: auto;
+    flex-shrink: 0;
+    padding: 5vh;
+    background-color: #47abdb; /* placeholder lang para makita ko yung size */
+}

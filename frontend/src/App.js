@@ -4,9 +4,8 @@ import CardRow from './components/cards/CardRow'
 function App() {
   return (
     <div className="App">
-        <h1>Hello World!</h1>
-        <CardRow>Test</CardRow>
-        <Footer name="Jeron Smith"></Footer>
+        <CardRow/>
+        <Footer/>
     </div>
   );
 }
