@@ -1,12 +1,11 @@
 //This file is the entry point of the server
 
-//npm packages
-const express = require('express')
+// import app
+const app = require('./server/app.js');
+// get server port from environment variables
+const PORT = process.env.PORT || 5000;
 
-//instantiate server
-const app = express()
+app.listen(PORT, () => {
+  console.log('Server started on port', PORT);
+});
 
-const router = require('./server/router')
-router(app)
-
-app.listen(5000)
