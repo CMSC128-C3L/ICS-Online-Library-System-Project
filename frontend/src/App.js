@@ -1,11 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
-import AdminButton from './components/AdminButton';
+import AdminHome from './pages/AdminHome';
+import Button from '@material-ui/core/Button'
+import { Fragment } from 'react';
 
 function App() {
   return (
     <div className="App">
-      <AdminButton></AdminButton>
+
+      <Fragment>
+        <Button>hello</Button>
+      </Fragment>
+      
+      <AdminHome />
     </div>
   );
 }
