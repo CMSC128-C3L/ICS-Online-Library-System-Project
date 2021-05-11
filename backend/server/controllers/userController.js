@@ -7,6 +7,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 module.exports = {
   login,
+  logout
 }
 
 async function login(req, res) {
@@ -51,5 +52,21 @@ async function login(req, res) {
   } catch(error) {
     console.log(error)
     res.status(400).send();
+  }
+}
+
+async function logout(req, res) {
+  try {
+    // remove current token from user tokens
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token !== req.token
+    });
+    // save user and send status 200
+    await req.user.save();
+    res.status(200).send();
+    
+  } catch(error) {
+    // console.log(error);
+    res.status(500).send();
   }
 }
