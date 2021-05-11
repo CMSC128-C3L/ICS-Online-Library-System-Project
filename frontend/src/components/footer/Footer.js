@@ -6,10 +6,14 @@ function Footer(props) {
         <div className="footer-container">
             <div className="placeholder-ilib-logo">iLib Name</div>
             <div className="footer-row">
-                <CategoryColumn content={searchprop}></CategoryColumn>
-                <CategoryColumn content={toolsprop}></CategoryColumn>
-                <CategoryColumn content={contactprop}></CategoryColumn>
-                <CategoryColumn content={socialprop}></CategoryColumn>
+                <div className="category-row">
+                    <CategoryColumn content={searchprop}></CategoryColumn>
+                    <CategoryColumn content={toolsprop}></CategoryColumn>
+                </div>
+                <div className="category-row">
+                    <CategoryColumn content={contactprop}></CategoryColumn>
+                    <CategoryColumn content={socialprop}></CategoryColumn>
+                </div>
             </div>
         </div>
     )

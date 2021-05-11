@@ -2,6 +2,7 @@ a {
     color: white;
     text-decoration: none;
     margin-bottom: 0.2vw;
+    font-size: 1em;
 }
 
 a:hover, svg:hover {
@@ -22,12 +23,11 @@ svg {
     justify-content: center;
     background-color: #47abdb;
     padding-top: 1vw;
-    padding-bottom: 5vw;
+    padding-bottom: 3vw;
 }
 
 .footer-row{
     display: inline-flex;
-    justify-content: center;
     margin-left: 10vw;
     margin-right: 10vw;
 }
@@ -35,6 +35,12 @@ svg {
 .column{
     display: flex;
     flex-direction: column;
+}
+
+.category-row{
+    margin-bottom: 2vh;
+    display: flex;
+    flex-direction: row;
 }
 
 .category-column{
@@ -46,7 +52,7 @@ svg {
 
 .category-title{
     margin-bottom: 0;
-    font-size: 1.3rem;
+    font-size: 1.3em;
 }
 
 .placeholder-ilib-logo{
@@ -55,4 +61,16 @@ svg {
     font-weight: bolder;
     color: white;
     margin: 1vw 1vw 1vw 10vw;
+}
+
+@media (max-width: 880px) {
+    .footer-row{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .category-row{
+        display: flex;
+        flex-direction: row;
+    }
 }
