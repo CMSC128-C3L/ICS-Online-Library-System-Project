@@ -1,5 +1,6 @@
-const User = require('../models/User.js');
+const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
+const User = require('../models/User.js');
 
 // Used in verifying google log in
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
