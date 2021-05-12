@@ -17,6 +17,10 @@ svg {
     margin-right: 0.5vw;
 }
 
+hr {
+    border: 1px solid white;
+}
+
 .footer-container{
     display: flex;
     flex-direction: column;
