@@ -1,5 +1,4 @@
-.App {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
+html, body {
+    margin: 0;
+    padding: 0;
 }
