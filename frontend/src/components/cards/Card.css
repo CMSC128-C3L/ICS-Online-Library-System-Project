@@ -26,20 +26,29 @@ button:hover {
 
 .flex-row {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-flow: wrap;
+    padding-left: 12vw;
+    padding-right: 12vw;
 }
 
 .card-container {
-    margin: 2em;
+    margin-top: 5vh;
     margin-bottom: 10vh;
-    padding: 0.6em;
-    width: 20%;
+    padding: 1em;
+    width: 30%;
+    height: auto;
     box-sizing: border-box;
     background-color: #47abdb;
     border-radius: 0.5em;
-    /* box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); */
-    /* transition: 0.3s; */
 }
+
+button:hover, svg:hover, a:hover {
+    transition: 0.1s;
+    transform: scale(1.05);
+    /* box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.25); */
+  }
 
 .card-header {
     font-size: 1.5em;
@@ -57,18 +66,15 @@ button:hover {
     margin-top: 0.5em;
 }
 
-.placeholder-image {
+img {
     background-color: lightgrey;
-    width:16vw;
-    height:16vw;
+    width:100%;
     align-self: center;
     box-sizing: border-box;
 }
 
 @media (max-width: 880px) {
     .flex-row {
-        display: flex;
-        flex-direction: column;
         margin-bottom: 5vh;
     }
 
@@ -77,14 +83,9 @@ button:hover {
     }
 
     .card-container {
-        width: 70%;
-        height: 100%;
+        width: auto;
+        height: auto;
         align-self: center;
         margin-bottom: 2vh;
-    }
-
-    .placeholder-image {
-        width: 95%;
-        height: 32vh;
     }
 }
