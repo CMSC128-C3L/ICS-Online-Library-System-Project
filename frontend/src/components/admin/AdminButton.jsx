@@ -1,6 +1,6 @@
 import { CardActionArea, CardContent } from '@material-ui/core'
 import React from 'react'
-import './AdminButton.css'
+import './AdminHome.css'
 import Card from '@material-ui/core/Card'
 import {useHistory} from 'react-router-dom'
 
@@ -8,7 +8,7 @@ function AdminButton({children, title, link, description}) {
      const history = useHistory();
     return (
        
-        <Card className="adminbutton adminbutton-container" 
+        <Card className="adminbutton" 
             onClick={() => history.push('/'+ link)}
             style={{borderRadius: '1em'}}
         >

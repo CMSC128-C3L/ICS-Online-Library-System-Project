@@ -1,0 +1,51 @@
+.adminbutton {
+  box-sizing: border-box;
+  border: 1;
+  border-color: #47abd8;
+  border-style: solid;
+  border-radius: 1em;
+  background: white;
+  height: 15vw;
+  max-height: 15vw;
+  width: 20vw;
+  max-width: 20vw;
+  margin-bottom: 1vw;
+  margin-left: 2vw;
+}
+
+.adminbutton:hover{
+  color: white;
+  background: #47abd8;
+}
+
+.bg{
+  background-image: url('../../assets/adminBackground.png');
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+
+.bg-container{
+  display: flex;
+  flex-direction: column;
+}
+.nav-container{
+  display: flex;
+  margin: auto;
+  margin-top: 1em;
+}
+
+.tile{
+  height: 200vw;
+  max-height: 15vw;
+  width: 60vw;
+  max-width: 60vw;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: wrap;
+  background: #47abd8;
+  margin: auto;
+  margin-top: 1em;
+}
+
