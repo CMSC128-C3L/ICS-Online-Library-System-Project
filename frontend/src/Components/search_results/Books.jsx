@@ -17,11 +17,16 @@ class Books extends Component{
         const url = "https://www.googleapis.com/books/v1/volumes?q="
         axios.get(url + this.state.searchField)
           .then(data => console.log(data))
-      };
+          .catch((error) => console.log(error))
+    };
 
     handleSearch = (e) =>{
         this.setState({ searchField: e.target.value})
     }
+
+    handleClick () {
+        this.handleSearch();
+      }
 
     render(){
         return(

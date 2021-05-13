@@ -16,7 +16,7 @@ function Navbar(props){
                             <div className="icon-input">
                                 <form onSubmit={props.searchBook} action="">
                                     <input onChange={props.handleSearch} type="text" placeholder="Search..."/>
-                                    <button type="submit"><img src="magnifying_glass.png" alt="SearchIcon" /></button>
+                                    <button type="submit" onClick={props.handleClick}><img src="magnifying_glass.png" alt="SearchIcon" /></button>
                                 </form>
                             </div>
                         </div>
