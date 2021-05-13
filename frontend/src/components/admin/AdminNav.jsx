@@ -1,11 +1,11 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import background from '../assets/adminBackground.png'
+import background from '../../assets/adminBackground.png'
 import AdminButton from './AdminButton'
 import AdminButtonIcon from './AdminButtonIcon'
-import peopleIcon from '../assets/manageUserIcon.png'
-import docIcon from '../assets/manageDocIcon.png'
-import analyticsIcon from '../assets/manageAnalytics.png'
+import peopleIcon from '../../assets/manageUserIcon.png'
+import docIcon from '../../assets/manageDocIcon.png'
+import analyticsIcon from '../../assets/manageAnalytics.png'
 import AdminAnalyticsTile from './AdminAnalyticsTile'
 
 function AdminNav() {
