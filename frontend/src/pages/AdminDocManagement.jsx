@@ -6,7 +6,7 @@ function AdminDocManagement() {
         <div>
             <h1>Documents</h1>
             <Link to='/'>
-                <h2>Home</h2>
+                <h3>Home</h3>
             </Link>
         </div>
     )

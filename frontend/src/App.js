@@ -4,7 +4,7 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import AdminAnalytics from './pages/AdminAnalytics'
 import AdminDocManagement from './pages/AdminDocManagement'
 import AdminUserManagement from './pages/AdminUserManagement'
-import {BrowserRouter as Link, Router, Route} from 'react-router-dom'
+import {BrowserRouter as Route} from 'react-router-dom'
 
 function App() {
   return (
