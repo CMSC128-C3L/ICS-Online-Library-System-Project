@@ -87,6 +87,11 @@ button:hover{
   margin-left: 30px;
 }
 
+.middleSide .bottomSide .links a:hover{
+  color: #95D2EC;
+  fill: #95D2EC;
+}
+
 .Navbar .rightSide .useraccount {
   margin-top: 60px;
   font-size: 20px;
@@ -96,5 +101,10 @@ button:hover{
   text-decoration: none;
   color: black;
   margin-left: 15px;
+}
+
+.Navbar .rightSide .useraccount a:hover {
+  color: #95D2EC;
+  fill: #95D2EC;
 }
 
