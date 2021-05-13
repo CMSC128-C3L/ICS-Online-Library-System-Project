@@ -1,6 +1,6 @@
 import React from 'react';
 import BookCard from './BookCard';
-// import './Search.css';
+import './Search.css';
 
 const BookList = (props) => {
     return(

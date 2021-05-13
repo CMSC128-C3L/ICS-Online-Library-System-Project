@@ -26,7 +26,7 @@ class Books extends Component{
 
     handleClick () {
         this.handleSearch();
-      }
+    }
 
     render(){
         return(

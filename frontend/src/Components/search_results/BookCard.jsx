@@ -4,7 +4,7 @@ import './Search.css';
 const BookCard = (props) => {
     return(
         <div className = "card-container">
-            <img src={props.image} alt=""/>
+            <img src={props.image} alt="books"/>
 
             <div className="desc">
                 <h2>{props.title}</h2>
