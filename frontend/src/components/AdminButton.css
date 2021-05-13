@@ -1,0 +1,22 @@
+.adminbutton-container {
+  box-sizing: border-box;
+  border: 1;
+  border-color: #47abd8;
+  border-style: solid;
+  border-radius: 1em;
+  background: white;
+  height: 15vw;
+  max-height: 15vw;
+  width: 20vw;
+  max-width: 20vw;
+  margin-bottom: 1vw;
+}
+
+.adminbutton:hover{
+  color: white;
+  background: #47abd8;
+}
+
+
+
+

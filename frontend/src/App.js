@@ -1,18 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
 import AdminHome from './pages/AdminHome';
-import Button from '@material-ui/core/Button'
-import { Fragment } from 'react';
+import { BrowserRouter, Switch } from 'react-router-dom';
+import AdminAnalytics from './pages/AdminAnalytics'
+import AdminDocManagement from './pages/AdminDocManagement'
+import AdminUserManagement from './pages/AdminUserManagement'
+import {BrowserRouter as Link, Router, Route} from 'react-router-dom'
 
 function App() {
   return (
-    <div className="App">
-
-      <Fragment>
-        <Button>hello</Button>
-      </Fragment>
-      
-      <AdminHome />
+    <div className="App"> 
+      <BrowserRouter> 
+        <Switch>
+        <Route exact path="/" component={AdminHome}/>
+        <Route exact path="/manageUsers"  component={AdminUserManagement} />
+        <Route exact path="/manageDocuments"  component={AdminDocManagement} />
+        <Route exact path="/browseAnalytics" component={AdminAnalytics} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
