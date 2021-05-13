@@ -25,8 +25,10 @@ You will also see any lint errors in the console.
 If npm start doesn't work and the react-scripts is present in package.json, then just type this command:
 `npm install`
 
-If react-scripts is not present in package.json, run:
+If react-scripts, axios, yarn are not present in package.json, run:
 `npm install react-scripts --save`
+`npm install axios`
+`npm install -g yarn`
 
 NOTE: Use this space to attach useful examples of how the project can be used (e.g. screenshots, code examples and demos).
 
