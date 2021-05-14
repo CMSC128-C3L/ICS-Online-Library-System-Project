@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
-import FilterSideBar from "../Components/filter_sidebar/FilterSideBar";
-import Navbar from "../Components/navigation_bar/Navbar";
-// import SearchResults from "./Components/search_results/Books";
-import Footer from '../Components/footer/Footer';
+import FilterSideBar from "../components/filter_sidebar/FilterSideBar";
+import Navbar from "../components/navigation_bar/Navbar";
+// import SearchResults from "./components/search_results/Books";
+import Footer from '../components/footer/Footer';
 
 function SearchPage() {
 
