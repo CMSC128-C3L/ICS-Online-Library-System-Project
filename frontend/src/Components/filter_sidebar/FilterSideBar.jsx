@@ -1,19 +1,22 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CheckboxList from './CheckboxList';
+import CheckList from './CheckList';
+import Typography from '@material-ui/core/Typography';
 import ReferenceDropdown from './ReferenceDropdown'
 
 const category = {'name': 'Category', 'list': ["Books", "Journals", "Special Problems", "Theses"]};
 const topic = {
 	'name': 'Topic', 
-	'list': ["Algorithms", "Android Development", "Computer Architecture", "Computer Graphics", "Data Structures", 
-	"Database Management", "Human-Computer Interaction", "Parallel Algorithms", "Web Development"]
+	'list': ["Analysis of Algorithms", "Automata and Language Theory", "Compiler Design", "Computer Architecture", "Computer Graphics", 
+	"Data Communications and Networking", "Data Structures", "Discrete Mathematics", "Database Systems", "Fundamentals of Programming",
+	"Internet", "Logic Design and Digital Circuits", "Machine-Level Programming", "Numerical and Symbolic Computation", 
+	"Object-Oriented Programming", "Operating Systems", "Parallel Computing", "Personal Computing", "Robot Modeling",
+	"Software Engineering", "Programming Languages", "Web Programming"]
 };
 
 const useStyles = makeStyles((theme) => ({
 	filterContainer: {
 		backgroundColor: '#F8F8F8',
-		height: 'calc(100% - 150px)',
 		width: 210,
 		padding: 10,
 		paddingLeft: 20,
@@ -24,17 +27,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /*
-contains three major components: the Category Checkbox List, Reference Dropdown, Topic Checkbox List
+contains three major components: the Category CheckList, Reference Dropdown, Topic Checkbox List
 */
 function FilterSideBar(){
 	const classes = useStyles();
 
 	return(
 		<div className={classes.filterContainer}>
-			<h3 className={classes.filterText}>Filter Results</h3>
-			<CheckboxList listName={category.name} list={category.list}/>
+			<Typography variant="h6">Filter Results</Typography>
+			<CheckList listName={category.name} list={category.list} hlimit={30}/>
 			<ReferenceDropdown />
-			<CheckboxList listName={topic.name} list={topic.list}/>
+			<CheckList listName={topic.name} list={topic.list} hlimit={'none'}/>
 		</div>
 	);
 }
