@@ -3,7 +3,7 @@ import React from 'react'
 import './AdminHome.css'
 import Card from '@material-ui/core/Card'
 import {useHistory} from 'react-router-dom'
-
+import AdminButtonIcon from './AdminButtonIcon'
 function AdminButton({children, title, link, description}) {
      const history = useHistory();
     return (
@@ -12,14 +12,13 @@ function AdminButton({children, title, link, description}) {
             onClick={() => history.push('/'+ link)}
             style={{borderRadius: '1em'}}
         >
-            <CardActionArea>    
+            <CardActionArea> 
                 <CardContent>
-                    {children}
-                   <h3>{title}</h3>
+                    <AdminButtonIcon>{children}</AdminButtonIcon>
+                    <h3>{title}</h3>
                     <p>{description}</p>
                 </CardContent>
             </CardActionArea>
-            
         </Card>
     )
 }

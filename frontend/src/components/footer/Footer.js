@@ -4,7 +4,7 @@ import './Footer.css'
 function Footer(props) {
     return(
         <div className="footer-container">
-            <div className="placeholder-ilib-logo">iLib Name</div>
+            <div className="placeholder-ilib-logo">eyeCS</div>
             <div className="footer-row">
                 <div className="category-row">
                     <CategoryColumn content={searchprop}></CategoryColumn>
