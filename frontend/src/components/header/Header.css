@@ -42,11 +42,11 @@
 }
 
 .Button{
-   color: #47abdb;
-   margin: 1vw;
-   height: 3.5vw;
-   max-height: 3.5vw;
-   width: 6vw;
-   max-width: 6vw; 
-   margin-right: 2vw;
+    color:#47abdb !important;
+    margin: 1vw;
+    height: 3.5vw;
+    max-height: 3.5vw;
+    width: 6vw;
+    max-width: 6vw; 
+    margin-right: 2vw;
 }
