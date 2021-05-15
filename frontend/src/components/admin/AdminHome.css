@@ -11,8 +11,7 @@
   box-sizing: border-box;
   flex-direction: column;
   flex-shrink: 1;
-  justify-content: center;
-  align-items: center;
+
 }
 
 .adminbutton:hover{
@@ -32,6 +31,8 @@
 .bg-container{
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-container{

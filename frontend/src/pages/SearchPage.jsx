@@ -13,7 +13,6 @@ function SearchPage() {
         <FilterSideBar className="sidebar"/>
         <div>Results</div>
       </div>
-      <Footer className="footer"/>
     </div>
   );
 }
