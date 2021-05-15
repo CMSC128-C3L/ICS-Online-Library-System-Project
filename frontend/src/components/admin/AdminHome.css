@@ -1,0 +1,73 @@
+.adminbutton {
+  box-sizing: border-box;
+  border: 1;
+  border-color: #47abd8;
+  border-style: solid;
+  border-radius: 1em;
+  background: white;
+  height: 15vw;
+  width: 20vw;
+  margin: 1em;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.adminbutton:hover{
+  background: #47abd8;
+  cursor: pointer;
+  transition: ease 0.25s;
+  color: white;
+}
+
+.bg{
+  background-image: url('../../assets/adminBackground.png');
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+}
+
+.bg-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-container{
+  display: flex;
+  margin: auto;
+  margin-top: 1em;
+}
+
+.tile{
+  height: 20vw;
+  width: 65vw;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: wrap;
+  background: #47abd8;
+  margin: auto;
+  margin-top: 1em;
+}
+
+.title{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1em;
+  flex-wrap: wrap;
+  flex-shrink: 1;
+  text-align: center;
+}
+
+.description{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  font-size: 1em;
+  flex-wrap: wrap;
+  flex-shrink: 1;
+  text-align: center;
+}
