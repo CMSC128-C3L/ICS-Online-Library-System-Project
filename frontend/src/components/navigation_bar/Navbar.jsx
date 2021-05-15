@@ -28,8 +28,8 @@ function Navbar(props){
                     {/* MIDDLE-BOTTOM SIDE START */}
                     <div className="bottomSide">
                         <div className="links">
-                            <a href="/home">Home</a>
-                            <a href="/browse">Browse</a>
+                            <a href="/">Home</a>
+                            <a href="/search">Browse</a>
                             <a href="/tools">Tools</a>
                         </div>
                     </div>
