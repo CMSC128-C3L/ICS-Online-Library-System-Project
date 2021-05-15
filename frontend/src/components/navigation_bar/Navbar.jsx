@@ -1,13 +1,15 @@
 import React from 'react';
 import './Navbar.css';
+import icsLogo from '../../assets/ics_logo.png';
+import searchIcon from '../../assets/magnifying_glass.png';
 
 function Navbar(props){
     return(
         <div className="Navbar">
                 {/* LEFT SIDE START */}
-                <div className="leftSide"> <img src="ics_logo.png" alt="logo"/> </div>
+                <div className="leftSide"> <img src={icsLogo} alt="logo"/> </div>
                 {/* LEFT SIDE END */}
-
+                
                 {/* MIDDLE SIDE START */}
                 <div className="middleSide">
                     {/* MIDDLE-TOP SIDE START */}
@@ -16,7 +18,7 @@ function Navbar(props){
                             <div className="icon-input">
                                 <form onSubmit={props.searchBook} action="">
                                     <input onChange={props.handleSearch} type="text" placeholder="Search..."/>
-                                    <button type="submit" onClick={props.handleClick}><img src="magnifying_glass.png" alt="SearchIcon" /></button>
+                                    <button type="submit" onClick={props.handleClick}><img src={searchIcon} alt="SearchIcon" /></button>
                                 </form>
                             </div>
                         </div>
