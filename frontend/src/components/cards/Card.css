@@ -67,7 +67,6 @@ button:hover, svg:hover, a:hover {
 }
 
 img {
-    background-color: lightgrey;
     width:100%;
     align-self: center;
     box-sizing: border-box;

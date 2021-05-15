@@ -15,8 +15,8 @@ function AdminButton({children, title, link, description}) {
             <CardActionArea> 
                 <CardContent>
                     <AdminButtonIcon>{children}</AdminButtonIcon>
-                    <h3>{title}</h3>
-                    <p>{description}</p>
+                    <h3 className="title">{title}</h3>
+                    <p className="description">{description}</p>
                 </CardContent>
             </CardActionArea>
         </Card>

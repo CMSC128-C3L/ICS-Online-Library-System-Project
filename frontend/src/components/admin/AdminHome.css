@@ -10,15 +10,15 @@
   margin: 1em;
   box-sizing: border-box;
   flex-direction: column;
-  flex-shrink: 1;
-
+  justify-content: center;
+  align-items: center;
 }
 
 .adminbutton:hover{
-  color: white;
   background: #47abd8;
   cursor: pointer;
   transition: ease 0.25s;
+  color: white;
 }
 
 .bg{
@@ -54,18 +54,20 @@
   margin-top: 1em;
 }
 
-h3{
+.title{
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   font-size: 1em;
   flex-wrap: wrap;
   flex-shrink: 1;
+  text-align: center;
 }
 
-p{
+.description{
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   font-size: 1em;
   flex-wrap: wrap;
   flex-shrink: 1;
+  text-align: center;
 }
