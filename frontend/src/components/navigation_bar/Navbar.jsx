@@ -1,13 +1,11 @@
 import React from 'react';
-import '../App.css';
+import './Navbar.css';
 
-function Navbar(){
+function Navbar(props){
     return(
         <div className="Navbar">
                 {/* LEFT SIDE START */}
-                <div className="leftSide">
-                    <img src="ics_logo.png" alt="logo"/>
-                </div>
+                <div className="leftSide"> <img src="ics_logo.png" alt="logo"/> </div>
                 {/* LEFT SIDE END */}
 
                 {/* MIDDLE SIDE START */}
@@ -16,11 +14,10 @@ function Navbar(){
                     <div className="topSide">
                         <div className="search">
                             <div className="icon-input">
-                                <input type="text" placeholder="Search..."/>
-                                    {/* <a href = "/temporary search function">
-                                    <img src='magnifying_glass.png' alt="search icon" onClick={"temporary"}/> */}
-                                    <button><img src="magnifying_glass.png" alt="SearchIcon" onClick={"insert function call"} /></button>
-                                    {/* </a> */}
+                                <form onSubmit={props.searchBook} action="">
+                                    <input onChange={props.handleSearch} type="text" placeholder="Search..."/>
+                                    <button type="submit" onClick={props.handleClick}><img src="magnifying_glass.png" alt="SearchIcon" /></button>
+                                </form>
                             </div>
                         </div>
                     </div>

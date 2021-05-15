@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Typography from '@material-ui/core/Typography';
 import Select from '@material-ui/core/Select';
 
 const courses = ["CMSC 12", "CMSC 21", "CMSC 22", "CMSC 23", "CMSC 56", "CMSC 57", "CMSC 100", "CMSC 123", "CMSC 124",
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	formControl: {
 		height: 40,
-    minWidth: 150,
+    	minWidth: 150,
 	},
 	dropdownLabel: {
 		margin: 0,
@@ -31,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 function ReferenceDropdown(){
 	const classes = useStyles()
 	return(
-    <div className={classes.dropdownContainer}>
-			<h4 className={classes.dropdownLabel}>Reference for</h4>
+    	<div className={classes.dropdownContainer}>
+			<Typography variant="body1">Reference for</Typography>
 				<FormControl className={classes.formControl}>
 				<InputLabel className={classes.inputLabel}>Course Code</InputLabel>
 				<Select native label="Course Code">
