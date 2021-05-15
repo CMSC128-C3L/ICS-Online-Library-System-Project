@@ -21,6 +21,7 @@
 }
 
 .Header-container {
+    background-color: white;
     display: grid;
     border-bottom: 1px solid #95d2ec;
     grid-template-columns: auto auto auto;

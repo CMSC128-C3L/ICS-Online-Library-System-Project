@@ -11,7 +11,6 @@ export default class GuestHome extends Component {
                 <Header/>
                 <Search/>
                 <CardRow/>
-                <Footer/>
             </div>
         )
     }

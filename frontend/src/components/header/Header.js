@@ -10,14 +10,14 @@ function Header() {
             </div>
             <div className="Header-container">
                 <div className="Header-container-left">
-                    <Button className="Button" onClick={() => history.push('/test')}>Home</Button>
-                    <Button className="Button" onClick={() => history.push('/test')}>Browse</Button>
-                    <Button className="Button" onClick={() => history.push('/test')}>Tools</Button>
+                    <Button className="Button" onClick={() => history.push('/')}>Home</Button>
+                    <Button className="Button" onClick={() => history.push('/search')}>Browse</Button>
+                    <Button className="Button" onClick={() => history.push('/tools')}>Tools</Button>
                 </div>
             
                 <div className="Header-container-right" >
-                    <Button className="Button" onClick={() => history.push('/test')}>Name</Button>
-                    <Button className="Button" onClick={() => history.push('/test')}>Support</Button>
+                    <Button className="Button" onClick={() => history.push('/login')}>Name</Button>
+                    <Button className="Button" onClick={() => history.push('/support')}>Support</Button>
                 </div>  
             </div>
                      
