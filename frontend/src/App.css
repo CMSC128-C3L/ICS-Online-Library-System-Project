@@ -11,6 +11,11 @@ body {
   display: flex;
 }
 
+.results{
+  flex: auto;
+  background-color: #ffffff;
+}
+
 
 html, body {
     margin: 0;

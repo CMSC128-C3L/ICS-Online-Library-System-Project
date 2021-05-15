@@ -11,7 +11,7 @@ function SearchPage() {
       <Navbar className="nav"/>
       <div className="main">
         <FilterSideBar className="sidebar"/>
-        <div>Results</div>
+        <div className="results">Results</div>
       </div>
     </div>
   );

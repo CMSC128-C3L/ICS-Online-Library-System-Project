@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -29,14 +29,29 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+/**
+* no props expected
+*	returns a dropdown menu which is re-rendered once selected course code changes
+*/
 function ReferenceDropdown(){
 	const classes = useStyles()
+
+	const [selected, setSelected] = useState('');
+	
+	const handleSelect = (event) => {
+    setSelected(event.target.value);
+  };
+
 	return(
     	<div className={classes.dropdownContainer}>
 			<Typography variant="body1">Reference for</Typography>
 				<FormControl className={classes.formControl}>
 				<InputLabel className={classes.inputLabel}>Course Code</InputLabel>
-				<Select native label="Course Code">
+				<Select 
+					native
+					value={selected}
+					label="Course Code"
+					onChange={handleSelect}>
 					<option aria-label="None" value="" />
 					{courses.map((course) => {
 						return(<option className={classes.options} value={course} key={course}>{course}</option>);

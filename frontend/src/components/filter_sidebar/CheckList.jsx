@@ -74,8 +74,7 @@ function CheckList(props){
 							<Checkbox
 								className={classes.checkbox} 
 								onChange={handleCheck(item)} 
-								checked={checked.indexOf(item) !== -1}
-								label={item}/>}
+								checked={checked.indexOf(item) !== -1}/>}
 							label={<Typography variant="body2" color="textPrimary">{item}</Typography>}
 						/>
 					)
