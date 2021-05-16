@@ -1,5 +1,5 @@
 import './Card.css'
-import sample from './images/sample.jpg'
+import sample from '../../assets/sample.jpg'
 
 function Card(props){
     return (
