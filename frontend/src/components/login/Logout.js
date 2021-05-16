@@ -33,13 +33,13 @@ function Logout() {
 
     backgroundImage: 'url("'+(googleIcon)+'")',
     width: '42px',
-    height: '42px',
+    height: '50px',
 
     'vertical-align': 'middle',
     'padding-left': '42px',
-    'padding-right': '52px',
-    'font-size': '14px',
-    'font-family': 'Roboto'
+    'padding-right': '60px',
+    'font-size': '16px',
+    'font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
   };
 
   return (
