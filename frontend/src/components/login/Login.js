@@ -1,6 +1,7 @@
 import React from 'react';
 import { GoogleLogin } from 'react-google-login';
 import {useHistory} from 'react-router-dom'
+import googleIcon from '../../assets/googleIcon.png';
 // refresh token
 // import { refreshTokenSetup } from '../utils/refreshToken';
 
@@ -38,15 +39,33 @@ function Login() {
     );
   };
 
-  return (
+  const sectionStyle = {
+    background: 'white',
+    color: '#444',
+    'white-space': 'nowrap',
+
+    backgroundImage: 'url("'+(googleIcon)+'")',
+    width: '42px',
+    height: '50px',
+
+    'vertical-align': 'middle',
+    'padding-left': '42px',
+    'padding-right': '60px',
+    'font-size': '16px',
+    'font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
+  };
+
+return (
     <div>
       <GoogleLogin
         clientId={clientId}
-        buttonText="Login"
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={'single_host_origin'}
-        style={{ marginTop: '100px' }}
+ 
+        render={renderProps => (
+          <button onClick={renderProps.onClick} disabled={renderProps.disabled} style={sectionStyle}>LOG IN</button>
+        )}
         isSignedIn={true}
       />
     </div>
