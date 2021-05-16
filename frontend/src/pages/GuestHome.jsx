@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Header from '../components/header/Header'
+import Header from '../components/header_home/Header'
 import Search from '../components/search/Search'
 import CardRow from '../components/cards/CardRow'
 
