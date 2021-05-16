@@ -41,10 +41,10 @@ resulting directory: `backend/config`
 4. Inside config, create a file named `dev.env`
 5. inside dev.env create/input environment variables needed, sample:
 
-`PORT=5000`
-`MONGODB_URL=mongodb://127.0.0.1:27017/eyecs-db`
-`ACCESS_JWT_SECRET=26b7fe0f39e71bf823e7c57d524c0016f380b2b30a9c`
-`GOOGLE_CLIENT_ID=138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleusercontent.com`
+`PORT=5000`\
+`MONGODB_URL=mongodb://127.0.0.1:27017/eyecs-db`\
+`ACCESS_JWT_SECRET=26b7fe0f39e71bf823e7c57d524c0016f380b2b30a9c`\
+`GOOGLE_CLIENT_ID=138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleusercontent.com`\
 
 6. save dev.env, then start the server by: `npm run dev`
 
