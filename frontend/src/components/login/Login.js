@@ -2,9 +2,9 @@ import React, {useState, useEffect} from 'react';
 import { GoogleLogin } from 'react-google-login';
 import {useHistory} from 'react-router-dom'
 import googleIcon from '../../assets/googleIcon.png';
-import Icon from '@material-ui/core/Icon'
-import Button from '@material-ui/core/Button'
-import '../header_home/Header.css'
+import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
+import '../header_home/Header.css';
 
 // refresh token
 // import { refreshTokenSetup } from '../utils/refreshToken';
@@ -49,7 +49,7 @@ function Login() {
       <img src={googleIcon}></img>
     </Icon>
   );
-
+  
 return (
       <GoogleLogin
         clientId={clientId}
@@ -58,7 +58,7 @@ return (
         cookiePolicy={'single_host_origin'}
  
         render={renderProps => (
-          <Button className="Button" startIcon={googleLogo}  onClick={renderProps.onClick} disabled={renderProps.disabled} > LOG IN</Button>
+          <Button className="Button" startIcon={googleLogo}  onClick={renderProps.onClick} disabled={renderProps.disabled}>LOG IN</Button>
         )}
         isSignedIn={true}
       />
