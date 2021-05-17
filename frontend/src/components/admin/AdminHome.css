@@ -21,14 +21,14 @@
   color: white;
 }
 
-.bg{
+.adminbg{
   background-image: url('../../assets/adminBackground.png');
   background-repeat: no-repeat;
   background-size: auto;
   background-position: center;
 }
 
-.bg-container{
+.adminbg-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
