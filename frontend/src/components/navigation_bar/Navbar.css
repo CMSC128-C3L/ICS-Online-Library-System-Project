@@ -1,0 +1,110 @@
+button:hover{
+  cursor: pointer;
+}
+
+.Navbar {
+  background-color: #47abd8;
+  width: 100%;
+  height: 120px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+}
+
+.Navbar .leftSide{
+  width: 10%;
+  height: 120px;
+  font-family: Arial, Helvetica, sans-serif;
+  justify-content: center;
+  display: flex;
+}
+
+.Navbar .middleSide{
+  width: 100%;
+  height: 120px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: block;
+}
+
+.Navbar .middleSide .topSide{
+  width: 100%;
+  height: 80px;
+  display: flex;
+}
+
+.Navbar .middleSide .bottomSide{
+  width: 100%;
+  height: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+}
+
+.Navbar .rightSide{
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 25px;
+  display: flex;
+  flex: 50%;
+}
+
+.middleSide .topSide input{
+  width: 600px;
+  height: 30px;
+  border: none;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  border-radius: 15px;
+  font-size: 20px;
+  padding-left: 15px;
+  color: black;
+}
+
+.middleSide .topSide button{
+  width:10px;
+  position: absolute;
+  top: 33px;
+  left: 590px;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.icon-input {
+  position: relative;
+}
+
+.icon-input img {
+  width:20px; 
+}
+
+.middleSide .bottomSide .links {
+  max-height: 80px;
+}
+
+.middleSide .bottomSide .links a{
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  margin-left: 30px;
+}
+
+.middleSide .bottomSide .links a:hover{
+  color: #95D2EC;
+  fill: #95D2EC;
+}
+
+.Navbar .rightSide .useraccount {
+  margin-top: 60px;
+  font-size: 20px;
+}
+
+.Navbar .rightSide .useraccount a{
+  text-decoration: none;
+  color: black;
+  margin-left: 15px;
+}
+
+.Navbar .rightSide .useraccount a:hover {
+  color: #95D2EC;
+  fill: #95D2EC;
+}
+
