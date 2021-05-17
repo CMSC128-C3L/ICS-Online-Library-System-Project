@@ -1,7 +1,11 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { GoogleLogin } from 'react-google-login';
 import {useHistory} from 'react-router-dom'
 import googleIcon from '../../assets/googleIcon.png';
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
+import '../header_home/Header.css'
+
 // refresh token
 // import { refreshTokenSetup } from '../utils/refreshToken';
 
@@ -9,6 +13,7 @@ const clientId = '138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleuserc
 
 function Login() {
   const history = useHistory();
+
   const onSuccess = (res) => {
     console.log('Login Success: currentUser:', res.profileObj);
     const id_token = res.getAuthResponse().id_token;
@@ -25,7 +30,7 @@ function Login() {
     // const data = response.json(); //causes error: json() is not a function
     // // console.log(response.json());
     // localStorage.setItem('token', data.token);
-    history.push('/adminHome'); //if success, redirect to user account
+    history.push(`/loggedIn/adminHome/1${res.profileObj.googleId}`); //if success, redirect to user account
     alert(
       `Logged in successfully welcome ${res.profileObj.name}. \n See console for full profile object.`
     );
@@ -39,24 +44,13 @@ function Login() {
     );
   };
 
-  const sectionStyle = {
-    background: 'white',
-    color: '#444',
-    'white-space': 'nowrap',
-
-    backgroundImage: 'url("'+(googleIcon)+'")',
-    width: '42px',
-    height: '50px',
-
-    'vertical-align': 'middle',
-    'padding-left': '42px',
-    'padding-right': '60px',
-    'font-size': '16px',
-    'font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
-  };
+  const googleLogo = (
+    <Icon>
+      <img src={googleIcon}></img>
+    </Icon>
+  );
 
 return (
-    <div>
       <GoogleLogin
         clientId={clientId}
         onSuccess={onSuccess}
@@ -64,11 +58,10 @@ return (
         cookiePolicy={'single_host_origin'}
  
         render={renderProps => (
-          <button onClick={renderProps.onClick} disabled={renderProps.disabled} style={sectionStyle}>LOG IN</button>
+          <Button className="Button" startIcon={googleLogo}  onClick={renderProps.onClick} disabled={renderProps.disabled} > LOG IN</Button>
         )}
         isSignedIn={true}
       />
-    </div>
   );
 }
 

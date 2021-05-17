@@ -2,7 +2,8 @@ import React from 'react';
 import { GoogleLogout } from 'react-google-login';
 import {useHistory} from 'react-router-dom'
 import googleIcon from '../../assets/googleIcon.png';
-
+import '../header_home/Header.css'
+import Button from '@material-ui/core/Button'
 const clientId = '138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleusercontent.com';
 
 function Logout() {
@@ -26,30 +27,14 @@ function Logout() {
     alert('Logout made successfully');
   };
 
-  const sectionStyle = {
-    background: 'white',
-    color: '#444',
-    'white-space': 'nowrap',
-
-    backgroundImage: 'url("'+(googleIcon)+'")',
-    width: '42px',
-    height: '50px',
-
-    'vertical-align': 'middle',
-    'padding-left': '42px',
-    'padding-right': '60px',
-    'font-size': '16px',
-    'font-family': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif'
-  };
 
   return (
     <div>
       <GoogleLogout
         clientId={clientId}
-        buttonText="Logout"
         onLogoutSuccess={onSuccess}
         render={renderProps => (
-          <button onClick={renderProps.onClick} disabled={renderProps.disabled} style={sectionStyle}>Log Out</button>
+          <Button className="Button" onClick={renderProps.onClick} disabled={renderProps.disabled}>Log Out</Button>
         )}
       ></GoogleLogout>
     </div>

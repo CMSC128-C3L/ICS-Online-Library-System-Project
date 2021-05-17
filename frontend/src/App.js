@@ -15,7 +15,9 @@ function App() {
       <BrowserRouter> 
         <Switch>
           <Route exact path="/" component={GuestHome} />
-          <Route exact path="/adminHome" component={AdminHome}/>
+          <Route exact path="/loggedIn/home/1:id" component={AdminHome} />
+          <Route exact path="/loggedIn/home/2:id" component={GuestHome} />
+          <Route exact path="/loggedIn/adminHome/1:id" component={AdminHome}/>
           <Route exact path="/manageUsers"  component={AdminUserManagement} />
           <Route exact path="/manageDocuments"  component={AdminDocManagement} />
           <Route exact path="/browseAnalytics" component={AdminAnalytics} />
@@ -24,7 +26,6 @@ function App() {
       </BrowserRouter>
       <Footer></Footer>
     </div>
-
   )
 }
 export default App
