@@ -21,6 +21,9 @@ router.get('/api/thesis/sample', auth, Thesis.sample)
 
 
 // Book routes
+const Book = require('./controllers/bookController.js');
+router.get('/api/books', auth, Book.getAll);
+
 
 
 // Journal routes
