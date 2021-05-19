@@ -1,0 +1,27 @@
+
+.navpagination{
+   display: flex;
+   flex-direction: row;
+   margin: 0.5vh;
+}
+
+.usertable-container{
+   display: flex;
+   margin-bottom: 5vh;
+}
+
+.searchbar{
+   width: 100vh;
+   height: 5vh;
+   margin: 5vh 0vh;
+   border: 1px #47abd8 solid;
+   border-radius: 10px;
+   outline: 0;
+}
+
+.manageusers-container{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}

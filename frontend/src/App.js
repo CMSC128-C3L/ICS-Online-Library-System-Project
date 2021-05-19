@@ -8,7 +8,7 @@ import {BrowserRouter as Link, Router, Route} from 'react-router-dom'
 import Footer from './components/footer/Footer'
 import SearchPage from './pages/SearchPage'
 import GuestHome from './pages/GuestHome'
-
+import UserTable from './components/admin/users/UserTable'
 function App() {
   return (
     <div className="App"> 
