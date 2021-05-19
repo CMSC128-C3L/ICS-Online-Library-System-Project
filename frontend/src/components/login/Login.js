@@ -13,13 +13,13 @@ const clientId = '138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleuserc
 
 function Login() {
   const history = useHistory();
-
-  const onSuccess = (res) => {
+  const auth2 = window.gapi.auth2.getAuthInstance();
+  const onSuccess = async (res) => {
     console.log('Login Success: currentUser:', res.profileObj);
     const id_token = res.getAuthResponse().id_token;
     console.log(id_token);
 
-    const response = fetch('/api/users/login', {
+    const response = await fetch('/api/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -27,14 +27,22 @@ function Login() {
       body: JSON.stringify({id_token})
     });
     console.log(response);
-    // const data = response.json(); //causes error: json() is not a function
-    // // console.log(response.json());
-    // localStorage.setItem('token', data.token);
-    history.push(`/loggedIn/adminHome/1${res.profileObj.googleId}`); //if success, redirect to user account
-    alert(
-      `Logged in successfully welcome ${res.profileObj.name}. \n See console for full profile object.`
-    );
-    // refreshTokenSetup(res);
+    if(response.status == 401) {
+      alert('Please log in with a up.edu.ph email.');
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    } else {
+      
+      const data = await response.json(); 
+      console.log('data', data);
+      localStorage.setItem('token', data.token);
+      history.push(`/loggedIn/adminHome/1${res.profileObj.googleId}`); //if success, redirect to user account
+      alert(
+        `Logged in successfully welcome ${res.profileObj.name}. \n See console for full profile object.`
+      );
+      // refreshTokenSetup(res);
+    }
   };
 
   const onFailure = (res) => {
