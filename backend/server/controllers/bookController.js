@@ -8,24 +8,9 @@ module.exports = {
 // Get all Books
 async function getAll(req, res) {
     try {
-        // get all of the books
-        let data = await Book.find({});
-        
-        // send only the needed information for the guest user
-        const arr = data.map(item => {
-            const container = {}
-            
-            container.title = item.title;
-            container.author = item.author;
-            container.publisher = item.publisher;
-            container.year = item.year;
-            container.book_cover_img = item.book_cover_img;
-            container.isbn = item.isbn;
-            container.topics = item.topics;
-
-            return container;
-        });
-        res.status(200).send(arr);
+        const data = await Book.find({});   // get all of the books
+        const book = data.map(item => bookBase(item));
+        res.status(200).send(book);
         
     } catch (err) {
         console.log(err);
@@ -61,4 +46,21 @@ async function get(req, res) {
         console.log(err);
         res.status(400).send({message:"error"});
     }
+}
+
+
+
+/*
+    Returns a strip down version of a book. Removes info not needed in displaying a list of books.
+*/
+function bookBase(data) {
+    const book = {}
+    book.title = data.title;
+    book.year = data.year;
+    book.author = data.author;
+    book.isbn = data.isbn;
+    book.book_cover_img = data.book_cover_img;
+    book.topics = data.topics;
+
+    return book;
 }
