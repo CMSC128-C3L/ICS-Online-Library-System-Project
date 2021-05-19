@@ -5,6 +5,7 @@ module.exports = {
   getAll,
   getOne,
   create,
+  update
 }
 
 async function getAll(req, res) {
@@ -34,6 +35,24 @@ async function create(req, res) {
     const thesis = new Thesis(req.body);
     await thesis.save();
     res.status(201).send(thesis);
+  } catch(error) {
+    // console.log(error);
+    res.status(400).send();
+  }
+}
+
+async function update(req, res) {
+  try {
+    const thesisUpdate = req.body;
+    console.log
+    const _id = req.params.id;
+    const updateOptions = {
+      new: true,
+      runValidators:true    // for possible future validations in the model
+    }
+    const thesis = await Thesis.findOneAndUpdate({_id}, thesisUpdate, updateOptions);
+    
+    res.status(200).send(thesis);
   } catch(error) {
     // console.log(error);
     res.status(400).send();
