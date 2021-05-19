@@ -5,7 +5,8 @@ module.exports = {
   getAll,
   getOne,
   create,
-  update
+  update,
+  deleteOne
 }
 
 async function getAll(req, res) {
@@ -56,6 +57,18 @@ async function update(req, res) {
   } catch(error) {
     // console.log(error);
     res.status(400).send();
+  }
+}
+
+async function deleteOne(req, res) {
+  try {
+    const _id = req.params.id;
+    const thesis = await Thesis.findOneAndDelete({_id});
+    if(!thesis) return res.status(404).send();
+    res.status(200).send();
+  } catch(error) {
+    console.log(error);
+    res.status(500).send();
   }
 }
  
