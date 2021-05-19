@@ -3,7 +3,8 @@ const Thesis = require('../models/Thesis.js');
 module.exports = {
   sample,
   getAll,
-  getOne
+  getOne,
+  create,
 }
 
 async function getAll(req, res) {
@@ -20,12 +21,22 @@ async function getAll(req, res) {
 async function getOne(req, res) {
   try {
     const _id = req.params.id;
-    console.log('id here:', _id);
     const thesis = await Thesis.find({_id});
     if(!thesis) return res.status(404).send();
     res.send(thesis);
   } catch(error) {
     res.status(500).send();
+  }
+}
+
+async function create(req, res) {
+  try {
+    const thesis = new Thesis(req.body);
+    await thesis.save();
+    res.status(201).send(thesis);
+  } catch(error) {
+    // console.log(error);
+    res.status(400).send();
   }
 }
  
