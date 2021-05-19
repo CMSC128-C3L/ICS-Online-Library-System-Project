@@ -3,6 +3,7 @@ const Book = require("../models/Book.js");
 module.exports = {
     getAll,
     get,
+    create,
 };
 
 // Get all Books
@@ -38,6 +39,22 @@ async function get(req, res) {
 }
 
 
+// Create a new book
+async function create(req, res) {
+    try {
+        if (req.user.classification === "Admin") {
+            const book = new Book(req.body);
+            const newBook = await book.save();
+            return res.status(201).send(newBook._id);
+        }
+
+        res.status(403).send({message:"not admin"});
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({message:"error"});
+    }
+}
 
 /*
     Returns a strip down version of a book, removing info that is not

@@ -24,6 +24,7 @@ router.get('/api/thesis/sample', auth, Thesis.sample)
 const Book = require('./controllers/bookController.js');
 router.get('/api/books', auth, Book.getAll);
 router.get('/api/books/:id', auth, Book.get);
+router.post('/api/books', auth, Book.create);
 
 
 
