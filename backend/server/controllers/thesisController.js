@@ -1,7 +1,19 @@
-// require the thesis model here in actual
+const Thesis = require('../models/Thesis.js');
 
 module.exports = {
   sample,
+  getAll
+}
+
+async function getAll(req, res) {
+  try {
+    const thesis = await Thesis.find({});
+    console.log(thesis);
+    res.status(200).send(thesis);
+  } catch(error) {
+    console.log(error);
+    res.status(500).send();
+  }
 }
 
 async function sample(req, res) {
@@ -31,3 +43,4 @@ async function sample(req, res) {
     res.status(500).send();
   }
 }
+
