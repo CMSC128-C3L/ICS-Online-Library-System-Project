@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import {useHistory} from 'react-router-dom'
 import googleIcon from '../../assets/googleIcon.png';
 import Icon from '@material-ui/core/Icon';
@@ -13,8 +13,8 @@ const clientId = '138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleuserc
 
 function Login() {
   const history = useHistory();
-  const auth2 = window.gapi.auth2.getAuthInstance();
   const onSuccess = async (res) => {
+    var auth2 = window.gapi.auth2.getAuthInstance();
     console.log('Login Success: currentUser:', res.profileObj);
     const id_token = res.getAuthResponse().id_token;
     console.log(id_token);
