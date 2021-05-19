@@ -2,7 +2,8 @@ const Thesis = require('../models/Thesis.js');
 
 module.exports = {
   sample,
-  getAll
+  getAll,
+  getOne
 }
 
 async function getAll(req, res) {
@@ -11,11 +12,23 @@ async function getAll(req, res) {
     console.log(thesis);
     res.status(200).send(thesis);
   } catch(error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send();
   }
 }
 
+async function getOne(req, res) {
+  try {
+    const _id = req.params.id;
+    console.log('id here:', _id);
+    const thesis = await Thesis.find({_id});
+    if(!thesis) return res.status(404).send();
+    res.send(thesis);
+  } catch(error) {
+    res.status(500).send();
+  }
+}
+ 
 async function sample(req, res) {
   try {
     // sample data only!, must get from db in actual 
