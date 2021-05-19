@@ -5,6 +5,7 @@ module.exports = {
     get,
     create,
     update,
+    deleteBook,
 };
 
 // Get all Books
@@ -69,11 +70,33 @@ async function update(req, res) {
                 _id,
                 book,
                 (err, prevBook) => {
-                    if (err) return res.status(404).send({message:"book not found and not updated"});
+                    if (err) return res.status(404).send({message:"book not found"});
                 }
             );
 
             return res.status(200).send(newBook);   // respond with the updated book  
+        }
+        
+        res.status(403).send({message:"not admin"});
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({message:"error"});
+    }
+}
+
+
+
+// Delete a specified book
+async function deleteBook(req, res) {
+    try {
+        if (req.user.classification === "Admin") {
+            const _id = req.params.id;  // get the id of the book to be deleted
+            const deleted = await Book.findOneAndDelete({_id});
+            if (deleted === null)
+                return res.status(404).send({message:"book not found"});    // the specified book does not exist
+
+            return res.status(200).send({message:"book deleted"});  // send ok response
         }
         
         res.status(403).send({message:"not admin"});
