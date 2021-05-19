@@ -18,6 +18,10 @@ router.get('/api/thesis/sample', auth, Thesis.sample)
 
 
 // SP routes
+const Sp = require('./controllers/spController.js');
+router.get('/api/sp',auth, Sp.getAll);
+router.get('/api/sp/:id',auth, Sp.getOne);
+
 
 
 // Book routes
