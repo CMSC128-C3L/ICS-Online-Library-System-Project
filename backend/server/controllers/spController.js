@@ -13,16 +13,6 @@ async function getAll(req, res) {
 	try{
 	//get All Sp
 	let list_sp=await Sp.find({});
-    let user_type=req.user.type;
-
-    switch(user_type){ //student and guest can't access sp
-        case 3: //guest (3)
-            res.status(401).send({message: "The user is Unauthorized in this section"}); 
-            break;
-        case 2: //student (2)
-            res.status(401).send({message: "The user is Unauthorized in this section"});
-            break;
-    }
 
 	const sp=[]; 
     list_sp.map(obj =>{
@@ -54,17 +44,6 @@ async function getOne(req, res) {
         let _id = req.params.id;    
         //get specific Sp
         let sp=await Sp.findById({_id});
-        let user_type=req.user.type;
-
-        switch(user_type){ //student and guest can't access sp
-        case 3: //guest (3)
-            res.status(401).send({message: "The user is Unauthorized in this section"}); 
-            break;
-        case 2: //student (2)
-            res.status(401).send({message: "The user is Unauthorized in this section"});
-            break;
-        }
-        
         if(sp!=null){
             let temp= {}
             temp.type=sp.type;
