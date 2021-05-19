@@ -66,14 +66,10 @@ async function update(req, res) {
             const book = req.body;      // get the new data of the book from the request body
             const _id = req.params.id;  // get the id of the book to be updated
 
-            const newBook = await Book.findByIdAndUpdate(
-                _id,
-                book,
-                (err, prevBook) => {
-                    if (err) return res.status(404).send({message:"book not found"});
-                }
-            );
-
+            const newBook = await Book.findOneAndUpdate({_id}, book, {new:true});
+            if (newBook === null)
+                return res.status(404).send({message:"book not found"});    // the specified book does not exist
+        
             return res.status(200).send(newBook);   // respond with the updated book  
         }
         
