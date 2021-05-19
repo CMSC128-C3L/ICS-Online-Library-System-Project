@@ -22,25 +22,14 @@ async function getAll(req, res) {
 // Get a specific book
 async function get(req, res) {
     try {
-        let _id = req.params.id;    // get id parameter
-        
-        // query the database
-        let book = await Book.findById({_id});
+        const _id = req.params.id;    // get id parameter
+        const data = await Book.findById({_id});  // query the database
 
-        if (book === null) 
-            return res.status(404).send({message:"book not found"});
+        if (data === null) 
+            return res.status(404).send({message:"book not found"});    // specified book does not exist
 
-        // pick the book info to be sent
-        const container = {}
-        container.title = book.title;
-        container.author = book.author;
-        container.publisher = book.publisher;
-        container.year = book.year;
-        container.book_cover_img = book.book_cover_img;
-        container.isbn = book.isbn;
-        container.topics = book.topics;
-
-        res.status(200).send(container);
+        const book = bookBase(data);
+        res.status(200).send(book);
 
     } catch(err) {
         console.log(err);
@@ -51,7 +40,8 @@ async function get(req, res) {
 
 
 /*
-    Returns a strip down version of a book. Removes info not needed in displaying a list of books.
+    Returns a strip down version of a book, removing info that is not
+    needed in displaying a book.
 */
 function bookBase(data) {
     const book = {}
