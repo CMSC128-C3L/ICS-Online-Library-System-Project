@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {Box} from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import SaveIcon from '@material-ui/icons/Save';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DocumentCard from './DocumentCard';
 import TagsInput from './TagsInput';
@@ -26,20 +26,21 @@ const [document, setDocument] = useState([])
         getDocument()
     }, [])
 
-    const selectedTags = tags => console.log(tags)
+    const selectedTags = tags => console.log(tags);
+    const classes = useStyles();
 
     return (
-            <div>
+            <div className="edit-main-content">
                 {
                     document.map(document=>{
                         return (
                             <div>
                                 <div className='document-card-flex-row'>
-                                    <div className='document-card-container document-card-flex-column'>
+                                    <div className='image-card-container-flex-column'>
                                     <img src={document.image_link} alt="" className="thumbnail"></img>
                                     </div>
                                     
-                                    <div className='document-card-flex-column'>
+                                    <div className='document-card-container document-card-flex-column'>
                                     <DocumentCard
                                         title={document.name}
                                         author={document.brand} 
@@ -50,42 +51,58 @@ const [document, setDocument] = useState([])
                                     <TagsInput selectedTags={selectedTags}/>
                                     </div>
 
-                                    <div className='document-card-container document-card-flex-column'>
-                                        <IconButton aria-label="download" style={{ backgroundColor: 'transparent' }}><GetAppIcon/>Download</IconButton>
-                                        <IconButton aria-label="edit" style={{ backgroundColor: 'transparent' }}><EditIcon/>Edit</IconButton>
+                                    <div className='document-card-container button-card-flex-column'>
+                                        <button className={classes.textStyle}><GetAppIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
+                                        <button className={classes.textStyle}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
                                     </div>
                                 </div>
 
                                 <div className="description-section">
-                                    <h1>DESCRIPTION</h1>
-                                    <Box
-                                        component="div"
-                                        style={{
-                                        flexWrap: "wrap",
-                                        wordWrap: "break-word",
-                                        wordBreak: "break-all",
-                                        maxWidth: "80em"
-                                        }}
-                                        >
-
+                                    <h2>DESCRIPTION</h2>
+                                    <Box className={classes.boxStyle}>
                                         {document.description}
                                         {document.description}
                                         {document.description}
                                         {document.description}
                                         {document.description}
                                         {document.description}
-                                        
                                     </Box>
                                     
-                                    <IconButton aria-label="save" style={{ backgroundColor: 'lightblue', left:'50em' }}><SaveIcon/></IconButton>
+                                    <div className = "button-right">
+                                    <button aria-label="save" style={{ backgroundColor: '#47ABD8', 'border-radius':'10vh', width:'10vh', height:'10vh'}}><SaveIcon style={{ color: 'black' }}/></button>
+                                    </div>
                                 </div>
                             </div>
                         )
-
                     })
                 }
             </div>
     )
 }
+
+const useStyles = makeStyles(() => ({
+    textStyle: {
+        background:'transparent',
+        padding: '0',
+        color:'black',
+        width: 'auto',
+        'margin-left': '0',
+        fontSize:'25px', 
+        fontWeight:'bold', 
+        fontFamily:'Arial'
+    },
+    iconStyle: {
+        color:'black', 
+        width:'5vh', 
+        height:'5vh'
+    },
+    boxStyle:{
+        flexWrap: "wrap",
+        wordWrap: "break-word",
+        wordBreak: "break-all",
+        maxWidth: "80em"
+    }
+  }));
+
 
 export default ManageDocument

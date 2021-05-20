@@ -1,23 +1,54 @@
-.document-card-flex-column {
-    /* background-color: #e08686; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.edit-main-content{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.text-tags{
-    display: inline;
-    font: roboto;
-    font-size: 1em;
-    /* margin-bottom: -1.91em; */
-    font-weight: bold;
+.image-card-container-flex-column {
+    /* background: rgb(150, 172, 140); */
+    width: auto;
+    border: 5px solid #47ABD8;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content:center;
+}
+
+.document-card-flex-column {
+    /* background: rgb(124, 81, 81); */
+    width: 60vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content:center;
 }
 
 .document-card-flex-row {
+    /* background: #000; */
+    padding:5vh 25vh;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-flow: wrap;
+}
+
+.button-card-flex-column {
+    /* background: rgb(150, 0, 0); */
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content:center;
+}
+
+.description-section{
+    /* background-color: burlywood; */
+    padding: 1vh 30vh;
+}
+
+.button-right{
+    padding-top: 5vh;
+    text-align: right;
 }
 
 .thumbnail{
@@ -25,36 +56,29 @@
     height: 500px;
 }
 
-.document-card-container {
-    margin-top: 5vh;
-    margin-bottom: 5vh;
-    padding: 1em;
-    box-sizing: border-box;
-    border-radius: 2em;
+.main-text-tags{
+    font-size: 3vh;
+    font-weight: bold;
 }
 
-.description-section{
-    /* background-color: burlywood; */
-    padding: 1vh 10vh;
+.text-tags{
+    font-size: 3vh;
 }
 
 .tags {
     list-style-type: none;
-    /* background: #fff; */
-    width: 50em;
-    overflow: hidden;
 }
 
 .tag{
     color: rgb(255, 255, 255);
-    font-weight: bold;
-    font-size: 3vh;
-    background: #3498db;
+    width: auto;
+    font-size: 2vh;
+    background: #47ABD8;
     float: left;
-    padding: 1px 20px;
+    padding: 0px 10px;
     border-radius: 10em;
-    margin: 5px;
-  
+    margin: 2px;
+    align-content: center;
 }
 
 @media (max-width: 880px) {

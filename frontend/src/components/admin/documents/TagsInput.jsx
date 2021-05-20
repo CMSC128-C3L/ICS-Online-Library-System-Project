@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
 import './DocumentCard.css';
@@ -32,30 +31,24 @@ const TagsInput = (props) => {
 
     return (
         <div>
+            <p className="main-text-tags">ADD TAG</p>
             <div className='tags'>
             {tags.map((tag, index) => (
                 <li key={index} className="tag">
                     <span>{tag}</span>                    
-                    <IconButton 
+                    <button 
                     className={classes.deleteIcon1} 
                     aria-label="clear" 
                     onClick={() => removeTags(index)} 
-                    style={{ backgroundColor: 'transparent'}}><ClearIcon/>
-                    </IconButton>
+                    style={{ backgroundColor: 'transparent'}}><ClearIcon style={{ color: 'white' }}/>
+                    </button>
                 </li>
             ))}
-
-            {/* <IconButton 
-                className={classes.deleteIcon1} 
-                aria-label="add" 
-                onClick={() => addInput() } 
-                style={{ backgroundColor: 'transparent'}}><AddIcon/>
-            </IconButton> */}
-
+            
             <input
                 type="text"
                 onKeyUp={event => addTags(event)}
-                placeholder="Press enter to add tags"
+                placeholder="Press enter"
             />
             </div>
         </div>
