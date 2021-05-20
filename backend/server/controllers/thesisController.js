@@ -50,7 +50,7 @@ async function update(req, res) {
       runValidators:true    // for possible future validations in the model
     }
     const thesis = await Thesis.findOneAndUpdate({_id}, thesisUpdate, updateOptions);
-    
+    if(!thesis) return res.status(404).send();
     res.status(200).send(thesis);
   } catch(error) {
     // console.log(error);
