@@ -56,7 +56,7 @@ function ReferenceDropdown(props){
 					return(<option className={classes.options} value={course} key={course}>{course}</option>);
 				})}
 			</Select>
-		</FormControl>
+			</FormControl>
 		</div>
 	);
 }
