@@ -25,13 +25,17 @@
 
 .list li::before{
     content: "\2022";
-    color: red;
+    color: #47abdb;
     width: 1em;
     display: inline-block;
 }
 
 .margin-1{
     margin-bottom: 1em;
+}
+
+.margin-bot-3{
+    margin-bottom: 3em;
 }
 
 .space-0 {
