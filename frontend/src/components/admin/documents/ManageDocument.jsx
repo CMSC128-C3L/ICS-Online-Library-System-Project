@@ -37,7 +37,7 @@ const [document, setDocument] = useState([])
                         return (
                             <div>
                                 <div className='document-card-flex-row'>
-                                    <div className='image-card-container-flex-column'>
+                                    <div className='image-card-container-flex-column' >
                                     <img src={document.image_link} alt="" className="thumbnail"></img>
                                     </div>
                                     
