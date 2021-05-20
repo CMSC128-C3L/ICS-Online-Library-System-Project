@@ -104,6 +104,7 @@ function bookBase(data) {
     book.author = data.author;
     book.isbn = data.isbn;
     book.book_cover_img = data.book_cover_img;
+    book.description = data.description;
     book.topics = data.topics;
 
     return book;

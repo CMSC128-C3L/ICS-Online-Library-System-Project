@@ -11,6 +11,7 @@ const bookSchema = new mongoose.Schema({
   year: Number,
   publisher: String,
   view_count: Number,
+  description: String,
   subject: [String],
   topic: [String],
 });
