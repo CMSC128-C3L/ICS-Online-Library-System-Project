@@ -11,7 +11,6 @@ module.exports = {
 async function getAll(req, res) {
   try {
     const thesis = await Thesis.find({});
-    console.log(thesis);
     res.status(200).send(thesis);
   } catch(error) {
     // console.log(error);
