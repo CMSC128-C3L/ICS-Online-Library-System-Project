@@ -17,6 +17,7 @@ const auth = async(req, res, next) => {
       const email = decoded.email;
       // find the user in the database
       const user = await User.findOne({email: email, 'tokens.token': token});
+      if(!user) throw new Error();
       // req.user now holds the user object that can be used in authenticated routes
       req.user = user;
       req.token = token;
