@@ -1,5 +1,5 @@
 .document-card-flex-column {
-    background-color: #ffffff;
+    background-color: #47abdb;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -11,23 +11,46 @@
     flex-direction: row;
     justify-content: space-around;
     flex-flow: wrap;
-    padding-left: 12vw;
-    padding-right: 12vw;
 }
 
+.thumbnail{
+    width: 300px; 
+    height: 500px;
+
+}
 .document-card-container {
     margin-top: 5vh;
-    margin-bottom: 10vh;
+    margin-bottom: 5vh;
     padding: 1em;
-    height: auto;
     box-sizing: border-box;
     border-radius: 0.5em;
 }
 
-.document-thumbnail {
-    width:100%;
-    align-self: center;
-    box-sizing: border-box;
+.tags {
+    /* background: #fff; */
+    padding: 5px;
+    overflow: hidden;
+}
+
+.tag{
+    /* color: #fff; */
+    font-weight: bold;
+    background: #3498db;
+    float: left;
+    padding: 5px 10px;
+    border-radius: 10em;
+    margin: 5px;
+  
+}
+
+.tags-input {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    /* background: #131516; */
+    float: left;
+    padding: 5px 10px;
+    border-radius: 10em;
+    margin: 5px;
 }
 
 @media (max-width: 880px) {
