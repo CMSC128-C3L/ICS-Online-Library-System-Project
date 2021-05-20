@@ -7,7 +7,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import IconButton from '@material-ui/core/IconButton';
 import DownloadIcon from '@material-ui/icons/GetApp';
-import './SearchCard.css';
 
 const useStyles = makeStyles((theme) => ({
 	card: {

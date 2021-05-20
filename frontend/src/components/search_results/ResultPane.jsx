@@ -16,10 +16,7 @@ function ResultPane(){
         1)making states available globally<br/>
         2)and dispatching state updates from components<br/>
         via Context and useReducer
-
-      <IconButton aria-label="download pdf">
-        <DownloadIcon fontSize="large"/>
-      </IconButton>
+        
       <br/><h4>Query</h4>
       <p>{searchContext.state.query}</p>
 
