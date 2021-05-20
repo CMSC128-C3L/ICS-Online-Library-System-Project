@@ -5,8 +5,9 @@ import SaveIcon from '@material-ui/icons/Save';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
+import DocumentCard from './DocumentCard';
 
-function UserTable() {
+function ManageDocument(props) {
 const [document, setDocument] = useState([])
 
     const getDocument = async() =>{
@@ -30,36 +31,49 @@ const [document, setDocument] = useState([])
     }
 
     return (
-           <div className = "document-card">
+            <div className='flex-row'>
                 {
-                <Table aria-label="documents">
-                    <TableBody>
-                        {chosenDocument().map(document=>{{
-                            return (
-                                <TableRow>
-                                    <TableCell align="center" justify="center">
-                                        <img src={document.image_link}></img>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {document.id}
-                                        {document.name}
-                                        {document.brand}
-                                        {document.product_type}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <IconButton aria-label="download"><GetAppIcon/></IconButton>
-                                        <IconButton aria-label="edit"><EditIcon/></IconButton>
-                                        <IconButton aria-label="save"><SaveIcon/></IconButton>
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        }}
-                        )}
-                    </TableBody>
-                </Table>
+                    chosenDocument().map(document=>{
+                        return <DocumentCard 
+                                thumbnail={document.image_link}
+                                title={document.name}
+                                header={document.id}
+                            />
+                    })
                 }
-           </div>
+            </div>
+
+
+        //    <div className = "document-card">
+        //         {
+        //         <Table aria-label="documents">
+        //             <TableBody>
+        //                 {chosenDocument().map(document=>{{
+        //                     return (
+        //                         <TableRow>
+        //                             <TableCell align="center" justify="center">
+        //                                 <img src={document.image_link}></img>
+        //                             </TableCell>
+        //                             <TableCell align="center" >
+        //                                 {document.id} <br></br>
+        //                                 {document.name} <br></br>
+        //                                 {document.brand} <br></br>
+        //                                 {document.product_type}
+        //                             </TableCell>
+        //                             <TableCell align="center">
+        //                                 <IconButton aria-label="download"><GetAppIcon/></IconButton>
+        //                                 <IconButton aria-label="edit"><EditIcon/></IconButton>
+        //                                 <IconButton aria-label="save"><SaveIcon/></IconButton>
+        //                             </TableCell>
+        //                         </TableRow>
+        //                     )
+        //                 }}
+        //                 )}
+        //             </TableBody>
+        //         </Table>
+        //         }
+        //    </div>
     )
 }
 
-export default UserTable
+export default ManageDocument
