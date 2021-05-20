@@ -2,16 +2,6 @@
   "short_name": "React App",
   "name": "Create React App Sample",
   "icons": [
-    {
-      "src": "ics_logo.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "magnifying_glass.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
   ],
   "start_url": ".",
   "display": "standalone",

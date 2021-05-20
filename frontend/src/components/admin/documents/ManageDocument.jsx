@@ -16,6 +16,7 @@ const [document, setDocument] = useState([])
     const getDocument = async() =>{
         try{
             const documents = await axios.get("http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline");
+            console.log(documents.data)
             setDocument(documents.data)
         }catch(e){
             console.log(e)
@@ -40,7 +41,7 @@ const [document, setDocument] = useState([])
                                     <img src={document.image_link} alt="" className="thumbnail"></img>
                                     </div>
                                     
-                                    <div className='document-card-container document-card-flex-column'>
+                                    <div className='document-card-container document-card-flex-column' key={document.id}>
                                     <DocumentCard
                                         title={document.name}
                                         author={document.brand} 
@@ -69,7 +70,7 @@ const [document, setDocument] = useState([])
                                     </Box>
                                     
                                     <div className = "button-right">
-                                    <button aria-label="save" style={{ backgroundColor: '#47ABD8', 'border-radius':'10vh', width:'10vh', height:'10vh'}}><SaveIcon style={{ color: 'black' }}/></button>
+                                    <button aria-label="save" style={{ backgroundColor: '#47ABD8', 'borderRadius':'10vh', width:'10vh', height:'10vh'}}><SaveIcon style={{ color: 'black' }}/></button>
                                     </div>
                                 </div>
                             </div>
