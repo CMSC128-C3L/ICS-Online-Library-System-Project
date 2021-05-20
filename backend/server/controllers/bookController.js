@@ -65,7 +65,7 @@ async function update(req, res) {
         if (newBook === null)
             return res.status(404).send({message:"book not found"});    // the specified book does not exist
     
-        return res.status(200).send(newBook);   // respond with the updated book  
+        return res.status(200).send(bookBase(newBook));   // respond with the updated book  
 
     } catch (err) {
         console.log(err);
