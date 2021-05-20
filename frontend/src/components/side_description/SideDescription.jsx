@@ -8,8 +8,8 @@ const sampleDescription = {
 
 function SideDescription(props){
     return(
-        <div className="sidecard flex-left text margin-bot-3">
-            <div className="margin-1">
+        <div className="sidecard flex-left text margin-bot-1">
+            <div className="margin-bot-1">
                 <h4 className="desc-header space-0">Prerequisities</h4>
                 <ul className="list space-0">
                     <li>CMSC 100</li>
