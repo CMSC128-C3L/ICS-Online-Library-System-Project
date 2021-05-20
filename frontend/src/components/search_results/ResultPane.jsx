@@ -1,38 +1,55 @@
 import React, { useContext } from 'react'; 
+import { makeStyles } from "@material-ui/core/styles";
 import SearchContext from './SearchContext'
 import BookCard from './BookCard';
-import IconButton from '@material-ui/core/IconButton';
-import DownloadIcon from '@material-ui/icons/GetApp';
+import Typography from "@material-ui/core/Typography";
+import Container from '@material-ui/core/Container';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  resultHeader: {
+    minHeight: 50,
+  },
+}));
+
+const tempResults = [
+ // removed the mock data
+]
+
 
 function ResultPane(){
   const searchContext = useContext(SearchContext);
+  const classes = useStyles();
+
   return(
-    <div>
+    <Container className= {classes.container}>
+      <div className= {classes.resultHeader}>
+        <Typography variant="body2">No. of results</Typography>
+      </div>
       {/* TEMPORARY STUFF HERE. SOLELY FOR CHECKING. */}
-      <BookCard imgURL="" title="My TitleMy TitleMy TitleMy TitleMy Title" year="Year" category="CATEGORY" author={["Author A", "Author B"]} 
-      isbn="ISBN-ISBN-ISBN" courseCode="CMSC 128" topic={['Topic1', 'Topic2', 'Topic3']}/>
-
-        This pane is notified of the ff updates due to<br/>
-        1)making states available globally<br/>
-        2)and dispatching state updates from components<br/>
-        via Context and useReducer
-        
-      <br/><h4>Query</h4>
-      <p>{searchContext.state.query}</p>
-
-      <br/><h4>Category</h4>
-      {searchContext.state.category.map((category) => {
-					return <p key={category}>{category}</p>
-      })}
-      <br/><h4>Course Code</h4>
-      <p>{searchContext.state.courseCode}</p>
-      
-      <br/><h4>Topic</h4>
-      {searchContext.state.topic.map((topic) => {
-					return <p key={topic}>{topic}</p>
-      })}
-
-    </div>
+      <GridList cellHeight={240} spacing={20} className={classes.gridList}>
+        {tempResults.map((result) => {
+          return(
+            <GridListTile key= {result.id}>
+              <BookCard 
+                imgURL={result.imgURL}
+                title={result.title} 
+                year={result.year} 
+                category={result.category} 
+                author={result.author} 
+                isbn={result.isbn}
+                courseCode={result.courseCode} 
+                topic={result.topic}/>
+            </GridListTile>
+          );
+        })}
+      </GridList>
+    </Container>
   );
 }
 

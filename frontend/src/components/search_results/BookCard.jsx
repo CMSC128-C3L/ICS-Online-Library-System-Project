@@ -12,7 +12,8 @@ const useStyles = makeStyles((theme) => ({
 	card: {
 		display: 'flex',
 		width: 550,
-		height: 200,
+		height: 220,
+		backgroundColor: '#F4F4F4',
 	},
 	cover: {
 		padding: 10,
@@ -36,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	category: {
 		fontWeight: 600,
+	},
+	details: {
+		height: 120,
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'space-around',
 	},
 	author: {
 		fontStyle: 'italic',
