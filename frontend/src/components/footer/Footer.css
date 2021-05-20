@@ -5,12 +5,12 @@ a {
     font-size: 1em;
 }
 
-a:hover, svg:hover {
+/* a:hover, svg:hover {
     color: #95D2EC;
     fill: #95D2EC;
-}
+} */
 
-svg {
+socmed-icon {
     fill: white;
     width: 1.5em;
     margin-top: 0.2vw;

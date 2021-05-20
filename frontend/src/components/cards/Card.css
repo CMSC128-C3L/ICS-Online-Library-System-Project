@@ -1,4 +1,4 @@
-button {
+.view-button {
     border-radius: 1em;
     background-color: white;
     color:  #47abdb;
@@ -9,7 +9,7 @@ button {
     margin-bottom: 0.5em;
 }
 
-button:hover {
+view-button:hover {
     color: #95D2EC;
 }
 
@@ -44,7 +44,7 @@ button:hover {
     border-radius: 0.5em;
 }
 
-button:hover, svg:hover, a:hover {
+view-button:hover, svg:hover, a:hover {
     transition: 0.1s;
     transform: scale(1.05);
     /* box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.25); */

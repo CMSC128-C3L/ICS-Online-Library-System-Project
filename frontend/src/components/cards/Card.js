@@ -8,7 +8,7 @@ function Card(props){
             <img src={sample} alt="sample"></img>
             <div className="article-title text">{props.content.title}</div>
             <a href="test">
-                <button className="view-button text">VIEW</button>
+                <button className="view-button">VIEW</button>
             </a>
         </div>
     )
