@@ -31,21 +31,28 @@ const [document, setDocument] = useState([])
     }
 
     return (
-            <div className='flex-row'>
+            <div className='document-card-flex-row'>
                 {
                     chosenDocument().map(document=>{
                         return (
-                            <div>
-                            <DocumentCard
-                                thumbnail={document.image_link}
-                                title={document.name}
-                                header={document.id}
-                            />
+                            <div className='document-card-flex-row'>
+                                <DocumentCard
+                                    thumbnail={document.image_link}
+                                />
+                                
+                                <DocumentCard
+                                    title={document.name}
+                                    author={document.brand} 
+                                    yearPublished={document.product_type}
+                                    publisher={document.product_type}
+                                    docISBN={document.id}
+                                />
 
-                            
-                            <IconButton aria-label="download"><GetAppIcon/></IconButton>
-                            <IconButton aria-label="edit"><EditIcon/></IconButton>
-                            <IconButton aria-label="save"><SaveIcon/></IconButton>
+                                <div className='document-card-flex-column'>
+                                    <IconButton aria-label="download"><GetAppIcon/></IconButton>
+                                    <IconButton aria-label="edit"><EditIcon/></IconButton>
+                                    <IconButton aria-label="save"><SaveIcon/></IconButton>
+                                </div>
                             </div>
                         )
 

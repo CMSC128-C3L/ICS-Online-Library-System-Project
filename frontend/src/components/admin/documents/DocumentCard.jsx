@@ -2,15 +2,16 @@ import './DocumentCard.css'
 
 function DocumentCard(props){
     return (
-        <div className="card card-container flex-column">
-            <img src={props.thumbnail}alt="thumbnail"></img>
-            <div className="article-title text">{props.title}</div>
-            <div className="card-header text">{props.header}</div>
-            <a href="test">
-                <button className="view-button text">VIEW</button>
-            </a>
+        <div className="document-card-container document-card-flex-column">
+            <img src={props.thumbnail} className='document-thumbnail' alt=""></img>
+            <h5>{props.title}</h5>
+            <h5>{props.author}</h5>
+            <h5>{props.yearPublished}</h5>
+            <h5>{props.publisher}</h5>
+            <h5>{props.docISBN}</h5>
         </div>
     )
 }
 
 export default DocumentCard
+
