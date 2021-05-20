@@ -22,11 +22,12 @@ router.get('/api/thesis/sample', auth, Thesis.sample)
 
 // Book routes
 const Book = require('./controllers/bookController.js');
+const isAdmin = require('./middlewares/isAdmin.js');
 router.get('/api/books', auth, Book.getAll);
 router.get('/api/books/:id', auth, Book.get);
-router.post('/api/books', auth, Book.create);
-router.patch('/api/books/:id', auth, Book.update);
-router.delete('/api/books/:id', auth, Book.deleteBook);
+router.post('/api/books', auth, isAdmin, Book.create);
+router.patch('/api/books/:id', auth, isAdmin, Book.update);
+router.delete('/api/books/:id', auth, isAdmin, Book.deleteBook);
 
 
 

@@ -44,13 +44,9 @@ async function get(req, res) {
 // Create a new book
 async function create(req, res) {
     try {
-        if (req.user.classification === "Admin") {
-            const book = new Book(req.body);    // get the book data from the request body
-            const newBook = await book.save();  // insert the book
-            return res.status(201).send(newBook._id);   // responsd with the id of the new book
-        }
-
-        res.status(403).send({message:"not admin"});
+        const book = new Book(req.body);    // get the book data from the request body
+        const newBook = await book.save();  // insert the book
+        return res.status(201).send(newBook._id);   // responsd with the id of the new book
 
     } catch (err) {
         console.log(err);
@@ -62,18 +58,14 @@ async function create(req, res) {
 // Update a specified book
 async function update(req, res) {
     try {
-        if (req.user.classification === "Admin") {
-            const book = req.body;      // get the new data of the book from the request body
-            const _id = req.params.id;  // get the id of the book to be updated
+        const book = req.body;      // get the new data of the book from the request body
+        const _id = req.params.id;  // get the id of the book to be updated
 
-            const newBook = await Book.findOneAndUpdate({_id}, book, {new:true});
-            if (newBook === null)
-                return res.status(404).send({message:"book not found"});    // the specified book does not exist
-        
-            return res.status(200).send(newBook);   // respond with the updated book  
-        }
-        
-        res.status(403).send({message:"not admin"});
+        const newBook = await Book.findOneAndUpdate({_id}, book, {new:true});
+        if (newBook === null)
+            return res.status(404).send({message:"book not found"});    // the specified book does not exist
+    
+        return res.status(200).send(newBook);   // respond with the updated book  
 
     } catch (err) {
         console.log(err);
@@ -86,16 +78,12 @@ async function update(req, res) {
 // Delete a specified book
 async function deleteBook(req, res) {
     try {
-        if (req.user.classification === "Admin") {
-            const _id = req.params.id;  // get the id of the book to be deleted
-            const deleted = await Book.findOneAndDelete({_id});
-            if (deleted === null)
-                return res.status(404).send({message:"book not found"});    // the specified book does not exist
+        const _id = req.params.id;  // get the id of the book to be deleted
+        const deleted = await Book.findOneAndDelete({_id});
+        if (deleted === null)
+            return res.status(404).send({message:"book not found"});    // the specified book does not exist
 
-            return res.status(200).send({message:"book deleted"});  // send ok response
-        }
-        
-        res.status(403).send({message:"not admin"});
+        return res.status(200).send({message:"book deleted"});  // send ok response        
 
     } catch (err) {
         console.log(err);
