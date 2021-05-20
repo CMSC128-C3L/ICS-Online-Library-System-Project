@@ -34,11 +34,21 @@ const [document, setDocument] = useState([])
             <div className='flex-row'>
                 {
                     chosenDocument().map(document=>{
-                        return <DocumentCard 
+                        return (
+                            <div>
+                            <DocumentCard
                                 thumbnail={document.image_link}
                                 title={document.name}
                                 header={document.id}
                             />
+
+                            
+                            <IconButton aria-label="download"><GetAppIcon/></IconButton>
+                            <IconButton aria-label="edit"><EditIcon/></IconButton>
+                            <IconButton aria-label="save"><SaveIcon/></IconButton>
+                            </div>
+                        )
+
                     })
                 }
             </div>
