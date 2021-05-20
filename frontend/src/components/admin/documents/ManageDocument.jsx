@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Box} from "@material-ui/core";
 import axios from 'axios';
 import SaveIcon from '@material-ui/icons/Save';
 import GetAppIcon from '@material-ui/icons/GetApp';
@@ -9,6 +10,7 @@ import TagsInput from './TagsInput';
 import './DocumentCard.css';
 
 function ManageDocument(props) {
+//initialize collection of document to an empty array
 const [document, setDocument] = useState([])
 
     const getDocument = async() =>{
@@ -24,40 +26,58 @@ const [document, setDocument] = useState([])
         getDocument()
     }, [])
 
-    const chosenDocument = () =>{
-       return (document.filter(document=>{
-                return document
-        }))
-
-    }
-
     const selectedTags = tags => console.log(tags)
 
     return (
-            <div className='document-card-flex-row'>
+            <div>
                 {
-                    chosenDocument().map(document=>{
+                    document.map(document=>{
                         return (
-                            <div className='document-card-flex-row'>
-                                <div className='document-card-container document-card-flex-column'>
-                                <img src={document.image_link} alt="" className="thumbnail"></img>
-                                </div>
-                                
-                                <div className='document-card-container document-card-flex-column'>
-                                <DocumentCard
-                                    title={document.name}
-                                    author={document.brand} 
-                                    yearPublished={document.id}
-                                    publisher={document.product_type}
-                                    docISBN={document.id}
-                                />
-                                <TagsInput selectedTags={selectedTags}/>
+                            <div>
+                                <div className='document-card-flex-row'>
+                                    <div className='document-card-container document-card-flex-column'>
+                                    <img src={document.image_link} alt="" className="thumbnail"></img>
+                                    </div>
+                                    
+                                    <div className='document-card-flex-column'>
+                                    <DocumentCard
+                                        title={document.name}
+                                        author={document.brand} 
+                                        yearPublished={document.id}
+                                        publisher={document.product_type}
+                                        docISBN={document.id}
+                                    />
+                                    <TagsInput selectedTags={selectedTags}/>
+                                    </div>
+
+                                    <div className='document-card-container document-card-flex-column'>
+                                        <IconButton aria-label="download" style={{ backgroundColor: 'transparent' }}><GetAppIcon/>Download</IconButton>
+                                        <IconButton aria-label="edit" style={{ backgroundColor: 'transparent' }}><EditIcon/>Edit</IconButton>
+                                    </div>
                                 </div>
 
-                                <div className='document-card-container document-card-flex-column'>
-                                    <IconButton aria-label="download"><GetAppIcon/>Download</IconButton>
-                                    <IconButton aria-label="edit"><EditIcon/>Edit</IconButton>
-                                    <IconButton aria-label="save"><SaveIcon/>Save</IconButton>
+                                <div className="description-section">
+                                    <h1>DESCRIPTION</h1>
+                                    <Box
+                                        component="div"
+                                        style={{
+                                        flexWrap: "wrap",
+                                        wordWrap: "break-word",
+                                        wordBreak: "break-all",
+                                        maxWidth: "80em"
+                                        }}
+                                        >
+
+                                        {document.description}
+                                        {document.description}
+                                        {document.description}
+                                        {document.description}
+                                        {document.description}
+                                        {document.description}
+                                        
+                                    </Box>
+                                    
+                                    <IconButton aria-label="save" style={{ backgroundColor: 'lightblue', left:'50em' }}><SaveIcon/></IconButton>
                                 </div>
                             </div>
                         )

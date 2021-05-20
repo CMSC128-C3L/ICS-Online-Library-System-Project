@@ -1,9 +1,16 @@
 .document-card-flex-column {
-    background-color: #47abdb;
+    /* background-color: #e08686; */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: left;
+}
+
+.text-tags{
+    display: inline;
+    font: roboto;
+    font-size: 1em;
+    /* margin-bottom: -1.91em; */
+    font-weight: bold;
 }
 
 .document-card-flex-row {
@@ -16,41 +23,38 @@
 .thumbnail{
     width: 300px; 
     height: 500px;
-
 }
+
 .document-card-container {
     margin-top: 5vh;
     margin-bottom: 5vh;
     padding: 1em;
     box-sizing: border-box;
-    border-radius: 0.5em;
+    border-radius: 2em;
+}
+
+.description-section{
+    /* background-color: burlywood; */
+    padding: 1vh 10vh;
 }
 
 .tags {
+    list-style-type: none;
     /* background: #fff; */
-    padding: 5px;
+    width: 50em;
     overflow: hidden;
 }
 
 .tag{
-    /* color: #fff; */
+    color: rgb(255, 255, 255);
     font-weight: bold;
+    font-size: 3vh;
     background: #3498db;
     float: left;
-    padding: 5px 10px;
+    padding: 1px 20px;
     border-radius: 10em;
     margin: 5px;
   
-}
-
-.tags-input {
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    /* background: #131516; */
-    float: left;
-    padding: 5px 10px;
-    border-radius: 10em;
-    margin: 5px;
 }
 
 @media (max-width: 880px) {
