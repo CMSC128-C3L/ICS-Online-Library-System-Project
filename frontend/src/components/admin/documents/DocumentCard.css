@@ -1,9 +1,9 @@
 .document-card-flex-column {
-    /* background-color: black; */
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: left;
 }
 
 .document-card-flex-row {
@@ -19,7 +19,6 @@
     margin-top: 5vh;
     margin-bottom: 10vh;
     padding: 1em;
-    width: 30%;
     height: auto;
     box-sizing: border-box;
     border-radius: 0.5em;
