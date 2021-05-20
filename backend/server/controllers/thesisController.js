@@ -63,7 +63,7 @@ async function deleteOne(req, res) {
     const _id = req.params.id;
     const thesis = await Thesis.findOneAndDelete({_id});
     if(!thesis) return res.status(404).send();
-    res.status(200).send();
+    res.status(200).send(thesis);
   } catch(error) {
     // console.log(error);
     res.status(500).send();
