@@ -59,8 +59,8 @@ const reducer = (state, action) => {
     case ACTIONS.updateTopic:
       return { ...state, topic: handleCheck(state.topic, action.item) };
       
-    // case ACTIONS.reset:
-    //  return { initialState };
+    case ACTIONS.reset:
+     return { initialState };
 
     default:
       return state;

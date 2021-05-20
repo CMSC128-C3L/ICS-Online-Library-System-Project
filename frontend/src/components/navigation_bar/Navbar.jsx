@@ -17,7 +17,6 @@ function Navbar(props){
 	// for dispatching the submitted query to be used in showing results
 	const handleSubmit = (event) => {
 		event.preventDefault()
-		console.log("in handle submit ", query);
         searchContext.dispatch({
 			type: props.action,
 			query: query
@@ -37,10 +36,6 @@ function Navbar(props){
                     <div className="topSide">
                         <div className="search">
                             <div className="icon-input">
-                                {/* <form onSubmit={props.searchBook} action="">
-                                    <input onChange={props.handleSearch} type="text" placeholder="Search..."/>
-                                    <button type="submit" onClick={props.handleClick}><img src={searchIcon} alt="SearchIcon" /></button>
-                                </form> */}
                                  <form onChange={ handleChange } onSubmit={ handleSubmit } action="">
                                     <input type="text" placeholder="Search..."/>
                                     <button type="submit" onClick={ handleSubmit }><img src={searchIcon} alt="SearchIcon" /></button>

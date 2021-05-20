@@ -13,35 +13,9 @@ body {
 }
 
 .result-pane{
-  flex: auto;
+  /* flex: auto; */
   background-color: #ffffff;
 }
-
-/* Checklists -- pending */
-/* .list-container{
-  background-color: 'transparent';
-  margin-top: 10;
-  margin-bottom: 10;
-  width: 210;
-}
-
-.list{
-  display: 'flex';
-  flex-direction: 'column';
-  flex-wrap: nowrap;
-  max-height: 400;
-  overflow: 'auto';
-}
-
-.list-item{
-  flex-basis: 160;
-  font-size: 12;
-  height: 'auto';
-}
-
-.list-label{
-  margin: 0;
-} */
 
 html, body {
     margin: 0;
