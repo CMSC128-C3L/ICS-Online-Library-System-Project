@@ -24,7 +24,7 @@ const api = {
         // transform makeup response to books
         // delete na lang pag oks na database
         transformResponse: [function(makeup) {
-            console.log("Transforming tols")
+            
             const products = JSON.parse(makeup)
             products.forEach(obj => {
 
