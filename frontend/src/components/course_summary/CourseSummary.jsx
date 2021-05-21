@@ -1,50 +1,52 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import SideDescription from '../side_description/SideDescription'
 import BookCard from '../search_results/BookCard'
 import api from './FetchMaterials'
 import './CourseSummary.css'
 
 function CourseSummary(props){
-    let [books, setBooks] = React.useState([])
+    
+    // Temporary values for code, name, description, prerequisites
+    let [summary, setSummary] = useState({
+        code:'CMSC 128',
+        name:'Introduction to Software Engineering',
+        description:'Principles and methods for the design, implementation, validation, evaluation and maintenance of software systems.',
+        prerequisites:['CMSC 100', 'CMSC 123'],
+        books: [],
+    })
 
     useEffect(() => {
         
-        // Fetch books with title == props.query
-        async function fetchBooks(){
-            const result = await api.getAllBooks(props.query)
-            setBooks(result.data)
-            console.log(result.data)
-        }
-
-        // TODO:
-        // Fetch course details
-        async function fetchCourse(){
+        // Fetch books with course == props.query
+        // Temporarily, course = brand of makeup api
+        async function fetchSummary(){
+            const books = await api.getAllBooks(props.query)
             
+            setSummary(prevSummary=>({
+                ...prevSummary,
+                books: books.data
+            }))
         }
 
-        fetchBooks()
-        fetchCourse()
+        fetchSummary()
     }, [props.query])
+
 
     return(
         <div className="col-center">
 
             {/* Render course code depending on inquiry
                 -- For testing purposes, default is CMSC 128 */}
-            <h1 className="text text-center space-0">
-                {props.query? props.query.concat(" ","Summary") : "CMSC 128 Summary"}
-            </h1>
+            <h1 className="text title-case text-center space-0">{summary.code}</h1>
             
             {/* Render course name depending on inquiry
                 -- For testing purposes, default is Introduction to Software Engineering
                 -- TODO: Query course details */}
-            <h4 className="text text-center space-0">
-                {props.name? props.name : "Introduction to Software Engineering"}
-            </h4>
+            <h4 className="text text-center space-0">{summary.name}</h4>
             
             <div className="row content margin-3">
-                <ResultsArea>{books}</ResultsArea>
-                <SideDescription/>
+                <ResultsArea>{summary.books}</ResultsArea>
+                <SideDescription description={summary.description}>{summary.prerequisites}</SideDescription>
             </div>
         </div>
     )
@@ -56,6 +58,7 @@ function ResultsArea(props){
             {
                 props.children.map((book, i)=>{
                     return <TemporaryBookCard
+                        key={book.id}
                         isbn={book.isbn}
                         title={book.title}
                         author={book.author}
