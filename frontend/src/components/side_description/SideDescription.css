@@ -6,6 +6,7 @@
 
 .sidecard {
     width: 30%;
+    height: fit-content;
     background-color: rgba(251, 251, 251, 1);
     padding: 1em;
     border-radius: 1em;

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
-import './CourseSummary.css'
 import SideDescription from '../side_description/SideDescription'
 import BookCard from '../search_results/BookCard'
 import api from './FetchMaterials'
+import './CourseSummary.css'
 
 function CourseSummary(props){
     let [books, setBooks] = React.useState([])
 
+    // Fetch books
     useEffect(async () => {
         const result = await api.getAllBooks()
         setBooks(result.data)
@@ -15,10 +16,15 @@ function CourseSummary(props){
 
     return(
         <div className="col-center">
+            
+            {/* Render course code depending on inquiry
+                -- For testing purposes, default is CMSC 128 */}
             <h1 className="text text-center space-0">
                 {props.inquiry? props.inquiry.concat(" ","Summary") : "CMSC 128 Summary"}
             </h1>
             
+            {/* Render course name depending on inquiry
+                -- For testing purposes, default is Introduction to Software Engineering */}
             <h4 className="text text-center space-0">
                 {props.name? props.name : "Introduction to Software Engineering"}
             </h4>
