@@ -20,6 +20,7 @@ const TagsInput = (props) => {
     };
 
     const addInput = event => {
+        console.log("this should show");
         <input
             type="text"
             onKeyUp={event => addTags(event)}
@@ -35,16 +36,23 @@ const TagsInput = (props) => {
             <div className='tags'>
             {tags.map((tag, index) => (
                 <li key={index} className="tag">
-                    <span>{tag}</span>                    
-                    <button 
-                    className={classes.deleteIcon1} 
-                    aria-label="clear" 
-                    onClick={() => removeTags(index)} 
-                    style={{ backgroundColor: 'transparent'}}><ClearIcon style={{ color: 'white' }}/>
-                    </button>
+                    <div className="tag-content">
+                        <span>{tag}</span>                    
+                        <button 
+                        className={classes.deleteStyle} 
+                        aria-label="clear" 
+                        onClick={() => removeTags(index)} 
+                        style={{ backgroundColor: 'transparent',width:'1vh', height:'1vh', margin:'0'}}><ClearIcon style={{ color: 'white'}}/>
+                        </button>
+                    </div>
                 </li>
             ))}
-            
+
+            {/* <button 
+            className={classes.addStyle} 
+            aria-label="clear" 
+            onClick={(event) => addInput(event)}><AddIcon style={{ color: 'black'}}/>
+            </button> */}
             <input
                 type="text"
                 onKeyUp={event => addTags(event)}
@@ -56,10 +64,15 @@ const TagsInput = (props) => {
 };
 
 const useStyles = makeStyles(() => ({
-    deleteIcon1: {
+    deleteStyle: {
       '& svg': {
         fontSize: 15
       }
+    },
+    addStyle:{ 
+        backgroundColor: 'transparent',
+        width:'1vh', 
+        height:'1vh', 
     }
   }));
 

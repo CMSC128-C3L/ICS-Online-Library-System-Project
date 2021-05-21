@@ -3,14 +3,10 @@
 }
 
 .image-card-container-flex-column {
-    /* background: rgb(150, 172, 140); */
-    width: auto;
+    width: 300px; 
+    height: 500px;
     border: 5px solid #47ABD8;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items:flex-start;
-    justify-content:center;
+    overflow: hidden;
 }
 
 .document-card-flex-column {
@@ -52,7 +48,6 @@
 }
 
 .thumbnail{
-    width: 300px; 
     height: 500px;
 }
 
@@ -71,14 +66,16 @@
 
 .tag{
     color: rgb(255, 255, 255);
-    width: auto;
-    font-size: 2vh;
+    font-size: 3vh;
     background: #47ABD8;
-    float: left;
-    padding: 0px 10px;
+    padding: 0.5vh 3vh;
     border-radius: 10em;
     margin: 2px;
-    align-content: center;
+    display: inline-block;
+}
+
+.tag-content{
+    text-align: center;
 }
 
 @media (max-width: 880px) {
