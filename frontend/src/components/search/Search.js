@@ -26,10 +26,7 @@ function Search() {
             </div>
                 
             <br/>
-            <div className="Search-btn-container">
-                <button className="Search-btn">Search</button>
-                <button className="Search-btn">Advanced Search</button>
-            </div>
+            <button className="Search-btn">Search</button>
         </form>
     )
 }
