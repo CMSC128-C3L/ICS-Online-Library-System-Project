@@ -8,7 +8,15 @@
 .usertable-container{
    display: flex;
    margin-bottom: 5vh;
+   max-width: 1000vw;
 }
+
+.iconbutton-view{
+   max-width: 2.5em;
+   max-height: 2.5em;
+}
+
+
 
 .searchbar{
    width: 100vh;

@@ -6,7 +6,8 @@ import UserTablePaginationActions from './UserTablePaginationActions'
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
-
+import ArrowUpward from '@material-ui/icons/ArrowUpward'
+import ArrowDownward from '@material-ui/icons/ArrowDownward'
 function UserTable(records, headCells) {
 
 //initialize collection of user data to an empty array
@@ -24,6 +25,13 @@ const [rowsPerPage, setRowsPerPage] = useState(5)
 //get number of filtered rows
 const [rowCount, setRowCount] = useState(0)
 
+/* 
+    Sort Type
+    ascending = 1
+    descending = -1
+*/
+const [sortType, setSortType] = useState(1)
+
 const handleChangePage = (event, newPage) =>{
     setPage(newPage);
 }
@@ -32,9 +40,10 @@ const handleChangeRowsPerPage = (event) =>{
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
 }
+
     const getUsers = async() =>{
         try{
-            const users = await axios.get("http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline");
+            const users = await axios.get("https://60a7bc318532520017ae4d62.mockapi.io/user");
             setUser(users.data)
             setRowCount(users.data.length)
         
@@ -67,6 +76,23 @@ const handleChangeRowsPerPage = (event) =>{
 
     }
 
+
+    const sortRows = (array) =>{
+    array.sort((a, b) => {
+            if (a.name > b.name) {
+                if(sortType == 1) return 1;
+                else return -1;
+            }
+
+            if (a.name < b.name) {
+                if(sortType == 1) return -1;
+                else return 1;
+            }
+            return 0;
+          
+        });
+    }
+
     
     return (
         
@@ -80,10 +106,12 @@ const handleChangeRowsPerPage = (event) =>{
                 <TableContainer component={Paper} className="usertable usertable-container">
                 <Table aria-label="users">
                 <TableHead>
-                        <TableRow>
-                            <TableCell align="center">Avatar</TableCell>
-                            <TableCell align="center">ID</TableCell>
-                            <TableCell align="center">Name</TableCell>
+                        <TableRow align="center" justifyContent="center">
+                            <TableCell align="center"><h2>Avatar</h2></TableCell>
+                            <TableCell align="center"><h2>ID</h2></TableCell>
+                            <TableCell align="center">
+                                <IconButton onClick={() => {setSortType(-1 * sortType); sortRows(user)}}>{(sortType == 1) ? <ArrowUpward /> : <ArrowDownward />}</IconButton>
+                                Name</TableCell>
                             <TableCell align="center">Email</TableCell>
                             <TableCell align="center">Classification</TableCell>
                             <TableCell align="center">Actions</TableCell>
@@ -92,9 +120,9 @@ const handleChangeRowsPerPage = (event) =>{
                 <TableBody>
                     {filterRows().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(person=>{{
                             return (
-                                <TableRow>
-                                    <TableCell align="center" justify="center">
-                                        <Avatar alt={person.name} src={person.image_link}></Avatar>
+                                <TableRow justifyContent="center">
+                                    <TableCell align="center" >
+                                        <Avatar alt={person.name} src={person.avatar} align="center"></Avatar>
                                     </TableCell>
                                     <TableCell align="center">
                                         {person.id}
@@ -103,14 +131,14 @@ const handleChangeRowsPerPage = (event) =>{
                                         {person.name}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {person.brand}
+                                        {person.email}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {person.product_type}
+                                        {person.classification}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <IconButton aria-label="delete"><DeleteIcon/></IconButton>
-                                        <IconButton aria-label="edit"><EditIcon/></IconButton>
+                                        <IconButton aria-label="delete" className="iconbutton-view"><DeleteIcon/></IconButton>
+                                        <IconButton aria-label="edit"  className="iconbutton-view"><EditIcon/></IconButton>
                                     </TableCell>
                                 </TableRow>
 
