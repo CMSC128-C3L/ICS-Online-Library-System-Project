@@ -7,24 +7,37 @@ import './CourseSummary.css'
 function CourseSummary(props){
     let [books, setBooks] = React.useState([])
 
-    // Fetch books
-    useEffect(async () => {
-        const result = await api.getAllBooks()
-        setBooks(result.data)
-        console.log(result.data)
-    }, [])
+    useEffect(() => {
+        
+        // Fetch books with title == props.query
+        async function fetchBooks(){
+            const result = await api.getAllBooks(props.query)
+            setBooks(result.data)
+            console.log(result.data)
+        }
+
+        // TODO:
+        // Fetch course details
+        async function fetchCourse(){
+            
+        }
+
+        fetchBooks()
+        fetchCourse()
+    }, [props.query])
 
     return(
         <div className="col-center">
-            
+
             {/* Render course code depending on inquiry
                 -- For testing purposes, default is CMSC 128 */}
             <h1 className="text text-center space-0">
-                {props.inquiry? props.inquiry.concat(" ","Summary") : "CMSC 128 Summary"}
+                {props.query? props.query.concat(" ","Summary") : "CMSC 128 Summary"}
             </h1>
             
             {/* Render course name depending on inquiry
-                -- For testing purposes, default is Introduction to Software Engineering */}
+                -- For testing purposes, default is Introduction to Software Engineering
+                -- TODO: Query course details */}
             <h4 className="text text-center space-0">
                 {props.name? props.name : "Introduction to Software Engineering"}
             </h4>
@@ -38,7 +51,6 @@ function CourseSummary(props){
 }
 
 function ResultsArea(props){
-
     return(
         <div className="results-container">
             {

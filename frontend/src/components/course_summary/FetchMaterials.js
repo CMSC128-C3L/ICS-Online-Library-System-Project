@@ -10,13 +10,15 @@ const renameKey = (obj, oldKey, newKey) => {
     delete obj[oldKey]
 }
 
-export default {
-    getAllBooks: () =>
+const api = {
+    getAllBooks: (query) =>
+    
     instance({
         'method':'GET',
         'url':'/query',
         'params':{
-            'brand':'maybelline'
+            // Change to course/tag once database is set up
+            'brand': query
         },
 
         // transform makeup response to books
@@ -44,3 +46,5 @@ export default {
         }],
     })
 }
+
+export default api
