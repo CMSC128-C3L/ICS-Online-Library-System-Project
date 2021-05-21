@@ -1,49 +1,33 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline',
+    baseURL: 'https://60a7910e3b1e13001717684a.mockapi.io/api/books/books',
 })
 
-// rename sample makeup to copy specified books document
+// Rename sample makeup to copy specified books document
 const renameKey = (obj, oldKey, newKey) => {
     obj[newKey] = obj[oldKey]
     delete obj[oldKey]
 }
 
 const api = {
-    getAllBooks: (query) =>
+    getBooks: (code) =>
     
     instance({
         'method':'GET',
-        'url':'/query',
+        // 'url':'/query',
         'params':{
-            // Change to course/tag once database is set up
-            'brand': query
+            'course_code': code
         },
+    }),
 
-        // transform makeup response to books
-        // delete na lang pag oks na database
-        transformResponse: [function(makeup) {
-            
-            const products = JSON.parse(makeup)
-            products.forEach(obj => {
+    getCourse: (code) =>
 
-                // rename makeup keys to follow name of book keys
-                // as defined in the database document
-                renameKey(obj, 'product_link', 'isbn')
-                renameKey(obj, 'name', 'title')
-                renameKey(obj, 'brand','author')
-                renameKey(obj, 'image_link', 'book_cover_img')
-                renameKey(obj, 'created_at', 'year')
-                renameKey(obj, 'product_type', 'publisher')
-                renameKey(obj, 'rating', 'view_count')
-                renameKey(obj, 'price', 'download_count')
-                renameKey(obj, 'product_colors', 'subject')
-                renameKey(obj, 'tag_list', 'topic')
-            })
-
-            return products
-        }],
+    instance({
+        'method':'GET',
+        'params':{
+            'course_code': code
+        }
     })
 }
 

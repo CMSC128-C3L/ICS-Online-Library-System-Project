@@ -6,7 +6,7 @@ import './CourseSummary.css'
 
 function CourseSummary(props){
     
-    // Temporary values for code, name, description, prerequisites
+    // Temporary values for code, name, description, prerequisites while no api
     let [summary, setSummary] = useState({
         code:'CMSC 128',
         name:'Introduction to Software Engineering',
@@ -18,12 +18,16 @@ function CourseSummary(props){
     useEffect(() => {
         
         // Fetch books with course == props.query
-        // Temporarily, course = brand of makeup api
         async function fetchSummary(){
-            const books = await api.getAllBooks(props.query)
-            
+            const books = await api.getBooks(props.query)
+            // const course = await api.getCourse(props.query)
+
+            console.log(books.data)
             setSummary(prevSummary=>({
                 ...prevSummary,
+                // name: course.name,
+                // description: course.description,
+                // prerequisites: course.prerequisites
                 books: books.data
             }))
         }
@@ -35,13 +39,10 @@ function CourseSummary(props){
     return(
         <div className="col-center">
 
-            {/* Render course code depending on inquiry
-                -- For testing purposes, default is CMSC 128 */}
+            {/* Render course code depending on inquiry*/}
             <h1 className="text title-case text-center space-0">{summary.code}</h1>
             
-            {/* Render course name depending on inquiry
-                -- For testing purposes, default is Introduction to Software Engineering
-                -- TODO: Query course details */}
+            {/* Render course name depending on inquiry*/}
             <h4 className="text text-center space-0">{summary.name}</h4>
             
             <div className="row content margin-3">
