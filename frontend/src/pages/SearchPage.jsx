@@ -1,4 +1,3 @@
-import { CallToActionSharp } from '@material-ui/icons';
 import React, { useReducer } from 'react';
 import FilterSideBar from "../components/filter_sidebar/FilterSideBar";
 import Navbar from "../components/navigation_bar/Navbar";

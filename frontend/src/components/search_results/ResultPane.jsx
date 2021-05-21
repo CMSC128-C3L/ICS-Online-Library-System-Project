@@ -18,7 +18,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const tempResults = [
- // removed the mock data
+ // removed other mock data
+ {
+  id: "1",
+  imgURL: "", 
+  title: "1My TitleMy TitleMy TitleMy TitleMy Title", 
+  year: "Year",
+  category: "book", 
+  author: ["Author A", "Author B", "Author C"], 
+  isbn: "ISBN-ISBN-ISBN",
+  courseCode: "CMSC 128", 
+  topic: ['Topic1', 'Topic2', 'Topic3']
+},
 ]
 
 
@@ -31,16 +42,16 @@ function ResultPane(){
       <div className= {classes.resultHeader}>
         <Typography variant="body2">No. of results</Typography>
       </div>
-      {/* TEMPORARY STUFF HERE. SOLELY FOR CHECKING. */}
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {tempResults.map((result) => {
           return(
             <GridListTile key= {result.id}>
               <BookCard 
+                //** userType temporarily filled */
+                userType="Faculty"
                 imgURL={result.imgURL}
                 title={result.title} 
                 year={result.year} 
-                category={result.category} 
                 author={result.author} 
                 isbn={result.isbn}
                 courseCode={result.courseCode} 
