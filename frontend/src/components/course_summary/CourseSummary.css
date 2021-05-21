@@ -38,6 +38,16 @@
     padding: 0 auto;
 }
 
+.wrap {
+    overflow: wrap;
+    border: 1px solid;
+}
+
+.small {
+    height: 5em;
+    width:initial
+}
+
 @media (max-width: 880px) {
     .content {
         flex-direction: column-reverse;
