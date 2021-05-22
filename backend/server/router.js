@@ -41,8 +41,9 @@ router.delete('/api/books/:id', auth, isAdmin, Book.deleteBook);
 
 
 // Journal routes
-
-
+const Journal = require('./controllers/journalController.js');
+router.get('/api/journal', auth, Journal.getAll);
+router.get('/api/journal/:id', auth, Journal.getOne);
 //
 
 

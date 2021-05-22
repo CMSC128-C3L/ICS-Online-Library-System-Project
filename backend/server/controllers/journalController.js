@@ -1,4 +1,4 @@
-const Jorunal= require('./models/Journal.js');
+const Journal= require('./models/Journal.js');
 
 module.exports = {
   getAll,
