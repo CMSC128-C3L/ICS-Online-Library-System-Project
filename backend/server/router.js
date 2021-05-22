@@ -13,7 +13,24 @@ router.get('/api', (req, res) => {
 router.post('/api/users/login', User.login);
 router.get('/api/users/logout', auth, User.logout);
 
-// Thesis sample route
+// Thesis routes
 router.get('/api/thesis/sample', auth, Thesis.sample)
 
+
+// SP routes
+
+
+// Book routes
+
+
+// Journal routes
+
+
+//
+
+
+//
+
+
+//
 module.exports = router;
