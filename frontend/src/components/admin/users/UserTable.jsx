@@ -67,8 +67,9 @@ const handleChangeRowsPerPage = (event) =>{
             }else if(
             person.name.toLowerCase().includes(search.toLowerCase()) 
             || String(person.id).includes(search)
-            || person.brand.toLowerCase().includes(search.toLowerCase()) 
-            || person.product_type.toLowerCase().includes(search.toLowerCase())
+            || person.name.toLowerCase().includes(search.toLowerCase())
+            || person.email.toLowerCase().includes(search.toLowerCase()) 
+            || person.classification.toLowerCase().includes(search.toLowerCase())
             ){
                 return person
             }
@@ -93,6 +94,29 @@ const handleChangeRowsPerPage = (event) =>{
         });
     }
 
+    const createClassificationCell = (classification) => {
+
+        //if admin, set background color to red 
+        //NOTE: remove classfication 1, used for demonstrative purposes only
+        if(classification === "classification 1" || classification === "classification 1"){
+            return(
+                <span style={{width: "7em", height: "3em", backgroundColor: "#d01b1b", border: "1px #d01b1b solid", borderRadius: "200px", display: "inline-block", justifyContent: "center", padding: "0.5em"}}><p className="classification-fontstyle">{classification}</p></span>
+            )
+        }else if(classification === "Staff" || classification === "Faculty" || classification === "classification 2"){
+            //if faculty or staff, set background color to purple 
+            //NOTE: remove classfication 2, used for demonstrative purposes only
+            
+            return(
+                <span style={{width: "7em", height: "3em", backgroundColor: "#b19cd8", border: "1px #b19cd8 solid", borderRadius: "200px", display: "inline-block", justifyContent: "center", padding: "0.5em"}}><p className="classification-fontstyle">{classification}</p></span>
+            )
+        }else{
+            return(
+                //if student, set background color to sky blue
+                <span style={{width: "7em", height: "3em", backgroundColor: "#47abd8", border: "1px #47abd8 solid", borderRadius: "200px", display: "inline-block", justifyContent: "center", padding: "0.5em"}}><p className="classification-fontstyle">{classification}</p></span>
+            )
+        }
+    }
+
     
     return (
         
@@ -100,32 +124,35 @@ const handleChangeRowsPerPage = (event) =>{
             <input className="searchbar" type="text" placeholder=" Search User" onChange={e=>{
                 setSearch(e.target.value)
                 setRowCount(filterRows().length)
+                setPage(0)
             }}/>
 
-           <div>
+          
+            <div>
                 <TableContainer component={Paper} className="usertable usertable-container">
-                <Table aria-label="users">
+                <Table aria-label="users" > 
                 <TableHead>
-                        <TableRow align="center" justifyContent="center">
-                            <TableCell align="center"><h2>Avatar</h2></TableCell>
-                            <TableCell align="center"><h2>ID</h2></TableCell>
+                        <TableRow align="center" justifyContent="center" style={{backgroundColor: "#47abd8"}}>
+                            <TableCell align="center"><h2 className="table-heading">Avatar</h2></TableCell>
+                            <TableCell align="center"><h2 className="table-heading">ID</h2></TableCell>
                             <TableCell align="center">
-                                <IconButton onClick={() => {setSortType(-1 * sortType); sortRows(user)}}>{(sortType == 1) ? <ArrowUpward /> : <ArrowDownward />}</IconButton>
-                                Name</TableCell>
-                            <TableCell align="center">Email</TableCell>
-                            <TableCell align="center">Classification</TableCell>
-                            <TableCell align="center">Actions</TableCell>
+                                <span style={{display: "inline-flex"}}><IconButton onClick={() => {setSortType(-1 * sortType); sortRows(user); }}>{(sortType == 1) ? <ArrowUpward className="arrow-button"/> : <ArrowDownward className="arrow-button"/>}</IconButton>
+                                <h2 className="table-heading">Name</h2></span>
+                            </TableCell>
+                            <TableCell align="center"><h2 className="table-heading">Email</h2></TableCell>
+                            <TableCell align="center"><h2 className="table-heading">Classification</h2></TableCell>
+                            <TableCell align="center"><h2 className="table-heading">Actions</h2></TableCell>
                         </TableRow>
                 </TableHead>
                 <TableBody>
                     {filterRows().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(person=>{{
                             return (
                                 <TableRow justifyContent="center">
-                                    <TableCell align="center" >
-                                        <Avatar alt={person.name} src={person.avatar} align="center"></Avatar>
-                                    </TableCell>
                                     <TableCell align="center">
-                                        {person.id}
+                                        <span style={{maxWidth: "10%", maxHeight: "10%", display: "inline-block"}}> <Avatar alt={person.name} src={person.avatar} align="center"></Avatar></span>
+                                    </TableCell>
+                                    <TableCell align="center" style={{maxWidth: "30%"}}>
+                                        {person.id} 
                                     </TableCell>
                                     <TableCell align="center">
                                         {person.name}
@@ -134,7 +161,7 @@ const handleChangeRowsPerPage = (event) =>{
                                         {person.email}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {person.classification}
+                                        {createClassificationCell(person.classification)}
                                     </TableCell>
                                     <TableCell align="center">
                                         <IconButton aria-label="delete" className="iconbutton-view"><DeleteIcon/></IconButton>
@@ -148,9 +175,9 @@ const handleChangeRowsPerPage = (event) =>{
                     )}
                     
                 </TableBody>
-                <TableFooter>
+                <TableFooter align="center">
                     <TableRow align="center">
-                        <TablePagination
+                       <TablePagination
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                                 colSpan={3}
                                 count={rowCount}
@@ -160,6 +187,7 @@ const handleChangeRowsPerPage = (event) =>{
                                     inputProps: { 'aria-label': 'rows per page' },
                                     native: true,
                                 }}
+                                
                                 onChangePage={handleChangePage}
                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                                 ActionsComponent={UserTablePaginationActions}
@@ -168,7 +196,7 @@ const handleChangeRowsPerPage = (event) =>{
                 </TableFooter>
                 </Table>
                 </TableContainer>
-           </div>
+          </div>
         </div>
     )
 }
