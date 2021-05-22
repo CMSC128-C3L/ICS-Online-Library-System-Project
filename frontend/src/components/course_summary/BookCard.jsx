@@ -8,7 +8,7 @@ function BookResult(props){
 
             {/* 1: Image */}
             <div className="image-container">
-                <img src={props.book_cover_img} className="book" alt="book"/>
+                <img src={props.book_cover_img} className="book-image" alt="book"/>
             </div>
 
             {/* 2: Details */}

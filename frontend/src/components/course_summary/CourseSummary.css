@@ -33,7 +33,7 @@
     border-radius: inherit;
 }
 
-div.book-card:hover {
+.book-card:hover {
     background-color: rgb(243, 243, 243);
 }
 
@@ -93,12 +93,12 @@ div.book-card:hover {
     margin: 0;
 }
 
-img.book {
+.book-image {
     height: 100%;
     width: 100%;
 }
 
-div.image-container {
+.image-container {
     flex-grow: 1;
     max-width: 20%;
     max-height: auto;
@@ -106,12 +106,12 @@ div.image-container {
     overflow: -moz-hidden-unscrollable;
 }
 
-div.details {
+.details {
     flex-grow: 2;
     justify-content: space-between;
 }
 
-div.download {
+.download {
     flex-grow: 1;
 }
 
