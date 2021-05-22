@@ -1,0 +1,141 @@
+.text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.title-case {
+    text-transform: capitalize;
+}
+
+.row {
+    display: flex;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-end;
+}
+
+.col-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3em;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.book-card {
+    justify-content: space-between;
+    padding: 1em;
+    border-radius: inherit;
+}
+
+.book-card:hover {
+    background-color: rgb(243, 243, 243);
+}
+
+.download {
+    display: flex;
+    justify-content: flex-end;
+    width:20%;
+    fill:rgb(121, 121, 121)
+}
+
+.download svg:hover{
+    fill: #47abdb;
+}
+
+.content {
+    width: 80vw;
+    justify-content: space-around;
+}
+
+.results-container {
+    width: 60%;
+    border-radius: 1em;
+    background-color: rgba(251, 251, 251, 1);
+}
+
+.row-item-height p {
+    margin: 0;
+    padding: 0;
+}
+
+.margin-3 {
+    margin: 3em;
+}
+
+.space-0 {
+    margin: 0 auto;
+    padding: 0 auto;
+}
+
+.wrap {
+    overflow: wrap;
+}
+
+.topic {
+    background-color: #47abdb;
+    color: white;
+    border-radius: 1em;
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    margin-right: 0.5em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.book-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.book-image {
+    height: 100%;
+    width: 100%;
+}
+
+.image-container {
+    flex-grow: 1;
+    max-width: 20%;
+    max-height: auto;
+    margin-right: 1em;
+    overflow: -moz-hidden-unscrollable;
+}
+
+.details {
+    flex-grow: 2;
+    justify-content: space-between;
+}
+
+.download {
+    flex-grow: 1;
+}
+
+.year, .category {
+    color:rgb(121, 121, 121);
+    margin-right: 1em;
+}
+
+.category {
+    font-weight: bold;
+}
+
+.author {
+    font-style: italic;
+}
+
+@media (max-width: 880px) {
+    .content {
+        flex-direction: column-reverse;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .sidecard, .results-container {
+        width: 80%
+    }
+}

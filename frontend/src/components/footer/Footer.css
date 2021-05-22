@@ -1,23 +1,23 @@
-a {
+.a {
     color: white;
     text-decoration: none;
     margin-bottom: 0.2em;
     font-size: 1em;
 }
 
-/* a:hover, svg:hover {
+.a:hover, .svg:hover {
     color: #95D2EC;
     fill: #95D2EC;
 } */
 
-socmed-icon {
+.svg {
     fill: white;
     width: 1.5em;
     margin-top: 0.2vw;
     margin-right: 0.5vw;
 }
 
-hr {
+hr.foothr {
     border: 1px solid white;
 }
 
