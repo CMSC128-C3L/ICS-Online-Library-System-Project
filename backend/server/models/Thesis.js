@@ -56,10 +56,11 @@ const thesisSchema = new mongoose.Schema({
     type: String,
   },
   topic: {
-    type: String,
-    enum: topics
+    type: Array
   }
-});
+},
+{collection: 'Papers'}
+);
 
 const Thesis = mongoose.model("Thesis", thesisSchema);
 

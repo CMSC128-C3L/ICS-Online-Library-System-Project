@@ -10,7 +10,7 @@ module.exports = {
 
 async function getAll(req, res) {
   try {
-    const thesis = await Thesis.find({});
+    const thesis = await Thesis.find({type:'Thesis'});
     res.status(200).send(thesis);
   } catch(error) {
     // console.log(error);
@@ -21,7 +21,7 @@ async function getAll(req, res) {
 async function getOne(req, res) {
   try {
     const _id = req.params.id;
-    const thesis = await Thesis.find({_id});
+    const thesis = await Thesis.find({_id, type:'Thesis'});
     if(!thesis) return res.status(404).send();
     res.send(thesis);
   } catch(error) {

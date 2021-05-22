@@ -18,7 +18,9 @@ const userSchema = new mongoose.Schema({
   tokens: [{
     token: String
   }],
-});
+},
+{collection: 'User'}
+);
 
 const User = mongoose.model("User", userSchema);
 
