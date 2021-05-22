@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SideDescription from '../side_description/SideDescription'
-import BookCard from '../search_results/BookCard'
+import BookResult from './BookCard'
 import api from './FetchMaterials'
 import './CourseSummary.css'
 
@@ -39,11 +39,13 @@ function CourseSummary(props){
     return(
         <div className="col-center">
 
-            {/* Render course code depending on inquiry*/}
-            <h1 className="text title-case text-center space-0">{summary.code}</h1>
-            
-            {/* Render course name depending on inquiry*/}
-            <h4 className="text text-center space-0">{summary.name}</h4>
+            <div>
+                {/* Render course code depending on inquiry*/}
+                <h1 className="text title-case text-center space-0">{summary.code}</h1>
+
+                {/* Render course name depending on inquiry*/}
+                <h4 className="text text-center space-0">{summary.name}</h4>
+            </div>
             
             <div className="row content margin-3">
                 <ResultsArea>{summary.books}</ResultsArea>
@@ -58,8 +60,8 @@ function ResultsArea(props){
         <div className="results-container">
             {
                 props.children.map((book, i)=>{
-                    return <TemporaryBookCard
-                        key={book.id}
+                    return <BookResult
+                        key={i}
                         isbn={book.isbn}
                         title={book.title}
                         author={book.author}
@@ -68,29 +70,6 @@ function ResultsArea(props){
                     />
                 })
             }
-        </div>
-    )
-}
-
-// Temporary book card to show results
-function TemporaryBookCard(props){
-    return(
-        <div className="wrap">
-            <div className="desc">
-                <img src={props.book_cover_img} className="small" alt="book"/>
-                <h2>{props.title}</h2>
-                <h3>{props.author}</h3>
-                <p>{props.publisher}</p>
-                <p>{props.isbn}</p>
-                <p>{props.year}</p>
-                <p>{props.publisher}</p>
-                <p>{props.view_count}</p>
-                <p>{props.download_count}</p>
-                <p>{props.description}</p>
-                <p>{props.subject}</p>
-                <p>{props.topic}</p>
-            </div>
-            
         </div>
     )
 }
