@@ -48,8 +48,13 @@ router.get('/api/journal/:id', auth, Journal.getOne);
 
 //search
 const Search = require('./controllers/searchController.js');
-router.get('api/search/all', Search.searchAllByTitle);
-router.get('api/search/user', Search.searchUser);
+router.get('/api/search/user', Search.searchUser);
+router.get('/api/search/all', Search.searchAllByTitle);
+router.get('/api/search/thesis', Search.searchThesis);
+router.get('/api/search/book', Search.searchBook);
+router.get('/api/search/journal', Search.searchJournal);
+router.get('/api/search/sp', Search.searchSp);
+
 
 
 //
