@@ -30,7 +30,7 @@ function Login() {
     // const data = response.json(); //causes error: json() is not a function
     // // console.log(response.json());
     // localStorage.setItem('token', data.token);
-    history.push(`/loggedIn/adminHome/1${res.profileObj.googleId}`); //if success, redirect to user account
+    history.push(`/loggedIn/adminHome/1${res.profileObj.name}`); //if success, redirect to user account
     alert(
       `Logged in successfully welcome ${res.profileObj.name}. \n See console for full profile object.`
     );

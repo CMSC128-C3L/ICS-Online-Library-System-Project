@@ -3,8 +3,10 @@ import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Logout from '../login/Logout'
 
-function Header() {
+function Header({name}) {
     const history = useHistory();
+
+
     return(
         <div>
             <div className="Logo-area">
@@ -18,8 +20,9 @@ function Header() {
                 </div>
             
                 <div className="Header-container-right" >
+                    
+                    <Button className="Button" onClick={() => history.push('/support')}>{name}</Button>
                     <Logout/>
-                    <Button className="Button" onClick={() => history.push('/support')}>Support</Button>
                 </div>  
             </div>
                      

@@ -1,9 +1,12 @@
 import React from 'react'
+import UserTable from '../components/admin/users/UserTable'
+import Header from "../components/header_user/Header"
 
 function AdminUserManagement() {
     return (
         <div>
-            <h1>user management</h1>
+            <Header></Header>
+            <UserTable></UserTable>
         </div>
     )
 }
