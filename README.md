@@ -22,14 +22,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-If npm start doesn't work and the react-scripts is present in package.json, then just type this command:
+If npm start doesn't work and the react-scripts is present in package.json, then just type this command:\
 `npm install`
 
-If react-scripts, axios, yarn are not present in package.json, run:
+If react-scripts, axios, yarn are not present in package.json, run:\
 `npm update --force`\
 `npm install axios`\
-`npm install react-scripts --save`\
-`npm install -g yarn`
+`npm install multiselect-react-dropdown`
 
 ### Backend: `npm run dev`
 

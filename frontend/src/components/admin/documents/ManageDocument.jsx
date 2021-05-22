@@ -47,7 +47,7 @@ const [document, setDocument] = useState("");
                                 publisher={document.product_type}
                                 docISBN={document.id}
                             />
-                            <TagsInput selectedTags={selectedTags}/>
+                            <TagsInput/>
                             </div>
 
                             <div className='document-card-container button-card-flex-column'>
