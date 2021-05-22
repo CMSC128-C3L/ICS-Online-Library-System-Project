@@ -31,7 +31,6 @@ router.get('/api/sp/:id', Sp.getOne);
 
 // Book routes
 const Book = require('./controllers/bookController.js');
-const isAdmin = require('./middlewares/isAdmin.js');
 router.get('/api/books', auth, Book.getAll);
 router.get('/api/books/:id', auth, Book.get);
 router.post('/api/books', auth, isAdmin, Book.create);

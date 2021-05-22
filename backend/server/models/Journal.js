@@ -10,5 +10,5 @@ const journalSchema= new mongoose.Schema({
     subject: [String],
 });
 
-const Journal= mongoose.model("ScientificPapers",journalSchema);
+const Journal= mongoose.model("Journal",journalSchema);
 module.exports=Journal;

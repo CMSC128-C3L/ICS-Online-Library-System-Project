@@ -12,8 +12,7 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   classification: {
-    type: String,
-    required: true
+    type: String
   },
   borrowedBooks: [],
   tokens: [{

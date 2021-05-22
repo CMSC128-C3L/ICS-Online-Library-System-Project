@@ -12,5 +12,5 @@ const spSchema= new mongoose.Schema({
 
 });
 
-const Sp= mongoose.model("ScientificPapers",spSchema);
+const Sp= mongoose.model("Special Problem",spSchema);
 module.exports=Sp;

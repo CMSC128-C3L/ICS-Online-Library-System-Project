@@ -1,4 +1,4 @@
-const Sp= require('./models/Sp.js');
+const Sp = require('../models/Sp.js');
 
 module.exports = {
   getAll,
@@ -65,5 +65,14 @@ async function getOne(req, res) {
 
 }
 
+async function create(req, res) {
 
+}
 
+async function deleteSp(req, res) {
+    
+}
+
+async function update(req, res) {
+    
+}
