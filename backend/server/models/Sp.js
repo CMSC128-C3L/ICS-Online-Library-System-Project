@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const spSchema= new mongoose.Schema({
     id: Number,
-    type: Number,
+    type: String,
     title: String,
     author: [String],
     adviser: String,
@@ -12,5 +12,5 @@ const spSchema= new mongoose.Schema({
 
 });
 
-const Sp= mongoose.model("ScientificPapers",spSchema);
-module.exports=Sp;
+const Sp= mongoose.model("Special Problem",spSchema);
+module.exports=Sp
