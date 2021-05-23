@@ -3,19 +3,24 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+  },
   email: {
     type:String,
     unique:true,
     required: true
   },
-  type: {
-    type: Number,
-    required: true
+  classification: {
+    type: String
   },
+  borrowedBooks: [],
   tokens: [{
     token: String
   }],
-});
+},
+{collection: 'User'}
+);
 
 const User = mongoose.model("User", userSchema);
 

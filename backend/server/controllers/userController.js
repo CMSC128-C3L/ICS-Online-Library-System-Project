@@ -19,25 +19,26 @@ async function login(req, res) {
       audience: process.env.GOOGLE_CLIENT_ID
     });
     const payload = ticket.getPayload();
-    // get user email 
-    const email = payload.email;
+    // get user name, email 
+    const { name, email } = payload;
     // find user in db
     let user = await User.findOne({email});
-    let type; // variable to save the type of user
-    // If user is not found, add a type and save to db
+    let classification; // variable to save the classification of user
+    // If user is not found, add a classification and save to db
     if(!user) {
       const splitEmail = email.split('@');
-      if(splitEmail[1] != 'up.edu.ph') type = 3; // not a up student
-      else type = 2; // at least up student
-      // Save email and type to db
-      user = new User({email, type});
+      // not a up mail
+      if(splitEmail[1] !== 'up.edu.ph') return res.status(401).send();
+      else classification = "Student"; // at least up student
+      // Save email and classification to db
+      user = new User({name, email, classification});
       await user.save();
     }
      // create jwt
      const token = jwt.sign(
       {
         email: user.email,
-        type: user.type,
+        classification: user.classification,
         picture: payload.picture,
         given_name: payload.given_name,
         family_name: payload.family_name
