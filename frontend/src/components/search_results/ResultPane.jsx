@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'; 
+import React, { useContext, useEffect, useState } from 'react'; 
+import axios from 'axios';
 import { makeStyles } from "@material-ui/core/styles";
 import SearchContext from './SearchContext'
 import BookCard from './BookCard';
@@ -17,25 +18,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tempResults = [
- // removed other mock data
- {
-  id: "1",
-  imgURL: "", 
-  title: "1My TitleMy TitleMy TitleMy TitleMy Title", 
-  year: "Year",
-  category: "book", 
-  author: ["Author A", "Author B", "Author C"], 
-  isbn: "ISBN-ISBN-ISBN",
-  courseCode: "CMSC 128", 
-  topic: ['Topic1', 'Topic2', 'Topic3']
-},
-]
-
-
 function ResultPane(){
   const searchContext = useContext(SearchContext);
   const classes = useStyles();
+  const [books, setBooks] = useState([]);
+
+  /**
+   * temporary get request to a mock book api
+   */
+  const getBook = async() =>{
+    try{
+      const books = await axios.get("https://60a7910e3b1e13001717684a.mockapi.io/api/books/books");
+      setBooks(books.data);
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(() =>{
+    getBook()
+  }, []);
+
 
   return(
     <Container className= {classes.container}>
@@ -43,18 +46,18 @@ function ResultPane(){
         <Typography variant="body2">No. of results</Typography>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
-        {tempResults.map((result) => {
+        {books.map((result) => {
           return(
             <GridListTile key= {result.id}>
               <BookCard 
                 //** userType temporarily filled */
                 userType="Faculty"
-                imgURL={result.imgURL}
+                imgURL={result.book_cover_img}
                 title={result.title} 
                 year={result.year} 
                 author={result.author} 
                 isbn={result.isbn}
-                courseCode={result.courseCode} 
+                courseCode={result.course_code} 
                 topic={result.topic}/>
             </GridListTile>
           );
