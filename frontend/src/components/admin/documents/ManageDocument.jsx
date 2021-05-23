@@ -68,7 +68,7 @@ const [document, setDocument] = useState("");
                             </Box>
                             
                             <div className = "button-right">
-                            <button aria-label="save" className={classes.saveStyle}><SaveIcon style={{ color: 'black' }}/></button>
+                            <button aria-label="save" className={classes.saveStyle}><SaveIcon className={classes.iconStyle}/></button>
                             </div>
                         </div>
                     </div>
@@ -79,6 +79,9 @@ const [document, setDocument] = useState("");
 
 const useStyles = makeStyles(() => ({
     textStyle: {
+        '&:hover': {
+            color: "#47ABD8",
+         },
         background:'transparent',
         padding: '0',
         color:'black',
@@ -86,15 +89,20 @@ const useStyles = makeStyles(() => ({
         'margin-left': '0',
         fontSize:'25px', 
         fontWeight:'bold', 
-        fontFamily:'Arial'
+        border:'transparent',
+        fontFamily:'Arial',
     },
     iconStyle: {
+        '&:hover': {
+            color: "#b3e5fc",
+         },
         color:'black', 
         width:'5vh', 
         height:'5vh'
     },
     saveStyle:{ 
         backgroundColor: '#47ABD8', 
+        border:'transparent',
         borderRadius:'10vh', 
         width:'10vh', 
         height:'10vh'
