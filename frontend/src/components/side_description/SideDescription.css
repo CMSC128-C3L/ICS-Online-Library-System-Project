@@ -1,0 +1,47 @@
+.flex-left {
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+}
+
+.sidecard {
+    width: 30%;
+    height: fit-content;
+    background-color: rgba(251, 251, 251, 1);
+    padding: 1em;
+    border-radius: 1em;
+}
+
+.text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.desc-header {
+    font-style: italic;
+}
+
+.list {
+    list-style-type: none;
+}
+
+.list li::before{
+    content: "\2022";
+    color: #47abdb;
+    width: 1em;
+    display: inline-block;
+}
+
+.margin-bot-1{
+    margin-bottom: 1em;
+}
+
+.space-0 {
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 880px) {
+    .sidecard {
+        width: 80%
+    }
+}

@@ -8,6 +8,8 @@ import {BrowserRouter as Link, Router, Route} from 'react-router-dom'
 import Footer from './components/footer/Footer'
 import SearchPage from './pages/SearchPage'
 import GuestHome from './pages/GuestHome'
+import SummaryPage from './pages/SummaryPage'
+import SummaryPageAuthor from './pages/SummaryPageAuthor'
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route exact path="/manageDocuments"  component={AdminDocManagement} />
           <Route exact path="/browseAnalytics" component={AdminAnalytics} />
           <Route exact path="/search" component={SearchPage} />
+          <Route exact path="/courseSummary" component={SummaryPage} />
+          <Route exact path="/authorSummary" component={SummaryPageAuthor} />
         </Switch>
       </BrowserRouter>
       <Footer></Footer>

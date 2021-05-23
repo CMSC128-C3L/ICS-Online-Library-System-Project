@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import './Navbar.css';
 import icsLogo from '../../assets/ics_logo.png';
 import searchIcon from '../../assets/magnifying_glass.png';
+import SearchContext from '../search_results/SearchContext';
 
 function Navbar(props){
+    const searchContext = useContext(SearchContext);
+
+	// for tracking the local changes on query being typed
+	const [query, setQuery] = useState('');
+
+	const handleChange = (event) =>{
+		setQuery(event.target.value);
+	};
+	
+	// for dispatching the submitted query to be used in showing results
+	const handleSubmit = (event) => {
+		event.preventDefault()
+        searchContext.dispatch({
+			type: props.action,
+			query: query
+		});
+    };
+
+
     return(
         <div className="Navbar">
                 {/* LEFT SIDE START */}
@@ -16,9 +36,9 @@ function Navbar(props){
                     <div className="topSide">
                         <div className="search">
                             <div className="icon-input">
-                                <form onSubmit={props.searchBook} action="">
-                                    <input onChange={props.handleSearch} type="text" placeholder="Search..."/>
-                                    <button type="submit" onClick={props.handleClick}><img src={searchIcon} alt="SearchIcon" /></button>
+                                 <form onChange={ handleChange } onSubmit={ handleSubmit } action="">
+                                    <input type="text" placeholder="Search..."/>
+                                    <button type="submit" onClick={ handleSubmit }><img src={searchIcon} alt="SearchIcon" /></button>
                                 </form>
                             </div>
                         </div>

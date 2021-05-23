@@ -1,8 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CheckList from './CheckList';
+// import CheckList from './CheckList';
+import CategoryChecklist from './CategoryChecklist';
+import TopicChecklist from './TopicChecklist';
 import Typography from '@material-ui/core/Typography';
 import ReferenceDropdown from './ReferenceDropdown'
+import { ACTIONS } from '../../pages/SearchPage';
 
 const category = {'name': 'Category', 'list': ["Books", "Journals", "Special Problems", "Theses"]};
 const topic = {
@@ -35,9 +38,9 @@ function FilterSideBar(){
 	return(
 		<div className={classes.filterContainer}>
 			<Typography variant="h6">Filter Results</Typography>
-			<CheckList listName={category.name} list={category.list} hlimit={30}/>
-			<ReferenceDropdown />
-			<CheckList listName={topic.name} list={topic.list} hlimit={'none'}/>
+			<CategoryChecklist list={category.list} action={ACTIONS.updateCategory} hlimit={30}/>
+			<ReferenceDropdown action={ACTIONS.updateCourseCode} />
+			<TopicChecklist list={topic.list} action={ACTIONS.updateTopic} hlimit={'none'}/>
 		</div>
 	);
 }

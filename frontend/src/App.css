@@ -7,15 +7,15 @@ body {
   padding: 0;
 }
 
+/* SearchPage */
 .main{
   display: flex;
 }
 
-.results{
-  flex: auto;
+.result-pane{
+  /* flex: auto; */
   background-color: #ffffff;
 }
-
 
 html, body {
     margin: 0;
