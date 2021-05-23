@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	cover: {
 		padding: 10,
-		width: 120,
-		height: 180,
+		width: 140,
+		height: 200,
 	},
 	title: {
 		maxWidth: 300,
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 	author: {
 		fontStyle: 'italic',
 	},
-	topic: {
+	tags: {
 		marginLeft: '0.5em',
 	},
 	filler: {
@@ -63,7 +63,7 @@ function BookCard(props) {
 		<Card className= {classes.card}>
 			<CardMedia className={classes.cover} image={props.imgURL} title={props.title}/>
 			<CardContent className={classes.content}>
-				<CardActionArea onClick={() => console.log('HEY')}>
+				<CardActionArea onClick={() => console.log('temporary BookCard onClick')}>
 					<Typography className={classes.title} noWrap={true} variant="h6">
 						{props.title}
 					</Typography>
@@ -89,13 +89,16 @@ function BookCard(props) {
 							</Typography>
 						</div>
 						<div>
-							<Typography gutterBottom variant="body2">
-								Reference for: {props.courseCode}
+							<Typography noWrap gutterBottom variant="body2">
+								Reference for:
+								{props.courseCode.map((course, index) => {
+									return <span className= {classes.tags} key={course} >{ index? (', ' + course) : course}</span>
+								})}
 							</Typography>
-							<Typography gutterBottom variant="body2">
+							<Typography noWrap gutterBottom variant="body2">
 								Topic: 
-								{props.topic.map((topic) => {
-									return <span className= {classes.topic} key={topic} >{topic}</span>
+								{props.topic.map((topic, index) => {
+									return <span className= {classes.tags} key={topic} >{ index? (', ' + topic) : topic}</span>
 								})}
 							</Typography>
 						</div>
