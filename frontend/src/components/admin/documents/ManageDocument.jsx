@@ -7,6 +7,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import EditIcon from '@material-ui/icons/Edit';
 import DocumentCard from './DocumentCard';
 import TagsInput from './TagsInput';
+import CardMedia from "@material-ui/core/CardMedia";
 import './DocumentCard.css';
 
 function ManageDocument(props) {
@@ -15,8 +16,8 @@ const [document, setDocument] = useState("");
 
     const getDocument = async() =>{
         try{
-            const documents = await axios.get("https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline");
-            console.log(documents);
+            const documents = await axios.get("https://60a7910e3b1e13001717684a.mockapi.io/api/books/books");
+            console.log(documents.data);
             setDocument(documents.data[0]);
         }catch(e){
             console.log(e)
@@ -35,17 +36,17 @@ const [document, setDocument] = useState("");
                 {
                     <div>
                         <div className='document-card-flex-row'>
-                            <div className='image-card-container-flex-column' >
-                            <img src={document.image_link} alt="" className="thumbnail"></img>
+                            <div className='image-card-container' >
+                            <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
                             </div>
                             
                             <div className='document-card-container document-card-flex-column' key={document.id}>
                             <DocumentCard
-                                title={document.name}
-                                author={document.brand} 
-                                yearPublished={document.id}
-                                publisher={document.product_type}
-                                docISBN={document.id}
+                                title={document.title}
+                                author={document.author} 
+                                yearPublished={document.year}
+                                publisher={document.author}
+                                docISBN={document.isbn}
                             />
                             <TagsInput/>
                             </div>
@@ -59,12 +60,13 @@ const [document, setDocument] = useState("");
                         <div className="description-section">
                             <h2>DESCRIPTION</h2>
                             <Box className={classes.boxStyle}>
-                                {document.description}
-                                {document.description}
-                                {document.description}
-                                {document.description}
-                                {document.description}
-                                {document.description}
+                                {document.topic}{document.topic}{document.topic}{document.topic}{document.topic}
+                                {document.topic}{document.topic}{document.topic}{document.topic}{document.topic}
+                                {document.topic}{document.topic}{document.topic}{document.topic}{document.topic}
+                                {document.topic}{document.topic}{document.topic}{document.topic}{document.topic}
+                                {document.topic}{document.topic}{document.topic}{document.topic}{document.topic}
+                                {document.topic}{document.topic}{document.topic}{document.topic}{document.topic}
+                                {document.topic}{document.topic}{document.topic}{document.topic}{document.topic}
                             </Box>
                             
                             <div className = "button-right">
@@ -112,6 +114,11 @@ const useStyles = makeStyles(() => ({
         wordWrap: "break-word",
         wordBreak: "break-all",
         maxWidth: "80em"
+    },
+    imageStyle:{
+        width: '300px', 
+        height: '500px', 
+        objectFit: 'cover'
     }
   }));
 
