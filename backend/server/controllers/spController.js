@@ -13,7 +13,6 @@ async function getAll(req, res) {
 	try{
 	//get All Sp
 	const sp = await Sp.find({type:"Special Problem"});
-    console.log(sp);
     res.status(200).send(sp);
 
 	}catch(err){

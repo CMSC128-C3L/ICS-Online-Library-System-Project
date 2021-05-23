@@ -6,7 +6,7 @@ const User = require('../models/User.js');
 
 module.exports = {
   searchUser,
-  searchAllByTitle,
+  searchAll,
   searchThesis,
   searchBook,
   searchJournal,
@@ -28,65 +28,65 @@ async function searchUser(req, res) {
 	
 }
 
-async function searchAllByTitle(req, res) {
+async function searchAll(req, res) {
 	try{
 		const result = [];
-		const thesis = await Thesis.find({title:req.query.title});
-		const book = await Book.find({title:req.query.title});
-		const journal = await Journal.find({title:req.query.title});
-		const sp = await Sp.find({title:req.query.title});
+		let query = new RegExp(req.query.search, 'i');
+		const thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		const book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {"course code":{$regex: query}}]});
+		// const journal = await Journal.find({title:req.query.title});
+		const sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
 
 		result.push(thesis);
 		result.push(book);
-		result.push(journal);
+		// result.push(journal);
 		result.push(sp);
 
 		res.status(200).send(result);
 	}catch(error){
-		res.status(404).send();
+		res.status(500).send();
 	}
 }
 
 async function searchThesis(req, res) {
 	try{
-		Thesis.find({title:req.query.title}, (err, thesis) => {
-			if(thesis != null) res.status(200).send(thesis);
-			else res.status(404).send("Thesis not found!");
-		});
+		let query = new RegExp(req.query.search, 'i');
+		const thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		if(thesis != null) res.status(200).send(thesis);
+		else res.status(404).send("Thesis not found!");
 	}catch(error){
-		res.status(404).send();
+		res.status(500).send();
 	}
 }
 
-
 async function searchBook(req, res) {
 	try{
-		Book.find({title:req.query.title}, (err, book) => {
-			if(book != null) res.status(200).send(book);
-			else res.status(404).send("Book not found!");
-		});
+		let query = new RegExp(req.query.search, 'i');
+		const book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {"course code":{$regex: query}}]});
+		if(book != null) res.status(200).send(book);
+		else res.status(404).send("Book not found!");
 	}catch(error){
-		res.status(404).send();
+		res.status(500).send();
 	}
 }
 
 async function searchJournal(req, res) {
 	try{
-		Journal.find({title:req.query.title}, (err, journal) => {
-			if(journal != null) res.status(200).send(journal);
-			else res.status(404).send("Journal not found!");
-		});
+		let query = new RegExp(req.query.search, 'i');
+		const journal = await Journal.find({title: {$regex: query}});
+		if(journal != null) res.status(200).send(journal);
+		else res.status(404).send("Journal not found!");
 	}catch(error){
-		res.status(404).send();
+		res.status(500).send();
 	}
 }
 
 async function searchSp(req, res) {
 	try{
-		Sp.find({title:req.query.title}, (err, sp) => {
-			if(sp != null) res.status(200).send(sp);
-			else res.status(404).send("SP not found!");
-		});
+		let query = new RegExp(req.query.search, 'i');
+		const sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		if(sp != null) res.status(200).send(sp);
+		else res.status(404).send("SP not found!");
 	}catch(error){
 		res.status(404).send();
 	}
