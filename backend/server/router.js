@@ -1,11 +1,36 @@
-const controller = require('./controller')
+const express = require('express');
+const User = require('./controllers/userController.js');
+const Thesis = require('./controllers/thesisController.js');
+const auth = require('./middlewares/auth.js');
+const router = new express.Router;
 
-//All paths here are temporary, for template purposes only
-//this exports a function that has the 'app' as the parameter
-//get and post methods are not limited to these
+// Sample test route
+router.get('/api', (req, res) => {
+  res.send({message: 'OK'});
+});
 
-module.exports = (app) => {
-	app.get('/', controller.ui)
-	app.get('/user/:username', controller.user)
-	app.post("/login", controller.login)
-}
+// User routes
+router.post('/api/users/login', User.login);
+router.get('/api/users/logout', auth, User.logout);
+
+// Thesis routes
+router.get('/api/thesis/sample', auth, Thesis.sample)
+
+
+// SP routes
+
+
+// Book routes
+
+
+// Journal routes
+
+
+//
+
+
+//
+
+
+//
+module.exports = router;

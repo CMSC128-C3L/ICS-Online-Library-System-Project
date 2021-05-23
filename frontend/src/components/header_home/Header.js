@@ -1,6 +1,8 @@
 import './Header.css'
 import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
+import Login from '../login/Login'
+
 function Header() {
     const history = useHistory();
     return(
@@ -16,7 +18,7 @@ function Header() {
                 </div>
             
                 <div className="Header-container-right" >
-                    <Button className="Button" onClick={() => history.push('/login')}>Name</Button>
+                    <Login/>
                     <Button className="Button" onClick={() => history.push('/support')}>Support</Button>
                 </div>  
             </div>

@@ -1,8 +1,7 @@
 import React, { useReducer } from 'react';
 import FilterSideBar from "../components/filter_sidebar/FilterSideBar";
 import Navbar from "../components/navigation_bar/Navbar";
-// import SearchResults from "./components/search_results/Books";
-import Footer from '../components/footer/Footer';
+// import SearchResults from "../components/search_results/BookList";
 
 function SearchPage() {
 
@@ -11,7 +10,7 @@ function SearchPage() {
       <Navbar className="nav"/>
       <div className="main">
         <FilterSideBar className="sidebar"/>
-        <div className="results">Results</div>
+        {/* <SearchResults className="results"/> */}
       </div>
     </div>
   );

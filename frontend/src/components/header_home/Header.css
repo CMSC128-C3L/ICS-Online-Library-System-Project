@@ -43,11 +43,13 @@
 }
 
 .Button{
-    color:#47abdb !important;
+    color: #47abdb !important;
     margin: 1vw;
     height: 3.5vw;
     max-height: 3.5vw;
-    width: 6vw;
-    max-width: 6vw; 
+    width: 10vw; 
     margin-right: 2vw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }

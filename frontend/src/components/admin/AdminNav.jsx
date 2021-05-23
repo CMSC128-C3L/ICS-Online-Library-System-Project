@@ -9,7 +9,7 @@ import navStyle from './AdminHome.css'
 
 function AdminNav() {
     return (
-        <div className="bg bg-container">
+        <div className="adminbg adminbg-container">
             <AdminAnalyticsTile></AdminAnalyticsTile>
             <div className="nav nav-container">
                 <AdminButton title="Manage documents" description="Create, update, and delete documents (journals, books, etc.)" link="manageDocuments"> 
