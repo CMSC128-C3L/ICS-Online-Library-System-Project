@@ -24,8 +24,9 @@ router.delete('/api/thesis/:id', auth, isAdmin, Thesis.deleteOne);
 
 // SP routes
 const Sp = require('./controllers/spController.js');
-router.get('/api/sp', Sp.getAll);
-router.get('/api/sp/:id', Sp.getOne);
+router.get('/api/sp',auth, Sp.getAll);
+router.get('/api/sp/:id',auth, Sp.getOne);
+router.post('/api/sp',auth, isAdmin, Sp.create);
 
 
 
