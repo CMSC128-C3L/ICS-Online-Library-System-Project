@@ -105,7 +105,8 @@ function bookBase(data) {
     book.isbn = data.isbn;
     book.book_cover_img = data.book_cover_img;
     book.description = data.description;
-    book.topics = data.topics;
+    book.topic = data.topic;
+    book.course_code = data["course code"];
 
     return book;
 }
