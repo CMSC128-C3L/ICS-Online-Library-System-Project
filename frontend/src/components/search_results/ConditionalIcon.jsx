@@ -8,21 +8,17 @@ import EditIcon from '@material-ui/icons/Edit';
 const useStyles = makeStyles((theme) => ({
   controlIcons: {
 		marginTop: '4.5em',
-		marginRight: '1em',
 	},
 	downloadButton: {
 		"&:hover": {
 			color: '#95D2EC',
 		}
 	},
-  editDelete: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
   editButton: {
     "&:hover": {
 			color: '#95D2EC',
-		}
+		},
+    marginBottom: '5px',
   },
   deleteButton:{
     "&:hover": {
