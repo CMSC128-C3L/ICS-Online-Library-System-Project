@@ -7,7 +7,11 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 module.exports = {
   login,
-  logout
+  logout,
+  getAll,
+  getOne,
+  update,
+  deleteOne
 }
 
 async function login(req, res) {
@@ -69,6 +73,26 @@ async function logout(req, res) {
     
   } catch(error) {
     // console.log(error);
+    res.status(500).send();
+  }
+}
+
+async function getAll(req, res) {
+  try {
+    const allUsers = await User.find();
+    res.status(200).send(allUsers);
+  } catch(error) {
+    res.status(500).send();
+  }
+}
+
+async function getOne(req, res) {
+  try {
+    const _id = req.params.id;
+    const user = await User.find();
+    if(!user) return res.status(404).send();
+    res.status(200).send(user);
+  } catch(error) {
     res.status(500).send();
   }
 }
