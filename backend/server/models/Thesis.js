@@ -30,6 +30,7 @@ const topics = [
 ];
 
 const thesisSchema = new mongoose.Schema({
+  id: Number,
   type: {
     type: String,
     default: 'Thesis'
