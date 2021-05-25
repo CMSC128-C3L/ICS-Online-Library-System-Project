@@ -72,3 +72,18 @@ async function logout(req, res) {
     res.status(500).send();
   }
 }
+
+async function update(req, res) {
+  try {
+    const userUpdate = req.body;
+    const _id = req.params.id;
+    const updateOptions = {
+      new: true
+    };
+    const updatedUser = await User.findOneAndUpdate({_id}, userUpdate, updateOptions);
+    if(!updatedUser) return res.status(404).send();
+    res.sstatus(200).send(updatedUser);
+  } catch(error) {
+    res.status(400).send();
+  }
+}
