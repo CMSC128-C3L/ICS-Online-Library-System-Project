@@ -13,6 +13,10 @@ router.get('/api', (req, res) => {
 // User routes
 router.post('/api/users/login', User.login);
 router.get('/api/users/logout', auth, User.logout);
+router.get('/api/users', auth, isAdmin, User.getAll);
+router.get('/api/users/:id', auth, isAdmin, User.getOne);
+router.post('/api/users/:id', auth, isAdmin, User.update);
+router.delete('/api/users/:id', auth, isAdmin, User.deleteOne);
 
 // Thesis routes
 router.get('/api/thesis/', auth, Thesis.getAll);
