@@ -87,3 +87,14 @@ async function update(req, res) {
     res.status(400).send();
   }
 }
+
+async function deleteOne(req, res) {
+  try {
+    const _id = req.params.id;
+    const deletedUser = await User.findOneAndDelete({_id});
+    if(!deletedUser) return res.status(404).send();
+    res.status(200).send(deletedUser);
+  } catch(error) {
+    res.status(500).send();
+  }
+}
