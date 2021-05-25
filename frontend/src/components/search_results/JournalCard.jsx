@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import ConditionalIcon from "./ConditionalIcon";
 import './SearchCard.css'
 
-function BookCard(props) {
+function JournalCard(props) {
 
 	return(
 		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}}>
@@ -57,4 +57,4 @@ function BookCard(props) {
 }
 
 
-export default BookCard;
+export default JournalCard;
