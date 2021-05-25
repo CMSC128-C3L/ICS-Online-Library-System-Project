@@ -55,7 +55,10 @@ router.get('/api/search/thesis', Search.searchThesis);
 router.get('/api/search/book', Search.searchBook);
 router.get('/api/search/journal', Search.searchJournal);
 router.get('/api/search/sp', Search.searchSp);
-
+router.get('/api/search/filter/book', Search.advanceSearchBook);
+router.get('/api/search/filter/thesis', Search.advanceSearchThesis);
+router.get('/api/search/filter/sp', Search.advanceSearchSp);
+router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
 
 //

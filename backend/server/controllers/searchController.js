@@ -10,7 +10,11 @@ module.exports = {
   searchThesis,
   searchBook,
   searchJournal,
-  searchSp
+  searchSp,
+  advanceSearchBook,
+  advanceSearchThesis,
+  advanceSearchSp,
+  advanceSearchJournal
 }
 
 async function searchUser(req, res) {
@@ -88,6 +92,105 @@ async function searchSp(req, res) {
 		if(sp != null) res.status(200).send(sp);
 		else res.status(404).send("SP not found!");
 	}catch(error){
-		res.status(404).send();
+		res.status(500).send();
+	}
+}
+
+
+async function advanceSearchBook(req, res) {
+	try{
+		let query = new RegExp(req.query.search, 'i');
+		let courseCode = req.query.courseCode;
+		let topics = req.query.topic;
+		let book;
+		
+		if(typeof(topics) === 'object' && courseCode != ''){//it's an array 
+			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], "course code": courseCode, topic: { $all : topics}});
+		}else if(typeof(topics) === 'object' && courseCode == ''){
+			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {"course code":{$regex: query}}], topic: { $all : topics}});
+		}else if (topics == '' && courseCode != ''){//it's empty
+			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}], "course code": courseCode});
+		}else if(topics == '' && courseCode == ''){
+			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {"course code":{$regex: query}}]});
+		}else{//it's a string
+			if(courseCode != ''){
+				book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], "course code": courseCode, topic: topics});
+			}else{
+				book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {"course code":{$regex: query}}], topic: topics});
+			}
+		}
+		if(book != null) res.status(200).send(book);
+		else res.status(404).send("Book not found!");
+	}catch{
+		res.status(500).send();
+	}
+}
+
+async function advanceSearchThesis(req, res) {
+	try{
+		let query = new RegExp(req.query.search, 'i');
+		let topics = req.query.topic;
+		let thesis;
+
+		if(typeof(topics) === 'object'){//it's an array 
+			thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:{$all:topics}});
+		}else if(topics == ''){
+			thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		}else{//it's a string
+			thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:topics});
+		}
+		if(thesis != null) res.status(200).send(thesis);
+		else res.status(404).send("Thesis not found!");
+	}catch{
+		res.status(500).send();
+	}
+}
+
+async function advanceSearchSp(req, res) {
+	try{
+		let query = new RegExp(req.query.search, 'i');
+		let topics = req.query.topic;
+		let sp;
+
+		if(typeof(topics) === 'object'){//it's an array 
+			sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:{$all:topics}});
+		}else if(topics == ''){
+			sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		}else{//it's a string
+			sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:topics});
+		}
+		if(sp != null) res.status(200).send(sp);
+		else res.status(404).send("SP not found!");
+	}catch{
+		res.status(500).send();
+	}
+}
+
+async function advanceSearchJournal(req, res) {
+	try{
+		let query = new RegExp(req.query.search, 'i');
+		let courseCode = req.query.courseCode;
+		let topics = req.query.topic;
+		let journal;
+
+		// if(typeof(topics) === 'object' && courseCode != ''){//it's an array 
+		// 	book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], "course code": courseCode, topic: { $all : topics}});
+		// }else if(typeof(topics) === 'object' && courseCode == ''){
+		// 	book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {"course code":{$regex: query}}], topic: { $all : topics}});
+		// }else if (topics == '' && courseCode != ''){//it's empty
+		// 	book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}], "course code": courseCode});
+		// }else if(topics == '' && courseCode == ''){
+		// 	book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {"course code":{$regex: query}}]});
+		// }else{//it's a string
+		// 	if(courseCode != ''){
+		// 		book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], "course code": courseCode, topic: topics});
+		// 	}else{
+		// 		book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {"course code":{$regex: query}}], topic: topics});
+		// 	}
+		// }
+		if(journal != null) res.status(200).send(journal);
+		else res.status(404).send("Journal not found!");
+	}catch{
+		res.status(500).send();
 	}
 }
