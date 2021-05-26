@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import {useHistory} from 'react-router-dom'
 import googleIcon from '../../assets/googleIcon.png';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
-import '../header_home/Header.css';
+import '../header_user/Header.css';
+import {UserContext} from '../user/UserContext'
 
 // refresh token
 // import { refreshTokenSetup } from '../utils/refreshToken';
@@ -13,6 +14,8 @@ const clientId = '138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleuserc
 
 function Login() {
   const history = useHistory();
+  const {loggedUser, setLoggedUser} = useContext(UserContext) 
+
   const onSuccess = async (res) => {
     var auth2 = window.gapi.auth2.getAuthInstance();
     console.log('Login Success: currentUser:', res.profileObj);
@@ -35,16 +38,19 @@ function Login() {
       });
     } else {
       
-      const data = await response.json(); 
+      const data = await response.json();
+      setLoggedUser(res.profileObj);
       console.log('data', data);
       localStorage.setItem('token', data.token);
-      history.push(`/loggedIn/adminHome/1${res.profileObj.googleId}`); //if success, redirect to user account
+      history.push(`/loggedIn/adminHome/1${res.profileObj.googleID}`); //if success, redirect to user account
       alert(
         `Logged in successfully welcome ${res.profileObj.name}. \n See console for full profile object.`
       );
       // refreshTokenSetup(res);
     }
   };
+
+
 
   const onFailure = (res) => {
     console.log('Login failed: res:', res);
