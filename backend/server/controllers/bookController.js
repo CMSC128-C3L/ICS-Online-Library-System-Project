@@ -98,6 +98,7 @@ async function deleteBook(req, res) {
 */
 function bookBase(data) {
     const book = {}
+    book.id = data._id;
     book.title = data.title;
     book.year = data.year;
     book.author = data.author;
