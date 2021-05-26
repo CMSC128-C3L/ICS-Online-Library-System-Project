@@ -1,13 +1,15 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableFooter, TablePagination, Avatar} from '@material-ui/core'
 import './ManageUsers.css'
+import Modal from '../../manage_user_popup/Modal'
 import UserTablePaginationActions from './UserTablePaginationActions'
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
+
 function UserTable(records, headCells) {
 
 //initialize collection of user data to an empty array
@@ -117,9 +119,13 @@ const handleChangeRowsPerPage = (event) =>{
         }
     }
 
+    const editModal = useRef(null)
+    const openEditModal = (person) => {
+        console.log(person.name)
+        editModal.current.open(person)
+    }
     
     return (
-        
         <div className="manageusers manageusers-container">
             <input className="searchbar" type="text" placeholder=" Search User" onChange={e=>{
                 setSearch(e.target.value)
@@ -129,6 +135,7 @@ const handleChangeRowsPerPage = (event) =>{
 
           
             <div>
+                <Modal ref={editModal}></Modal>
                 <TableContainer component={Paper} className="usertable usertable-container">
                 <Table aria-label="users" > 
                 <TableHead>
@@ -164,8 +171,17 @@ const handleChangeRowsPerPage = (event) =>{
                                         {createClassificationCell(person.classification)}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <IconButton aria-label="delete" className="iconbutton-view"><DeleteIcon/></IconButton>
-                                        <IconButton aria-label="edit"  className="iconbutton-view"><EditIcon/></IconButton>
+                                        <IconButton
+                                            aria-label="delete"
+                                            className="iconbutton-view"
+                                            // onClick={openModal}
+                                            >
+                                                <DeleteIcon/>
+                                        </IconButton>
+                                        
+                                        <IconButton aria-label="edit" className="iconbutton-view" onClick={() => openEditModal(person)}>
+                                                <EditIcon/>
+                                        </IconButton>
                                     </TableCell>
                                 </TableRow>
 
