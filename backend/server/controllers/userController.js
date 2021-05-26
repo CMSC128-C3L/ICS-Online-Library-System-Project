@@ -78,8 +78,11 @@ async function logout(req, res) {
 }
 
 async function getAll(req, res) {
+  const findOptions = {
+    tokens: 0
+  }
   try {
-    const allUsers = await User.find();
+    const allUsers = await User.find({}, findOptions);
     res.status(200).send(allUsers);
   } catch(error) {
     res.status(500).send();
@@ -87,9 +90,12 @@ async function getAll(req, res) {
 }
 
 async function getOne(req, res) {
+  const findOptions = {
+    tokens: 0
+  }
   try {
     const _id = req.params.id;
-    const user = await User.find({_id});
+    const user = await User.find({_id}, findOptions);
     if(!user) return res.status(404).send();
     res.status(200).send(user);
   } catch(error) {
