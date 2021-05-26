@@ -6,6 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import ConditionalIcon from "./ConditionalIcon";
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -56,14 +57,15 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
+//() => history.push(`/search/${props.id}`)
 function BookCard(props) {
 	const classes = useStyles();
+	const history = useHistory();
 	return(
 		<Card className= {classes.card}>
 			<CardMedia className={classes.cover} image={props.imgURL} title={props.title}/>
 			<CardContent className={classes.content}>
-				<CardActionArea onClick={() => console.log('temporary BookCard onClick')}>
+				<CardActionArea onClick={() => history.push(`/search/${props._id}`)}>
 					<Typography className={classes.title} noWrap={true} variant="h6">
 						{props.title}
 					</Typography>

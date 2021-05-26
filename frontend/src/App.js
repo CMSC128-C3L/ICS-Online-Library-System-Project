@@ -13,7 +13,8 @@ import SummaryPage from './pages/SummaryPage'
 import SummaryPageAuthor from './pages/SummaryPageAuthor'
 import { UserContext } from './components/user/UserContext';
 import HomePageRoute from './components/route/HomePageRoute';
-
+import AdminPageProtectRoute from './components/route/AdminPageProtectRoute';
+import SeeDocument from './pages/SeeDocument'
 
 function App() {
   const [loggedUser, setLoggedUser] = useState({});
@@ -29,10 +30,11 @@ function App() {
           <UserContext.Provider value={{loggedUser, setLoggedUser}}>
             <Route exact path="/" component={GuestHome} />
             <Route exact path="/loggedIn/" component={GuestHome} />
-           <HomePageRoute exact path="/adminHome" component={AdminHome} />
-            <Route exact path="/adminHome/manageUsers"  component={AdminUserManagement} />
-            <Route exact path="/adminHome/manageDocuments"  component={AdminDocManagement} />
-            <Route exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
+            <HomePageRoute exact path="/adminHome" component={AdminHome} />
+            <AdminPageProtectRoute exact path="/adminHome/manageUsers" component={AdminUserManagement} />
+            <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={AdminDocManagement} />
+            <Route exact path="/search/:id"  component={SeeDocument} />
+            <AdminPageProtectRoute exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
             <Route exact path="/search" component={SearchPage} />
             <Route exact path="/courseSummary" component={SummaryPage} />
             <Route exact path="/authorSummary" component={SummaryPageAuthor} />

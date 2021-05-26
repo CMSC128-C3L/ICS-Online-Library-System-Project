@@ -55,6 +55,7 @@ function ResultPane(){
               <BookCard 
                 //** userType temporarily filled */
                 userType={loggedUser.classification}
+                _id={result._id}
                 imgURL={result.book_cover_img}
                 title={result.title} 
                 year={result.year} 

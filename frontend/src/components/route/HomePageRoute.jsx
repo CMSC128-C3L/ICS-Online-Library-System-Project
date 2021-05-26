@@ -27,7 +27,7 @@ function HomePageRoute({component: Component, ...rest}) {
                 else{
                     return <Redirect 
                         to={{
-                            path: "/",
+                            pathname: "/",
                             state: {
                                 from: props.location
                             }
