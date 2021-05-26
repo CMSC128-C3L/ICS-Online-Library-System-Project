@@ -110,9 +110,13 @@ async function update(req, res) {
     const updateOptions = {
       new: true
     };
-    const updatedUser = await User.findOneAndUpdate({_id}, userUpdate, updateOptions);
+    const updatedUser = await User.findOneAndUpdate(
+      {_id}, 
+      userUpdate, 
+      updateOptions
+      ).select("-tokens");
     if(!updatedUser) return res.status(404).send();
-    res.sstatus(200).send(updatedUser);
+    res.status(200).send(updatedUser);
   } catch(error) {
     res.status(400).send();
   }
