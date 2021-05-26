@@ -1,19 +1,15 @@
-import React from 'react'
+import { useRadioGroup } from '@material-ui/core'
+import React, {useContext} from 'react'
 import { UserContext } from './Modal'
 import './styles.css'
 
 function DeleteUser({ children }){
-    return(
-        <UserContext.Consumer>
-            {(user) => {
-                return (
-                    <div>
-                        {user.name}
+    const {user} = useContext(UserContext)
 
-                    </div>
-                )
-            }}
-        </UserContext.Consumer>
+    return(
+        <div>
+            <h1>Delete User: {user.name}</h1>
+        </div>
     )
 }
 

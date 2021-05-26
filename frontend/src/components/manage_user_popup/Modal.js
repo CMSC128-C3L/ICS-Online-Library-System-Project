@@ -27,7 +27,9 @@ function Modal({ children }, ref){
                 <div className="modal-box">
                     <button id="close-button" onClick={close}>X</button>
                     
-                    <UserContext.Provider value={user}>
+                    <UserContext.Provider value={{
+                        user:user,
+                    }}>
                         {children}
                     </UserContext.Provider>
                 </div>

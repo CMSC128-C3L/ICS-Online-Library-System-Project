@@ -1,20 +1,15 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { UserContext } from './Modal'
 import './styles.css'
 
 // Edit User UI, user state is from parent Modal
 function EditUser({ children }){
+    const {user} = useContext(UserContext);
+    
     return(
-        <UserContext.Consumer>
-            {(user) => {
-                // TODO: 
-                return (
-                    <div>
-                        {user.name}
-                    </div>
-                )
-            }}
-        </UserContext.Consumer>
+        <div>
+            <h1>Edit User: {user.name}</h1>
+        </div>
     )
 }
 
