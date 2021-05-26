@@ -12,9 +12,10 @@ module.exports = {
 async function getAll(req, res) {
     try {
         const data = await Book.find({});   // get all of the books
-        const book = data.map(item => bookBase(item));
-        res.status(200).send(book);     // respond with the array of books
-        
+        // console.log(data);
+        // const book = data.map(item => bookBase(item));
+        // res.status(200).send(book);     // respond with the array of books
+        res.status(200).send(data);
     } catch (err) {
         console.log(err);
         res.status(400).send({message:"error"});
@@ -31,9 +32,9 @@ async function get(req, res) {
         if (data === null) 
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
-        const book = bookBase(data);
-        res.status(200).send(book);     // respond with specified book
-
+        // const book = bookBase(data);
+        // res.status(200).send(book);     // respond with specified book
+        res.status(200).send(data); 
     } catch(err) {
         console.log(err);
         res.status(400).send({message:"error"});
@@ -105,6 +106,7 @@ function bookBase(data) {
     book.isbn = data.isbn;
     book.book_cover_img = data.book_cover_img;
     book.description = data.description;
+    book.course_code = data.course_code;
     book.topics = data.topics;
 
     return book;

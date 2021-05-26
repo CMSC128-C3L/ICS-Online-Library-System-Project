@@ -28,7 +28,7 @@ function ResultPane(){
    */
   const getBook = async() =>{
     try{
-      const books = await axios.get("https://60a7910e3b1e13001717684a.mockapi.io/api/books/books");
+      const books = await axios.get("/api/books"); //https://60a7910e3b1e13001717684a.mockapi.io/api/books/books
       setBooks(books.data);
     }catch(err){
       console.log(err)
