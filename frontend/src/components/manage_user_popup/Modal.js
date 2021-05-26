@@ -8,17 +8,21 @@ function Modal({ children }, ref) {
     const [display, setDisplay] = useState(false)
     const close = useCallback(() => setDisplay(false), [])
 
+    // Share open and close methods to parent DOM
     useImperativeHandle(ref, () => ({
-        open: () => setDisplay(true),
+        open: (user) => {
+            setDisplay(true);
+        },
         close
     }), [close])
 
+    // Show modal if display === true, else show null
     return ReactDOM.createPortal(
         display?
-            <div className="modal-container">
+            <div className="modal-wrapper">
                 <div className="modal-backdrop"/>
                 <div className="modal-box">
-                    <button onClick={close}>X</button>
+                    <button id="close-button" onClick={close}>X</button>
                     {children}
                 </div>
             </div> : null,

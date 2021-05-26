@@ -4,7 +4,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    border: 1px solid;
 }
 
 .modal-backdrop {
@@ -26,8 +25,19 @@
     overflow-y: auto;
     background-color: white;
     box-shadow: 0 0 10px rgba(0,0,0,0.25);
-    margin-bottom: 20px;
     border-radius: 0.5em;
     padding-left: 1%;
     padding-right: 1%;
+    padding-top: 1em;
+}
+
+#close-button {
+    float: right;
+    margin-left: auto;
+    background-color: transparent;
+    border: none;
+}
+
+#close-button:hover {
+    color: #47abdb;
 }

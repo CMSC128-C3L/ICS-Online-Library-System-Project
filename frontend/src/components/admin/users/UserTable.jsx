@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
+import EditUser from '../../manage_user_popup/EditUser'
+import DeleteUser from '../../manage_user_popup/DeleteUser'
 
 function UserTable(records, headCells) {
 
@@ -119,11 +121,11 @@ const handleChangeRowsPerPage = (event) =>{
         }
     }
 
+    // Create reference to modal
     const editModal = useRef(null)
-    const openEditModal = (person) => {
-        console.log(person.name)
-        editModal.current.open(person)
-    }
+    const deleteModal = useRef(null)
+    const openEditModal = () => {editModal.current.open()}
+    const openDeleteModal = () => {deleteModal.current.open()}
     
     return (
         <div className="manageusers manageusers-container">
@@ -135,7 +137,14 @@ const handleChangeRowsPerPage = (event) =>{
 
           
             <div>
-                <Modal ref={editModal}></Modal>
+                <Modal ref={editModal}>
+                    <EditUser></EditUser>
+                </Modal>
+
+                <Modal ref={deleteModal}>
+                    <DeleteUser></DeleteUser>
+                </Modal>
+
                 <TableContainer component={Paper} className="usertable usertable-container">
                 <Table aria-label="users" > 
                 <TableHead>
@@ -174,13 +183,15 @@ const handleChangeRowsPerPage = (event) =>{
                                         <IconButton
                                             aria-label="delete"
                                             className="iconbutton-view"
-                                            // onClick={openModal}
-                                            >
-                                                <DeleteIcon/>
+                                            onClick={() => openDeleteModal(person)}>
+                                            <DeleteIcon/>
                                         </IconButton>
                                         
-                                        <IconButton aria-label="edit" className="iconbutton-view" onClick={() => openEditModal(person)}>
-                                                <EditIcon/>
+                                        <IconButton
+                                            aria-label="edit"
+                                            className="iconbutton-view"
+                                            onClick={() => openEditModal(person)}>
+                                            <EditIcon/>
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>
