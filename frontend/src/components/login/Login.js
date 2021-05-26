@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import googleIcon from '../../assets/googleIcon.png';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import '../header_user/Header.css';
-import {UserContext} from '../user/UserContext'
+import decode from 'jwt-decode';
+import { UserContext } from '../user/UserContext'
 
 // refresh token
 // import { refreshTokenSetup } from '../utils/refreshToken';
@@ -14,7 +15,7 @@ const clientId = '138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleuserc
 
 function Login() {
   const history = useHistory();
-  const {loggedUser, setLoggedUser} = useContext(UserContext) 
+  const {loggedUser, setLoggedUser} = useContext(UserContext); 
 
   const onSuccess = async (res) => {
     var auth2 = window.gapi.auth2.getAuthInstance();
@@ -39,7 +40,11 @@ function Login() {
     } else {
       
       const data = await response.json();
-      setLoggedUser(res.profileObj);
+
+      // store user token verified by backend server
+      const user = decode(data.token);
+      setLoggedUser(user);
+
       console.log('data', data);
       localStorage.setItem('token', data.token);
       history.push(`/loggedIn/adminHome/1${res.profileObj.googleID}`); //if success, redirect to user account
