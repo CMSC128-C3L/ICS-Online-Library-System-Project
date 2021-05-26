@@ -1,7 +1,6 @@
 import React from 'react';
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import ConditionalIcon from "./ConditionalIcon";
 import './SearchCard.css'
@@ -47,7 +46,7 @@ function JournalCard(props) {
 							 {props.doc.author.slice(0,4).map((author, index) => {
 									return (index < 3)? 
 									<span className="doc-author" key={author}>{ index ? (', ' + author) : author}</span> : 
-									<span className="doc-author" key={author}>{", et al."}</span>
+									<span className="doc-author" key={author}>{', et al.'}</span>
 								})}
 							</Typography>
 							<Typography gutterBottom variant="body2">
@@ -70,6 +69,7 @@ function JournalCard(props) {
 			</div>
 			<ConditionalIcon 
 				className="doc-icons" 
+				isBook = {false}
 				handleDownload={handleDownload} 
 				handleEdit={handleEdit} 
 				handleDelete={handleDelete}/>
