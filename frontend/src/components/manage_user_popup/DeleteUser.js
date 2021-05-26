@@ -1,4 +1,4 @@
-import React, {forwardRef, useCallback, useContext, useImperativeHandle, useState} from 'react'
+import React from 'react'
 import { UserContext } from './Modal'
 import './styles.css'
 
@@ -9,6 +9,7 @@ function DeleteUser({ children }){
                 return (
                     <div>
                         {user.name}
+
                     </div>
                 )
             }}

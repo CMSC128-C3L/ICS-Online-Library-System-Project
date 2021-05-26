@@ -64,7 +64,7 @@ const handleChangeRowsPerPage = (event) =>{
        return (user.filter(person=>{
 
             //if search is blank, all items are considered
-            if(search==""){
+            if(search===""){
                 return person
             
             //if search is not empty, filter contents accdg to search
@@ -85,12 +85,12 @@ const handleChangeRowsPerPage = (event) =>{
     const sortRows = (array) =>{
     array.sort((a, b) => {
             if (a.name > b.name) {
-                if(sortType == 1) return 1;
+                if(sortType === 1) return 1;
                 else return -1;
             }
 
             if (a.name < b.name) {
-                if(sortType == 1) return -1;
+                if(sortType === 1) return -1;
                 else return 1;
             }
             return 0;
@@ -147,7 +147,7 @@ const handleChangeRowsPerPage = (event) =>{
                             <TableCell align="center"><h2 className="table-heading">Avatar</h2></TableCell>
                             <TableCell align="center"><h2 className="table-heading">ID</h2></TableCell>
                             <TableCell align="center">
-                                <span style={{display: "inline-flex"}}><IconButton onClick={() => {setSortType(-1 * sortType); sortRows(user); }}>{(sortType == 1) ? <ArrowUpward className="arrow-button"/> : <ArrowDownward className="arrow-button"/>}</IconButton>
+                                <span style={{display: "inline-flex"}}><IconButton onClick={() => {setSortType(-1 * sortType); sortRows(user); }}>{(sortType === 1) ? <ArrowUpward className="arrow-button"/> : <ArrowDownward className="arrow-button"/>}</IconButton>
                                 <h2 className="table-heading">Name</h2></span>
                             </TableCell>
                             <TableCell align="center"><h2 className="table-heading">Email</h2></TableCell>
@@ -156,7 +156,7 @@ const handleChangeRowsPerPage = (event) =>{
                         </TableRow>
                 </TableHead>
                 <TableBody>
-                    {filterRows().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(person=>{{
+                    {filterRows().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(person=>{
                             return (
                                 <TableRow justifyContent="center">
                                     <TableCell align="center">
@@ -192,7 +192,7 @@ const handleChangeRowsPerPage = (event) =>{
                                 </TableRow>
 
                             )
-                    }}
+                    }
 
                     )}
                     

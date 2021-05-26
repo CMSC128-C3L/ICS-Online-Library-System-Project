@@ -6,8 +6,8 @@ const portal = document.getElementById('portal')
 export const UserContext = createContext()
 
 function Modal({ children }, ref){
+    var [user, setUser] = useState({})
     const [display, setDisplay] = useState(false)
-    const [user, setUser] = useState({})
     const close = useCallback(() => setDisplay(false), [])
 
     // Share open and close methods to parent DOM
@@ -18,8 +18,6 @@ function Modal({ children }, ref){
         },
         close
     }), [close])
-
-    console.log(user)
 
     // Show modal if display === true, else show null
     return ReactDOM.createPortal(
