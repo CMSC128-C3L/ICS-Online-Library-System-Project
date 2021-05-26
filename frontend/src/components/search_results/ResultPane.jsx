@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from '@material-ui/core/Container';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import { UserContext } from '../user/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -19,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResultPane(){
+
+  const {loggedUser, setLoggedUser} = useContext(UserContext);
   const searchContext = useContext(SearchContext);
   const classes = useStyles();
   const [books, setBooks] = useState([]);
@@ -51,7 +54,7 @@ function ResultPane(){
             <GridListTile key= {result.id}>
               <BookCard 
                 //** userType temporarily filled */
-                userType="Faculty"
+                userType={loggedUser.classification}
                 imgURL={result.book_cover_img}
                 title={result.title} 
                 year={result.year} 

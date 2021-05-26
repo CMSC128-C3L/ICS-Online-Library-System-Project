@@ -3,8 +3,12 @@ import './Navbar.css';
 import icsLogo from '../../assets/ics_logo.png';
 import searchIcon from '../../assets/magnifying_glass.png';
 import SearchContext from '../search_results/SearchContext';
+import { UserContext } from '../user/UserContext';
+import Logout from '../login/Logout';
 
 function Navbar(props){
+
+    const {loggedUser, setLoggedUser} = useContext(UserContext)
     const searchContext = useContext(SearchContext);
 
 	// for tracking the local changes on query being typed
@@ -60,8 +64,8 @@ function Navbar(props){
                 {/* RIGHT SIDE START */}
                 <div className="rightSide">
                     <div className="useraccount">
-                        Fname Lname
-                        <a href="/logout">Logout</a>
+                        {loggedUser.given_name}
+                        <Logout></Logout>
                     </div>  
                 </div>
                 {/* RIGHT SIDE END */}

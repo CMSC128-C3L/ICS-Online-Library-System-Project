@@ -47,7 +47,7 @@ function Login() {
 
       console.log('data', user);
       localStorage.setItem('token', data.token);
-      history.push(`/loggedIn/adminHome/1${res.profileObj.googleID}`); //if success, redirect to user account
+      history.push(`/adminHome`); //if success, redirect to user account
       alert(
         `Logged in successfully welcome ${res.profileObj.name}. \n See console for full profile object.`
       );
