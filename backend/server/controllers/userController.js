@@ -125,7 +125,7 @@ async function update(req, res) {
 async function deleteOne(req, res) {
   try {
     const _id = req.params.id;
-    const deletedUser = await User.findOneAndDelete({_id});
+    const deletedUser = await User.findOneAndDelete({_id}).select("-tokens");
     if(!deletedUser) return res.status(404).send();
     res.status(200).send(deletedUser);
   } catch(error) {
