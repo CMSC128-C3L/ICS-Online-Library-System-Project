@@ -52,16 +52,10 @@ function ResultPane(){
         {books.map((result) => {
           return(
             <GridListTile key= {result.id}>
-                {/* userType temporarily filled */}
-                <BookCard 
-                userType="Admin"
-                imgURL={result.book_cover_img}
-                title={result.title} 
-                year={result.year} 
-                author={result.author} 
-                isbn={result.isbn}
-                courseCode={result.course_code} 
-                topic={result.topic}/>
+              <BookCard doc={result}/>
+              {/* <ThesisCard doc={result}/> */}
+              {/* <SpCard doc={result}/> */}
+              {/* <JournalCard doc={result}/> */}
             </GridListTile>
           );
         })}

@@ -8,19 +8,37 @@ import './SearchCard.css'
 
 function BookCard(props) {
 
+	/**
+	 * callbacks passed to ConditionalIcon, triggered upon onClick
+	 * handle edit, download, delete actions inside these functions
+	 * properties of the doc such as _id can be accessed via props.doc
+	 */ 	
+
+	function handleDownload(){
+		console.log('[BOOK] when download button clicked: ', props.doc);
+	}
+
+	function handleEdit(){
+		console.log('[BOOK] when edit button clicked: ', props.doc);
+	}
+
+	function handleDelete(){
+		console.log('[BOOK] when delete button clicked: ', props.doc);
+	}
+
 	return(
 		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}}>
-			<CardMedia className="doc-cover" image={props.imgURL} title={props.title}/>
+			<CardMedia className="doc-cover" image={props.doc.book_cover_img} title={props.doc.title}/>
 				<CardActionArea onClick={() => console.log('temporary BookCard onClick')}>
 					<Typography className="doc-title" noWrap={true} variant="h6" style={{fontWeight: '600'}}>
-						{props.title}
+						{props.doc.title}
 					</Typography>
 				</CardActionArea>
 
 				<div className="doc-book-content">
 					<div className="doc-year-category">
 						<Typography className="doc-year" variant="subtitle2">
-							{props.year}
+							{props.doc.year}
 						</Typography>
 						<Typography className="doc-category" variant="subtitle2" style={{fontWeight: '600'}}>
 							BOOK
@@ -31,26 +49,26 @@ function BookCard(props) {
 						<div>							
 							{/* max 3 authors shown; will wrap and no ellipsis; et al shown for the other authors */}
 							<Typography gutterBottom variant="body2">
-							 {props.author.slice(0,4).map((author, index) => {
+							 {props.doc.author.slice(0,4).map((author, index) => {
 									return (index < 3)? 
 									<span className="doc-author" key={author}>{ index ? (', ' + author) : author}</span> : 
-									<span>{", et al."}</span>
+									<span className="doc-author" key={author}>{", et al."}</span>
 								})}
 							</Typography>
 							<Typography gutterBottom variant="body2">
-								ISBN: {props.isbn}
+								ISBN: {props.doc.isbn}
 							</Typography>
 						</div>
 						<div>
 							<Typography noWrap gutterBottom variant="body2">
 								{'Reference for: '}
-								{props.courseCode.map((course, index) => {
+								{props.doc.course_code.map((course, index) => {
 									return <span className= "doc-tags" key={course} >{ index? (', ' + course) : course}</span>
 								})}
 							</Typography>
 							<Typography noWrap gutterBottom variant="body2">
 								{'Topic: '} 
-								{props.topic.map((topic, index) => {
+								{props.doc.topic.map((topic, index) => {
 									return <span className= "doc-tags" key={topic} >{ index? (', ' + topic) : topic}</span>
 								})}
 							</Typography>
@@ -59,7 +77,11 @@ function BookCard(props) {
 					
 			</div>
 
-			<ConditionalIcon className="doc-icons" userType={props.userType} />
+			<ConditionalIcon 
+				className="doc-icons" 
+				handleDownload={handleDownload} 
+				handleEdit={handleEdit} 
+				handleDelete={handleDelete}/>
 		</Card>
 	);
 }
