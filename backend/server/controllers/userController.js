@@ -89,7 +89,7 @@ async function getAll(req, res) {
 async function getOne(req, res) {
   try {
     const _id = req.params.id;
-    const user = await User.find();
+    const user = await User.find({_id});
     if(!user) return res.status(404).send();
     res.status(200).send(user);
   } catch(error) {
