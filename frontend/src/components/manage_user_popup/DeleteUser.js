@@ -1,10 +1,18 @@
-import React from 'react'
+import React, {forwardRef, useCallback, useContext, useImperativeHandle, useState} from 'react'
+import { UserContext } from './Modal'
+import './styles.css'
 
-function DeleteUser(props){
+function DeleteUser({ children }){
     return(
-        <div>
-            <h1>Delete User here</h1>
-        </div>
+        <UserContext.Consumer>
+            {(user) => {
+                return (
+                    <div>
+                        {user.name}
+                    </div>
+                )
+            }}
+        </UserContext.Consumer>
     )
 }
 

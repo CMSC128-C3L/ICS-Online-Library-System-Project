@@ -1,20 +1,25 @@
-import React, { forwardRef, useImperativeHandle, useState, useCallback } from 'react'
+import React, {createContext, forwardRef, useCallback, useImperativeHandle, useState} from 'react'
 import ReactDOM from 'react-dom'
 import './styles.css'
 
 const portal = document.getElementById('portal')
+export const UserContext = createContext()
 
-function Modal({ children }, ref) {
+function Modal({ children }, ref){
     const [display, setDisplay] = useState(false)
+    const [user, setUser] = useState({})
     const close = useCallback(() => setDisplay(false), [])
 
     // Share open and close methods to parent DOM
     useImperativeHandle(ref, () => ({
         open: (user) => {
             setDisplay(true);
+            setUser(user);
         },
         close
     }), [close])
+
+    console.log(user)
 
     // Show modal if display === true, else show null
     return ReactDOM.createPortal(
@@ -23,7 +28,10 @@ function Modal({ children }, ref) {
                 <div className="modal-backdrop"/>
                 <div className="modal-box">
                     <button id="close-button" onClick={close}>X</button>
-                    {children}
+                    
+                    <UserContext.Provider value={user}>
+                        {children}
+                    </UserContext.Provider>
                 </div>
             </div> : null,
         portal

@@ -2,13 +2,13 @@ import React, {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableFooter, TablePagination, Avatar} from '@material-ui/core'
 import './ManageUsers.css'
-import Modal from '../../manage_user_popup/Modal'
 import UserTablePaginationActions from './UserTablePaginationActions'
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
+import Modal from '../../manage_user_popup/Modal'
 import EditUser from '../../manage_user_popup/EditUser'
 import DeleteUser from '../../manage_user_popup/DeleteUser'
 
@@ -124,8 +124,8 @@ const handleChangeRowsPerPage = (event) =>{
     // Create reference to modal
     const editModal = useRef(null)
     const deleteModal = useRef(null)
-    const openEditModal = () => {editModal.current.open()}
-    const openDeleteModal = () => {deleteModal.current.open()}
+    const openEditModal = (user) => {editModal.current.open(user)}
+    const openDeleteModal = (user) => {deleteModal.current.open(user)}
     
     return (
         <div className="manageusers manageusers-container">
@@ -137,13 +137,8 @@ const handleChangeRowsPerPage = (event) =>{
 
           
             <div>
-                <Modal ref={editModal}>
-                    <EditUser></EditUser>
-                </Modal>
-
-                <Modal ref={deleteModal}>
-                    <DeleteUser></DeleteUser>
-                </Modal>
+                <Modal ref={editModal}><EditUser/></Modal>
+                <Modal ref={deleteModal}><DeleteUser/></Modal>
 
                 <TableContainer component={Paper} className="usertable usertable-container">
                 <Table aria-label="users" > 

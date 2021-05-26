@@ -1,12 +1,18 @@
-import React, {useState} from 'react'
+import React, {forwardRef, useCallback, useContext, useImperativeHandle, useState} from 'react'
+import { UserContext } from './Modal'
+import './styles.css'
 
-function EditUser(props){
-    const [user, setUser] = useState(null)
-    console.log(props.ref)
+function EditUser({ children }){
     return(
-        <div>
-            <h1>Edit user here</h1>
-        </div>
+        <UserContext.Consumer>
+            {(user) => {
+                return (
+                    <div>
+                        {user.name}
+                    </div>
+                )
+            }}
+        </UserContext.Consumer>
     )
 }
 
