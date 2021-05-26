@@ -23,7 +23,7 @@ function Header({name}) {
         else{
             return(
                   <div className="Header-container-right" >
-                    <Button className="Button">{loggedUser.name}</Button>
+                    <Button className="Button">{loggedUser.given_name}</Button>
                     <Logout/>
                 </div>
             )

@@ -45,7 +45,7 @@ function Login() {
       const user = decode(data.token);
       setLoggedUser(user);
 
-      console.log('data', data);
+      console.log('data', user);
       localStorage.setItem('token', data.token);
       history.push(`/loggedIn/adminHome/1${res.profileObj.googleID}`); //if success, redirect to user account
       alert(
