@@ -24,10 +24,11 @@ async function login(req, res) {
     });
     const payload = ticket.getPayload();
     // get user name, email 
-    const { name, email } = payload;
+    const { name, email, picture } = payload;
     // find user in db
     let user = await User.findOne({email});
     let classification; // variable to save the classification of user
+    let profile_picture = picture;
     // If user is not found, add a classification and save to db
     if(!user) {
       const splitEmail = email.split('@');
@@ -35,7 +36,7 @@ async function login(req, res) {
       if(splitEmail[1] !== 'up.edu.ph') return res.status(401).send();
       else classification = "Student"; // at least up student
       // Save email and classification to db
-      user = new User({name, email, classification});
+      user = new User({name, email, classification, profile_picture});
       await user.save();
     }
      // create jwt
