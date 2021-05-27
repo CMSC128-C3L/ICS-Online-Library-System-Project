@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react'
+import axios from 'axios'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import { UserContext } from './Modal'
 import './styles.css'
+import decode from 'jwt-decode'
 
 // Edit User UI, user state is from parent Modal
 function EditUser({ children }){
@@ -16,8 +18,19 @@ function EditUser({ children }){
     }
     
     const handleSave = () =>{
-        if (origClassif !== currClassif){           
-            // something has changed and must update db
+        if (origClassif !== currClassif){        
+
+            // send patch request to update and save changes in db
+            const updateUser = async () => {
+                try{
+                    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, params: {id: user._id},}
+                    const res = await axios.patch("/api/users/"+user._id, { classification: currClassif }, options)  
+                    console.log(res)         
+                }catch(e){
+                    console.log(e)
+                }
+            }
+            updateUser()
         }
     }
 
@@ -35,8 +48,7 @@ function EditUser({ children }){
                 onChange={handleChange}
                 >
                 <option aria-label="Current" value={currClassif}>{currClassif.toUpperCase()}</option>
-                {/* {["Admin", "Faculty", "Staff", "Student"].map((classification) => { */}
-                {["classification 1", "classification 2", "classification 3", "classification 4"].map((classif) => {
+                {["Admin", "Faculty", "Staff", "Student"].map((classif) => {
                     return(
                         classif !== currClassif? 
                         <option key={classif} value={classif}>{classif.toUpperCase()}</option> :

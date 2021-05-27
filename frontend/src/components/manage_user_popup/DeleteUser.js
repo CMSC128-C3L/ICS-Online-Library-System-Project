@@ -1,5 +1,5 @@
-import { useRadioGroup } from '@material-ui/core'
 import React, {useContext} from 'react'
+import axios from 'axios'
 import { UserContext } from './Modal'
 import './styles.css'
 
@@ -7,8 +7,18 @@ function DeleteUser({ children }){
     const {user} = useContext(UserContext)
 
     function handleDelete(){
-        console.log("delete has been clicked!")
-        /** do something here */
+
+        // send delete request to deleter user in db
+        const deleteUser = async () => {
+            try{
+                let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, params: {id: user._id},}
+                const res = await axios.delete("/api/users/"+user._id, options)  
+                console.log(res)         
+            }catch(e){
+                console.log(e)
+            }
+        }   
+        deleteUser()
     }
 
     function handleCancel(){
