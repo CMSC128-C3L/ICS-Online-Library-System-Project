@@ -106,13 +106,8 @@ function bookBase(data) {
     book.isbn = data.isbn;
     book.book_cover_img = data.book_cover_img;
     book.description = data.description;
-<<<<<<< HEAD
     book.course_code = data.course_code;
     book.topics = data.topics;
-=======
-    book.topic = data.topic;
-    book.course_code = data["course code"];
->>>>>>> feature03-user-popup
 
     return book;
 }
