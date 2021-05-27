@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   controlIcons: {
@@ -37,12 +38,6 @@ const handleDownload = (event) => {
    */
 }
 
-const handleEdit = (event) => {
-  /**
-   * do nothing for now
-   */
-}
-
 const handleDelete = (event) => {
   /**
    * do nothing for now
@@ -56,6 +51,12 @@ const handleDelete = (event) => {
 
 function ConditionalIcon(props){
   const classes = useStyles();
+	const history = useHistory();
+
+  const handleEdit = (props) => {
+    history.push(`/search/${props._id}`)
+  }
+
   return(
     <div className={classes.controlIcons}>
       {
@@ -71,7 +72,7 @@ function ConditionalIcon(props){
             case "Admin":
               return(
                 <div className={classes.editDelete}>
-                  <IconButton className={classes.editButton} onClick={handleEdit} aria-label="edit">
+                  <IconButton className={classes.editButton} onClick={(props) => handleEdit(props)} aria-label="edit">
                     <EditIcon fontSize="large"/>
                   </IconButton>
                   <IconButton className={classes.deleteButton} onClick={handleDelete} aria-label="delete">
