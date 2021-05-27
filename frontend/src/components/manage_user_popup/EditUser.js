@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import axios from 'axios'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import Modal, { UserContext } from './Modal'
 import ConfirmChange from './ConfirmChange'
 import './styles.css'
+import decode from 'jwt-decode'
 
 // Edit User UI, user state is from parent Modal
 function EditUser({ children }){
@@ -19,14 +21,25 @@ function EditUser({ children }){
         setClassif(event.target.value)
     }
     
-    const handleSave = (user) =>{
-        confirmModal.current.open(user)
-    }
+    const handleSave = (user) =>{confirmModal.current.open(user)}
 
     // do something here if confirmed then close modal
     useEffect(() => {
         if(confirmed){
-            console.log('yay confirmed edit')
+            if (origClassif !== currClassif){        
+
+                // send patch request to update and save changes in db
+                const updateUser = async () => {
+                    try{
+                        let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, params: {id: user._id},}
+                        const res = await axios.patch("/api/users/"+user._id, { classification: currClassif }, options)  
+                        console.log(res)         
+                    }catch(e){
+                        console.log(e)
+                    }
+                }
+                updateUser()
+            }
             close()
         }
     }, [confirmed])
@@ -46,8 +59,7 @@ function EditUser({ children }){
                 onChange={handleChange}
                 >
                 <option aria-label="Current" value={currClassif}>{currClassif.toUpperCase()}</option>
-                {/* {["Admin", "Faculty", "Staff", "Student"].map((classification) => { */}
-                {["classification 1", "classification 2", "classification 3", "classification 4"].map((classif) => {
+                {["Admin", "Faculty", "Staff", "Student"].map((classif) => {
                     return(
                         classif !== currClassif? 
                         <option key={classif} value={classif}>{classif.toUpperCase()}</option> :
