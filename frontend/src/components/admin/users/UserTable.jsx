@@ -43,7 +43,7 @@ const handleChangeRowsPerPage = (event) =>{
 
     const getUsers = async() =>{
         try{
-            const users = await axios.get("/api/users/");
+            const users = await axios.get("/api/users");
             console.log(users.data)
             setUser(users.data)
             setRowCount(users.data.length)
