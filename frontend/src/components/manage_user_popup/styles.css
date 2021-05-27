@@ -20,7 +20,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-height: 60%;
+    min-height: 50%;
     max-width: 25%;
     overflow-y: auto;
     background-color: white;
@@ -38,10 +38,12 @@
     margin-left: auto;
     background-color: transparent;
     border: none;
+    width: 2em;
+    height: auto;
 }
 
 #close-button:hover {
-    color: #47abdb;
+    fill: #47abdb;
 }
 
 .popup-container {
