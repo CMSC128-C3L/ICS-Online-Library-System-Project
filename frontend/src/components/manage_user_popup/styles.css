@@ -20,7 +20,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-height: 50%;
+    min-height: 60%;
     max-width: 25%;
     overflow-y: auto;
     background-color: white;
@@ -44,7 +44,7 @@
     color: #47abdb;
 }
 
-.edit-user-container {
+.popup-container {
     display: grid;
     height: 100%;
     margin: 2em;
@@ -53,7 +53,13 @@
     gap: 0.75em;
     grid-auto-flow: column;
     grid-template-columns: 1fr;
+}
+
+.edit-user{
     grid-template-rows: 1fr 0.25fr 0.25fr 0.25fr 0.5fr 0.5fr;
+}
+.delete-user{
+    grid-template-rows: 0.5fr 1fr 0.25fr 0.25fr 0.25fr 0.5fr;
 }
 
 .user-avatar {
@@ -79,12 +85,38 @@
     color: #C4C4C4;
 }
 
-#save-btn {
+.prompt {
+    display: flex;
+    text-align: center;
+    font-weight: 700;
+}
+
+.delete-cancel {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.popup-btn {
     margin-top: 2em;
-    background-color: #47ABD8;
     color: #FFF;
     border-radius: 0.5em;
     border-width: 0;
-    min-height: 60%;
+    min-height: 70%;
     min-width: 40%;
+}
+
+.save {
+    background-color: #47ABD8;
+}
+
+.delete {
+    background-color: #B04444;
+}
+
+.cancel {
+    color: #000;
+    background-color: #C4C4C4;
 }

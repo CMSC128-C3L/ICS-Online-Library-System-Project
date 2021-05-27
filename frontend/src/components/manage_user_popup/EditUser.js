@@ -22,7 +22,7 @@ function EditUser({ children }){
     }
 
     return(
-        <div className="edit-user-container">
+        <div className="edit-user popup-container">
             <img className="user-avatar" alt={user.name} src={user.avatar}/>
             <h3 className="text regular user-id">{user.id}</h3>
             <h2 className="text user-name">{user.name}</h2>
@@ -45,7 +45,7 @@ function EditUser({ children }){
                 })}
                 </Select>
             </FormControl>
-            <button id="save-btn" onClick={handleSave}>Save Changes</button>
+            <button className="save popup-btn" onClick={handleSave}>Save Changes</button>
         </div>
     )
 }
