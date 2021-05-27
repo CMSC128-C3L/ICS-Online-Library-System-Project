@@ -5,7 +5,6 @@ const auth = async(req, res, next) => {
   try {
     // Get the token from request authorization header
     const authHeader = req.header("Authorization");
-    console.log(authHeader);
     if(!authHeader) {
       // If there is no token, the user is not logged in a not logged in user is a guest
       req.user = {classification: 'Guest'};

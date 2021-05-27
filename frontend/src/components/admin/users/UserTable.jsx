@@ -43,7 +43,8 @@ const handleChangeRowsPerPage = (event) =>{
 
     const getUsers = async() =>{
         try{
-            const users = await axios.get("/api/users");
+            let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+            const users = await axios.get("/api/users", options)
             console.log(users.data)
             setUser(users.data)
             setRowCount(users.data.length)
