@@ -43,7 +43,8 @@ const handleChangeRowsPerPage = (event) =>{
 
     const getUsers = async() =>{
         try{
-            const users = await axios.get("https://60a7bc318532520017ae4d62.mockapi.io/user");
+            const users = await axios.get("/api/users/");
+            console.log(users.data)
             setUser(users.data)
             setRowCount(users.data.length)
         
