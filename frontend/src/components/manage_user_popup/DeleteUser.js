@@ -2,9 +2,7 @@ import { useRadioGroup } from '@material-ui/core'
 import React, {useContext, useState, useRef, useEffect} from 'react'
 import Modal, { UserContext } from './Modal'
 import ConfirmChange from './ConfirmChange'
-import React, {useContext} from 'react'
 import axios from 'axios'
-import { UserContext } from './Modal'
 import './styles.css'
 
 function DeleteUser({ children }){
