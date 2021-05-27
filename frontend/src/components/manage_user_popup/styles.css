@@ -32,6 +32,7 @@
 }
 
 #close-button {
+    height:auto;
     float: right;
     margin-left: auto;
     background-color: transparent;
@@ -39,5 +40,5 @@
 }
 
 #close-button:hover {
-    color: #47abdb;
+    fill: #47abdb;
 }
