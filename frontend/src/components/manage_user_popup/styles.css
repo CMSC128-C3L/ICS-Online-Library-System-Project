@@ -60,8 +60,13 @@
 .edit-user{
     grid-template-rows: 1fr 0.25fr 0.25fr 0.25fr 0.5fr 0.5fr;
 }
+
 .delete-user{
     grid-template-rows: 0.5fr 1fr 0.25fr 0.25fr 0.25fr 0.5fr;
+}
+
+.confirm-change{
+    grid-template-rows: repeat(4, 1fr);
 }
 
 .user-avatar {
@@ -110,6 +115,11 @@
     min-width: 40%;
 }
 
+.popup-btn:disabled {
+    background-color: rgb(71,171,216,0.5);
+    color: rgb(255,255,255,0.5)
+}
+
 .save {
     background-color: #47ABD8;
 }
@@ -121,4 +131,27 @@
 .cancel {
     color: #000;
     background-color: #C4C4C4;
+}
+
+.copy-disable {
+    user-select: none;
+}
+
+.key-container {
+    /* background-color: #47ABD8; */
+    /* color: white; */
+    border-radius: 5em;
+}
+
+.confirm-button {
+    font-size: 1.5em;
+    border-radius: 1em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    background-color: #47ABD8;
+    color: white;
+}
+
+.confirm-button:disabled {
+    background-color: rgb(71,171,216,0.5);
 }

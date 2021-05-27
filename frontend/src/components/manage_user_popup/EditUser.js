@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
-import { UserContext } from './Modal'
+import Modal, { UserContext } from './Modal'
+import ConfirmChange from './ConfirmChange'
 import './styles.css'
 
 // Edit User UI, user state is from parent Modal
@@ -10,19 +11,22 @@ function EditUser({ children }){
     const {user} = useContext(UserContext);
     const origClassif = user.classification;
     const [currClassif, setClassif] = useState(origClassif);
+    const confirmModal = useRef(null)
 
     const handleChange = (event) => {
         setClassif(event.target.value)
     }
     
-    const handleSave = () =>{
+    const handleSave = (user) =>{
         if (origClassif !== currClassif){           
             // something has changed and must update db
         }
+        confirmModal.current.open(user)
     }
 
     return(
         <div className="edit-user popup-container">
+            <Modal ref={confirmModal}><ConfirmChange>Confirm edit</ConfirmChange></Modal>
             <img className="user-avatar" alt={user.name} src={user.avatar}/>
             <h3 className="text regular user-id">{user.id}</h3>
             <h2 className="text user-name">{user.name}</h2>
@@ -45,7 +49,7 @@ function EditUser({ children }){
                 })}
                 </Select>
             </FormControl>
-            <button className="save popup-btn" onClick={handleSave}>Save Changes</button>
+            <button className="save popup-btn" onClick={() => handleSave(user)}>Save Changes</button>
         </div>
     )
 }
