@@ -45,7 +45,11 @@ function Login() {
       const user = decode(data.token);
       setLoggedUser(user);
 
+<<<<<<< HEAD
       console.log('data', user);
+=======
+      console.log('data', data);
+>>>>>>> feature03-user-popup
       localStorage.setItem('token', data.token);
       history.push(`/adminHome`); //if success, redirect to user account
       alert(

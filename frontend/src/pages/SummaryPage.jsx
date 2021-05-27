@@ -10,8 +10,4 @@ function SummaryPage(props){
     )
 }
 
-const works = () => {
-    
-}
-
 export default SummaryPage
