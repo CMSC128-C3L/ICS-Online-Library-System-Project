@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
@@ -8,25 +8,32 @@ import './styles.css'
 
 // Edit User UI, user state is from parent Modal
 function EditUser({ children }){
-    const {user} = useContext(UserContext);
+    const {user, close} = useContext(UserContext);
     const origClassif = user.classification;
     const [currClassif, setClassif] = useState(origClassif);
     const confirmModal = useRef(null)
+    const [confirmed, setConfirmed] = useState(false)
+    const handleConfirmation = () => {setConfirmed(true)}
 
     const handleChange = (event) => {
         setClassif(event.target.value)
     }
     
     const handleSave = (user) =>{
-        if (origClassif !== currClassif){           
-            // something has changed and must update db
-        }
         confirmModal.current.open(user)
     }
 
+    // do something here if confirmed then close modal
+    useEffect(() => {
+        if(confirmed){
+            console.log('yay confirmed edit')
+            close()
+        }
+    }, [confirmed])
+
     return(
         <div className="edit-user popup-container">
-            <Modal ref={confirmModal}><ConfirmChange>Confirm edit</ConfirmChange></Modal>
+            <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <img className="user-avatar" alt={user.name} src={user.avatar}/>
             <h3 className="text regular user-id">{user.id}</h3>
             <h2 className="text user-name">{user.name}</h2>

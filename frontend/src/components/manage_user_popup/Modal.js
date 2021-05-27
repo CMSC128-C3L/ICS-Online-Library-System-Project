@@ -6,15 +6,22 @@ const portal = document.getElementById('portal')
 export const UserContext = createContext()
 
 function Modal({ children }, ref){
-    var [user, setUser] = useState({})
-    const [display, setDisplay] = useState(false)
-    const close = useCallback(() => setDisplay(false), [])
-
+    const [details, setDetails] = useState({
+        user: {},
+        display: false,
+        closeModal: null
+    })
+    const close = useCallback(() => setDetails({...details, display:false}), [])
+    
     // Share open and close methods to parent DOM
     useImperativeHandle(ref, () => ({
         open: (user) => {
-            setDisplay(true);
-            setUser(user);
+            setDetails({
+                ...details,
+                user: user,
+                display: true,
+                closeModal: close,
+            })
         },
         close
     }), [close])
@@ -23,16 +30,17 @@ function Modal({ children }, ref){
     useEffect(() => {
         const closeOnESC = (e) => {
             if(e.key === 'Escape')
-                setDisplay(false)
+                setDetails({...details, display:false})
         }
         
         window.addEventListener('keydown', closeOnESC)
-        document.body.style.overflow = display? 'hidden' : 'unset'
-    }, [display])
+        document.body.style.overflow = details.display? 'hidden' : 'unset'
+    }, [details.display])
+
 
     // Show modal if display === true, else show null
     return ReactDOM.createPortal(
-        display?
+        details.display?
             <div className="modal-wrapper">
                 <div className="modal-backdrop"/>
                 <div className="modal-box">
@@ -41,7 +49,8 @@ function Modal({ children }, ref){
                     </button>
                     
                     <UserContext.Provider value={{
-                        user:user,
+                        user:details.user,
+                        close:details.closeModal
                     }}>
                         {children}
                     </UserContext.Provider>

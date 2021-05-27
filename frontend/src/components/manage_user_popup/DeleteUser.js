@@ -1,27 +1,34 @@
 import { useRadioGroup } from '@material-ui/core'
-import React, {useContext, useRef} from 'react'
+import React, {useContext, useState, useRef, useEffect} from 'react'
 import Modal, { UserContext } from './Modal'
 import ConfirmChange from './ConfirmChange'
 import './styles.css'
 
 function DeleteUser({ children }){
-    const {user} = useContext(UserContext)
+    const {user, close} = useContext(UserContext)
     const confirmModal = useRef(null)
+    const [confirmed, setConfirmed] = useState(false)
+    const handleConfirmation = () => {setConfirmed(true)}
 
     function handleDelete(){
-        console.log("delete has been clicked!")
-        /** do something here */
         confirmModal.current.open(user)
     }
 
     function handleCancel(){
-        console.log("cancel has been clicked!")
-        /** do something here */
+        close()
     }
+
+    // do something here if confirmed then close modal
+    useEffect(() => {
+        if(confirmed){
+            console.log('yay confirmed delete')
+            close()
+        }
+    }, [confirmed])
 
     return(
         <div className="delete-user popup-container">
-            <Modal ref={confirmModal}><ConfirmChange>Confirm edit</ConfirmChange></Modal>
+            <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <h3 className="text prompt">Are you sure you want to delete</h3>
             <img className="user-avatar" alt={user.name} src={user.avatar}/>
             <h3 className="text regular user-id">{user.id}</h3>
