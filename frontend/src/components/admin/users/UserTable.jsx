@@ -145,8 +145,6 @@ const handleChangeRowsPerPage = (event) =>{
             <div>
                 <Modal ref={editModal}><EditUser getUsers={getUsers}/></Modal>
                 <Modal ref={deleteModal}><DeleteUser getUsers={getUsers}/></Modal>
-                {/* <Modal ref={editModal}><EditUser setUser={setUser} setRowCount={setRowCount}/></Modal> */}
-                {/* <Modal ref={deleteModal}><DeleteUser setUser={setUser} setRowCount={setRowCount}/></Modal> */}
 
                 <TableContainer component={Paper} className="usertable usertable-container">
                 <Table aria-label="users" > 
