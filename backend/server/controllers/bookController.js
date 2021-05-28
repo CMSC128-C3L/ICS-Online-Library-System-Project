@@ -32,6 +32,7 @@ async function get(req, res) {
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
         const book = bookBase(data);
+        book.description = data.description;
         res.status(200).send(book);     // respond with specified book
 
     } catch(err) {
