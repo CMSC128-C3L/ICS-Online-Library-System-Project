@@ -1,7 +1,7 @@
 import React, {useEffect, useContext, useState} from 'react'
 import { UserContext } from './Modal'
 import TextField from '@material-ui/core/TextField';
-import './styles.css'
+import './Modal.css'
 
 // Functions to generate random string
 const dec2hex = (dec) => {return dec.toString(16).padStart(2,"0")}

@@ -1,6 +1,6 @@
 import React, {createContext, forwardRef, useCallback, useEffect, useImperativeHandle, useState} from 'react'
 import ReactDOM from 'react-dom'
-import './styles.css'
+import './Modal.css'
 
 const portal = document.getElementById('portal')
 export const UserContext = createContext()

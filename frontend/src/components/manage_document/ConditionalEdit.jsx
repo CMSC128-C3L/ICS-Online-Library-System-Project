@@ -57,6 +57,7 @@ function ConditionalEdit(props){
       {
         (function(allowEdit){
           switch(allowEdit){
+            // editable document
             case true:
               return(
                 <div> 
@@ -100,6 +101,7 @@ function ConditionalEdit(props){
                     </div>
                 </div>
               )
+              // unable to edit document
             case false:
               return(
                 <div> 

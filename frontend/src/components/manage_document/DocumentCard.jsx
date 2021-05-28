@@ -14,6 +14,3 @@ function DocumentCard(props){
 }
 
 export default DocumentCard
-
-
-
