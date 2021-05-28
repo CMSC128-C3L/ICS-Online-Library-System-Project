@@ -1,4 +1,3 @@
-import { useRadioGroup } from '@material-ui/core'
 import React, {useContext, useState, useRef, useEffect} from 'react'
 import Modal, { UserContext } from './Modal'
 import ConfirmChange from './ConfirmChange'
@@ -22,13 +21,15 @@ function DeleteUser({ children }){
     // do something here if confirmed then close modal
     useEffect(() => {
         if(confirmed){
-            console.log('yay confirmed delete')
-            
+
             // send delete request to deleter user in db
             const deleteUser = async () => {
                 try{
-                    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, params: {id: user._id},}
-                    const res = await axios.delete("/api/users/"+user._id, options)  
+                    let options =  {
+                        headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, 
+                        params: {id: user._id},
+                    }
+                    const res = await axios.delete(`/api/users/${user._id}`, options)  
                     console.log(res)         
                 }catch(e){
                     console.log(e)
