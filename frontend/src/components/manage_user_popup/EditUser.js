@@ -30,8 +30,13 @@ function EditUser({ children }){
                 // send patch request to update and save changes in db
                 const updateUser = async () => {
                     try{
-                        let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, params: {id: user._id},}
-                        const res = await axios.patch("/api/users/"+user._id, { classification: currClassif }, options)  
+                        let options =  {
+                            headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, 
+                            params: {id: user._id},
+                        }
+                        const res = await axios.patch(`/api/users/${user._id}`, { 
+                            "classification": currClassif }, 
+                            options)  
                         console.log(res)         
                     }catch(e){
                         console.log(e)

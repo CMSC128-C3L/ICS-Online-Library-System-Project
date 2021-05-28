@@ -21,11 +21,15 @@ function DeleteUser({ children }){
     // do something here if confirmed then close modal
     useEffect(() => {
         if(confirmed){
+
             // send delete request to deleter user in db
             const deleteUser = async () => {
                 try{
-                    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, params: {id: user._id},}
-                    const res = await axios.delete("/api/users/"+user._id, options)  
+                    let options =  {
+                        headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, 
+                        params: {id: user._id},
+                    }
+                    const res = await axios.delete(`/api/users/${user._id}`, options)  
                     console.log(res)         
                 }catch(e){
                     console.log(e)
