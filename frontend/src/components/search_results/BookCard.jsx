@@ -4,7 +4,6 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import ConditionalIcon from "./ConditionalIcon";
-import ConditionalEdit from "../browse_document/ConditionalEdit";
 import './SearchCard.css'
 import { useHistory } from 'react-router';
 
