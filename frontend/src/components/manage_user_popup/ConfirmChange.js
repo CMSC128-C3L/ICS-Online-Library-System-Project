@@ -12,7 +12,7 @@ const generateKey = (length) => {
 }
 
 function ConfirmChange(props){
-    const {user, close} = useContext(UserContext)
+    const {close} = useContext(UserContext)
     const [confirm, setConfirm] = useState({
         disable: true,
         key: ''
@@ -34,7 +34,9 @@ function ConfirmChange(props){
 
     // Generate key on first render
     useEffect(() => {
-        setConfirm({...confirm, key:generateKey(10)})
+        setConfirm(confirm => {
+            return {...confirm, key:generateKey(10)}
+        })
     }, [])
 
     return(

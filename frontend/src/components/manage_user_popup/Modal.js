@@ -11,10 +11,10 @@ function Modal({ children }, ref){
         display: false,
         closeModal: null
     })
-    const close = useCallback(() => setDetails({...details, display:false}), [])
+    const close = useCallback((details) => setDetails({...details, display:false}), [])
     
     // Share open and close methods to parent DOM
-    useImperativeHandle(ref, () => ({
+    useImperativeHandle(ref, (details) => ({
         open: (user) => {
             setDetails({
                 ...details,
@@ -30,7 +30,9 @@ function Modal({ children }, ref){
     useEffect(() => {
         const closeOnESC = (e) => {
             if(e.key === 'Escape')
-                setDetails({...details, display:false})
+                setDetails(details => {
+                    return {...details, display:false}
+                })
         }
         
         window.addEventListener('keydown', closeOnESC)

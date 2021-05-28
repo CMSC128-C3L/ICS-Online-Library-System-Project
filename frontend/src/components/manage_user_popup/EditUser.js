@@ -6,7 +6,6 @@ import Select from '@material-ui/core/Select'
 import Modal, { UserContext } from './Modal'
 import ConfirmChange from './ConfirmChange'
 import './styles.css'
-import decode from 'jwt-decode'
 
 // Edit User UI, user state is from parent Modal
 function EditUser({ children }){
@@ -42,7 +41,7 @@ function EditUser({ children }){
             }
             close()
         }
-    }, [confirmed])
+    }, [confirmed, close, user._id, origClassif, currClassif])
 
     return(
         <div className="edit-user popup-container">

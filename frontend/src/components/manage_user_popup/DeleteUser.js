@@ -1,4 +1,3 @@
-import { useRadioGroup } from '@material-ui/core'
 import React, {useContext, useState, useRef, useEffect} from 'react'
 import Modal, { UserContext } from './Modal'
 import ConfirmChange from './ConfirmChange'
@@ -22,8 +21,6 @@ function DeleteUser({ children }){
     // do something here if confirmed then close modal
     useEffect(() => {
         if(confirmed){
-            console.log('yay confirmed delete')
-            
             // send delete request to deleter user in db
             const deleteUser = async () => {
                 try{
@@ -37,7 +34,7 @@ function DeleteUser({ children }){
             deleteUser()
             close()
         }
-    }, [confirmed])
+    }, [confirmed, close, user._id])
 
     return(
         <div className="delete-user popup-container">
