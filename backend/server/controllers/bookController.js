@@ -32,6 +32,7 @@ async function get(req, res) {
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
         const book = bookBase(data);
+        book.description = data.description;
         res.status(200).send(book);     // respond with specified book
 
     } catch(err) {
@@ -98,13 +99,12 @@ async function deleteBook(req, res) {
 */
 function bookBase(data) {
     const book = {}
-    book.id = data._id;
+    book._id = data._id
     book.title = data.title;
     book.year = data.year;
     book.author = data.author;
     book.isbn = data.isbn;
     book.book_cover_img = data.book_cover_img;
-    book.description = data.description;
     book.topic = data.topic;
     book.course_code = data["course code"];
 
