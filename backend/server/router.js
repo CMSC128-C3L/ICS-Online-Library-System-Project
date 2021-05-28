@@ -27,6 +27,8 @@ const Sp = require('./controllers/spController.js');
 router.get('/api/sp',auth, Sp.getAll);
 router.get('/api/sp/:id',auth, Sp.getOne);
 router.post('/api/sp',auth, isAdmin, Sp.create);
+router.patch('/api/sp/:id', auth, isAdmin, Sp.update);
+router.delete('/api/sp/:id', auth, isAdmin, Sp.deleteSp);
 
 
 
