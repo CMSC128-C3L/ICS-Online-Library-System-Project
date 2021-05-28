@@ -4,7 +4,7 @@ import ConfirmChange from './ConfirmChange'
 import axios from 'axios'
 import './styles.css'
 
-function DeleteUser({ children }){
+function DeleteUser(props){
     const {user, close} = useContext(UserContext)
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
@@ -36,6 +36,10 @@ function DeleteUser({ children }){
                 }
             }   
             deleteUser()
+
+            // update users to trigger useEffect in User Table
+            props.getUsers()
+
             close()
         }
     }, [confirmed, close, user._id])

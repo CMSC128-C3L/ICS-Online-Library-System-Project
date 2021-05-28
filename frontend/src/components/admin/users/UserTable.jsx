@@ -11,6 +11,7 @@ import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import Modal from '../../manage_user_popup/Modal'
 import EditUser from '../../manage_user_popup/EditUser'
 import DeleteUser from '../../manage_user_popup/DeleteUser'
+import decode from 'jwt-decode'
 
 function UserTable(records, headCells) {
 
@@ -44,10 +45,12 @@ const handleChangeRowsPerPage = (event) =>{
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
 }
-
+    let users = []
     const getUsers = async() =>{
         try{
-            const users = await axios.get("https://60a7bc318532520017ae4d62.mockapi.io/user");
+            let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+            users = await axios.get("/api/users", options)
+            console.log(users.data)
             setUser(users.data)
             setRowCount(users.data.length)
         
@@ -59,6 +62,9 @@ const handleChangeRowsPerPage = (event) =>{
     useEffect(() => {
         getUsers()
     }, [])
+
+    // just re-render UserTable component upon successful update and delete user
+    useEffect(() => {   }, [users])
 
     const filterRows = () =>{
        return (user.filter(person=>{
@@ -137,8 +143,10 @@ const handleChangeRowsPerPage = (event) =>{
 
           
             <div>
-                <Modal ref={editModal}><EditUser/></Modal>
-                <Modal ref={deleteModal}><DeleteUser/></Modal>
+                <Modal ref={editModal}><EditUser getUsers={getUsers}/></Modal>
+                <Modal ref={deleteModal}><DeleteUser getUsers={getUsers}/></Modal>
+                {/* <Modal ref={editModal}><EditUser setUser={setUser} setRowCount={setRowCount}/></Modal> */}
+                {/* <Modal ref={deleteModal}><DeleteUser setUser={setUser} setRowCount={setRowCount}/></Modal> */}
 
                 <TableContainer component={Paper} className="usertable usertable-container">
                 <Table aria-label="users" > 
