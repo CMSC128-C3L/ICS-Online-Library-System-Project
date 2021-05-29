@@ -50,13 +50,21 @@ function JournalCard(props) {
 								})}
 							</Typography>
 							<Typography gutterBottom variant="body2">
-								{'ISBN: ' + props.doc.isbn}
+								{'Adviser: '} 
+								{props.doc.adviser.slice(0,4).map((author, index) => {
+									return (index < 2)? 
+									<span key={author}>{ index ? (', ' + author) : author}</span> : 
+									<span key={author}>{'...'}</span>
+								})}
 							</Typography>
+							{/*<Typography gutterBottom variant="body2">
+								{'ISBN: ' + props.doc.isbn}
+							</Typography>*/}
 						</div>
 						<div>
-							<Typography noWrap gutterBottom variant="body2">
-								{'Publication: ' + props.doc.publication}
-							</Typography>
+							{/*<Typography noWrap gutterBottom variant="body2">
+								{'Publication Date: ' + props.doc.pub_date}
+							</Typography>*/}
 							<Typography noWrap gutterBottom variant="body2">
 								{'Topic: '} 
 								{props.doc.topic.map((topic, index) => {

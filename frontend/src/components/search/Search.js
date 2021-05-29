@@ -1,6 +1,8 @@
 import './Search.css'
+import {useHistory} from 'react-router-dom'
 
 function Search() {
+    const history = useHistory();
     return (                    
         <form className="Search-area">
             <input className="App-search-bar" type="text" placeholder="Search..."/>

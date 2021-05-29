@@ -29,7 +29,7 @@ function ResultPane(){
   const [books, setBooks] = useState([]);
   const [thesis, setThesis] = useState([]);
   const [sp, setSp] = useState([]);
-  // const [journal, setJournal] = useState([]);
+  const [journal, setJournal] = useState([]);
 
   // sample get from api
   const getBook = async() =>{
@@ -38,13 +38,13 @@ function ResultPane(){
       const resources = await axios.all([
         axios.get("/api/books"),
         axios.get("/api/thesis"),
-        axios.get("/api/sp")
-        // axios.get("/api/journal")
+        axios.get("/api/sp"),
+        axios.get("/api/journal")
       ]);
       setBooks(resources[0].data);
       setThesis(resources[1].data);
       setSp(resources[2].data);
-      // setJournal(resources[3].data);
+      setJournal(resources[3].data);
     }catch(err){
       console.log(err)
     }
@@ -58,7 +58,7 @@ function ResultPane(){
   return(
     <Container className= {classes.container}>
       <div className= {classes.resultHeader}>
-        <Typography variant="body2">{(books.length+thesis.length+sp.length) + ' results'}</Typography>
+        <Typography variant="body2">{(books.length+thesis.length+sp.length+journal.length) + ' results'}</Typography>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {books.map((result) => {
@@ -82,13 +82,13 @@ function ResultPane(){
             </GridListTile>
           );
         })}
-        {/*{journal.map((result) => {
+        {journal.map((result) => {
           return(
             <GridListTile key= {result.id}>
                <JournalCard doc={result}/> 
             </GridListTile>
           );
-        })}*/}
+        })}
       </GridList>
     </Container>
   );

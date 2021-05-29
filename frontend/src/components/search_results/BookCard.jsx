@@ -69,9 +69,9 @@ function BookCard(props) {
 						<div>
 							<Typography noWrap gutterBottom variant="body2">
 								{'Reference for: '}
-								{/*props.doc.course_code.map((course, index) => {
+								{props.doc.course_code.map((course, index) => {
 									return <span className= "doc-tags" key={course} >{ index? (', ' + course) : course}</span>
-								})*/}
+								})}
 							</Typography>
 							<Typography noWrap gutterBottom variant="body2">
 								{'Topic: '} 
