@@ -8,7 +8,7 @@ import ConfirmChange from './ConfirmChange'
 import './styles.css'
 
 // Edit User UI, user state is from parent Modal
-function EditUser({ children }){
+function EditUser(props){
     const {user, close} = useContext(UserContext);
     const origClassif = user.classification;
     const [currClassif, setClassif] = useState(origClassif);
@@ -43,10 +43,13 @@ function EditUser({ children }){
                     }
                 }
                 updateUser()
+
+                // update users to trigger useEffect in User Table
+                props.getUsers()
             }
             close()
         }
-    }, [confirmed])
+    }, [confirmed, close, user._id, origClassif, currClassif])
 
     return(
         <div className="edit-user popup-container">

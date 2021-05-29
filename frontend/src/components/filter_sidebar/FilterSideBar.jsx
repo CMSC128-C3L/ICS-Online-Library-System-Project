@@ -1,45 +1,21 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+// import CheckList from './CheckList';
 import CategoryChecklist from './CategoryChecklist';
 import TopicChecklist from './TopicChecklist';
 import Typography from '@material-ui/core/Typography';
 import ReferenceDropdown from './ReferenceDropdown'
 import { ACTIONS } from '../../pages/SearchPage';
 
-const category = {
-	'name': 'Category', 
-	'list': [
-	"Books", 
-	"Journals", 
-	"Special Problems", 
-	"Theses"]};
+const category = {'name': 'Category', 'list': ["Books", "Journals", "Special Problems", "Theses"]};
 const topic = {
 	'name': 'Topic', 
-	'list': [
-  "Algorithms",
-  "Android Development",
-  "Computer Architecture",
-  "Computer Graphics",
-  "Data Structures",
-  "Database Management",
-  "Human-Computer Interaction",
-  "Parallel Algorithms",
-  "Web Development",
-  "Artificial Intelligence",
-  "Discrete Mathematics",
-  "Machine Learning",
-  "Robotics",
-  "Networking",
-  "Computer Security",
-  "Cryptography",
-  "Operating System",
-  "Image Processing",
-  "Distributed Computing",
-  "Automata",
-  "Software Engineering",
-  "Special Topic",
-  "Programming Languages",
-]};
+	'list': ["Analysis of Algorithms", "Automata and Language Theory", "Compiler Design", "Computer Architecture", "Computer Graphics", 
+	"Data Communications and Networking", "Data Structures", "Discrete Mathematics", "Database Systems", "Fundamentals of Programming",
+	"Internet", "Logic Design and Digital Circuits", "Machine-Level Programming", "Numerical and Symbolic Computation", 
+	"Object-Oriented Programming", "Operating Systems", "Parallel Computing", "Personal Computing", "Robot Modeling",
+	"Software Engineering", "Programming Languages", "Web Programming"]
+};
 
 const useStyles = makeStyles((theme) => ({
 	filterContainer: {

@@ -3,8 +3,6 @@ import FilterSideBar from "../components/filter_sidebar/FilterSideBar";
 import Navbar from "../components/navigation_bar/Navbar";
 import ResultPane from "../components/search_results/ResultPane";
 import SearchContext from '../components/search_results/SearchContext';
-// import SearchResults from "./components/search_results/Books";
-
 
 export const ACTIONS = {
   updateQuery: 'UPDATE_QUERY',

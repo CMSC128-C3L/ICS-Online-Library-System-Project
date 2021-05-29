@@ -95,5 +95,4 @@ function ResultPane(){
 }
 
 
-
 export default ResultPane;

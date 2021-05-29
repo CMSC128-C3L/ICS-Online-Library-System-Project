@@ -3,8 +3,12 @@ import './Navbar.css';
 import icsLogo from '../../assets/ics_logo.png';
 import searchIcon from '../../assets/magnifying_glass.png';
 import SearchContext from '../search_results/SearchContext';
+import { UserContext } from '../user/UserContext';
+import Logout from '../login_search/Logout';
 
 function Navbar(props){
+
+    const {loggedUser, setLoggedUser} = useContext(UserContext)
     const searchContext = useContext(SearchContext);
 
 	// for tracking the local changes on query being typed
@@ -23,6 +27,9 @@ function Navbar(props){
 		});
     };
 
+    const snowfettiStyles = {
+        backgroundColor: '#47abd8'
+      };
 
     return(
         <div className="Navbar">
@@ -60,8 +67,8 @@ function Navbar(props){
                 {/* RIGHT SIDE START */}
                 <div className="rightSide">
                     <div className="useraccount">
-                        Fname Lname
-                        <a href="/logout">Logout</a>
+                        <p>{loggedUser.given_name}</p>
+                        <Logout/>
                     </div>  
                 </div>
                 {/* RIGHT SIDE END */}

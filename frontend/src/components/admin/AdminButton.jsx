@@ -9,7 +9,7 @@ function AdminButton({children, title, link, description}) {
     return (
        
         <Card className="adminbutton" 
-            onClick={() => history.push('/'+ link)}
+            onClick={() => history.push('/adminHome/'+ link)}
             style={{borderRadius: '1em'}}
         >
             <CardActionArea> 

@@ -1,0 +1,85 @@
+.edit-main-content{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.document-card-flex-column {
+    /* background: rgb(124, 81, 81); */
+    width: 60vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content:center;
+}
+
+.document-card-flex-row {
+    /* background: #000; */
+    padding:5vh 25vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-flow: wrap;
+}
+
+.button-card-flex-column {
+    /* background: rgb(150, 0, 0); */
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content:center;
+}
+
+.description-section{
+    /* background-color: burlywood; */
+    padding: 1vh 30vh;
+}
+
+.button-right{
+    padding-top: 5vh;
+    text-align: right;
+}
+
+.main-text-tags{
+    font-size: 3vh;
+    font-weight: bold;
+}
+
+.text-tags{
+    font-size: 3vh;
+}
+
+.tags {
+    list-style-type: none;
+}
+
+.tag{
+    color: rgb(255, 255, 255);
+    font-size: 3vh;
+    background: #47ABD8;
+    padding: 0.5vh 3vh;
+    border-radius: 10em;
+    margin: 2px;
+    display: inline-block;
+}
+
+.tag-content{
+    text-align: center;
+}
+
+@media (max-width: 880px) {
+    .flex-row {
+        margin-bottom: 5vh;
+    }
+
+    .category-row {
+        justify-content: space-between;
+    }
+
+    .card-container {
+        width: auto;
+        height: auto;
+        align-self: center;
+        margin-bottom: 2vh;
+    }
+}

@@ -39,11 +39,18 @@ button:hover{
 }
 
 .Navbar .rightSide{
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 25px;
   display: flex;
   flex: 50%;
+}
+
+.Navbar .rightSide .useraccount {
+  display: flex;
+  flex: 100%;
+  justify-content:flex-end;
+  font-size: 20px;
+  margin-top: auto;
+  align-items: center;
+  text-indent: 10px;
 }
 
 .middleSide .topSide input{
@@ -88,22 +95,6 @@ button:hover{
 }
 
 .middleSide .bottomSide .links a:hover{
-  color: #95D2EC;
-  fill: #95D2EC;
-}
-
-.Navbar .rightSide .useraccount {
-  margin-top: 60px;
-  font-size: 20px;
-}
-
-.Navbar .rightSide .useraccount a{
-  text-decoration: none;
-  color: black;
-  margin-left: 15px;
-}
-
-.Navbar .rightSide .useraccount a:hover {
   color: #95D2EC;
   fill: #95D2EC;
 }

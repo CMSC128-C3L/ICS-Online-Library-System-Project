@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import ConditionalIcon from "./ConditionalIcon";
 import './SearchCard.css'
+import { useHistory } from 'react-router';
 
 function BookCard(props) {
 
@@ -13,12 +14,18 @@ function BookCard(props) {
 	 * handle edit, download, delete actions inside these functions
 	 * properties of the doc such as _id can be accessed via props.doc
 	 */ 	
+	 const history = useHistory();
 
 	function handleDownload(){
 		console.log('[BOOK] when download button clicked: ', props.doc);
 	}
 
 	function handleEdit(){
+		history.push({ 
+			pathname: `/search/${props.doc._id}`,
+			state: { fromButtonEdit: true }
+		   });
+
 		console.log('[BOOK] when edit button clicked: ', props.doc);
 	}
 
@@ -29,7 +36,7 @@ function BookCard(props) {
 	return(
 		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}}>
 			<CardMedia className="doc-cover" image={props.doc.book_cover_img} title={props.doc.title}/>
-				<CardActionArea onClick={() => console.log('temporary BookCard onClick')}>
+				<CardActionArea onClick={() => history.push(`/search/${props.doc._id}`)} >
 					<Typography className="doc-title" noWrap={true} variant="h6" style={{fontWeight: '600'}}>
 						{props.doc.title}
 					</Typography>
@@ -62,9 +69,9 @@ function BookCard(props) {
 						<div>
 							<Typography noWrap gutterBottom variant="body2">
 								{'Reference for: '}
-								{props.doc.course_code.map((course, index) => {
+								{/*props.doc.course_code.map((course, index) => {
 									return <span className= "doc-tags" key={course} >{ index? (', ' + course) : course}</span>
-								})}
+								})*/}
 							</Typography>
 							<Typography noWrap gutterBottom variant="body2">
 								{'Topic: '} 

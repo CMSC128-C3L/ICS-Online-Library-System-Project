@@ -23,7 +23,7 @@ function Header({name}) {
         else{
             return(
                   <div className="Header-container-right" >
-                    <Button className="Button">{loggedUser.name}</Button>
+                    <Button className="Button">{loggedUser.given_name}</Button>
                     <Logout/>
                 </div>
             )
@@ -36,7 +36,7 @@ function Header({name}) {
             </div>
             <div className="Header-container">
                 <div className="Header-container-left">
-                    <Button className="Button" onClick={() => history.push('/')}>Home</Button>
+                    <Button className="Button" onClick={() => history.push('/adminHome')}>Home</Button>
                     <Button className="Button" onClick={() => history.push('/search')}>Browse</Button>
                     <Button className="Button" onClick={() => history.push('/tools')}>Tools</Button>
                 </div>
