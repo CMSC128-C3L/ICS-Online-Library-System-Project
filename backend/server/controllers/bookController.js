@@ -106,7 +106,11 @@ function bookBase(data) {
     book.isbn = data.isbn;
     book.book_cover_img = data.book_cover_img;
     book.topic = data.topic;
-    book.courses = data.courses;
+    book.course_code = data.courses.map(getCourseCode);
 
     return book;
+}
+
+function getCourseCode(data){
+    return data.code;
 }
