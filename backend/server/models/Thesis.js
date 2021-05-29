@@ -50,6 +50,12 @@ const thesisSchema = new mongoose.Schema({
   },
   topic: {
     type: Array
+  },
+  journal: {
+    type: String
+  },
+  poster: {
+    type: String
   }
 },
 {collection: 'Papers'}
