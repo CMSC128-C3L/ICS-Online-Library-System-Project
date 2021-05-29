@@ -9,7 +9,7 @@ module.exports = {
 };
 
 
-async function getAll(req, res) {
+async function fetchAll(req, res) {
 	try{
 	//get All Journal
 	let list_journal=await Journal.find({});
@@ -20,10 +20,11 @@ async function getAll(req, res) {
         temp.type=obj.type;
         temp.title = obj.title;
         temp.author = obj.author;
-        temp.isbn= obj.isbn;
-        temp.publication= obj.publication;
-        temp.subject= obj.subject;
-   
+        temp.adviser= obj.adviser;
+        temp.pub_date= obj.pub_date;
+        temp.topic= obj.topic;
+        temp.journal= obj.journal;
+        temp.poster= obj.poster;
         journal.push(temp);
         
     });
@@ -34,44 +35,30 @@ async function getAll(req, res) {
 	res.status(400).send({message:"Error"});
 
 	}
-	
-
-
 }
-async function getOne(req, res) {
+async function fetch(req, res) {
 	try{
         //get id 
         let _id = req.params.id;    
         //get specific Journal
         let journal=await Journal.findById({_id});
+
         if(journal!=null){
             let temp= {}
             temp.type=journal.type;
             temp.title = journal.title;
             temp.author = journal.author;
-            temp.isbn= journal.isbn;
-            temp.publication= journal.publication;
-            temp.subject= journal.subject;
+            temp.adviser= journal.adviser;
+            temp.pub_date= journal.pub_date;
+            temp.topic= journal.topic;
+            temp.journal= journal.journal;
+            temp.poster= journal.poster;
             res.status(200).send(temp);
         }
-
         res.status(404).send({message:"Journal not found"});
-    
         }catch(err){
         res.status(400).send({message:"Error"});
     
         }
 
-}
-
-async function create(req, res) {
-
-}
-
-async function deleteJournal(req, res) {
-    
-}
-
-async function update(req, res) {
-    
 }
