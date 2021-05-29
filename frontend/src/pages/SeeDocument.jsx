@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import ManageDocument from '../components/admin/browse-test/ManageDocument'
+import ManageDocument from '../components/manage_document/ManageDocument'
 import Header from "../components/header_user/Header"
 
 function SeeDocument() {

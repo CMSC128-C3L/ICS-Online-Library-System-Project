@@ -26,13 +26,12 @@ function App() {
     <div className="App"> 
       <BrowserRouter> 
         <Switch>
-
           <UserContext.Provider value={{loggedUser, setLoggedUser}}>
             <Route exact path="/" component={GuestHome} />
             <Route exact path="/loggedIn/" component={GuestHome} />
             <HomePageRoute exact path="/adminHome" component={AdminHome} />
             <AdminPageProtectRoute exact path="/adminHome/manageUsers" component={AdminUserManagement} />
-            <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={AdminDocManagement} />
+            <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={SearchPage} />
             <Route exact path="/search/:id"  component={SeeDocument} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
             <Route exact path="/search" component={SearchPage} />

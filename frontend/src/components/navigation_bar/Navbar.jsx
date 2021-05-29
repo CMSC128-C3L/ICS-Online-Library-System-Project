@@ -4,7 +4,7 @@ import icsLogo from '../../assets/ics_logo.png';
 import searchIcon from '../../assets/magnifying_glass.png';
 import SearchContext from '../search_results/SearchContext';
 import { UserContext } from '../user/UserContext';
-import Logout from '../login/Logout';
+import Logout from '../login_search/Logout';
 
 function Navbar(props){
 
@@ -27,6 +27,9 @@ function Navbar(props){
 		});
     };
 
+    const snowfettiStyles = {
+        backgroundColor: '#47abd8'
+      };
 
     return(
         <div className="Navbar">
@@ -64,8 +67,8 @@ function Navbar(props){
                 {/* RIGHT SIDE START */}
                 <div className="rightSide">
                     <div className="useraccount">
-                        {loggedUser.given_name}
-                        <Logout></Logout>
+                        <p>{loggedUser.given_name}</p>
+                        <Logout/>
                     </div>  
                 </div>
                 {/* RIGHT SIDE END */}
