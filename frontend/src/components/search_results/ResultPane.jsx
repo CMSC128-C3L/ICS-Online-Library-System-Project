@@ -27,12 +27,24 @@ function ResultPane(){
   const searchContext = useContext(SearchContext);
   const classes = useStyles();
   const [books, setBooks] = useState([]);
+  const [thesis, setThesis] = useState([]);
+  const [sp, setSp] = useState([]);
+  // const [journal, setJournal] = useState([]);
 
   // sample get from api
   const getBook = async() =>{
     try{
-      const books = await axios.get("/api/books");
-      setBooks(books.data);
+      // const books = await axios.get("/api/books")
+      const resources = await axios.all([
+        axios.get("/api/books"),
+        axios.get("/api/thesis"),
+        axios.get("/api/sp")
+        // axios.get("/api/journal")
+      ]);
+      setBooks(resources[0].data);
+      setThesis(resources[1].data);
+      setSp(resources[2].data);
+      // setJournal(resources[3].data);
     }catch(err){
       console.log(err)
     }
@@ -46,24 +58,42 @@ function ResultPane(){
   return(
     <Container className= {classes.container}>
       <div className= {classes.resultHeader}>
-        <Typography variant="body2">{books.length + ' results'}</Typography>
+        <Typography variant="body2">{(books.length+thesis.length+sp.length) + ' results'}</Typography>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {books.map((result) => {
           return(
             <GridListTile key= {result.id}>
               <BookCard doc={result}/>
-              {/* <ThesisCard doc={result}/> */}
-              {/* <SpCard doc={result}/> */}
-              {/* <JournalCard doc={result}/> */}
             </GridListTile>
           );
         })}
+        {thesis.map((result) => {
+          return(
+            <GridListTile key= {result.id}>
+               <ThesisCard doc={result}/>
+            </GridListTile>
+          );
+        })}
+        {sp.map((result) => {
+          return(
+            <GridListTile key= {result.id}>
+               <SpCard doc={result}/>
+            </GridListTile>
+          );
+        })}
+        {/*{journal.map((result) => {
+          return(
+            <GridListTile key= {result.id}>
+               <JournalCard doc={result}/> 
+            </GridListTile>
+          );
+        })}*/}
       </GridList>
     </Container>
   );
 }
 
 
->>>>>>> feature03-book-controller
+
 export default ResultPane;
