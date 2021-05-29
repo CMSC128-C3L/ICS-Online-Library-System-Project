@@ -37,7 +37,7 @@ async function searchAll(req, res) {
 		const result = [];
 		let query = new RegExp(req.query.search, 'i');
 		const thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
-		const book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {"course code":{$regex: query}}]});
+		const book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {'courses.code': {$regex: query}}]});
 		// const journal = await Journal.find({title:req.query.title});
 		const sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
 
@@ -66,7 +66,7 @@ async function searchThesis(req, res) {
 async function searchBook(req, res) {
 	try{
 		let query = new RegExp(req.query.search, 'i');
-		const book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {"course code":{$regex: query}}]});
+		const book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {'courses.code': {$regex: query}}]});
 		if(book != null) res.status(200).send(book);
 		else res.status(404).send("Book not found!");
 	}catch(error){
@@ -105,18 +105,18 @@ async function advanceSearchBook(req, res) {
 		let book;
 		
 		if(typeof(topics) === 'object' && courseCode != ''){//it's an array 
-			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], "course code": courseCode, topic: { $all : topics}});
+			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], 'courses.code': courseCode, topic: { $all : topics}});
 		}else if(typeof(topics) === 'object' && courseCode == ''){
-			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {"course code":{$regex: query}}], topic: { $all : topics}});
+			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {'courses.code':{$regex: query}}], topic: { $all : topics}});
 		}else if (topics == '' && courseCode != ''){//it's empty
-			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}], "course code": courseCode});
+			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}], 'courses.code': courseCode});
 		}else if(topics == '' && courseCode == ''){
-			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {"course code":{$regex: query}}]});
+			book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {'courses.code':{$regex: query}}]});
 		}else{//it's a string
 			if(courseCode != ''){
-				book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], "course code": courseCode, topic: topics});
+				book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], 'courses.code': courseCode, topic: topics});
 			}else{
-				book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {"course code":{$regex: query}}], topic: topics});
+				book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {'courses.code':{$regex: query}}], topic: topics});
 			}
 		}
 		if(book != null) res.status(200).send(book);
