@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableFooter, TablePagination, Avatar} from '@material-ui/core'
 import './ManageUsers.css'
@@ -8,6 +8,11 @@ import IconButton from '@material-ui/core/IconButton'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowUpward from '@material-ui/icons/ArrowUpward'
 import ArrowDownward from '@material-ui/icons/ArrowDownward'
+import Modal from '../../manage_user_popup/Modal'
+import EditUser from '../../manage_user_popup/EditUser'
+import DeleteUser from '../../manage_user_popup/DeleteUser'
+import decode from 'jwt-decode'
+
 function UserTable(records, headCells) {
 
 //initialize collection of user data to an empty array
@@ -40,11 +45,11 @@ const handleChangeRowsPerPage = (event) =>{
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
 }
-
+    let users = []
     const getUsers = async() =>{
         try{
             let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-            const users = await axios.get("/api/users", options)
+            users = await axios.get("/api/users", options)
             console.log(users.data)
             setUser(users.data)
             setRowCount(users.data.length)
@@ -58,11 +63,14 @@ const handleChangeRowsPerPage = (event) =>{
         getUsers()
     }, [])
 
+    // just re-render UserTable component upon successful update and delete user
+    useEffect(() => {   }, [users])
+
     const filterRows = () =>{
        return (user.filter(person=>{
 
             //if search is blank, all items are considered
-            if(search==""){
+            if(search===""){
                 return person
             
             //if search is not empty, filter contents accdg to search
@@ -83,12 +91,12 @@ const handleChangeRowsPerPage = (event) =>{
     const sortRows = (array) =>{
     array.sort((a, b) => {
             if (a.name > b.name) {
-                if(sortType == 1) return 1;
+                if(sortType === 1) return 1;
                 else return -1;
             }
 
             if (a.name < b.name) {
-                if(sortType == 1) return -1;
+                if(sortType === 1) return -1;
                 else return 1;
             }
             return 0;
@@ -119,9 +127,13 @@ const handleChangeRowsPerPage = (event) =>{
         }
     }
 
+    // Create reference to modal
+    const editModal = useRef(null)
+    const deleteModal = useRef(null)
+    const openEditModal = (user) => {editModal.current.open(user)}
+    const openDeleteModal = (user) => {deleteModal.current.open(user)}
     
     return (
-        
         <div className="manageusers manageusers-container">
             <input className="searchbar" type="text" placeholder=" Search User" onChange={e=>{
                 setSearch(e.target.value)
@@ -131,6 +143,9 @@ const handleChangeRowsPerPage = (event) =>{
 
           
             <div>
+                <Modal ref={editModal}><EditUser getUsers={getUsers}/></Modal>
+                <Modal ref={deleteModal}><DeleteUser getUsers={getUsers}/></Modal>
+
                 <TableContainer component={Paper} className="usertable usertable-container">
                 <Table aria-label="users" > 
                 <TableHead>
@@ -138,7 +153,7 @@ const handleChangeRowsPerPage = (event) =>{
                             <TableCell align="center"><h2 className="table-heading">Avatar</h2></TableCell>
                             <TableCell align="center"><h2 className="table-heading">ID</h2></TableCell>
                             <TableCell align="center">
-                                <span style={{display: "inline-flex"}}><IconButton onClick={() => {setSortType(-1 * sortType); sortRows(user); }}>{(sortType == 1) ? <ArrowUpward className="arrow-button"/> : <ArrowDownward className="arrow-button"/>}</IconButton>
+                                <span style={{display: "inline-flex"}}><IconButton onClick={() => {setSortType(-1 * sortType); sortRows(user); }}>{(sortType === 1) ? <ArrowUpward className="arrow-button"/> : <ArrowDownward className="arrow-button"/>}</IconButton>
                                 <h2 className="table-heading">Name</h2></span>
                             </TableCell>
                             <TableCell align="center"><h2 className="table-heading">Email</h2></TableCell>
@@ -147,7 +162,7 @@ const handleChangeRowsPerPage = (event) =>{
                         </TableRow>
                 </TableHead>
                 <TableBody>
-                    {filterRows().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(person=>{{
+                    {filterRows().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(person=>{
                             return (
                                 <TableRow justifyContent="center">
                                     <TableCell align="center">
@@ -166,13 +181,24 @@ const handleChangeRowsPerPage = (event) =>{
                                         {createClassificationCell(person.classification)}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <IconButton aria-label="delete" className="iconbutton-view"><DeleteIcon/></IconButton>
-                                        <IconButton aria-label="edit"  className="iconbutton-view"><EditIcon/></IconButton>
+                                        <IconButton
+                                            aria-label="delete"
+                                            className="iconbutton-view"
+                                            onClick={() => openDeleteModal(person)}>
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                        
+                                        <IconButton
+                                            aria-label="edit"
+                                            className="iconbutton-view"
+                                            onClick={() => openEditModal(person)}>
+                                            <EditIcon/>
+                                        </IconButton>
                                     </TableCell>
                                 </TableRow>
 
                             )
-                    }}
+                    }
 
                     )}
                     
