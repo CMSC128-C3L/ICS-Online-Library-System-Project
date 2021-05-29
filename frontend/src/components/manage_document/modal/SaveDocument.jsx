@@ -10,18 +10,18 @@ import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
 
 function SaveDocument(props){
-    // const {user, close} = useContext(UserContext)
+    const {user, close} = useContext(UserContext)
     const history = useHistory();
     const classes = useStyles();
-    const {id, close} = useParams();
+    const {id} = useParams();
     const [document, setDocument] = useState("")
 
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
     const handleConfirmation = () => {setConfirmed(true)}
 
-    const handleSave = () =>{
-        confirmModal.current.open()
+    const handleSave = (user) =>{
+        confirmModal.current.open(user)
     }
 
     const handleCancel = () =>{ 
@@ -45,9 +45,8 @@ function SaveDocument(props){
 
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
-        getDocument()
         if(confirmed){
-            handleSave()
+            getDocument()
             close()
             handleRoute()
         }
@@ -59,7 +58,7 @@ function SaveDocument(props){
             <SaveIcon className={classes.iconStyle}/>
             <h3 className="text prompt">Save changes to"{document.title}" {document.year}?</h3>
             <div className="save-cancel">
-                <button className="save popup-btn" onClick={handleSave}>Save</button>
+                <button className="save popup-btn" onClick={()=> handleSave(user)}>Save</button>
                 <button className="cancel popup-btn" onClick={handleCancel}>Cancel</button>
             </div>
         </div>
