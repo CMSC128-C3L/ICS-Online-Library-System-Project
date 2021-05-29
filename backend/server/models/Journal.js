@@ -5,10 +5,15 @@ const journalSchema= new mongoose.Schema({
     type: Number,
     title: String,
     author: [String],
-    isbn : String,
-    publication: String,
-    subject: [String],
-});
+    adviser: [String],
+    pub_date: String,
+    topic: [String],
+    journal: String,
+   	poster: String
+},{
+    collection: 'Papers'
+}
+);
 
-const Journal= mongoose.model("Journal",journalSchema);
+const Journal=mongoose.model("Journal",journalSchema);
 module.exports=Journal;
