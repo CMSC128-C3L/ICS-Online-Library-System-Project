@@ -14,7 +14,9 @@ const spSchema= new mongoose.Schema({
         required: true,
     },
     abstract: String,
-    topic: [String]
+    topic: [String],
+    journal: String,
+    poster: String
 
 },{
     collection: 'Papers'
