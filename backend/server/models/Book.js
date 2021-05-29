@@ -38,7 +38,7 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  "course code": [String],
+  courses: [],
   topic: [String]
 },
 { collection: 'Books' }
