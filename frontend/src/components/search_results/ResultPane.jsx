@@ -34,9 +34,16 @@ function ResultPane(props){
   const location = useLocation();
   const {id} = useParams();
 
+  const resetStates = () =>{
+      setBooks([]);
+      setThesis([]);
+      setSp([]);
+      setJournal([]);
+  }
+
   // sample get from api
   const getDocuments = async() =>{
-    
+    resetStates();
     let categories = (searchContext.state.category).toString().split(',');
     
     //if user has yet to select any category, set to all
