@@ -3,9 +3,10 @@ h3 {
 }
 
 .body-container {
-    /* margin: auto; */
-    /* place-items: center; */
+    margin: auto;
+    place-items: center;
     text-align: center;
+    align-content: center;
 }
 
 .label {
@@ -34,8 +35,8 @@ h3 {
     padding: 12px;
     background-color:royalblue;
     color: white;
-    border-style: dashed;
     border-radius: 8px;
+    border: none;
 }
 
 .btn:hover {
@@ -44,10 +45,12 @@ h3 {
 }
 
 .btn-container {
+    margin: auto;
     display: grid;
-    border-style: solid;
     grid-template-columns: auto auto;
-    padding-bottom: 100pt;
+    padding: 100pt;
+    width: 512pt;
+    text-align: center;
 }
 
 .btn-cell {
