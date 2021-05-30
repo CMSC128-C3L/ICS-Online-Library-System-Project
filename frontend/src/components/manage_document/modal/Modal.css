@@ -46,15 +46,23 @@
     fill: #47abdb;
 }
 
-.popup-container {
+.popupcontainer {
     display: grid;
     height: 100%;
     margin: 2em;
     justify-items: center;
     align-items: center;
     gap: 0.75em;
-    grid-auto-flow: column;
-    grid-template-columns: 1fr;
+    padding-top: 10vh;
+}
+
+.popup-container-confirm {
+    display: grid;
+    height: 100%;
+    margin: 2em;
+    justify-items: center;
+    align-items: center;
+    gap: 0.5em;
 }
 
 .save-user{
@@ -63,15 +71,6 @@
 
 .confirm-change{
     grid-template-rows: repeat(4, 1fr);
-}
-
-.user-avatar {
-    height: 100px;
-    width: 100px;
-    margin: 0;
-    border-color: #47ABD8;
-    border-radius: 50%;
-    border-style: solid;
 }
 
 .text {

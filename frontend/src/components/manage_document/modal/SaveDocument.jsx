@@ -5,13 +5,15 @@ import axios from 'axios'
 import './Modal.css'
 
 import { useHistory } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import { useParams } from 'react-router'
 import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
 
 function SaveDocument(props){
     const {user, close} = useContext(UserContext)
-    const history = useHistory();
+    // const history = useHistory();
+    const history = createBrowserHistory({ forceRefresh: true });
     const classes = useStyles();
     const {id} = useParams();
     const [document, setDocument] = useState("")
@@ -29,7 +31,8 @@ function SaveDocument(props){
     }
 
     const handleRoute = () =>{ 
-        history.push(`/search/${id}`)
+        history.push(`/search/${id}`) //ito talaga dapat pero may something sa refresh ni admin
+        // history.push(`/search/`)
     }
 
      //get the specific document data 
@@ -45,15 +48,15 @@ function SaveDocument(props){
 
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
+        getDocument()
         if(confirmed){
-            getDocument()
             close()
             handleRoute()
         }
     }, [confirmed, close])
 
     return(
-        <div className="save-user popup-container">
+        <div className="save-user popupcontainer">
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <SaveIcon className={classes.iconStyle}/>
             <h3 className="text prompt">Save changes to"{document.title}" {document.year}?</h3>

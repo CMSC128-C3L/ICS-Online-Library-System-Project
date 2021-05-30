@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import ConditionalIcon from "./ConditionalIcon";
 import './SearchCard.css'
 import { useHistory } from 'react-router';
+import Modal from './modal/Modal';
+import DeleteDocument from './modal/DeleteDocument';
 
 function BookCard(props) {
 
@@ -14,7 +16,11 @@ function BookCard(props) {
 	 * handle edit, download, delete actions inside these functions
 	 * properties of the doc such as _id can be accessed via props.doc
 	 */ 	
-	 const history = useHistory();
+	
+	// Create reference to modal
+	const deleteModal = useRef(null)
+	const openDeleteModal = (user, props) => {deleteModal.current.open(user, props)}
+	const history = useHistory();
 
 	function handleDownload(){
 		console.log('[BOOK] when download button clicked: ', props.doc);
@@ -31,6 +37,7 @@ function BookCard(props) {
 
 	function handleDelete(){
 		console.log('[BOOK] when delete button clicked: ', props.doc);
+		openDeleteModal();
 	}
 
 	return(
@@ -90,6 +97,7 @@ function BookCard(props) {
 				handleDownload={handleDownload} 
 				handleEdit={handleEdit} 
 				handleDelete={handleDelete}/>
+			<Modal ref={deleteModal}><DeleteDocument/></Modal>
 		</Card>
 	);
 }
