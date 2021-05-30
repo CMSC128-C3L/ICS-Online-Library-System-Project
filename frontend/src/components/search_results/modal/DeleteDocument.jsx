@@ -42,7 +42,7 @@ function DeleteDocument(props){
     }, [confirmed, close])
 
     return(
-        <div className="delete-user popup-container">
+        <div className="delete-user popupcontainer">
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm Delete</ConfirmChange></Modal>
             <DeleteIcon className={classes.iconStyle}/>
             <h3 className="text prompt">Are you sure you want to delete?</h3>

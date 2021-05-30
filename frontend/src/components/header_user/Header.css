@@ -1,15 +1,23 @@
 .Logo {
     color: white;
     font-size: 32pt;
-    font-family: 'Century Gothic';
+    font-family: Ubuntu;
     font-weight: bold;
-    /* align-self: center; */
-
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
+
+.ics_icon{
+    width: auto;
+    height: 50px;
+    padding-right: 10px;
+    margin-top: 3px;
+}
+
 .Logo-area {
     background-color: #47abdb;
     height: 58px;
-    text-align: center;
 }
 .App-search-bar {
     width: 12cm;

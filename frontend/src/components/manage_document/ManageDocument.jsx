@@ -47,6 +47,17 @@ function ManageDocument(props) {
         }
 	}
 
+    const updateType = async(event) =>{
+        //patch request to update document title
+        try {
+            event.preventDefault();
+            const response = await axios.patch(`/api/books/${id}`, {type: event.target.value} , options);
+            console.log('Returned data:', response.data);
+        } catch (e) {
+            console.log(`Axios request failed: ${e}`);
+        }
+	}
+
     //temporarily not updating, waiting for book controller changes (and array format)
     const updateAuthor = async(event) =>{
         //patch request to update document author
@@ -132,6 +143,7 @@ function ManageDocument(props) {
                     handleDownload={handleDownload} 
                     updatePDF={updatePDF}
                     handleSave={handleSave}
+                    updateType={updateType}
                     updateTitle={updateTitle}
                     updateAuthor={updateAuthor}
                     updateYear={updateYear}

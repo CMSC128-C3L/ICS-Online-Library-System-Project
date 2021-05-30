@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useRef} from 'react';
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 import ConditionalIcon from "./ConditionalIcon";
+import { useHistory } from 'react-router';
+import Modal from './modal/Modal';
+import DeleteDocument from './modal/DeleteDocument';
 import './SearchCard.css'
 
 function SpCard(props) {
@@ -13,22 +16,32 @@ function SpCard(props) {
 	 * properties of the doc such as _id can be accessed via props.doc
 	 */ 
 
+	// Create reference to modal
+	const deleteModal = useRef(null)
+	const openDeleteModal = (user, props) => {deleteModal.current.open(user, props)}
+	const history = useHistory();
+
 	function handleDownload(){
 		console.log('[SP] when download button clicked: ', props.doc);
 	}
 
 	function handleEdit(){
 		console.log('[SP] when edit button clicked: ', props.doc);
+		history.push({ 
+			pathname: `/search/${props.doc._id}`,
+			state: { fromButtonEdit: true }
+		});
 	}
 
 	function handleDelete(){
 		console.log('[SP] when delete button clicked: ', props.doc);
+		openDeleteModal();
 	}
 
 	return(
     
 		<Card className= "doc-card" style={{backgroundColor: '#F4F4F4'}}>
-			<CardActionArea onClick={() => console.log('temporary BookCard onClick')}>
+			<CardActionArea onClick={() => history.push(`/search/${props.doc._id}`)}>
 				<Typography className="doc-title" noWrap={true} variant="h6" style={{fontWeight: '600'}}>
 					{props.doc.title}
 				</Typography>
@@ -43,6 +56,7 @@ function SpCard(props) {
 					</Typography> */}
 					<Typography className="doc-category" variant="subtitle2" style={{fontWeight: '600'}}>
 						SPECIAL PROBLEM
+						{/* {props.doc.type} <=== this should be the proper way */}
 					</Typography>
 				</div>
 
@@ -82,6 +96,7 @@ function SpCard(props) {
 				handleDownload={handleDownload} 
 				handleEdit={handleEdit} 
 				handleDelete={handleDelete}/>
+			<Modal ref={deleteModal}><DeleteDocument/></Modal>
 		</Card>
 	);
 }

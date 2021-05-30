@@ -45,7 +45,7 @@
 #close-button:hover {
     fill: #47abdb;
 }
-
+/* 
 .popup-container {
     display: grid;
     height: 100%;
@@ -55,6 +55,25 @@
     gap: 0.75em;
     grid-auto-flow: column;
     grid-template-columns: 1fr;
+} */
+
+.popupcontainer {
+    display: grid;
+    height: 100%;
+    margin: 2em;
+    justify-items: center;
+    align-items: center;
+    gap: 0.75em;
+    padding-top: 10vh;
+}
+
+.popup-container-confirm {
+    display: grid;
+    height: 100%;
+    margin: 2em;
+    justify-items: center;
+    align-items: center;
+    gap: 0.5em;
 }
 
 .delete-user{

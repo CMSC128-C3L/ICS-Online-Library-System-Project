@@ -40,7 +40,7 @@ function ConfirmChange(props){
     }, [])
 
     return(
-        <div className="confirm-change popup-container">
+        <div className="confirm-change popup-container-confirm">
             <h4 className="text">Type text below to continue</h4>
             <div className="copy-disable key-container text">
                 <h1>{confirm.key}</h1>

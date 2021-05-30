@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useRef} from 'react';
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 import ConditionalIcon from "./ConditionalIcon";
-import './SearchCard.css'
+import { useHistory } from 'react-router';
+import Modal from './modal/Modal';
+import DeleteDocument from './modal/DeleteDocument';
+import './SearchCard.css';
 
 function ThesisCard(props) {
 	
@@ -12,6 +15,10 @@ function ThesisCard(props) {
 	 * handle download, edit, delete actions inside these functions
 	 * properties of the doc such as _id can be accessed via props.doc
 	 */ 
+	// Create reference to modal
+	const deleteModal = useRef(null)
+	const openDeleteModal = (user, props) => {deleteModal.current.open(user, props)}
+	const history = useHistory();
 
 	function handleDownload(){
 		console.log('[THESIS] when download button clicked: ', props.doc);
@@ -19,15 +26,20 @@ function ThesisCard(props) {
 
 	function handleEdit(){
 		console.log('[THESIS] when edit button clicked: ', props.doc);
+		history.push({ 
+			pathname: `/search/${props.doc._id}`,
+			state: { fromButtonEdit: true }
+		});
 	}
 
 	function handleDelete(){
 		console.log('[THESIS] when delete button clicked: ', props.doc);
+		openDeleteModal();
 	}
 
 	return(
 		<Card className= "doc-card" style={{backgroundColor: '#F4F4F4'}}>
-			<CardActionArea onClick={() => console.log('temporary BookCard onClick')}>
+			<CardActionArea onClick={() => history.push(`/search/${props.doc._id}`)}>
 				<Typography className="doc-title" noWrap={true} variant="h6" style={{fontWeight: '600'}}>
 					{props.doc.title}
 				</Typography>
@@ -42,6 +54,7 @@ function ThesisCard(props) {
 					</Typography> */}
 					<Typography className="doc-category" variant="subtitle2" style={{fontWeight: '600'}}>
 						THESIS
+						{/* {props.doc.type} <=== this should be the proper way */}
 					</Typography>
 				</div>
 
@@ -80,6 +93,7 @@ function ThesisCard(props) {
 				handleDownload={handleDownload} 
 				handleEdit={handleEdit} 
 				handleDelete={handleDelete}/> 
+			<Modal ref={deleteModal}><DeleteDocument/></Modal>
 		</Card>
 	);
 }

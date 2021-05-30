@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button'
 import Logout from '../login/Logout'
 import { UserContext } from '../user/UserContext';
 import Login from '../login/Login'
+import icsLogo from '../../assets/ics_logo.png';
 
 function Header({name}) {
     const history = useHistory();
@@ -32,7 +33,10 @@ function Header({name}) {
     return(
         <div>
             <div className="Logo-area">
-                <div className="Logo">eyeCS</div>
+                <div className="Logo">
+                <img src={icsLogo} alt="logo" className="ics_icon"/> 
+                EyeCS: Window to Knowledge
+                </div>
             </div>
             <div className="Header-container">
                 <div className="Header-container-left">
