@@ -16,7 +16,7 @@ async function getAll(req, res) {
         res.status(200).send(book);     // respond with the array of books
         
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -36,7 +36,7 @@ async function get(req, res) {
         res.status(200).send(book);     // respond with specified book
 
     } catch(err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -50,7 +50,7 @@ async function create(req, res) {
         return res.status(201).send(newBook._id);   // responsd with the id of the new book
 
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -69,7 +69,7 @@ async function update(req, res) {
         return res.status(200).send(bookBase(newBook));   // respond with the updated book  
 
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -87,7 +87,7 @@ async function deleteBook(req, res) {
         return res.status(200).send({message:"book deleted"});  // send ok response        
 
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }

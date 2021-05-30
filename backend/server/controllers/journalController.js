@@ -9,7 +9,7 @@ module.exports = {
 async function getAll(req, res) {
 	try{
 	//get All Journal
-	let list_journal=await Journal.find({journal:{$ne : ''}});
+	let list_journal=await Journal.find({journal:{$exists: true, $ne : ''}});
 
 	const journal=[]; 
     list_journal.map(obj =>{

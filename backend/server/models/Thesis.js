@@ -30,6 +30,7 @@ const topics = [
 ];
 
 const thesisSchema = new mongoose.Schema({
+  id: Number,
   type: {
     type: String,
     default: 'Thesis'
@@ -38,25 +39,22 @@ const thesisSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  authors: [{
-    author: {
-      type: String,
-      required: true,
-    }
-  }],
-  adviser: [{
-    type: String,
-    required: true,
-  }],
+  author: [String],
+  adviser: [String],
   pub_date: {
-    type: Date,
-    required: true,
+    type: Date
   },
   abstract: {
     type: String,
   },
   topic: {
     type: Array
+  },
+  journal: {
+    type: String
+  },
+  poster: {
+    type: String
   }
 },
 {collection: 'Papers'}
