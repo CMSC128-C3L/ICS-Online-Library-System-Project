@@ -10,6 +10,8 @@ import SearchPage from './pages/SearchPage'
 import GuestHome from './pages/GuestHome'
 import SummaryPage from './pages/SummaryPage'
 import SummaryPageAuthor from './pages/SummaryPageAuthor'
+import EditCardsPage from './pages/EditCardsPage'
+import CardEditingPage from './pages/CardEditingPage'
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route exact path="/search" component={SearchPage} />
           <Route exact path="/courseSummary" component={SummaryPage} />
           <Route exact path="/authorSummary" component={SummaryPageAuthor} />
+          <Route exact path="/editCards" component={EditCardsPage}/>
+          <Route exact path="/cardEditing" component={CardEditingPage}/>
         </Switch>
       </BrowserRouter>
       <Footer></Footer>

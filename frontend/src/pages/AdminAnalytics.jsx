@@ -1,9 +1,12 @@
 import React from 'react'
+import Analytics from '../components/analytics/Analytics'
+import Header from '../components/header_home/Header'
 
 function AdminAnalytics() {
     return (
         <div>
-            <h1>Analytics</h1>
+            <Header></Header>
+            <Analytics></Analytics>
         </div>
     )
 }

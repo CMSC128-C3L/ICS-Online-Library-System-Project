@@ -1,0 +1,24 @@
+.page-container {
+    text-align: center;    
+}
+
+.btn-cont {
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 324pt;
+    align-content: right;
+    padding-top: 64pt;
+}
+
+.edit-btn {
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 30px;
+    background-color: lightblue;
+    padding: 8pt;
+    border-radius: 8px;
+}
+
+.edit-btn:hover {
+    background-color: royalblue;
+    transition: 0.5s;
+}
