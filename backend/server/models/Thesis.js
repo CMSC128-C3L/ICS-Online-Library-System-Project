@@ -39,16 +39,8 @@ const thesisSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  authors: [{
-    author: {
-      type: String,
-      required: true,
-    }
-  }],
-  adviser: [{
-    type: String,
-    required: true,
-  }],
+  authors: [String],
+  adviser: [String],
   pub_date: {
     type: Date,
     required: true,
