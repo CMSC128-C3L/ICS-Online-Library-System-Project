@@ -8,20 +8,20 @@ function Search() {
             <br/>
             <div className="Search-container">
                 <div>
-                    <input id="books-radio" type="radio" name="search-type" value="search-books"/>
-                    <label className="Radio-label" htmlFor="books-radio">  Books</label>
+                    <input id="books-check" type="checkbox" name="search-type" value="search-books"/>
+                    <label className="Check-label" htmlFor="books-check">  Books</label>
                 </div>
                 <div>
-                    <input id="journal-radio" type="radio" name="search-type" value="search-journal"/>
-                    <label className="Radio-label" htmlFor="journal-radio">  Journals</label>
+                    <input id="journal-check" type="checkbox" name="search-type" value="search-journal"/>
+                    <label className="Check-label" htmlFor="journal-check">  Journals</label>
                 </div>
                 <div>
-                    <input id="sp-radio" type="radio" name="search-type" value="search-sp"/>
-                    <label className="Radio-label" htmlFor="sp-radio">  SP</label>
+                    <input id="sp-check" type="checkbox" name="search-type" value="search-sp"/>
+                    <label className="Check-label" htmlFor="sp-check">  SP</label>
                 </div>
                 <div>
-                    <input id="thesis-radio" type="radio" name="search-type" value="search-thesis"/>
-                    <label className="Radio-label" htmlFor="thesis-radio">  Thesis</label>
+                    <input id="thesis-check" type="checkbox" name="search-type" value="search-thesis"/>
+                    <label className="Check-label" htmlFor="thesis-check">  Thesis</label>
                 </div>                  
             </div>
                 
