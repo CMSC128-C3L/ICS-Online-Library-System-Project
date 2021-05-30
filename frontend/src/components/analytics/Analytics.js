@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
+import { useHistory } from 'react-router';
 import AuthorSummary from '../author_summary/AuthorSummary';
 import './Analytics.css'
 
 
 function Analytics() {
-
+    const history = useHistory();
     let [entry, setEntry] = useState({
         avatar:'*insert image*',
         id:'2018-XXXXX',
@@ -33,7 +34,7 @@ function Analytics() {
             </table>
             <div className="btn-container">
                 <div className="btn-cell"><button className="btn-generate btn">Generate summary report</button></div>
-                <div className="btn-cell"><button className="btn-edit-home btn">Edit home advisories</button></div>
+                <div className="btn-cell"><button className="btn-edit-home btn" onClick={()=> history.push("/adminHome/browseAnalytics/editFrontPage")}>Edit home advisories</button></div>
             </div>
         </div>
     );

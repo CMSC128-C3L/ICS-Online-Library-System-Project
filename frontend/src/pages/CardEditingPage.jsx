@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../components/header_home/Header'
+import Header from '../components/header_user/Header'
 import CardEditing from '../components/card_editing/CardEditing'
 
 function CardEditingPage() {
