@@ -12,7 +12,6 @@ import BookCard from './BookCard';
 import ThesisCard from './ThesisCard';
 import JournalCard from './JournalCard';
 import SpCard from './SpCard';
-import updateQueryString from './UpdateQueryString'
 import { useLocation, useParams } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -43,26 +42,32 @@ function ResultPane(props){
 
   // sample get from api
   const getDocuments = async() =>{
-    resetStates();
     let categories = (searchContext.state.category).toString().split(',');
-    
+    let topicsQuery;
     //if user has yet to select any category, set to all
     if((searchContext.state.category).toString() === "") categories = ['Books', 'Journals', 'Special Problems', 'Theses'];
     console.log('categories: ', categories);
+    console.log('course code: ', searchContext.state.courseCode)
+    console.log('topics length: ', searchContext.state.topic.length)
+    console.log('string: ', queryString.stringify({topic: searchContext.state.topic}))
 
+    if(searchContext.state.topic.length === 0) topicsQuery = "topic="
+    else{
+      topicsQuery = queryString.stringify({topic: searchContext.state.topic})
+    }
     for(let i = 0; i < categories.length; i++){
       try{
         if(categories[i] === 'Books'){
-            const books = await axios.get('/api/search/filter/book' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
+            const books = await axios.get('/api/search/filter/book' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
             setBooks(books.data);
           }else if(categories[i] === 'Journals'){
-            const journals = await axios.get('/api//search/filter/journal' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
+            const journals = await axios.get('/api//search/filter/journal' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
             setJournal(journals.data);
           }else if(categories[i] === 'Special Problems'){
-            const sp = await axios.get('/api//search/filter/sp' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
+            const sp = await axios.get('/api//search/filter/sp' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
             setSp(sp.data);
           }else if(categories[i] === 'Theses'){
-            const theses = await axios.get('/api//search/filter/thesis' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
+            const theses = await axios.get('/api//search/filter/thesis' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
             setThesis(theses.data);
           }
       }catch(err){
@@ -73,7 +78,7 @@ function ResultPane(props){
   }
 
   useEffect(() =>{
-
+    resetStates();
     getDocuments();
     
   }, [searchContext]);
