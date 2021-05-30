@@ -34,7 +34,8 @@ function App() {
             <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={SearchPage} />
             <Route exact path="/search/:id"  component={SeeDocument} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
-            <Route exact path="/search" component={SearchPage} />
+            <Route exact path="/search" component={SearchPage} />            
+            <Route exact path="/search/filter/:id" component={SearchPage} />
             <Route exact path="/courseSummary" component={SummaryPage} />
             <Route exact path="/authorSummary" component={SummaryPageAuthor} />
           </UserContext.Provider>

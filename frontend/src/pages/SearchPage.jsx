@@ -67,7 +67,7 @@ const reducer = (state, action) => {
 
 function SearchPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  
   return (
     <div className="SearchPage">
       <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
