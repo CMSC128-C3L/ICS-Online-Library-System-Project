@@ -5,13 +5,15 @@ import axios from 'axios'
 import './Modal.css'
 
 import { useHistory } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import { useParams } from 'react-router'
 import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
 
 function SaveDocument(props){
     const {user, close} = useContext(UserContext)
-    const history = useHistory();
+    // const history = useHistory();
+    const history = createBrowserHistory({ forceRefresh: true });
     const classes = useStyles();
     const {id} = useParams();
     const [document, setDocument] = useState("")
@@ -45,9 +47,10 @@ function SaveDocument(props){
 
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
+        getDocument()
         if(confirmed){
-            getDocument()
             close()
+            console.log(document.data);
             handleRoute()
         }
     }, [confirmed, close])

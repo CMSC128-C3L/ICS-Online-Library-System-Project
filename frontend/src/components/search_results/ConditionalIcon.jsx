@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef} from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from '@material-ui/core/IconButton';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { UserContext } from '../user/UserContext';
+import Modal from './modal/Modal';
+import DeleteDocument from './modal/DeleteDocument';
 
 const useStyles = makeStyles((theme) => ({
   controlIcons: {
@@ -38,6 +40,8 @@ function ConditionalIcon(props){
   const classes = useStyles();
   const {loggedUser, setLoggedUser} = useContext(UserContext);
 
+
+
   return(
     <div className={classes.controlIcons}>
       {
@@ -56,13 +60,15 @@ function ConditionalIcon(props){
               }
             case "Admin":
               return(
-                <div className={classes.editDelete}>
-                  <IconButton className={classes.editButton} onClick={props.handleEdit} aria-label="edit">
-                    <EditIcon fontSize="large"/>
-                  </IconButton>
-                  <IconButton className={classes.deleteButton} onClick={props.handleDelete} aria-label="delete">
-                    <DeleteIcon fontSize="large"/>
-                  </IconButton>
+                <div>
+                  <div className={classes.editDelete}>
+                    <IconButton className={classes.editButton} onClick={props.handleEdit} aria-label="edit">
+                      <EditIcon fontSize="large"/>
+                    </IconButton>
+                    <IconButton className={classes.deleteButton} onClick={props.handleDelete} aria-label="delete">
+                      <DeleteIcon fontSize="large"/>
+                    </IconButton>
+                  </div>
                 </div>
               )
             default:

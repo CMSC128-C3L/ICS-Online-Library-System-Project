@@ -10,7 +10,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DocumentCard from './DocumentCard';
 import TagsInput from './TagsInput';
 import Modal from './modal/Modal';
-import DeleteUser from './modal/SaveDocument';
+import SaveUser from './modal/SaveDocument';
 import './DocumentCard.css';
 
 /**
@@ -61,7 +61,7 @@ function ConditionalEdit(props){
             case true:
               return(
                 <div> 
-                    <Modal ref={saveModal}><DeleteUser/></Modal>
+                    <Modal ref={saveModal}><SaveUser/></Modal>
 
                     <div className='document-card-flex-row'>
                         {/* document thumbnail not editable */}
