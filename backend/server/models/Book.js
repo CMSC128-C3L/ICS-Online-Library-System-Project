@@ -14,12 +14,7 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  authors: [{
-    author: {
-      type: String,
-      required: true
-    }
-  }],
+  author: [String],
   book_cover_img: {
     type: String,
   },
@@ -43,16 +38,8 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  course_code: [{
-    subject: {
-      type: String
-    }
-  }],
-  topics: [{
-    topic: {
-      type: String
-    }
-  }]
+  courses: [],
+  topic: [String]
 },
 { collection: 'Books' }
 );

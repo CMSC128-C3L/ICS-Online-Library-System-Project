@@ -2,28 +2,26 @@ const Journal= require('../models/Journal.js');
 
 module.exports = {
   getAll,
-  getOne,
-  create,
-  deleteJournal,
-  update
+  getOne
 };
 
 
 async function getAll(req, res) {
 	try{
 	//get All Journal
-	let list_journal=await Journal.find({});
+	let list_journal=await Journal.find({journal:{$exists: true, $ne : ''}});
 
 	const journal=[]; 
     list_journal.map(obj =>{
         let temp={};
-        temp.type=obj.type;
+        temp.id=obj._id;
         temp.title = obj.title;
         temp.author = obj.author;
-        temp.isbn= obj.isbn;
-        temp.publication= obj.publication;
-        temp.subject= obj.subject;
-   
+        temp.adviser= obj.adviser;
+        temp.pub_date= obj.pub_date;
+        temp.topic= obj.topic;
+        temp.journal= obj.journal;
+        temp.poster= obj.poster;
         journal.push(temp);
         
     });
@@ -31,12 +29,9 @@ async function getAll(req, res) {
     res.status(200).send(journal);
 
 	}catch(err){
-	res.status(400).send({message:"Error"});
+	res.status(400).send();
 
 	}
-	
-
-
 }
 async function getOne(req, res) {
 	try{
@@ -44,34 +39,23 @@ async function getOne(req, res) {
         let _id = req.params.id;    
         //get specific Journal
         let journal=await Journal.findById({_id});
+
         if(journal!=null){
             let temp= {}
-            temp.type=journal.type;
+            temp.id=journal._id;
             temp.title = journal.title;
             temp.author = journal.author;
-            temp.isbn= journal.isbn;
-            temp.publication= journal.publication;
-            temp.subject= journal.subject;
+            temp.adviser= journal.adviser;
+            temp.pub_date= journal.pub_date;
+            temp.topic= journal.topic;
+            temp.journal= journal.journal;
+            temp.poster= journal.poster;
             res.status(200).send(temp);
         }
-
-        res.status(404).send({message:"Journal not found"});
-    
+        res.status(404).send();
         }catch(err){
-        res.status(400).send({message:"Error"});
+        res.status(400).send();
     
         }
 
-}
-
-async function create(req, res) {
-
-}
-
-async function deleteJournal(req, res) {
-    
-}
-
-async function update(req, res) {
-    
 }

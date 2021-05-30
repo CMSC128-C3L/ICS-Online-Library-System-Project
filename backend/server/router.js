@@ -13,6 +13,10 @@ router.get('/api', (req, res) => {
 // User routes
 router.post('/api/users/login', User.login);
 router.get('/api/users/logout', auth, User.logout);
+router.get('/api/users', auth, isAdmin, User.getAll);
+router.get('/api/users/:id', auth, isAdmin, User.getOne);
+router.patch('/api/users/:id', auth, isAdmin, User.update);
+router.delete('/api/users/:id', auth, isAdmin, User.deleteOne);
 
 // Thesis routes
 router.get('/api/thesis/', auth, Thesis.getAll);
@@ -27,6 +31,8 @@ const Sp = require('./controllers/spController.js');
 router.get('/api/sp',auth, Sp.getAll);
 router.get('/api/sp/:id',auth, Sp.getOne);
 router.post('/api/sp',auth, isAdmin, Sp.create);
+router.patch('/api/sp/:id', auth, isAdmin, Sp.update);
+router.delete('/api/sp/:id', auth, isAdmin, Sp.deleteSp);
 
 
 
@@ -55,7 +61,10 @@ router.get('/api/search/thesis', Search.searchThesis);
 router.get('/api/search/book', Search.searchBook);
 router.get('/api/search/journal', Search.searchJournal);
 router.get('/api/search/sp', Search.searchSp);
-
+router.get('/api/search/filter/book', Search.advanceSearchBook);
+router.get('/api/search/filter/thesis', Search.advanceSearchThesis);
+router.get('/api/search/filter/sp', Search.advanceSearchSp);
+router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
 
 //

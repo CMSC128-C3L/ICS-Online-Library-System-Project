@@ -1,0 +1,157 @@
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-box {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 50%;
+    max-width: 25%;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    border-radius: 0.5em;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 1em;
+}
+
+#close-button {
+    top: 20px;
+    right: 20px;
+    position: fixed;
+    margin-left: auto;
+    background-color: transparent;
+    border: none;
+    width: 2em;
+    height: auto;
+}
+
+#close-button:hover {
+    fill: #47abdb;
+}
+
+.popup-container {
+    display: grid;
+    height: 100%;
+    margin: 2em;
+    justify-items: center;
+    align-items: center;
+    gap: 0.75em;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr;
+}
+
+.edit-user{
+    grid-template-rows: 1fr 0.25fr 0.25fr 0.25fr 0.5fr 0.5fr;
+}
+
+.delete-user{
+    grid-template-rows: 0.5fr 1fr 0.25fr 0.25fr 0.25fr 0.5fr;
+}
+
+.confirm-change{
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.user-avatar {
+    height: 100px;
+    width: 100px;
+    margin: 0;
+    border-color: #47ABD8;
+    border-radius: 50%;
+    border-style: solid;
+}
+
+.text {
+    margin: 0;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.regular {
+    font-weight: 400;
+}
+
+.user-id {
+    color: #C4C4C4;
+}
+
+.prompt {
+    display: flex;
+    text-align: center;
+    font-weight: 700;
+}
+
+.delete-cancel {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.popup-btn {
+    margin-top: 2em;
+    color: #FFF;
+    border-radius: 0.5em;
+    border-width: 0;
+    min-height: 70%;
+    min-width: 40%;
+}
+
+.popup-btn:disabled {
+    background-color: rgb(71,171,216,0.5);
+    color: rgb(255,255,255,0.5)
+}
+
+.save {
+    background-color: #47ABD8;
+}
+
+.delete {
+    background-color: #B04444;
+}
+
+.cancel {
+    color: #000;
+    background-color: #C4C4C4;
+}
+
+.copy-disable {
+    user-select: none;
+}
+
+.key-container {
+    /* background-color: #47ABD8; */
+    /* color: white; */
+    border-radius: 5em;
+}
+
+.confirm-button {
+    font-size: 1.5em;
+    border-radius: 1em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    background-color: #47ABD8;
+    color: white;
+}
+
+.confirm-button:disabled {
+    background-color: rgb(71,171,216,0.5);
+}

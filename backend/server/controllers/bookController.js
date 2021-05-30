@@ -16,7 +16,7 @@ async function getAll(req, res) {
         res.status(200).send(book);     // respond with the array of books
         
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -32,10 +32,11 @@ async function get(req, res) {
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
         const book = bookBase(data);
+        book.description = data.description;
         res.status(200).send(book);     // respond with specified book
 
     } catch(err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -49,7 +50,7 @@ async function create(req, res) {
         return res.status(201).send(newBook._id);   // responsd with the id of the new book
 
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -68,7 +69,7 @@ async function update(req, res) {
         return res.status(200).send(bookBase(newBook));   // respond with the updated book  
 
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -86,7 +87,7 @@ async function deleteBook(req, res) {
         return res.status(200).send({message:"book deleted"});  // send ok response        
 
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -98,14 +99,18 @@ async function deleteBook(req, res) {
 */
 function bookBase(data) {
     const book = {}
-    book.id = data._id;
+    book._id = data._id
     book.title = data.title;
     book.year = data.year;
     book.author = data.author;
     book.isbn = data.isbn;
     book.book_cover_img = data.book_cover_img;
-    book.description = data.description;
-    book.topics = data.topics;
+    book.topic = data.topic;
+    book.course_code = data.courses.map(getCourseCode);
 
     return book;
+}
+
+function getCourseCode(data){
+    return data.code;
 }

@@ -8,9 +8,6 @@ function Footer(props) {
             <div className="footer-row">
                 <div className="category-row">
                     <CategoryColumn content={searchprop}></CategoryColumn>
-                    <CategoryColumn content={toolsprop}></CategoryColumn>
-                </div>
-                <div className="category-row">
                     <CategoryColumn content={contactprop}></CategoryColumn>
                     <CategoryColumn content={socialprop}></CategoryColumn>
                 </div>
@@ -23,12 +20,6 @@ const searchprop = {
     title: "Search",
     isNav: true,
     links: ["Home", "Books", "Journals", "SP", "Thesis"]
-}
-
-const toolsprop = {
-    title: "Tools",
-    isNav: true,
-    links: ["Advanced Search", "Feature 1", "Feature 2"]
 }
 
 const contactprop = {
