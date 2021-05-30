@@ -46,16 +46,16 @@ function ResultPane(props){
     for(let i = 0; i < categories.length; i++){
       try{
         if(categories[i] === 'Books'){
-            const books = await axios.get('/search/filter/book' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
+            const books = await axios.get('/api/search/filter/book' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
             setBooks(books.data);
           }else if(categories[i] === 'Journals'){
-            const journals = await axios.get('/search/filter/journal' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
+            const journals = await axios.get('/api//search/filter/journal' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
             setJournal(journals.data);
           }else if(categories[i] === 'Special Problems'){
-            const sp = await axios.get('/search/filter/sp' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
+            const sp = await axios.get('/api//search/filter/sp' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
             setSp(sp.data);
           }else if(categories[i] === 'Theses'){
-            const theses = await axios.get('/search/filter/thesis' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
+            const theses = await axios.get('/api//search/filter/thesis' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + "&topic=");
             setThesis(theses.data);
           }
       }catch(err){
