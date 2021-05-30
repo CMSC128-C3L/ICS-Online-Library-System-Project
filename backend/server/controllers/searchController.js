@@ -39,7 +39,7 @@ async function searchAll(req, res) {
 		const book = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {'courses.code': {$regex: query}}]});
 		const thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
 		const sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
-		const journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$ne : ''}});
+		const journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$exists: true, $ne : ''}});
 		
 		result.push(book);
 		result.push(thesis);
@@ -77,7 +77,7 @@ async function searchBook(req, res) {
 async function searchJournal(req, res) {
 	try{
 		let query = new RegExp(req.query.search, 'i');
-		const journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$ne : ''}});
+		const journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$exists: true, $ne : ''}});
 		if(journal != null) res.status(200).send(journal);
 		else res.status(404).send("Journal not found!");
 	}catch(error){
@@ -174,11 +174,11 @@ async function advanceSearchJournal(req, res) {
 		let journal;
 
 		if(typeof(topics) === 'object'){//it's an array 
-			journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}], journal:{$ne : ''}, topic:{$all:topics}});
+			journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}], journal:{$exists: true, $ne : ''}, topic:{$all:topics}});
 		}else if(topics == ''){
-			journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$ne : ''}});
+			journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$exists: true, $ne : ''}});
 		}else{//it's a string
-			journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}], journal:{$ne : ''}, topic:topics});
+			journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}], journal:{$exists: true, $ne : ''}, topic:topics});
 		}
 		if(journal != null) res.status(200).send(journal);
 		else res.status(404).send("Journal not found!");
