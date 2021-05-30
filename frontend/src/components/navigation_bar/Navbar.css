@@ -15,6 +15,7 @@ button:hover{
   height: 120px;
   font-family: Arial, Helvetica, sans-serif;
   justify-content: center;
+  padding-left: 2vh;
   display: flex;
 }
 
