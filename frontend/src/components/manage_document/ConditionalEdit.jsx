@@ -39,6 +39,7 @@ function ConditionalEdit(props){
           const document = await axios.get(`/api/books/${id}`);
           console.log(document.data);
           setDocument(document.data);
+          console.log('publisher: ', document.data.publisher)
       }catch(e){
           console.log(e)
       }

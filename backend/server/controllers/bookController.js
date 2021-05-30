@@ -104,6 +104,7 @@ function bookBase(data) {
     book.year = data.year;
     book.author = data.author;
     book.isbn = data.isbn;
+    book.publisher = data.publisher;
     book.book_cover_img = data.book_cover_img;
     book.topic = data.topic;
     book.course_code = data.courses.map(getCourseCode);
