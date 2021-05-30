@@ -48,6 +48,7 @@ function JournalCard(props) {
 				<div className="doc-year-category">
 					<Typography className="doc-category" variant="subtitle2" style={{fontWeight: '600'}}>
 						JOURNAL
+						{/* {props.doc.type} <=== this should be the proper way */}
 					</Typography>
 				</div>
 

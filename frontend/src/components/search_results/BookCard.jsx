@@ -56,6 +56,7 @@ function BookCard(props) {
 						</Typography>
 						<Typography className="doc-category" variant="subtitle2" style={{fontWeight: '600'}}>
 							BOOK
+							{/* {props.doc.type} <=== this should be the proper way */}
 						</Typography>
 					</div>
 

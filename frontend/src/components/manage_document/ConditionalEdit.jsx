@@ -73,7 +73,7 @@ function ConditionalEdit(props){
                         {/* document attributes are editable*/}
                         <div className='document-card-container document-card-flex-column' key={document.id}>
                           <div className="document-card-flex-column"> 
-                          <div className="main-text-tags">Classification: Book</div>
+                          <div className="main-text-tags">Classification: {document.type}</div>
                           <div className="main-text-tags">Title: <input type="text" defaultValue={document.title} onChange={props.updateTitle}/> </div>
                           <div className="main-text-tags">Author: <input type="text" defaultValue={document.author} onChange={props.updateAuthor}/> </div>
                           <div className="main-text-tags">Year: <input type="text" defaultValue={document.year} onChange={props.updateYear}/></div>
@@ -113,7 +113,7 @@ function ConditionalEdit(props){
                         
                         <div className='document-card-container document-card-flex-column' key={document.id}>
                         <DocumentCard
-                            classification={document.classification}
+                            type={document.type}
                             title={document.title}
                             author={document.author} 
                             yearPublished={document.year}

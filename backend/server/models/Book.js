@@ -38,6 +38,9 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  type: {
+    type: String
+  },
   courses: [],
   topic: [String]
 },

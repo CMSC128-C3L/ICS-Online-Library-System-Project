@@ -108,6 +108,7 @@ function bookBase(data) {
     book.book_cover_img = data.book_cover_img;
     book.topic = data.topic;
     book.course_code = data.courses.map(getCourseCode);
+    book.type = data.type;
 
     return book;
 }
