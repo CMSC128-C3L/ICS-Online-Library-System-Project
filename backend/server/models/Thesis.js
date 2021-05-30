@@ -30,6 +30,7 @@ const topics = [
 ];
 
 const thesisSchema = new mongoose.Schema({
+  id: Number,
   type: {
     type: String,
     default: 'Thesis'
@@ -57,6 +58,12 @@ const thesisSchema = new mongoose.Schema({
   },
   topic: {
     type: Array
+  },
+  journal: {
+    type: String
+  },
+  poster: {
+    type: String
   }
 },
 {collection: 'Papers'}
