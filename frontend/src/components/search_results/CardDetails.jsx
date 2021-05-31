@@ -92,10 +92,10 @@ function AdviserList(props){
   return(
     <Typography noWrap gutterBottom variant="body2">
       Adviser:&nbsp;
-      {props.adviser.slice(0,4).map((author, index) => {
+      {props.adviser.slice(0,4).map((adviser, index) => {
         return (index < 3)? 
-        <span key={author}>{ index ? (', ' + author) : author}</span> : 
-        <span key={author}>{'...'}</span>
+        <span key={adviser}>{ index ? (', ' + adviser) : adviser}</span> : 
+        <span key={adviser}>{'...'}</span>
       })}
     </Typography>
   )
