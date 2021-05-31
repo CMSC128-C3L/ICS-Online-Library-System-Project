@@ -78,7 +78,7 @@ return (
         cookiePolicy={'single_host_origin'}
  
         render={renderProps => (
-          <Button className="Button" startIcon={googleLogo}  onClick={renderProps.onClick} disabled={renderProps.disabled}>LOG IN</Button>
+          <Button startIcon={googleLogo}  onClick={renderProps.onClick} disabled={renderProps.disabled} style={{fontSize: "17px"}}>LOG IN</Button>
         )}
         isSignedIn={true}
       />

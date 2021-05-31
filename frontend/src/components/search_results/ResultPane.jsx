@@ -83,6 +83,7 @@ function ResultPane(props){
     
   }, [searchContext]);
 
+  // window.scrollTo(0, 0);
 
   return(
     <Container className= {classes.container} >

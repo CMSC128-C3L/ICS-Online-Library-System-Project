@@ -44,7 +44,7 @@ function Logout() {
         clientId={clientId}
         onLogoutSuccess={onSuccess}
         render={renderProps => (
-          <Button startIcon={googleLogo} onClick={renderProps.onClick} disabled={renderProps.disabled}>Log Out</Button>
+          <Button startIcon={googleLogo} onClick={renderProps.onClick} disabled={renderProps.disabled} style={{fontSize: "17px"}}>Log Out</Button>
         )}
       ></GoogleLogout>
     </div>

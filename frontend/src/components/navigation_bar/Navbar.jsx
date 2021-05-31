@@ -5,11 +5,13 @@ import searchIcon from '../../assets/magnifying_glass.png';
 import SearchContext from '../search_results/SearchContext';
 import { UserContext } from '../user/UserContext';
 import Logout from '../login_search/Logout';
+import Login from '../login_search/Login';
 import { useHistory } from 'react-router';
+import ConditionalTools from './ConditionalTools';
+import Button from '@material-ui/core/Button';
 import updateQueryString from '../search_results/UpdateQueryString';
 
 function Navbar(props){
-
     const {loggedUser, setLoggedUser} = useContext(UserContext)
     const searchContext = useContext(SearchContext);
     const history = useHistory();
@@ -30,11 +32,27 @@ function Navbar(props){
 		})
     };
 
+    const renderComponentsBasedOnState = () =>{
+        if(JSON.stringify(loggedUser) === '{}'){
+            return(
+                <div className="useraccount">
+                    <Login/>
+                    <Button onClick={() => history.push('/support')} style={{fontSize: "17px"}}>Support</Button>
+                </div>
+            )
+        }
 
-
-    const snowfettiStyles = {
-        backgroundColor: '#47abd8'
-      };
+        else{
+            return(
+                <div className="useraccount">
+                    <div className="container">
+                        {loggedUser.given_name}
+                        <Logout/>
+                    </div>
+                </div>
+            )
+        }
+    }
 
     return(
         <div className="Navbar">
@@ -59,11 +77,7 @@ function Navbar(props){
 
                     {/* MIDDLE-BOTTOM SIDE START */}
                     <div className="bottomSide">
-                        <div className="links">
-                            <a href="/">Home</a>
-                            <a href="/search">Browse</a>
-                            <a href="/tools">Tools</a>
-                        </div>
+                        <ConditionalTools/>
                     </div>
                     {/* MIDDLE-BOTTOM SIDE END */}
                 </div>
@@ -71,10 +85,7 @@ function Navbar(props){
 
                 {/* RIGHT SIDE START */}
                 <div className="rightSide">
-                    <div className="useraccount">
-                        <p>{loggedUser.given_name}</p>
-                        <Logout/>
-                    </div>  
+                    {renderComponentsBasedOnState()}
                 </div>
                 {/* RIGHT SIDE END */}
         </div>
