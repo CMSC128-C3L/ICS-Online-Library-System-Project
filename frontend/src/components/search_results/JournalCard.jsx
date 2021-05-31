@@ -37,18 +37,17 @@ function JournalCard(props) {
 	}
 
 	return(
-		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}}>
+		<Card className= "doc-card" style={{backgroundColor: '#F4F4F4'}}>
 			<CardActionArea onClick={() => history.push(`/search/${props.doc._id}`)}>
 				<Typography className="doc-title" noWrap={true} variant="h6" style={{fontWeight: '600'}}>
 					{props.doc.title}
 				</Typography>
 			</CardActionArea>
-			<div className="doc-book-content">
+			<div className="doc-content">
 
 				<div className="doc-year-category">
 					<Typography className="doc-category" variant="subtitle2" style={{fontWeight: '600'}}>
 						JOURNAL
-						{/* {props.doc.type} <=== this should be the proper way */}
 					</Typography>
 				</div>
 
@@ -64,19 +63,16 @@ function JournalCard(props) {
 							<Typography gutterBottom variant="body2">
 								{'Adviser: '} 
 								{props.doc.adviser.slice(0,4).map((author, index) => {
-									return (index < 2)? 
+									return (index < 3)? 
 									<span key={author}>{ index ? (', ' + author) : author}</span> : 
 									<span key={author}>{'...'}</span>
 								})}
 							</Typography>
-							{/*<Typography gutterBottom variant="body2">
-								{'ISBN: ' + props.doc.isbn}
-							</Typography>*/}
 						</div>
 						<div>
-							{/*<Typography noWrap gutterBottom variant="body2">
+							{/* <Typography noWrap gutterBottom variant="body2">
 								{'Publication Date: ' + props.doc.pub_date}
-							</Typography>*/}
+							</Typography> */}
 							<Typography noWrap gutterBottom variant="body2">
 								{'Topic: '} 
 								{props.doc.topic.map((topic, index) => {

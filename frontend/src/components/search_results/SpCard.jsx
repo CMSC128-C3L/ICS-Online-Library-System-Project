@@ -55,8 +55,7 @@ function SpCard(props) {
 						{props.doc.pub_date}
 					</Typography> */}
 					<Typography className="doc-category" variant="subtitle2" style={{fontWeight: '600'}}>
-						SPECIAL PROBLEM
-						{/* {props.doc.type} <=== this should be the proper way */}
+						{props.doc.type.toUpperCase()}
 					</Typography>
 				</div>
 
@@ -72,7 +71,7 @@ function SpCard(props) {
 						<Typography gutterBottom variant="body2">
 							{'Adviser: '} 
 							{props.doc.adviser.slice(0,4).map((author, index) => {
-								return (index < 2)? 
+								return (index < 3)? 
 								<span key={author}>{ index ? (', ' + author) : author}</span> : 
 								<span key={author}>{'...'}</span>
 							})}

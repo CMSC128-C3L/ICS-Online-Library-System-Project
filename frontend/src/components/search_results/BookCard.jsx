@@ -55,8 +55,7 @@ function BookCard(props) {
 							{props.doc.year}
 						</Typography>
 						<Typography className="doc-category" variant="subtitle2" style={{fontWeight: '600'}}>
-							BOOK
-							{/* {props.doc.type} <=== this should be the proper way */}
+							{props.doc.type.toUpperCase()}
 						</Typography>
 					</div>
 

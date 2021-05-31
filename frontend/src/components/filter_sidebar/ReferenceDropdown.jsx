@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	formControl: {
 		height: 40,
-    	minWidth: 150,
+    minWidth: 150,
 	},
 	dropdownLabel: {
 		margin: 0,
