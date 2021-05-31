@@ -132,8 +132,11 @@ async function advanceSearchBook(req, res) {
 async function advanceSearchThesis(req, res) {
 	try{
 		let query = new RegExp(req.query.search, 'i');
+		let courseCode = req.query.courseCode;
 		let topics = req.query.topic;
 		let thesis;
+
+		if(req.query.search == '' && topics == '' && courseCode != '') res.status(200).send([]);
 
 		if(typeof(topics) === 'object'){//it's an array 
 			thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:{$all:topics}});
@@ -152,8 +155,11 @@ async function advanceSearchThesis(req, res) {
 async function advanceSearchSp(req, res) {
 	try{
 		let query = new RegExp(req.query.search, 'i');
+		let courseCode = req.query.courseCode;
 		let topics = req.query.topic;
 		let sp;
+
+		if(req.query.search == '' && topics == '' && courseCode != '') res.status(200).send([]);
 
 		if(typeof(topics) === 'object'){//it's an array 
 			sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:{$all:topics}});
@@ -175,6 +181,8 @@ async function advanceSearchJournal(req, res) {
 		let courseCode = req.query.courseCode;
 		let topics = req.query.topic;
 		let journal;
+
+		if(req.query.search == '' && topics == '' && courseCode != '') res.status(200).send([]);
 
 		if(typeof(topics) === 'object'){//it's an array 
 			journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}], journal:{$exists: true, $ne : ''}, topic:{$all:topics}});
@@ -200,6 +208,7 @@ function bookBase(data) {
     book.book_cover_img = data.book_cover_img;
     book.topic = data.topic;
     book.course_code = data.courses.map(getCourseCode);
+    book.type = data.type;
 
     return book;
 }
