@@ -172,7 +172,6 @@ const useStyles = makeStyles(() => ({
       height:'10vh'
   },
   boxStyle:{
-    // background:'red',
     flexWrap: "wrap",
     wordWrap: "break-word",
     wordBreak: "break-all",

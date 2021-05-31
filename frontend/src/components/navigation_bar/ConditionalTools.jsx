@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
-import { useHistory } from 'react-router';
+import {useHistory} from 'react-router-dom';
 import { UserContext } from '../user/UserContext';
 
 /**
@@ -10,9 +10,9 @@ import { UserContext } from '../user/UserContext';
  */
 
 function ConditionalTools(){
-  const loggedUser = useContext(UserContext);
+  const {loggedUser, setLoggedUser} = useContext(UserContext);
   const history = useHistory();
-
+  
   return(
     <div className="button-links">
       {
@@ -28,6 +28,7 @@ function ConditionalTools(){
             default:
               return(
                 <div className="links">
+                  
                   <Button className="a" onClick={() => history.push('/')}>Home</Button>
                   <Button className="a" onClick={() => history.push('/search')}>Browse</Button>
                 </div>

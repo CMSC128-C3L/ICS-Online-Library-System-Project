@@ -9,13 +9,9 @@ import queryString from 'query-string';
 
 //layout purposes
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import AddIcon from '@material-ui/icons/Add';
-import Select from '@material-ui/core/Select';
+import ConditionalSort from './ConditionalSort';
+import ConditionalButtons from './ConditionalButtons';
 import './SearchCard.css';
-import Modal from './modal/Modal';
-import AddDocument from './modal/AddDocument';
 
 // testing purposes
 import BookCard from './BookCard';
@@ -32,23 +28,6 @@ const useStyles = makeStyles((theme) => ({
   resultHeader: {
     minHeight: 50,
     display: 'flex'
-  },
-  buttonStyle:{
-    marginLeft:'4vh',
-    marginTop:'0.5vh',
-    backgroundColor: '#47ABD8', 
-    border:'transparent',
-    borderRadius:'6vh', 
-    width:'6vh', 
-    height:'6vh'
-  },
-  iconStyle:{
-    '&:hover': {
-      color: "#95D2EC",
-   },
-  color:'black', 
-  width:'4.5vh', 
-  height:'4.5vh'
   }
 }));
 
@@ -127,28 +106,9 @@ function ResultPane(props){
       <div className= {classes.resultHeader}>
         <div className="sort-container">
           <Typography variant="body2">{(books.length+thesis.length+sp.length+journal.length) + ' results'}</Typography>
-          <FormControl variant="outlined" className={classes.formControl} style={{ marginTop:'1vh'}}>
-            <InputLabel for="sort-label">Sort By</InputLabel>
-            <Select
-              native
-              id="sort-label"
-              onChange={'temporaryHandleChange'}
-              style={{ height: 30, paddingTop: '10px'}}
-              inputProps={{
-                name: 'sort',
-                id: 'outlined-sort',
-              }}
-            >
-              <option value=""> </option>
-              <option value={10}>Newest</option>
-              <option value={20}>Oldest</option>
-              <option value={30}>Alphabetical Order</option>
-            </Select>
-          </FormControl>
+          <ConditionalSort/>
         </div>
-        <button className="tool-button" onClick={"temporaryOnclick"}> MULTIPLE SELECT </button>
-        <button className="tool-button" onClick={() => history.push("/authorSummary")}> GENERATE SUMMARY REPORT </button>
-        <button className={classes.buttonStyle} onClick={handleAdd}><AddIcon className={classes.iconStyle}/></button>
+        <ConditionalButtons/>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {books.map((result) => {
@@ -180,7 +140,6 @@ function ResultPane(props){
           );
         })}
       </GridList>
-      <Modal ref={addModal}><AddDocument/></Modal>
     </Container>
   );
 }
