@@ -10,11 +10,34 @@ import { ACTIONS } from '../../pages/SearchPage';
 const category = {'name': 'Category', 'list': ["Books", "Journals", "Special Problems", "Theses"]};
 const topic = {
 	'name': 'Topic', 
-	'list': ["Analysis of Algorithms", "Automata and Language Theory", "Compiler Design", "Computer Architecture", "Computer Graphics", 
-	"Data Communications and Networking", "Data Structures", "Discrete Mathematics", "Database Systems", "Fundamentals of Programming",
-	"Internet", "Logic Design and Digital Circuits", "Machine-Level Programming", "Numerical and Symbolic Computation", 
-	"Object-Oriented Programming", "Operating Systems", "Parallel Computing", "Personal Computing", "Robot Modeling",
-	"Software Engineering", "Programming Languages", "Web Programming"]
+	'list': ['Algorithms',
+            'Android Development',
+            'Artificial Intelligence',
+            'Automata',
+            'Bioinformatics',
+            'Computer Architecture',
+            'Computer Graphics',
+            'Computer Security',
+            'Cryptography',
+            'Data Structures',
+            'Database Management',
+            'Discrete Mathematics',
+            'Distributed Computing',
+            'Human-Computer Interaction',
+            'Image Processing',
+            'Machine Learning',
+            'Networking',
+            'Operating System',
+            'Parallel Algorithms',
+            'Programming Languages',
+            'Robotics',
+            'Security',
+            'Software Engineering',
+            'Special Topic',
+            'Speech Recognition',
+            'User Interface',
+            'Web Development',
+            '']
 };
 
 const useStyles = makeStyles((theme) => ({

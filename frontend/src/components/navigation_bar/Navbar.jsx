@@ -1,28 +1,58 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './Navbar.css';
 import icsLogo from '../../assets/ics_logo.png';
 import searchIcon from '../../assets/magnifying_glass.png';
 import SearchContext from '../search_results/SearchContext';
+import { UserContext } from '../user/UserContext';
+import Logout from '../login_search/Logout';
+import Login from '../login_search/Login';
+import { useHistory } from 'react-router';
+import ConditionalTools from './ConditionalTools';
+import Button from '@material-ui/core/Button';
+import updateQueryString from '../search_results/UpdateQueryString';
 
 function Navbar(props){
+    const {loggedUser, setLoggedUser} = useContext(UserContext)
     const searchContext = useContext(SearchContext);
+    const history = useHistory();
 
 	// for tracking the local changes on query being typed
 	const [query, setQuery] = useState('');
-
+    const [changed, setChanged] = useState(false);
 	const handleChange = (event) =>{
 		setQuery(event.target.value);
 	};
-	
+
 	// for dispatching the submitted query to be used in showing results
 	const handleSubmit = (event) => {
 		event.preventDefault()
         searchContext.dispatch({
 			type: props.action,
 			query: query
-		});
+		})
     };
 
+    const renderComponentsBasedOnState = () =>{
+        if(JSON.stringify(loggedUser) === '{}'){
+            return(
+                <div className="useraccount">
+                    <Login/>
+                    <Button onClick={() => history.push('/support')} style={{fontSize: "17px"}}>Support</Button>
+                </div>
+            )
+        }
+
+        else{
+            return(
+                <div className="useraccount">
+                    <div className="container">
+                        {loggedUser.given_name}
+                        <Logout/>
+                    </div>
+                </div>
+            )
+        }
+    }
 
     return(
         <div className="Navbar">
@@ -47,11 +77,7 @@ function Navbar(props){
 
                     {/* MIDDLE-BOTTOM SIDE START */}
                     <div className="bottomSide">
-                        <div className="links">
-                            <a href="/">Home</a>
-                            <a href="/search">Browse</a>
-                            <a href="/tools">Tools</a>
-                        </div>
+                        <ConditionalTools/>
                     </div>
                     {/* MIDDLE-BOTTOM SIDE END */}
                 </div>
@@ -59,10 +85,7 @@ function Navbar(props){
 
                 {/* RIGHT SIDE START */}
                 <div className="rightSide">
-                    <div className="useraccount">
-                        Fname Lname
-                        <a href="/logout">Logout</a>
-                    </div>  
+                    {renderComponentsBasedOnState()}
                 </div>
                 {/* RIGHT SIDE END */}
         </div>

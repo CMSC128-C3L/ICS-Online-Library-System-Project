@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const journalSchema= new mongoose.Schema({
     id: Number,
-    type: Number,
+    type: String,
     title: String,
     author: [String],
     adviser: [String],

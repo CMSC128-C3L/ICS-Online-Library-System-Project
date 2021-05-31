@@ -5,6 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import SearchContext from '../search_results/SearchContext';
+import updateQueryString from '../search_results/UpdateQueryString';
 
 const useStyles = makeStyles((theme) =>({
 	listContainer: {
@@ -37,6 +38,14 @@ function TopicChecklist(props){
 	const classes = useStyles();
 	
 	const searchContext = useContext(SearchContext);
+	
+	const handleChange = (item) => {
+		searchContext.dispatch({type: props.action, item: item})
+
+		updateQueryString(searchContext)
+	}
+
+
 	return(
 		
 		<div className={classes.listContainer}>
@@ -50,9 +59,7 @@ function TopicChecklist(props){
 							control={
 								<Checkbox
 									className={classes.checkbox} 
-									onChange={() => searchContext.dispatch({
-										type: props.action, 
-										item: item})} 
+									onChange={() => handleChange(item)} 
 									checked={searchContext.state.topic.indexOf(item) !== -1}
 							/>}
 							label={<Typography variant="body2" color="textPrimary">{item}</Typography>}

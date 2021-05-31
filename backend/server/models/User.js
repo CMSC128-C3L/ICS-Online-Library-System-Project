@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema({
   classification: {
     type: String
   },
+  profile_picture: {
+    type: String
+  },
   borrowedBooks: [],
   tokens: [{
     token: String

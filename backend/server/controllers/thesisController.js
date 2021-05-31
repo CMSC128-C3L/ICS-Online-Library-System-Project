@@ -35,7 +35,6 @@ async function create(req, res) {
     await thesis.save();
     res.status(201).send(thesis);
   } catch(error) {
-    // console.log(error);
     res.status(400).send();
   }
 }
