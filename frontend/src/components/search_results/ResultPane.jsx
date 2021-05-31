@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'; 
+import React, { useContext, useEffect, useState, useRef } from 'react'; 
 import axios from 'axios';
 import SearchContext from './SearchContext'
 import Typography from "@material-ui/core/Typography";
@@ -11,7 +11,11 @@ import queryString from 'query-string';
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import AddIcon from '@material-ui/icons/Add';
 import Select from '@material-ui/core/Select';
+import './SearchCard.css';
+import Modal from './modal/Modal';
+import AddDocument from './modal/AddDocument';
 
 // testing purposes
 import BookCard from './BookCard';
@@ -19,6 +23,7 @@ import ThesisCard from './ThesisCard';
 import JournalCard from './JournalCard';
 import SpCard from './SpCard';
 import { useLocation, useParams, useHistory } from 'react-router';
+
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: 20,
@@ -28,6 +33,23 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 50,
     display: 'flex'
   },
+  buttonStyle:{
+    marginLeft:'4vh',
+    marginTop:'0.5vh',
+    backgroundColor: '#47ABD8', 
+    border:'transparent',
+    borderRadius:'6vh', 
+    width:'6vh', 
+    height:'6vh'
+  },
+  iconStyle:{
+    '&:hover': {
+      color: "#95D2EC",
+   },
+  color:'black', 
+  width:'4.5vh', 
+  height:'4.5vh'
+  }
 }));
 
 function ResultPane(props){
@@ -91,6 +113,15 @@ function ResultPane(props){
     
   }, [searchContext]);
 
+  // Create reference to modal
+	const addModal = useRef(null)
+	const openAddModal = (user, props) => {addModal.current.open(user, props)}
+
+  const handleAdd = () =>{
+    console.log('[DOCUMENT] when add button clicked: ');
+		openAddModal();
+  }
+
   return(
     <Container className= {classes.container} >
       <div className= {classes.resultHeader}>
@@ -117,6 +148,7 @@ function ResultPane(props){
         </div>
         <button className="tool-button" onClick={"temporaryOnclick"}> MULTIPLE SELECT </button>
         <button className="tool-button" onClick={() => history.push("/authorSummary")}> GENERATE SUMMARY REPORT </button>
+        <button className={classes.buttonStyle} onClick={handleAdd}><AddIcon className={classes.iconStyle}/></button>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {books.map((result) => {
@@ -148,6 +180,7 @@ function ResultPane(props){
           );
         })}
       </GridList>
+      <Modal ref={addModal}><AddDocument/></Modal>
     </Container>
   );
 }
