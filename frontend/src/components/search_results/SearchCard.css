@@ -65,3 +65,23 @@
 .doc-icons {
   grid-area: doc-icons;
 }
+
+.tool-button{
+  border-radius: 1em;
+  background-color: #47abdb;
+  color:  rgb(0, 0, 0);
+  border: none;
+  font-size: 17px;
+  width: 50vh;
+  height: 5vh;
+  margin-top: 1vh;
+  margin-left: 2em;
+}
+
+.tool-button:hover {
+  color: #95D2EC;
+}
+
+.sort-container{
+  margin-bottom: 2vh;
+}

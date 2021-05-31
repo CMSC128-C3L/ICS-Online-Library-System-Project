@@ -22,9 +22,7 @@ function ConditionalTools(){
               return(
                 <div className="links">
                   <Button className="a" onClick={() => history.push('/adminHome')}>Home</Button>
-                  <Button className="a" onClick={() => history.push('/adminHome/manageDocuments')}>Home</Button>
-                  {/* <a href="/adminHome">HOME</a>
-                  <a href="/adminHome/manageDocuments">BROWSE</a> */}
+                  <Button className="a" onClick={() => history.push('/adminHome/manageDocuments')}>Browse</Button>
                 </div>
               )
             default:
@@ -32,8 +30,6 @@ function ConditionalTools(){
                 <div className="links">
                   <Button className="a" onClick={() => history.push('/')}>Home</Button>
                   <Button className="a" onClick={() => history.push('/search')}>Browse</Button>
-                  {/* <a href="/">HOME</a>
-                  <a href="/search">BROWSE</a> */}
                 </div>
               )	
           }

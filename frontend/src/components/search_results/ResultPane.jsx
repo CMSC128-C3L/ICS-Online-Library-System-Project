@@ -1,18 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'; 
 import axios from 'axios';
-import { makeStyles } from "@material-ui/core/styles";
 import SearchContext from './SearchContext'
 import Typography from "@material-ui/core/Typography";
 import Container from '@material-ui/core/Container';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import queryString from 'query-string';
+
+//layout purposes
+import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 // testing purposes
 import BookCard from './BookCard';
 import ThesisCard from './ThesisCard';
 import JournalCard from './JournalCard';
 import SpCard from './SpCard';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useParams, useHistory } from 'react-router';
 const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: 20,
@@ -20,12 +26,14 @@ const useStyles = makeStyles((theme) => ({
   },
   resultHeader: {
     minHeight: 50,
+    display: 'flex'
   },
 }));
 
 function ResultPane(props){
   const searchContext = useContext(SearchContext);
   const classes = useStyles();
+  const history = useHistory();
   const [books, setBooks] = useState([]);
   const [thesis, setThesis] = useState([]);
   const [sp, setSp] = useState([]);
@@ -83,12 +91,32 @@ function ResultPane(props){
     
   }, [searchContext]);
 
-  // window.scrollTo(0, 0);
-
   return(
     <Container className= {classes.container} >
       <div className= {classes.resultHeader}>
-        <Typography variant="body2">{(books.length+thesis.length+sp.length+journal.length) + ' results'}</Typography>
+        <div className="sort-container">
+          <Typography variant="body2">{(books.length+thesis.length+sp.length+journal.length) + ' results'}</Typography>
+          <FormControl variant="outlined" className={classes.formControl} style={{ marginTop:'1vh'}}>
+            <InputLabel for="sort-label">Sort By</InputLabel>
+            <Select
+              native
+              id="sort-label"
+              onChange={'temporaryHandleChange'}
+              style={{ height: 30, paddingTop: '10px'}}
+              inputProps={{
+                name: 'sort',
+                id: 'outlined-sort',
+              }}
+            >
+              <option value=""> </option>
+              <option value={10}>Newest</option>
+              <option value={20}>Oldest</option>
+              <option value={30}>Alphabetical Order</option>
+            </Select>
+          </FormControl>
+        </div>
+        <button className="tool-button" onClick={"temporaryOnclick"}> MULTIPLE SELECT </button>
+        <button className="tool-button" onClick={() => history.push("/authorSummary")}> GENERATE SUMMARY REPORT </button>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {books.map((result) => {
