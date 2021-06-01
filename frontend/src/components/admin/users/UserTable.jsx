@@ -107,14 +107,12 @@ const handleChangeRowsPerPage = (event) =>{
     const createClassificationCell = (classification) => {
 
         //if admin, set background color to red 
-        //NOTE: remove classfication 1, used for demonstrative purposes only
-        if(classification === "classification 1" || classification === "classification 1"){
+        if(classification === "Admin"){
             return(
                 <span style={{width: "7em", height: "3em", backgroundColor: "#d01b1b", border: "1px #d01b1b solid", borderRadius: "200px", display: "inline-block", justifyContent: "center", padding: "0.5em"}}><p className="classification-fontstyle">{classification}</p></span>
             )
-        }else if(classification === "Staff" || classification === "Faculty" || classification === "classification 2"){
+        }else if(classification === "Staff" || classification === "Faculty"){
             //if faculty or staff, set background color to purple 
-            //NOTE: remove classfication 2, used for demonstrative purposes only
             
             return(
                 <span style={{width: "7em", height: "3em", backgroundColor: "#b19cd8", border: "1px #b19cd8 solid", borderRadius: "200px", display: "inline-block", justifyContent: "center", padding: "0.5em"}}><p className="classification-fontstyle">{classification}</p></span>
@@ -166,7 +164,7 @@ const handleChangeRowsPerPage = (event) =>{
                             return (
                                 <TableRow justifyContent="center">
                                     <TableCell align="center">
-                                        <span style={{maxWidth: "10%", maxHeight: "10%", display: "inline-block"}}> <Avatar alt={person.name} src={person.avatar} align="center"></Avatar></span>
+                                        <span style={{maxWidth: "10%", maxHeight: "10%", display: "inline-block"}}> <Avatar alt={person.name} src={person.profile_picture} align="center"></Avatar></span>
                                     </TableCell>
                                     <TableCell align="center" style={{maxWidth: "30%"}}>
                                         {person.id} 
