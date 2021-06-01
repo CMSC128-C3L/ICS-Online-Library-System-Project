@@ -55,6 +55,18 @@ const thesisSchema = new mongoose.Schema({
   },
   poster: {
     type: String
+  },
+  download_count: {
+   type: Number
+  },
+  file: {
+   type: String
+  },
+  source_code: {
+    type: String
+  },
+  view_count: {
+    type: Number
   }
 },
 {collection: 'Papers'}
