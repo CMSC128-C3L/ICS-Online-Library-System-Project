@@ -1,11 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useContext} from 'react'
 import axios from 'axios'
 import {Table, TableBody, TableCell, TableContainer, TableRow, Paper, TableFooter, TablePagination, Avatar, Checkbox, Toolbar, Typography, Icon} from '@material-ui/core'
-import {lighten, makeStyles} from '@material-ui/core/styles'
+import {makeStyles} from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-// import UserToolbar from './UserToolbar'
 import {getComparator, stableSort} from './Comparator'
 import UserTablePaginationActions from './UserTablePaginationActions'
 import Modal from '../../manage_user_popup/Modal'
@@ -13,6 +12,7 @@ import EditUser from '../../manage_user_popup/EditUser'
 import DeleteUser from '../../manage_user_popup/DeleteUser'
 import MultiDeleteUser from './MultiDeleteUser'
 import UserTableHeadMS from './UserTableHeadMS'
+import {UserContext} from '../../user/UserContext'
 import './ManageUsers.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -43,17 +43,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function UserTable(records, headCells) {
+function UserTable(props) {
     const [rows, setRows] = useState([]) //initialize collection of user data to an empty array
     const [search, setSearch] = useState("") //initialize search to blank
+    const currentUser = useContext(UserContext).loggedUser
 
     const classes = useStyles();
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('name')
-    const [selected, setSelected] = useState([])
+    const [order, setOrder] = useState('asc'); //default sort order is ascending
+    const [orderBy, setOrderBy] = useState('name') //default sorted column is name
+    const [selected, setSelected] = useState([]) //default selected list empty
     const [page, setPage] = useState(0) //initialize table page to page 0
     const [rowsPerPage, setRowsPerPage] = useState(5) //initialize rows per page to 5
     const [rowCount, setRowCount] = useState(0) //get number of filtered rows
+
+    const handleSearch = (event) => {
+        setSearch(event.target.value)
+    }
 
     const handleChangePage = (event, newPage) =>{
         setPage(newPage);
@@ -98,43 +103,56 @@ function UserTable(records, headCells) {
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
     const getUsers = async() =>{
+        let users = []
         try{
             let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-            let rows = await axios.get("/api/users", options)
-            console.log(rows.data)
-            setRows(rows.data)
-            setRowCount(rows.data.length)
-        
+            users = await axios.get("/api/users", options)
+            
+            const filteredRows = filterRows(users.data)
+            setRows(filteredRows)
+            setRowCount(filteredRows.length)
         }catch(e){console.log(e)}
     }
 
+    const filterRows = (user) => {
+        const currentUserName = currentUser.given_name.concat(' ',currentUser.family_name)
+        
+        return (user.filter( person => {
+            return(
+                (
+                    // Filter search query
+                    search === ""
+                    || person.name.toLowerCase().includes(search.toLowerCase()) 
+                    || String(person.id).includes(search)
+                    || person.name.toLowerCase().includes(search.toLowerCase())
+                    || person.email.toLowerCase().includes(search.toLowerCase()) 
+                    || person.classification.toLowerCase().includes(search.toLowerCase())
+                )
+                &&  
+                    // Filter current user
+                    currentUserName.toLowerCase() !== person.name.toLowerCase()
+            )
+        }))
+    }
+
+    // Fetch users on first render
     useEffect(() => {
         getUsers()
     }, [])
 
-    // just re-render UserTable component upon successful update and delete user
-    useEffect(() => {   }, [rows])
+    // Update row count on query change
+    useEffect(() => {
+        setRowCount(filterRows(rows).length)
+        setPage(0)
+    }, [search])
 
-    const filterRows = () => {
-       return (rows.filter(person=>{
+    // Update row count on rows change
+    useEffect(() => {
+        setRowCount(filterRows(rows).length)
+        setPage(0)
+    }, [rows])
 
-            //if search is blank, all items are considered
-            if(search===""){
-                return person
-            
-            //if search is not empty, filter contents accdg to search
-            }else if(
-            person.name.toLowerCase().includes(search.toLowerCase()) 
-            || String(person.id).includes(search)
-            || person.name.toLowerCase().includes(search.toLowerCase())
-            || person.email.toLowerCase().includes(search.toLowerCase()) 
-            || person.classification.toLowerCase().includes(search.toLowerCase())
-            ){
-                return person
-            }
-        }))
-
-    }
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const createClassificationCell = (classification) => {
         let containerColor
@@ -160,7 +178,7 @@ function UserTable(records, headCells) {
     const openEditModal = (user) => {editModal.current.open(user)}
     const openDeleteModal = (user) => {deleteModal.current.open(user)}
     const openMultiDeleteModal = (users) => {multiDeleteModal.current.open(users)}
-
+    
     return (
         <div className="manageusers manageusers-container">
             <div>
@@ -169,11 +187,14 @@ function UserTable(records, headCells) {
                 <Modal ref={multiDeleteModal}><MultiDeleteUser getUsers={getUsers}/></Modal>
                 
                 <Toolbar style={{display: 'block'}}>
-                    <input className="searchbar" type="text" placeholder=" Search User" onChange={e=>{
-                        setSearch(e.target.value)
-                        setRowCount(filterRows().length)
-                        setPage(0)
-                    }}/>
+                    <input className="searchbar"
+                           type="text"
+                           placeholder=" Search User"
+                           onChange={ (e) => {
+                                handleSearch(e)
+                            }}
+                            value={search}
+                    />
 
                     <div className='toolbar-position'>
                         <div className='toolbar'>
@@ -206,7 +227,7 @@ function UserTable(records, headCells) {
                             rowCount={rows.length}
                         />
                         <TableBody>
-                            {stableSort(filterRows(), getComparator(order, orderBy))
+                            {stableSort(filterRows(rows), getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((person, index) => {
                                 const isItemSelected = isSelected(person._id)
@@ -252,6 +273,12 @@ function UserTable(records, headCells) {
                                 )
                             }
 
+                            )}
+
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: 77 * emptyRows }} component="th">
+                                    <TableCell colSpan={6} />
+                                </TableRow>
                             )}
                             
                         </TableBody>
