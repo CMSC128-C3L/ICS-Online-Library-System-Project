@@ -52,7 +52,7 @@ function UserTable(props) {
     const classes = useStyles();
     const [order, setOrder] = useState('asc'); //default sort order is ascending
     const [orderBy, setOrderBy] = useState('name') //default sorted column is name
-    const [selected, setSelected] = useState([]) //default selected list empty
+    const [selected, setSelected] = useState([]) //default selected list empty, key for TableRow
     const [page, setPage] = useState(0) //initialize table page to page 0
     const [rowsPerPage, setRowsPerPage] = useState(5) //initialize rows per page to 5
     const [rowCount, setRowCount] = useState(0) //get number of filtered rows
@@ -85,12 +85,12 @@ function UserTable(props) {
         setSelected([]);
     }
 
-    const handleClick = (e, id) => {
-        const selectedIndex = selected.indexOf(id);
+    const handleClick = (e, person) => {
+        const selectedIndex = selected.indexOf(person._id);
         let newSelected = []
 
         if(selectedIndex === -1)
-            newSelected = newSelected.concat(selected, id)
+            newSelected = newSelected.concat(selected, person._id)
         else if(selectedIndex === 0)
             newSelected = newSelected.concat(selected.slice(1))
         else if(selectedIndex === selected.length - 1)
@@ -182,12 +182,12 @@ function UserTable(props) {
     
     return (
         <div className="manageusers manageusers-container">
-            <div>
+            {/* <div> */}
                 <Modal ref={editModal}><EditUser getUsers={getUsers}/></Modal>
                 <Modal ref={deleteModal}><DeleteUser getUsers={getUsers}/></Modal>
-                <Modal ref={multiDeleteModal}><MultiDeleteUser getUsers={getUsers}/></Modal>
+                <Modal ref={multiDeleteModal}><MultiDeleteUser getUsers={getUsers} resetSelected={() => setSelected([])}/></Modal>
                 
-                <Toolbar style={{display: 'block'}}>
+                <Toolbar className="toolbar">
                     <input className="searchbar"
                            type="text"
                            placeholder=" Search User"
@@ -198,7 +198,7 @@ function UserTable(props) {
                     />
 
                     <div className='toolbar-position'>
-                        <div className='toolbar'>
+                        <div className='toolbar-tools'>
                             {selected.length > 0 ? (
                                 <>
                                 <Typography color='secondary'>{selected.length} selected</Typography>
@@ -247,11 +247,10 @@ function UserTable(props) {
                                         tabIndex={-1}
                                         key={person._id}
                                         selected={isItemSelected}
-                                        component="th"
                                     >
 
                                         <TableCell padding="checkbox">
-                                            <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, person._id)} inputProps={{'aria-labelledby':labelId}}/>
+                                            <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, person)} inputProps={{'aria-labelledby':labelId}}/>
                                         </TableCell>
                                         
                                         <TableCell align="center" padding="none">
@@ -310,7 +309,7 @@ function UserTable(props) {
                         </TableFooter>
                     </Table>
                 </TableContainer>
-          </div>
+          {/* </div> */}
         </div>
     )
 }
