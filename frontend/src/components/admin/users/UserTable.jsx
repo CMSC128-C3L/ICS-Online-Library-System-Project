@@ -4,6 +4,7 @@ import {Table, TableBody, TableCell, TableContainer, TableRow, Paper, TableFoote
 import {makeStyles} from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete';
+import SyncIcon from '@material-ui/icons/Sync';
 import EditIcon from '@material-ui/icons/Edit';
 import {getComparator, stableSort} from './Comparator'
 import UserTablePaginationActions from './UserTablePaginationActions'
@@ -202,13 +203,19 @@ function UserTable(props) {
                                 <>
                                 <Typography color='secondary'>{selected.length} selected</Typography>
                                 <button
-                                    className="toolbar-delete"
+                                    className="toolbar-btn"
                                     onClick={() => openMultiDeleteModal(selected)}>
                                     <DeleteIcon color='secondary'/>
                                 </button>
                                 </>
                             ) : (
                                 <>
+                                <Typography color='primary'>Reload Users</Typography>
+                                <button
+                                    className="toolbar-btn"
+                                    onClick={() => getUsers()}>
+                                    <SyncIcon color='primary'/>
+                                </button>
                                 </>
                             )}
                         </div>
