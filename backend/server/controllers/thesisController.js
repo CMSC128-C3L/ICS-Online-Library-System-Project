@@ -1,11 +1,33 @@
 const Thesis = require('../models/Thesis.js');
+const multer = require('multer');
+const path = require('path');
+
+const storagePath = path.join(__dirname, '../uploads/thesis');
+// const uploadsPath = '/../uploads/thesis';
+const storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, storagePath);
+  },
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + '-' + file.originalname);
+    
+  }
+});
+const upload = multer({storage});
+const uploadFields = upload.fields([
+  { name: "thesisDocument", maxCount: 1 },
+  { name: "journal", maxCount: 1 },
+  { name: "poster", maxCount: 1 },
+]);
 
 module.exports = {
   getAll,
   getOne,
   create,
   update,
-  deleteOne
+  deleteOne,
+  uploadFields,
+  uploadFiles
 }
 
 async function getAll(req, res) {
@@ -39,6 +61,31 @@ async function create(req, res) {
   }
 }
 
+async function uploadFiles(req, res) {
+  try {
+    const _id = req.params.id;
+    const uploads = req.files;
+
+    const thesis = await Thesis.findOne({_id, type:'Thesis'});
+    if(!thesis) return res.status(404).send();
+    
+    if(uploads.thesisDocument) 
+      thesis.file = cleanDirname(uploads.thesisDocument[0].path);
+    if(uploads.journal) 
+      thesis.journal = cleanDirname(uploads.journal[0].path);
+    if(uploads.poster) 
+      thesis.poster = cleanDirname(uploads.poster[0].path);
+    
+     await thesis.save();
+    
+    res.status(200).send();
+  
+  } catch(error) {
+    console.log(error);
+    res.status(400).send();
+  }
+}
+
 async function update(req, res) {
   try {
     const thesisUpdate = req.body;
@@ -68,7 +115,6 @@ async function deleteOne(req, res) {
   }
 }
 
-
 function createOptions(classification) {
   const options = {}
   const higherPrivileges = ['Faculty', 'Staff', 'Admin'];
@@ -85,4 +131,10 @@ function createOptions(classification) {
     options.poster = 0;
   }
   return options;
+}
+
+function cleanDirname(dirname) {
+  const dirToRemove = path.join(__dirname, '/../');
+  const cleanedDirname = dirname.replace(dirToRemove, "");
+  return cleanedDirname
 }
