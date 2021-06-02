@@ -73,6 +73,14 @@ const thesisSchema = new mongoose.Schema({
   view_count: {
     type: Number,
     default: 0
+  },
+  view_journal_count: {
+    type: Number,
+    default: 0
+  },
+  download_journal_count: {
+    type: Number,
+    default: 0
   }
 },
 {collection: 'Papers'}
