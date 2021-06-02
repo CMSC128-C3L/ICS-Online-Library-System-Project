@@ -49,7 +49,7 @@ function JournalCard(props) {
 
 					<div className="doc-other-details">
 						<div>
-							<AuthorList author={props.doc.author} />
+							<AuthorList author={props.doc.author}  clickable={false} />
 							<AdviserList adviser={props.doc.adviser} />
 						</div>
 						<TopicList topic={props.doc.topic} />

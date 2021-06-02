@@ -49,7 +49,7 @@ function BookCard(props) {
 
 					<div className="doc-other-details">						
 						<div>							
-              <AuthorList author={props.doc.author} />
+              <AuthorList author={props.doc.author} clickable={true}/>
               <Isbn isbn={props.doc.isbn} />
 						</div>
 						<div>
