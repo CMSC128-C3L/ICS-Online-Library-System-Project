@@ -58,10 +58,10 @@ function AuthorList(props){
       <ul className="clickable-list">
         {props.author.slice(0,4).map((author, index) => {
           return (index < 3)? 
-            <li>
+            <li key={author}>
               <button className="clickable-text" value={author} onClick={handleAuthorClick}>{author}</button>
             </li> :
-            <li><button className="clickable-text no-hover">{'et al.'}</button></li>
+            <li key={author}><button className="clickable-text no-hover">{'et al.'}</button></li>
         })}
       </ul>
     )
@@ -86,10 +86,10 @@ function CourseList(props){
       <ul className="clickable-list">
         {props.course.slice(0,4).map((course, index) => {
           return (index < 3)? 
-            <li>
+            <li key={course}>
               <button className="clickable-text" value={course} onClick={handleCourseClick}>{course}</button>
             </li> :
-            <li><button className="clickable-text no-hover">{'...'}</button></li>
+            <li key={course}><button className="clickable-text no-hover">{'...'}</button></li>
         })}
       </ul>
     </div>
@@ -114,10 +114,10 @@ function AdviserList(props){
       <ul className="clickable-list">
         {props.adviser.slice(0,4).map((adviser, index) => {
           return (index < 3)? 
-            <li>
+            <li key={adviser}>
               <button className="clickable-text" value={adviser} onClick={handleAdviserClick}>{adviser}</button>
             </li> :
-            <li><button className="clickable-text no-hover">{'...'}</button></li>
+            <li key={adviser}><button className="clickable-text no-hover">{'...'}</button></li>
         })}
       </ul>
     </div>

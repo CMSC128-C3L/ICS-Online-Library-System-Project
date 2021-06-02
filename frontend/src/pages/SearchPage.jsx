@@ -46,8 +46,8 @@ function handleCheck(checked, item){
 const reducer = (state, action) => {
   switch(action.type){
     case ACTIONS.updateQuery:
-      console.log("in reducer update query");
       return { ...state, query: action.query};
+      
     case ACTIONS.updateCategory:
       return { ...state, category: handleCheck(state.category, action.item) };
 

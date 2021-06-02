@@ -8,7 +8,7 @@ import { UserContext } from '../user/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   controlIcons: {
-		marginTop: '4.5em',
+		marginTop: '1.5em',
 	},
 	downloadButton: {
 		"&:hover": {
