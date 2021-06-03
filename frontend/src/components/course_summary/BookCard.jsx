@@ -2,7 +2,6 @@ import React from 'react'
 import './CourseSummary.css'
 
 function BookResult(props){
-    const topics = props.topic? props.topic : ["Data Structures", "Algorithms"];
     return(
         <div className="row book-card">
 
@@ -16,7 +15,7 @@ function BookResult(props){
                 
                 {/* 2a: Title, Year, Category */}
                 <div>
-                    <p className="book-title">{props.title}</p>
+                    <h5 className="book-title">{props.title}</h5>
 
                     <div>
                         <span className="year">{props.year}</span>
@@ -32,7 +31,7 @@ function BookResult(props){
 
                 {/* 2c: Tags */}
                 <div className="tags row">{
-                    topics.map((topic, i)=> {
+                    props.topic.map((topic, i)=> {
                         return(
                             <span className="topic" key={i}>{topic}</span>
                         )
@@ -40,10 +39,10 @@ function BookResult(props){
                 }</div>
             </div>
             
-            {/* 3: Download Button */}
+            {/* 3: Download Button
             <div className="download">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 11h5l-9 10-9-10h5v-11h8v11zm1 11h-10v2h10v-2z"/></svg>
-            </div>
+            </div> */}
             
         </div>
     )
