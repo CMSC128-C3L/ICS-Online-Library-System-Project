@@ -12,6 +12,7 @@ import queryString from 'query-string';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import ConditionalSort from './ConditionalSort';
 import ConditionalButtons from './ConditionalButtons';
+import AddIcon from '@material-ui/icons/ImportContacts'
 import './SearchCard.css';
 
 // testing purposes
@@ -21,15 +22,6 @@ import SpCard from './SpCard';
 import { useLocation, useParams, useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    paddingTop: 20,
-    paddingBottom: 20,
-  },
-  resultHeader: {
-    minHeight: 50,
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
 }));
 
 function ResultPane(props){
@@ -100,7 +92,7 @@ function ResultPane(props){
 
   const handleAdd = () =>{
     console.log('[DOCUMENT] when add button clicked: ');
-		openAddModal();
+		// openAddModal();
   }
 
   // render card depending on type of doc
@@ -141,13 +133,14 @@ function ResultPane(props){
   }, [results, cardsPerPage])
   
   return(
-    <Container className= {classes.container} >
-      <div className= {classes.resultHeader}>
+    <Container className= "result-container">
+      <button className="add-doc-button" onClick={handleAdd}><AddIcon className={classes.iconStyle}/></button>
+      <div className= "result-header">
         <div className="sort-container">
-          <Typography variant="body2">{results.length + ' results'}</Typography>
-          <ConditionalSort/>
+          <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>
+          <ConditionalSort className="conditional-sort"/>
         </div>
-        <ConditionalButtons/>
+        <ConditionalButtons className="mult-select"/>
         <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
@@ -159,7 +152,7 @@ function ResultPane(props){
           );
         })}
       </GridList>
-      <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+      <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
     </Container>
   );
 }

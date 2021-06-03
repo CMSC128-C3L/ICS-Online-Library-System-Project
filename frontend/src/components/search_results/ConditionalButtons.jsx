@@ -1,22 +1,13 @@
 import React, { useContext, useRef } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from '../user/UserContext';
-import AddIcon from '@material-ui/icons/ImportContacts'
+
 import './SearchCard.css';
 import Modal from './modal/Modal';
 import AddDocument from './modal/AddDocument';
 import { useHistory } from 'react-router';
 
 const useStyles = makeStyles(()=> ({
-  buttonStyle:{
-    marginLeft:'4vh',
-    marginTop:'-2vh',
-    backgroundColor: '#47ABD8', 
-    border:'transparent',
-    borderRadius:'5vh', 
-    width:'8vh', 
-    height:'8vh'
-  },
   iconStyle:{
     '&:hover': {
       color: "#95D2EC",
@@ -54,8 +45,6 @@ function ConditionalButtons(props){
               return(
                 <div>
                   <button className="tool-button" onClick={"temporaryOnclick"}> MULTIPLE SELECT </button>
-                  <button className="tool-button" onClick={() => history.push("/authorSummary")}> GENERATE SUMMARY REPORT </button>
-                  <button className={classes.buttonStyle} onClick={handleAdd}><AddIcon className={classes.iconStyle}/></button>
                 </div>
               )
             default:
