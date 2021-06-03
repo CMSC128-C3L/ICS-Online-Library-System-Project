@@ -26,13 +26,20 @@ async function getAll(req, res) {
 async function get(req, res) {
     try {
         const _id = req.params.id;    // get id parameter
-        const data = await Book.findById({_id});  // query the database
+
+        // query the database and increment the number of views
+        const data = await Book.findOneAndUpdate(
+            {_id},
+            {$inc: {view_count: 1}},
+            {new: true});
 
         if (data === null) 
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
         const book = bookBase(data);
         book.description = data.description;
+        book.view_count = data.view_count;
+
         res.status(200).send(book);     // respond with specified book
 
     } catch(err) {
