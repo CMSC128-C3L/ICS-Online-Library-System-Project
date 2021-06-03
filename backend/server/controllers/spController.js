@@ -109,9 +109,10 @@ async function uploadSp(req, res){
         if(sp==null) return res.status(404).send();
 
        //setting the file local path
-       sp.journal=req.files.journalFile[0].path;
-       sp.poster=req.files.posterFile[0].path;
-       sp.file=req.files.spFile[0].path;
+       
+        if(req.files.journalFile!=null)sp.journal=req.files.journalFile[0].path;
+        if(req.files.posterFile!=null)sp.poster=req.files.posterFile[0].path;
+        if(req.files.spFile!=null)sp.file=req.files.spFile[0].path;
         
         await sp.save();
         
