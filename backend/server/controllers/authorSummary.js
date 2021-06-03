@@ -19,6 +19,7 @@ async function getSummary(req, res) {
             const thesis = await Thesis.find({type:'Thesis',author}); // get all of the thesis
             const sp = await Sp.find({type:"Special Problem",author }); // get all of the sp
             
+            // Writing the data into pdf file
             doc.pipe(fs.createWriteStream('file.pdf'));
             doc.text(author);
             doc.text(" ");
