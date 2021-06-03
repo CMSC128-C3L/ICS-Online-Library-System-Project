@@ -8,7 +8,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import queryString from 'query-string';
 
 //layout purposes
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import ConditionalSort from './ConditionalSort';
 import ConditionalButtons from './ConditionalButtons';
 import './SearchCard.css';
@@ -16,7 +16,6 @@ import './SearchCard.css';
 // testing purposes
 import BookCard from './BookCard';
 import ThesisCard from './ThesisCard';
-import JournalCard from './JournalCard';
 import SpCard from './SpCard';
 import { useLocation, useParams, useHistory } from 'react-router';
 
@@ -36,17 +35,15 @@ function ResultPane(props){
   const classes = useStyles();
   const history = useHistory();
   const [books, setBooks] = useState([]);
-  const [thesis, setThesis] = useState([]);
+  const [theses, setTheses] = useState([]);
   const [sp, setSp] = useState([]);
-  const [journal, setJournal] = useState([]);
   const location = useLocation();
   const {id} = useParams();
 
   const resetStates = () =>{
       setBooks([]);
-      setThesis([]);
+      setTheses([]);
       setSp([]);
-      setJournal([]);
   }
 
   // sample get from api
@@ -67,18 +64,15 @@ function ResultPane(props){
     for(let i = 0; i < categories.length; i++){
       try{
         if(categories[i] === 'Books'){
-            const books = await axios.get('/api/search/filter/book' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
-            setBooks(books.data);
-          }else if(categories[i] === 'Journals'){
-            const journals = await axios.get('/api//search/filter/journal' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
-            setJournal(journals.data);
-          }else if(categories[i] === 'Special Problems'){
-            const sp = await axios.get('/api//search/filter/sp' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
-            setSp(sp.data);
-          }else if(categories[i] === 'Theses'){
-            const theses = await axios.get('/api//search/filter/thesis' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
-            setThesis(theses.data);
-          }
+          const books = await axios.get('/api/search/filter/book' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
+          setBooks(books.data);
+        }else if(categories[i] === 'Special Problems'){
+          const sp = await axios.get('/api//search/filter/sp' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
+          setSp(sp.data);
+        }else if(categories[i] === 'Theses'){
+          const theses = await axios.get('/api//search/filter/thesis' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery);
+          setTheses(theses.data);
+        }
       }catch(err){
         console.log(err)
       }
@@ -105,7 +99,7 @@ function ResultPane(props){
     <Container className= {classes.container} >
       <div className= {classes.resultHeader}>
         <div className="sort-container">
-          <Typography variant="body2">{(books.length+thesis.length+sp.length+journal.length) + ' results'}</Typography>
+          <Typography variant="body2">{(books.length+theses.length+sp.length) + ' results'}</Typography>
           <ConditionalSort/>
         </div>
         <ConditionalButtons/>
@@ -118,7 +112,7 @@ function ResultPane(props){
             </GridListTile>
           );
         })}
-        {thesis.map((result) => {
+        {theses.map((result) => {
           return(
             <GridListTile key= {result.id}>
                <ThesisCard doc={result}/>
@@ -129,13 +123,6 @@ function ResultPane(props){
           return(
             <GridListTile key= {result.id}>
                <SpCard doc={result}/>
-            </GridListTile>
-          );
-        })}
-        {journal.map((result) => {
-          return(
-            <GridListTile key= {result.id}>
-               <JournalCard doc={result}/> 
             </GridListTile>
           );
         })}
