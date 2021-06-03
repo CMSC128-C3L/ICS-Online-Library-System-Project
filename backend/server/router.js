@@ -33,6 +33,14 @@ router.get('/api/sp/:id',auth, Sp.getOne);
 router.post('/api/sp',auth, isAdmin, Sp.create);
 router.patch('/api/sp/:id', auth, isAdmin, Sp.update);
 router.delete('/api/sp/:id', auth, isAdmin, Sp.deleteSp);
+router.post('/api/sp/upload/:id',auth, isAdmin,Sp.upload.fields([{
+  name: "spFile", maxCount: 1
+}, {
+  name: "journalFile", maxCount: 1
+}, {
+  name: "posterFile", maxCount: 1
+}
+]),Sp.uploadSp);
 
 
 
