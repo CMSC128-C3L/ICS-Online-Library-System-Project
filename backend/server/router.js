@@ -4,6 +4,7 @@ const Thesis = require('./controllers/thesisController.js');
 const auth = require('./middlewares/auth.js');
 const router = new express.Router;
 const isAdmin = require('./middlewares/isAdmin.js');
+const AuthorSummary = require("./controllers/authorSummary.js");
 
 // Sample test route
 router.get('/api', (req, res) => {
@@ -67,5 +68,9 @@ router.get('/api/search/filter/sp', Search.advanceSearchSp);
 router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
 
-//
+// author summary
+router.get('/api/authorSummary/:author', AuthorSummary.getSummary);
+
+// course summary
+
 module.exports = router;
