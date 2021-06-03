@@ -68,10 +68,10 @@ router.get('/api/search/filter/sp', Search.advanceSearchSp);
 router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
 
-// author summary
+//author summary
 router.get('/api/authorSummary', AuthorSummary.getSummary);
 
-// course summary
+//course summary
 
 module.exports = router;
 
