@@ -35,9 +35,9 @@ function BookCard(props) {
 	}
 
 	return(
-		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}}>
-			<CardMedia className="doc-cover" image={props.doc.book_cover_img} title={props.doc.title}/>
-				<CardActionArea onClick={() => history.push(`/search/${props.doc._id}`)} >
+		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}} title={props.doc.title}>
+			<CardMedia className="doc-cover" image={props.doc.book_cover_img}/>
+				<CardActionArea className="doc-title" onClick={() => history.push(`/search/${props.doc._id}`)} >
 					<Title title={props.doc.title} />
 				</CardActionArea>
 
@@ -49,7 +49,7 @@ function BookCard(props) {
 
 					<div className="doc-other-details">						
 						<div>							
-              <AuthorList author={props.doc.author} />
+              <AuthorList author={props.doc.author} clickable={true}/>
               <Isbn isbn={props.doc.isbn} />
 						</div>
 						<div>

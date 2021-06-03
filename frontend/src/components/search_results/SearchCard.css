@@ -1,22 +1,22 @@
 .doc-book-card {
   display: grid;
-  grid-template-columns: 150px 330px auto;
+  grid-template-columns: 25% 62% 13%;
   grid-template-rows: 55px auto;
   grid-template-areas:
   "doc-cover title title"
   "doc-cover doc-book-content doc-icons";
-  width: 550px;
+  width: 95%;
   height: 220px;
 }
 
 .doc-card {
   display: grid;
-  grid-template-columns: 480px auto;
+  grid-template-columns: 87% 13%;
   grid-template-rows: 55px auto;
   grid-template-areas:
   "title title"
   "doc-content doc-icons";
-  width: 550px;
+  width: 95%;
   height: 220px;
 }
 
@@ -27,7 +27,9 @@
 
 .doc-title {
   grid-area: title;
-  padding-left: 0.8em;
+  padding: 0.8em;
+  flex-wrap: nowrap;
+  font-weight: 600;
 }
 
 .doc-book-content {
@@ -65,7 +67,7 @@
 .clickable-text {
   background: none;
   border: none;
-  padding: 0 0 0 0;
+  padding: 0em;
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
@@ -114,4 +116,8 @@
 
 .sort-container{
   margin-bottom: 2vh;
+}
+
+.search-pagination {
+  align-self: center;
 }

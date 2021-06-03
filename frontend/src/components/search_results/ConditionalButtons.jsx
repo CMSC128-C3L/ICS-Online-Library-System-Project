@@ -31,7 +31,7 @@ const useStyles = makeStyles(()=> ({
  * functional component that conditionally render buttons on cards depending on the type of user
  */
 
-function ConditionalIcon(props){
+function ConditionalButtons(props){
   const classes = useStyles();
   const {loggedUser, setLoggedUser} = useContext(UserContext);
   const history = useHistory();
@@ -69,4 +69,4 @@ function ConditionalIcon(props){
 	
 }
 
-export default ConditionalIcon;
+export default ConditionalButtons;
