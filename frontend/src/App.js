@@ -15,7 +15,8 @@ import { UserContext } from './components/user/UserContext';
 import SearchContext from './components/search_results/SearchContext'
 import HomePageRoute from './components/route/HomePageRoute';
 import AdminPageProtectRoute from './components/route/AdminPageProtectRoute';
-import SeeDocument from './pages/SeeDocument'
+import AccessDocument from './pages/EditDocument'
+import CreateDocument from './pages/CreateDocumentPage'
 import CardEditing from './components/card_editing/CardEditing';
 import CardEditingPage from './pages/CardEditingPage'
 import EditCardsPage from './pages/EditCardsPage'
@@ -91,7 +92,8 @@ function App() {
             <HomePageRoute exact path="/adminHome" component={AdminHome} />
             <AdminPageProtectRoute exact path="/adminHome/manageUsers" component={AdminUserManagement} />
             <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={SearchPage} />
-            <Route exact path="/search/:id"  component={SeeDocument} />
+            <Route exact path="/search/:id"  component={AccessDocument} />
+            <AdminPageProtectRoute exact path="/createDocument"  component={CreateDocument} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage" component={EditCardsPage} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage/editAdvisoryCard" component={CardEditingPage} />

@@ -43,7 +43,7 @@ function ConditionalEdit(props){
 
       try{
           if(doc_type == "book") document = await axios.get(`/api/books/${id}`);
-          else if(doc_type == "journal") document = await axios.get(`/api/journals/${id}`);
+          // else if(doc_type == "journal") document = await axios.get(`/api/journals/${id}`);
           else if(doc_type == "sp") document = await axios.get(`/api/sp/${id}`);
           else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
           console.log("DOCUMENT DATA:\n" ,document.data);
@@ -56,9 +56,6 @@ function ConditionalEdit(props){
   useEffect(() => {
       getDocument()
   }, [])
-
-  // just re-render Document upon successful update and delete document
-  // useEffect(() => {   }, [document])
 
   let book = {
     title: document.title,

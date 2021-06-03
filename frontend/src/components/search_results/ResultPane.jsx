@@ -7,6 +7,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Pagination from '@material-ui/lab/Pagination';
 import queryString from 'query-string';
+import { UserContext } from '../user/UserContext';
 
 //layout purposes
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -19,13 +20,15 @@ import './SearchCard.css';
 import BookCard from './BookCard';
 import ThesisCard from './ThesisCard';
 import SpCard from './SpCard';
-import { useLocation, useParams, useHistory } from 'react-router';
+import { useLocation, useParams, useHistory} from 'react-router';
+import { Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 }));
 
 function ResultPane(props){
   const searchContext = useContext(SearchContext);
+  const {loggedUser, setLoggedUser} = useContext(UserContext);
   const classes = useStyles();
   const history = useHistory();
   const [results, setResults] = useState([]);
@@ -92,7 +95,7 @@ function ResultPane(props){
 
   const handleAdd = () =>{
     console.log('[DOCUMENT] when add button clicked: ');
-		// openAddModal();
+    history.push(`/createDocument`);
   }
 
   // render card depending on type of doc
@@ -115,6 +118,7 @@ function ResultPane(props){
   const [pageResults, setPageResults] = useState([])
   const [pageCount, setPageCount] = useState(Math.ceil(pageResults/cardsPerPage))
 
+
   const handleChangePage = (event, value) => {
     setPage(value)
   }
@@ -134,7 +138,18 @@ function ResultPane(props){
   
   return(
     <Container className= "result-container">
-      <button className="add-doc-button" onClick={handleAdd}><AddIcon className={classes.iconStyle}/></button>
+      {
+        (function(userType){
+          switch(userType){
+            case "Admin":
+              return(
+                <button className="add-doc-button" onClick={handleAdd}><AddIcon className={classes.iconStyle}/></button>
+                )
+            default:
+              return null;	
+          }
+        })(loggedUser.classification)
+      }
       <div className= "result-header">
         <div className="sort-container">
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>

@@ -37,10 +37,10 @@ function BookCard(props) {
 	return(
 		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}} title={props.doc.title}>
 			<CardMedia className="doc-cover" image={props.doc.book_cover_img}/>
-				<CardActionArea className="doc-title" onClick={() => history.push(`/search/${props.doc._id}`)} >
+				<CardActionArea className="doc-title" onClick={() => history.push({pathname: `/search/${props.doc._id}`, state: { fromButtonEdit: false, type: "book" }})}>
 					<Title title={props.doc.title} />
 				</CardActionArea>
-
+			
 				<div className="doc-book-content">
 					<div className="doc-year-category">
 						<Year year={props.doc.year} />
