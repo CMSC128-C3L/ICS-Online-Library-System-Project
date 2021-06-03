@@ -1,4 +1,5 @@
 const Book = require("../models/Book.js");
+const multer = require('multer');
 
 module.exports = {
     getAll,
