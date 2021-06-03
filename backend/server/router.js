@@ -69,8 +69,9 @@ router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
 
 // author summary
-router.get('/api/authorSummary/:author', AuthorSummary.getSummary);
+router.get('/api/authorSummary', AuthorSummary.getSummary);
 
 // course summary
 
 module.exports = router;
+
