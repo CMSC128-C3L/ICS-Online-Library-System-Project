@@ -51,19 +51,32 @@ const reducer = (state, action) => {
     case ACTIONS.updateCategory:
       return { ...state, category: handleCheck(state.category, action.item) };
 
+    case ACTIONS.updateCourseCode:
+      return {...state, courseCode: action.item}
+
+    case ACTIONS.updateTopic:
+      return { ...state, topic: handleCheck(state.topic, action.item) };
+      
+    case ACTIONS.reset:
+     return { initialState };
+
+    default:
+      return state;
+  }
+}
 
 function SearchPage() {
-  
+  const [state, dispatch] = useReducer(reducer, initialState);
   
   return (
     <div className="SearchPage">
-
+      <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
         <Navbar className="nav" action={ ACTIONS.updateQuery }/>
         <div className="main">
           <FilterSideBar className="sidebar"/>
           <ResultPane className="result-pane"/>
         </div>
-   
+      </SearchContext.Provider> 
 
     </div>
   );
