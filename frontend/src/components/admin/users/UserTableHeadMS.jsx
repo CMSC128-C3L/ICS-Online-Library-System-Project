@@ -33,7 +33,7 @@ function UserTableHeadMS(props){
                     <TableCell
                         key={headCell.id}
                         align={'center'}
-                        padding={headCell.disablePadding? 'none' : 'default'}
+                        // padding={headCell.disablePadding? 'none' : 'default'}
                         sortDirection={orderBy === headCell.id? order : false}
                     >
                         <TableSortLabel
@@ -42,8 +42,8 @@ function UserTableHeadMS(props){
                             direction={orderBy === headCell.id ? order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
                             classes={{
-                                root: classes.heading,
-                                active: classes.heading,
+                                // root: classes.heading,
+                                // active: classes.heading,
                             }}
                         >
                             {headCell.label}

@@ -24,13 +24,6 @@ const useStyles = makeStyles((theme) => ({
     table: {
       minWidth: 750,
     },
-    heading: {
-        fontFamily: 'Montserrat, sans-serif',
-        fontWeight: 700,
-        fontSize: '1.5em',
-        textAlign: 'center',
-        color: 'white',
-    },
     visuallyHidden: {
       border: 0,
       clip: 'rect(0 0 0 0)',

@@ -87,3 +87,14 @@
    border-left: none;
    border-right: none;
  }
+
+.MuiTableSortLabel-root,
+.MuiTableSortLabel-root.MuiTableSortLabel-active,
+.MuiTableSortLabel-root:hover,
+.MuiTableSortLabel-icon {
+   color: white !important;
+   font-weight:700;
+   font-size: 1.5em;
+   text-align: center;
+   margin: 0.25em;
+}
