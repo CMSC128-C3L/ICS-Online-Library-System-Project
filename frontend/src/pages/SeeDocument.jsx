@@ -1,13 +1,13 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import ManageDocument from '../components/manage_document/ManageDocument'
+import ConditionalEdit from '../components/manage_document/ConditionalEdit'
 import Header from "../components/header_user/Header"
 
 function SeeDocument() {
     return (
         <div>
             <Header></Header>
-            <ManageDocument/>
+            <ConditionalEdit/>
         </div>
     )
 }

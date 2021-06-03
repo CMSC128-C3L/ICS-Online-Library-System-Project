@@ -13,7 +13,7 @@ import SaveIcon from '@material-ui/icons/Save'
 function SaveDocument(props){
     const {user, close} = useContext(UserContext)
     // const history = useHistory();
-    const history = createBrowserHistory({ forceRefresh: true });
+    const history = createBrowserHistory({});
     const classes = useStyles();
     const {id} = useParams();
     const [document, setDocument] = useState("")
@@ -21,6 +21,12 @@ function SaveDocument(props){
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
     const handleConfirmation = () => {setConfirmed(true)}
+
+    //authorization header
+    const options = {
+        headers: {'Authorization':  'Bearer ' + localStorage.getItem('token')},
+        'Content-Type': 'application/json'
+    }
 
     const handleSave = (user) =>{
         confirmModal.current.open(user)
@@ -31,8 +37,9 @@ function SaveDocument(props){
     }
 
     const handleRoute = () =>{ 
-        history.push(`/search/${id}`) //ito talaga dapat pero may something sa refresh ni admin
-        // history.push(`/search/`)
+        // history.push(`/search/${id}`) //ito talaga dapat pero may something sa refresh ni admin
+        window.scrollTo(0, 0)
+        history.push(`/search/`)
     }
 
      //get the specific document data 
@@ -46,11 +53,36 @@ function SaveDocument(props){
         }
     }
 
+    const handleSubmit = async() =>{
+        //patch request to update [BOOK]
+        console.log("SAVE DOCUMENT TITLE: " + props.book.title);
+
+        try {
+            // event.preventDefault();
+            const response = await axios.patch(`/api/books/${id}`, {
+                title: props.book.title, 
+                author: props.book.author,
+                year: props.book.year,
+                publisher: props.book.publisher,
+                isbn: props.book.isbn,
+                description: props.book.description
+            } , options);
+            console.log('Returned data:', response.data);
+        } catch (e) {
+            console.log(`Axios request failed: ${e}`);
+        }
+    }
+
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
         getDocument()
         if(confirmed){
+
+            
+            handleSubmit()
             close()
+            console.log("AFTER handle submit")
+            // props.handleSubmit()
             handleRoute()
         }
     }, [confirmed, close])
@@ -59,7 +91,7 @@ function SaveDocument(props){
         <div className="save-user popupcontainer">
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <SaveIcon className={classes.iconStyle}/>
-            <h3 className="text prompt">Save changes to"{document.title}" {document.year}?</h3>
+            <h3 className="text prompt">Save changes to"{props.book.title}" {props.book.year}?</h3>
             <div className="save-cancel">
                 <button className="save popup-btn" onClick={()=> handleSave(user)}>Save</button>
                 <button className="cancel popup-btn" onClick={handleCancel}>Cancel</button>

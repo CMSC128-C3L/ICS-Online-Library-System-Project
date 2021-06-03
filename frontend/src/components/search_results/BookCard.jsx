@@ -23,7 +23,7 @@ function BookCard(props) {
 	function handleEdit(){
 		history.push({ 
 			pathname: `/search/${props.doc._id}`,
-			state: { fromButtonEdit: true }
+			state: { fromButtonEdit: true, type: "book" }
 		   });
 
 		console.log('[BOOK] when edit button clicked: ', props.doc);

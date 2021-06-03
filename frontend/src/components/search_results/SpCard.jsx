@@ -27,7 +27,7 @@ function SpCard(props) {
 		console.log('[SP] when edit button clicked: ', props.doc);
 		history.push({ 
 			pathname: `/search/${props.doc._id}`,
-			state: { fromButtonEdit: true }
+			state: { fromButtonEdit: true, type: "sp" }
 		});
 	}
 
