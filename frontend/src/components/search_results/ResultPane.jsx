@@ -40,9 +40,9 @@ function ResultPane(props){
   let promises = [];
 
   const TYPES = {
-    book: {"dbType": "Book", "route": "book"},
-    thesis: {"dbType": "Thesis", "route": "thesis"},
-    sp: {"dbType": "Special Problem", "route": "sp"},
+    "Books": {"dbType": "Book", "route": "book"},
+    "Theses": {"dbType": "Thesis", "route": "thesis"},
+    "Special Problems": {"dbType": "Special Problem", "route": "sp"},
   }
 
   // get docs based on query and filters
@@ -65,13 +65,7 @@ function ResultPane(props){
     // consolidate promises from get requests
     for(let i = 0; i < categories.length; i++){
       try{
-        if(categories[i] === 'Books'){
-          promises.push(axios.get('/api/search/filter/book' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery));
-        }else if(categories[i] === 'Special Problems'){
-          promises.push(axios.get('/api//search/filter/sp' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery));
-        }else if(categories[i] === 'Theses'){
-          promises.push(axios.get('/api//search/filter/thesis' + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery));
-        }
+        promises.push(axios.get(`/api/search/filter/${TYPES[categories[i]].route}` + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery));
       }catch(err){
         console.log(err)
       }
@@ -108,11 +102,11 @@ function ResultPane(props){
   }
   const renderCard = (result) =>{
     switch(result.type){
-      case TYPES.book.dbType:
+      case TYPES["Books"].dbType:
         return <BookCard doc={result}/>
-      case TYPES.sp.dbType:
+      case TYPES["Special Problems"].dbType:
         return <SpCard doc={result}/>
-      case TYPES.thesis.dbType:
+      case TYPES["Theses"].dbType:
         return <ThesisCard doc={result}/>
       default:
         return null
