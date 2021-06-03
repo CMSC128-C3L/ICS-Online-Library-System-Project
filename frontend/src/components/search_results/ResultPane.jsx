@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from '@material-ui/core/Container';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import Pagination from '@material-ui/lab/Pagination';
 import queryString from 'query-string';
 
 //layout purposes
@@ -26,8 +27,9 @@ const useStyles = makeStyles((theme) => ({
   },
   resultHeader: {
     minHeight: 50,
-    display: 'flex'
-  }
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 }));
 
 function ResultPane(props){
@@ -37,7 +39,6 @@ function ResultPane(props){
   const [results, setResults] = useState([]);
   const location = useLocation();
   const {id} = useParams();
-  let promises = [];
 
   const TYPES = {
     "Books": {"dbType": "Book", "route": "book"},
@@ -49,6 +50,7 @@ function ResultPane(props){
   const getDocuments = async() =>{
     let categories = (searchContext.state.category).toString().split(',');
     let topicsQuery;
+    let promises = [];
 
     //if user has yet to select any category, set to all
     if((searchContext.state.category).toString() === "") categories = ['Books', 'Special Problems', 'Theses'];
@@ -89,7 +91,7 @@ function ResultPane(props){
   useEffect(() =>{
     setResults([]);
     getDocuments();
-    
+    setPage(1)    
   }, [searchContext]);
 
   // Create reference to modal
@@ -100,6 +102,8 @@ function ResultPane(props){
     console.log('[DOCUMENT] when add button clicked: ');
 		openAddModal();
   }
+
+  // render card depending on type of doc
   const renderCard = (result) =>{
     switch(result.type){
       case TYPES["Books"].dbType:
@@ -112,6 +116,30 @@ function ResultPane(props){
         return null
     }
   }
+
+  // Pagination
+  const cardsPerPage = 20
+  const [page, setPage] = useState(1)
+  const [pageResults, setPageResults] = useState([])
+  const [pageCount, setPageCount] = useState(Math.ceil(pageResults/cardsPerPage))
+
+  const handleChangePage = (event, value) => {
+    setPage(value)
+  }
+
+  useEffect(() =>{
+    setPageResults(
+      results.slice(
+        (page - 1) * cardsPerPage,
+        (page - 1) * cardsPerPage + cardsPerPage
+      )
+    )
+  }, [results, page])
+
+  useEffect(() => {
+    setPageCount(Math.ceil(results.length/cardsPerPage))
+  }, [results, cardsPerPage])
+  
   return(
     <Container className= {classes.container} >
       <div className= {classes.resultHeader}>
@@ -120,9 +148,10 @@ function ResultPane(props){
           <ConditionalSort/>
         </div>
         <ConditionalButtons/>
+        <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
-        {results.map((result, index) => {
+        {pageResults.map((result, index) => {
           return(
             <GridListTile key= {index}>
               {renderCard(result)}
@@ -130,6 +159,7 @@ function ResultPane(props){
           );
         })}
       </GridList>
+      <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
     </Container>
   );
 }

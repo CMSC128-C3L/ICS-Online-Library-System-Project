@@ -117,3 +117,7 @@
 .sort-container{
   margin-bottom: 2vh;
 }
+
+.search-pagination {
+  align-self: center;
+}
