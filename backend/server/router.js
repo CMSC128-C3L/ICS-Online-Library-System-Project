@@ -67,5 +67,11 @@ router.get('/api/search/filter/sp', Search.advanceSearchSp);
 router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
 
+//Activity Logs
+const Logs = require('./controllers/activityLogsController.js');
+router.get('/api/log/:email', auth, Logs.getUserId);
+router.post('/api/log/login', auth, Logs.recordUser);
+router.post('/api/log/logout', auth, Logs.logoutUser);
+
 //
 module.exports = router;
