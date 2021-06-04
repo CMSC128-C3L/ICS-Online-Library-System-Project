@@ -44,6 +44,7 @@ async function getOne(req, res) {
     const _id = req.params.id;
     const thesis = await Thesis.find({_id, type:'Thesis'}, createOptions(req.user.classification));
     if(!thesis) return res.status(404).send();
+    console.log(thesis);
     res.send(thesis);
   } catch(error) {
     res.status(500).send();
@@ -123,6 +124,8 @@ function createOptions(classification) {
     options.source_code = 0;
     options.view_count = 0;
     options.download_count = 0;
+    options.view_journal_count = 0;
+    options.download_journal_count = 0;
   }
   // Add additional restrictions for guests
   if(classification === 'Guest') {
