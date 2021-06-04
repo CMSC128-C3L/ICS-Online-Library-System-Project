@@ -96,7 +96,7 @@ async function download(req, res) {
     const notAllowed = ["Student", "Guest"];
     if(notAllowed.includes(req.user.classification)) 
       return res.status(403).send();
-    
+    if(thesis.file === '') return res.status(404).send();
     const filepath = path.join(__dirname, `/../${thesis.file}`);
     
     res.download(filepath);
