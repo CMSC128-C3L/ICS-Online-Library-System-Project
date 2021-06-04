@@ -46,7 +46,8 @@ const spSchema= new mongoose.Schema({
     download_journal_count: {
         type: Number,
         default: 0
-    }
+    },
+    courses: []
 
 },{
     collection: 'Papers'
