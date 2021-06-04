@@ -5,6 +5,7 @@ const auth = require('./middlewares/auth.js');
 const router = new express.Router;
 const isAdmin = require('./middlewares/isAdmin.js');
 const AuthorSummary = require("./controllers/authorSummary.js");
+const CourseSummary = require("./controllers/courseSummary.js");
 
 // Sample test route
 router.get('/api', (req, res) => {
@@ -72,6 +73,8 @@ router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 router.get('/api/authorSummary', AuthorSummary.getSummary);
 
 //course summary
+router.get('/api/courseSummary', CourseSummary.getCourseSummary);
+router.get('/api/courseSummaryPDF', CourseSummary.getCourseSummaryPDF);
 
 module.exports = router;
 
