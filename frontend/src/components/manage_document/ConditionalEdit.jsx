@@ -40,14 +40,14 @@ function ConditionalEdit(props){
   //get the specific document data 
   const getDocument = async() =>{
       let document;
-
+      
       try{
           if(doc_type == "book") document = await axios.get(`/api/books/${id}`);
-          // else if(doc_type == "journal") document = await axios.get(`/api/journals/${id}`);
           else if(doc_type == "sp") document = await axios.get(`/api/sp/${id}`);
           else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
-          console.log("DOCUMENT DATA:\n" ,document.data);
-          setDocument(document.data);
+
+          if(doc_type == "thesis") setDocument(document.data[0]);
+          else setDocument(document.data); // doc_type == "book" || doc_type == "sp"
       }catch(e){
           console.log(e)
       }
@@ -74,9 +74,17 @@ function ConditionalEdit(props){
     abstract: document.abstract
   };
 
+  let sp = {
+    title: document.title,
+    adviser: document.adviser,
+    author: document.author,
+    pub_date: document.pub_date,
+    abstract: document.abstract
+  };
+
   const handleInputChange = async(event) =>{
-    //patch request to update [BOOK]
     const target = event.target;
+
     if(doc_type=="book"){
       if(target.name==="book_title") book.title = target.value;
       else if(target.name==="book_author") book.author = target.value;
@@ -84,29 +92,30 @@ function ConditionalEdit(props){
       else if(target.name==="book_publisher") book.publisher = target.value;
       else if(target.name==="book_isbn") book.isbn = target.value;
       else if(target.name==="book_description") book.description = target.value;
-      console.log(
-        "title: " + book.title,
-        "\nauthor: " + book.author,
-        "\nyear: " + book.year,
-        "\npublisher: " + book.publisher,
-        "\nisbn: " + book.isbn,
-        "\ndescrip: " + book.description
-      )
-    } else if(doc_type=="thesis"){
+    } 
+
+    else if(doc_type=="thesis"){
       if(target.name==="thesis_title") thesis.title = target.value;
       else if(target.name==="thesis_author") thesis.author = target.value;
       else if(target.name==="thesis_adviser") thesis.adviser = target.value;
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
+    }
+
+    else if(doc_type=="sp"){
+      if(target.name==="sp_title") sp.title = target.value;
+      else if(target.name==="sp_author") sp.author = target.value;
+      else if(target.name==="sp_adviser") sp.adviser = target.value;
+      else if(target.name==="sp_pub_date") sp.pub_date = target.value;
+      else if(target.name==="sp_abstract") sp.abstract = target.value;
       console.log(
-        "title: " + thesis.title,
-        "\nauthor: " + thesis.author,
-        "\nadviser: " + thesis.adviser,
-        "\npub_date: " + thesis.pub_date,
-        "\nabstract: " + thesis.abstract
+        "title: " + sp.title,
+        "\nauthor: " + sp.author,
+        "\nadviser: " + sp.adviser,
+        "\npub_date: " + sp.pub_date,
+        "\nabstract: " + sp.abstract
       )
     }
-    
 }
 
   // Create reference to modal
@@ -114,7 +123,7 @@ function ConditionalEdit(props){
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
 
   return(
-    <div>
+    <div className="browsebg browsebg-container">
       {
         (function(allowEdit, doc_type){
           switch(allowEdit){
@@ -124,24 +133,22 @@ function ConditionalEdit(props){
               if(doc_type=="book"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><SaveDocument book={book}/></Modal>
+                      <Modal ref={saveModal}><SaveDocument book={book} type={doc_type}/></Modal>
   
                       <div className='document-card-flex-row'>
                           {/* document thumbnail not editable */}
-                          <div className='image-card-container' >
+                          <div className='image-card-container card-content' >
                           <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
                           </div>
                           
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
-                            <div className="document-card-flex-column"> 
                             <div className="main-text-tags">Classification: {document.type}</div>
                             <div className="main-text-tags">Title: <input name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Author: <input name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Year: <input name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publisher: <input name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">ISBN: <input name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
-                            </div>
                             <TagsInput/>
                           </div>
   
@@ -153,11 +160,12 @@ function ConditionalEdit(props){
   
                       <div className="description-section">
                           {/* descriptions/abstracts are editable*/}
+                          <div className="document-card-container">
                           <h2>DESCRIPTION</h2>
                           <Box className={classes.boxStyle}>
                             <input type="text"  name="book_description" defaultValue={document.description} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
                           </Box>
-                          
+                          </div>
                           <div className = "button-right">
                           <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
                           </div>
@@ -167,26 +175,18 @@ function ConditionalEdit(props){
               } else if(doc_type=="thesis"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><SaveDocument thesis={thesis}/></Modal>
+                      <Modal ref={saveModal}><SaveDocument thesis={thesis} type={doc_type}/></Modal>
   
-                      <div className='document-card-flex-row'>
-                          {/* document thumbnail not editable */}
-                          {/* <div className='image-card-container' >
-                          <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
-                          </div> */}
-                          
+                      <div className='document-card-flex-row'>                          
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
-                            <div className="document-card-flex-column"> 
                             <div className="main-text-tags">Classification: {document.type}</div>
                             <div className="main-text-tags">Title: <input name= "thesis_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Author: <input name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input name="thesis_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            </div>
                             <TagsInput/>
                           </div>
-  
                           <div className='document-card-container button-card-flex-column'>
                             <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
                             <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
@@ -195,11 +195,47 @@ function ConditionalEdit(props){
   
                       <div className="description-section">
                           {/* descriptions/abstracts are editable*/}
-                          <h2>DESCRIPTION</h2>
+                          <div className="document-card-container">
+                          <h2>ABSTRACT</h2>
                           <Box className={classes.boxStyle}>
-                            <input type="text"  name="book_description" defaultValue={document.description} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
+                            <input type="text"  name="thesis_abstract" defaultValue={document.abstract} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
                           </Box>
-                          
+                          </div>
+                          <div className = "button-right">
+                          <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
+                          </div>
+                      </div>
+                  </div>
+                )
+              }  else if(doc_type=="sp"){
+                return(
+                  <div> 
+                      <Modal ref={saveModal}><SaveDocument sp={sp} type={doc_type}/></Modal>
+  
+                      <div className='document-card-flex-row'>                          
+                          {/* document attributes are editable*/}
+                          <div className='document-card-container document-card-flex-column' key={document.id}>
+                            <div className="main-text-tags">Classification: {document.type}</div>
+                            <div className="main-text-tags">Title: <input name= "sp_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Author: <input name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Adviser: <input name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
+                            <div className="main-text-tags">Publishing Date: <input name="sp_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <TagsInput/>
+                          </div>
+                          <div className='document-card-container button-card-flex-column'>
+                            <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
+                            <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
+                          </div>
+                      </div>
+  
+                      <div className="description-section">
+                          {/* descriptions/abstracts are editable*/}
+                          <div className="document-card-container">
+                          <h2>ABSTRACT</h2>
+                          <Box className={classes.boxStyle}>
+                            <input type="text"  name="sp_abstract" defaultValue={document.abstract} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
+                          </Box>
+                          </div>
                           <div className = "button-right">
                           <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
                           </div>
@@ -210,34 +246,65 @@ function ConditionalEdit(props){
               
               // unable to edit document
             case false:
-              return(
-                <div> 
-                    <div className='document-card-flex-row'>
-                        <div className='image-card-container' >
-                        <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
-                        </div>
-                        
-                        <div className='document-card-container document-card-flex-column' key={document.id}>
-                        <DocumentCard
-                            type={document.type}
-                            title={document.title}
-                            author={document.author} 
-                            yearPublished={document.year}
-                            publisher={document.publisher}
-                            docISBN={document.isbn}
-                        />
-                        </div>
+              if(doc_type=="book"){
+                return(
+                  <div> 
+                      <div className='document-card-flex-row'>
+                          <div className='image-card-container' >
+                          <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+                          </div>
 
-                    </div>
-
-                    <div className="description-section">
-                        <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
-                        <Box className={classes.descriptionStyle}>
-                            {document.description}
-                        </Box>
-                    </div>
-                </div>
-              )
+                          <div className='document-card-flex-column' key={document.id}>
+                          <DocumentCard
+                              type={document.type}
+                              title={document.title}
+                              author={document.author} 
+                              yearPublished={document.year}
+                              publisher={document.publisher}
+                              docISBN={document.isbn}
+                          />
+                          </div>
+  
+                      </div>
+  
+                      <div className="description-section">
+                      <div className="document-card-container">
+                          <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
+                          <Box className={classes.descriptionStyle}>
+                              {document.description}
+                          </Box>
+                          </div>
+                      </div>
+                  </div>
+                )
+              } else if(doc_type=="thesis" || doc_type=="thesis"){
+                return(
+                  <div> 
+                      <div className='document-card-flex-row'>
+                          <div className='document-card-flex-column' key={document.id}>
+                          <DocumentCard
+                              type={document.type}
+                              title={document.title}
+                              author={document.author} 
+                              adviser={document.adviser}
+                              yearPublished={document.pub_date}
+                          />
+                          </div>
+                      </div>
+  
+                      <div className="description-section">
+                          <div className="document-card-container">
+                          <h2 style={{textAlign: 'center'}}>ABSTRACT</h2>
+                          
+                          <Box className={classes.descriptionStyle}>
+                              {document.abstract}
+                          </Box>
+                          </div>
+                      </div>
+                  </div>
+                )
+              } 
+             
             default:
               return null;	
           }
@@ -284,15 +351,14 @@ const useStyles = makeStyles(() => ({
     maxWidth: "80em"
   },
   descriptionStyle:{
-    flexWrap: "wrap",
     textAlign: 'center',
     paddingBottom:'5vh',
-    wordWrap: "break-word",
-    wordBreak: "break-all"
+    wordWrap: "break-word"
   },
   imageStyle:{
-      width: '300px', 
-      height: '500px', 
+      width: '45vh', 
+      height: '70vh', 
+      margin: '1em',
       objectFit: 'cover'
   }
 }));

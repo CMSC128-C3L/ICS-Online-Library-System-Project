@@ -4,16 +4,18 @@ import ConfirmChange from './ConfirmChange'
 import axios from 'axios'
 import './Modal.css'
 
-import { useHistory } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
 
+//for testing purposes
+import { withRouter } from 'react-router-dom';
+
 function SaveDocument(props){
     const {user, close} = useContext(UserContext)
-    // const history = useHistory();
-    const history = createBrowserHistory({});
+    // const history = createBrowserHistory({ forceRefresh: true}) //orig
+    const history = useHistory();  
     const classes = useStyles();
     const {id} = useParams();
     const [document, setDocument] = useState("")
@@ -37,36 +39,40 @@ function SaveDocument(props){
     }
 
     const handleRoute = () =>{ 
-        // history.push(`/search/${id}`) //ito talaga dapat pero may something sa refresh ni admin
-        window.scrollTo(0, 0)
-        history.push(`/search/`)
-    }
-
-     //get the specific document data 
-    const getDocument = async() =>{
-        try{
-            const document = await axios.get(`/api/books/${id}`);
-            console.log(document.data);
-            setDocument(document.data);
-        }catch(e){
-            console.log(e)
-        }
+        history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
     }
 
     const handleSubmit = async() =>{
         //patch request to update [BOOK]
-        console.log("SAVE DOCUMENT TITLE: " + props.book.title);
-
+        console.log("DOCUMENT TYPE SAVE Doc: " + props.type);
+        let response;
         try {
-            // event.preventDefault();
-            const response = await axios.patch(`/api/books/${id}`, {
-                title: props.book.title, 
-                author: props.book.author,
-                year: props.book.year,
-                publisher: props.book.publisher,
-                isbn: props.book.isbn,
-                description: props.book.description
-            } , options);
+            if(props.type=="book"){
+                response = await axios.patch(`/api/books/${id}`, {
+                    title: props.book.title, 
+                    author: props.book.author,
+                    year: props.book.year,
+                    publisher: props.book.publisher,
+                    isbn: props.book.isbn,
+                    description: props.book.description
+                } , options);
+            } else if(props.type=="thesis"){
+                response = await axios.patch(`/api/thesis/${id}`, {
+                    title: props.thesis.title, 
+                    author: props.thesis.author,
+                    adviser: props.thesis.adviser,
+                    pub_date: props.thesis.pub_date,
+                    abstract: props.thesis.abstract
+                } , options);
+            } else if(props.type=="sp"){
+                response = await axios.patch(`/api/sp/${id}`, {
+                    title: props.sp.title, 
+                    author: props.sp.author,
+                    adviser: props.sp.adviser,
+                    pub_date: props.sp.pub_date,
+                    abstract: props.sp.abstract
+                } , options);
+            }
             console.log('Returned data:', response.data);
         } catch (e) {
             console.log(`Axios request failed: ${e}`);
@@ -75,14 +81,9 @@ function SaveDocument(props){
 
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
-        getDocument()
         if(confirmed){
-
-            
-            handleSubmit()
-            close()
-            console.log("AFTER handle submit")
-            // props.handleSubmit()
+            handleSubmit();
+            close();
             handleRoute()
         }
     }, [confirmed, close])
@@ -91,7 +92,29 @@ function SaveDocument(props){
         <div className="save-user popupcontainer">
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <SaveIcon className={classes.iconStyle}/>
-            <h3 className="text prompt">Save changes to"{props.book.title}" {props.book.year}?</h3>
+
+            {
+                (function(document){
+                    console.log("document card value: ", document.type)
+                    switch(document.type){
+                        case "book":
+                            return(
+                                <h3 className="text prompt"> Save changes to"{props.book.title}" {props.book.year}? </h3>
+                            )
+                        case "thesis":
+                            return(
+                                <h3 className="text prompt"> Save changes to"{props.thesis.title}" {props.thesis.pub_date}? </h3>
+                            )
+                        case "sp":
+                            return(
+                                <h3 className="text prompt"> Save changes to"{props.sp.title}" {props.sp.pub_date}? </h3>
+                            )
+                        default:
+                            return null;	
+                        }
+                })(props)
+            }
+
             <div className="save-cancel">
                 <button className="save popup-btn" onClick={()=> handleSave(user)}>Save</button>
                 <button className="cancel popup-btn" onClick={handleCancel}>Cancel</button>
@@ -108,4 +131,4 @@ const useStyles = makeStyles(() => ({
     }
   }));
 
-export default SaveDocument
+export default withRouter(SaveDocument);

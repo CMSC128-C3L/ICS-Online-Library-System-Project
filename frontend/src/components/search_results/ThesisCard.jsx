@@ -26,7 +26,7 @@ function ThesisCard(props) {
 	function handleEdit(){
 		console.log('[THESIS] when edit button clicked: ', props.doc);
 		history.push({ 
-			pathname: `/search/${props.doc._id}`,
+			pathname: `/search/editDocument/${props.doc._id}`,
 			state: { fromButtonEdit: true,type: "thesis"}
 		});
 	}
