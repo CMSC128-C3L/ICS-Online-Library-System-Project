@@ -183,7 +183,7 @@ function ResultPane(props){
     // multiple delete requests
     console.log("To be deleted: ", checked)
   }
-
+  console.log(results)
   return(
     <Container className= "result-container">
       <button className="add-doc-button" onClick={handleAdd}>
@@ -194,6 +194,7 @@ function ResultPane(props){
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>
           <SortDropdown/>
         </div>
+        {/* multiple select only for admin; if admin, button will change depending if mult select is active or not */}
         {loggedUser.classification === "Admin" ?
           multSelect?
             <button className="tool-button mult-cancel" onClick={handleMultCancel}>CANCEL SELECTION</button> :
@@ -204,8 +205,9 @@ function ResultPane(props){
         <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
-        {pageResults.map((result, index) => {
-          {if(multSelect) {
+        {multSelect?
+        // render cards with checkboxes if admin chose multiple select
+          pageResults.map((result, index) => {
             return(
               <GridListTile key= {index} 
                 classes = {{
@@ -218,15 +220,16 @@ function ResultPane(props){
                 {renderCard(result)}
               </GridListTile>
             )
-          }else{
+          }) :
+        // render cards w/o checkboxes, for all users including admin if mutl select not chosen
+          pageResults.map((result, index) => {
             return(
               <GridListTile key= {index} classes={{tile: classes.tile}}>
                 {renderCard(result)}
               </GridListTile>
             )
-          }}
-         
-        })}
+          })
+        }
       </GridList>
       <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
     </Container>
