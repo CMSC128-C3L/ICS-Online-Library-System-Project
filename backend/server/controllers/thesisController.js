@@ -25,6 +25,7 @@ module.exports = {
   create,
   update,
   deleteOne,
+  download,
   uploadFields,
   uploadFiles
 }
@@ -83,6 +84,23 @@ async function uploadFiles(req, res) {
   } catch(error) {
     console.log(error);
     res.status(400).send();
+  }
+}
+
+async function download(req, res) {
+  try {
+    const _id = req.params.id;
+    const thesis = await Thesis.findOne({_id, type:'Thesis'});
+    if(!thesis) return res.status(404).send();
+    const notAllowed = ["Student", "Guest"];
+    
+    if(notAllowed.includes(req.user.classification)) 
+      return res.status(403).send();
+    const filepath = path.join(__dirname, `/../${thesis.file}`);
+    res.download(filepath);
+  } catch(error) {
+    console.log(error);
+    res.status(500).send();
   }
 }
 
