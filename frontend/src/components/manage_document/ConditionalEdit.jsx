@@ -8,9 +8,9 @@ import DownloadIcon from '@material-ui/icons/GetApp';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 import DocumentCard from './DocumentCard';
-import TagsInput from './TagsInput';
 import Modal from './modal/Modal';
 import SaveDocument from './modal/SaveDocument';
+import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
 
 /**
@@ -23,6 +23,11 @@ function ConditionalEdit(props){
   const classes = useStyles();
   const [document, setDocument] = useState([]);
   const {id} = useParams();
+  const [selectedValue, setSelectedValue] = useState([]);
+
+  // Create reference to modal
+  const saveModal = useRef(null)
+  const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
 
   //get flag whether the edit button from manage document is clicked
   let location = useLocation();
@@ -31,8 +36,7 @@ function ConditionalEdit(props){
   if(location.state != undefined) {
     allowEdit = location.state.fromButtonEdit;
     doc_type = location.state.type;
-  }
-  else {
+  } else {
     doc_type = "";
     allowEdit = false;
   }
@@ -57,13 +61,15 @@ function ConditionalEdit(props){
       getDocument()
   }, [])
 
+  // section to initialize book/sp/thesis
   let book = {
     title: document.title,
     year: document.year,
     author: document.author,
     publisher: document.publisher,
     isbn: document.isbn,
-    description: document.description
+    description: document.description,
+    topic: document.topic
   };
 
   let thesis = {
@@ -71,7 +77,8 @@ function ConditionalEdit(props){
     adviser: document.adviser,
     author: document.author,
     pub_date: document.pub_date,
-    abstract: document.abstract
+    abstract: document.abstract,
+    topic: document.topic
   };
 
   let sp = {
@@ -79,7 +86,8 @@ function ConditionalEdit(props){
     adviser: document.adviser,
     author: document.author,
     pub_date: document.pub_date,
-    abstract: document.abstract
+    abstract: document.abstract,
+    topic: document.topic
   };
 
   const handleInputChange = async(event) =>{
@@ -92,6 +100,7 @@ function ConditionalEdit(props){
       else if(target.name==="book_publisher") book.publisher = target.value;
       else if(target.name==="book_isbn") book.isbn = target.value;
       else if(target.name==="book_description") book.description = target.value;
+      else if(target.name==="book_topic") book.topic = target.value;
     } 
 
     else if(doc_type=="thesis"){
@@ -100,6 +109,7 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_adviser") thesis.adviser = target.value;
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
+      else if(target.name==="thesis_topic") thesis.topic = target.value;
     }
 
     else if(doc_type=="sp"){
@@ -108,19 +118,58 @@ function ConditionalEdit(props){
       else if(target.name==="sp_adviser") sp.adviser = target.value;
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
-      console.log(
-        "title: " + sp.title,
-        "\nauthor: " + sp.author,
-        "\nadviser: " + sp.adviser,
-        "\npub_date: " + sp.pub_date,
-        "\nabstract: " + sp.abstract
-      )
+      else if(target.name==="sp_topic") sp.topic = target.value;
     }
 }
 
-  // Create reference to modal
-  const saveModal = useRef(null)
-  const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
+  // for tags input value
+  const onSelect  = (selectedItem)  =>{
+    setSelectedValue(selectedItem);
+    console.log("content [select]: \n", selectedValue)
+
+    if(doc_type=="book") book.topic = selectedValue;
+    else if(doc_type=="sp")  sp.topic = selectedValue;
+    else if(doc_type=="thesis")  thesis.topic = selectedValue;
+  }
+
+  const onRemove = (selectedItem)  =>{
+      setSelectedValue(selectedItem);
+      console.log("content [remove]: \n", selectedValue)
+
+      if(doc_type=="book") book.topic = selectedValue;
+      else if(doc_type=="sp")  sp.topic = selectedValue;
+      else if(doc_type=="thesis")  thesis.topic = selectedValue;
+  }
+
+const data = [
+  'Algorithms',
+  'Android Development',
+  'Artificial Intelligence',
+  'Automata',
+  'Bioinformatics',
+  'Computer Architecture',
+  'Computer Graphics',
+  'Computer Security',
+  'Cryptography',
+  'Data Structures',
+  'Database Management',
+  'Discrete Mathematics',
+  'Distributed Computing',
+  'Human-Computer Interaction',
+  'Image Processing',
+  'Machine Learning',
+  'Networking',
+  'Operating System',
+  'Parallel Algorithms',
+  'Programming Languages',
+  'Robotics',
+  'Security',
+  'Software Engineering',
+  'Special Topic',
+  'Speech Recognition',
+  'User Interface',
+  'Web Development',
+]
 
   return(
     <div className="browsebg browsebg-container">
@@ -149,7 +198,18 @@ function ConditionalEdit(props){
                             <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publisher: <input className="input-container" name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
-                            <TagsInput/>
+                            {/* <TagsInput topic={book.topic}/> */}
+                            <div className="main-text-tags">Tags:</div>
+                            <Multiselect 
+                                placeholder="Add a tag"
+                                options={data} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
+                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                selectedValues={document.topic}
+                            />
                           </div>
   
                           <div className='document-card-container button-card-flex-column'>
@@ -161,13 +221,13 @@ function ConditionalEdit(props){
                       <div className="description-section">
                           {/* descriptions/abstracts are editable*/}
                           <div className="document-card-container">
-                          <h2>DESCRIPTION</h2>
-                          <Box className={classes.boxStyle}>
-                          <textarea className="textarea-container" name="book_description" defaultValue={document.description} onChange={handleInputChange} cols="40" rows="5"></textarea>
-                          </Box>
+                            <h2 style={{textAlign:'center'}}>DESCRIPTION</h2>
+                            <Box className={classes.boxStyle}>
+                            <textarea className="textarea-container" name="book_description" defaultValue={document.description} onChange={handleInputChange} cols="40" rows="5"></textarea>
+                            </Box>
                           </div>
                           <div className = "button-right">
-                          <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
+                            <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
                           </div>
                       </div>
                   </div>
@@ -185,7 +245,18 @@ function ConditionalEdit(props){
                             <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container"  name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            <TagsInput/>
+                      
+                            <div className="main-text-tags">Tags:</div>
+                            <Multiselect 
+                                placeholder="Add a tag"
+                                options={data} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
+                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                selectedValues={document.topic}
+                            />
                           </div>
                           <div className='document-card-container button-card-flex-column'>
                             <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
@@ -196,13 +267,13 @@ function ConditionalEdit(props){
                       <div className="description-section">
                           {/* descriptions/abstracts are editable*/}
                           <div className="document-card-container">
-                          <h2>ABSTRACT</h2>
-                          <Box className={classes.boxStyle}>
-                          <textarea className="textarea-container" name="thesis_abstract" defaultValue={document.abstract} onChange={handleInputChange} cols="40" rows="5"></textarea> 
-                          </Box>
+                            <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
+                            <Box className={classes.boxStyle}>
+                            <textarea className="textarea-container" name="thesis_abstract" defaultValue={document.abstract} onChange={handleInputChange} cols="40" rows="5"></textarea> 
+                            </Box>
                           </div>
-                          <div className = "button-right">
-                          <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
+                            <div className = "button-right">
+                            <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
                           </div>
                       </div>
                   </div>
@@ -220,7 +291,18 @@ function ConditionalEdit(props){
                             <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            <TagsInput/>
+  
+                            <div className="main-text-tags">Tags:</div>
+                            <Multiselect 
+                                placeholder="Add a tag"
+                                options={data} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
+                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                selectedValues={document.topic}
+                            />
                           </div>
                           <div className='document-card-container button-card-flex-column'>
                             <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
@@ -231,13 +313,13 @@ function ConditionalEdit(props){
                       <div className="description-section">
                           {/* descriptions/abstracts are editable*/}
                           <div className="document-card-container">
-                          <h2>ABSTRACT</h2>
-                          <Box className={classes.boxStyle}>
-                          <textarea className="textarea-container" name="sp_abstract" defaultValue={document.abstract} onChange={handleInputChange} cols="40" rows="5"></textarea>
-                          </Box>
+                            <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
+                            <Box className={classes.boxStyle}>
+                            <textarea className="textarea-container" name="sp_abstract" defaultValue={document.abstract} onChange={handleInputChange} cols="40" rows="5"></textarea>
+                            </Box>
                           </div>
-                          <div className = "button-right">
-                          <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
+                            <div className = "button-right">
+                            <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
                           </div>
                       </div>
                   </div>
@@ -251,7 +333,7 @@ function ConditionalEdit(props){
                   <div> 
                       <div className='document-card-flex-row'>
                           <div className='image-card-container' >
-                          <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+                            <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
                           </div>
 
                           <div className='document-card-flex-column' key={document.id}>
@@ -262,13 +344,14 @@ function ConditionalEdit(props){
                               yearPublished={document.year}
                               publisher={document.publisher}
                               docISBN={document.isbn}
+                              topic={document.topic}
                           />
                           </div>
   
                       </div>
   
                       <div className="description-section">
-                      <div className="document-card-container">
+                        <div className="document-card-container">
                           <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
                           <Box className={classes.descriptionStyle}>
                               {document.description}
@@ -288,7 +371,8 @@ function ConditionalEdit(props){
                               author={document.author} 
                               adviser={document.adviser}
                               yearPublished={document.pub_date}
-                          />
+                              topic={document.topic}
+                          />  
                           </div>
                       </div>
   

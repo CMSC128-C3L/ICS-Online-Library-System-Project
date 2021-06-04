@@ -8,7 +8,6 @@ import UploadIcon from '@material-ui/icons/Backup';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 import DocumentCard from './DocumentCard';
-import TagsInput from './TagsInput';
 import Modal from './modal/Modal';
 import SaveDocument from './modal/SaveDocument';
 import './DocumentCard.css';
@@ -126,7 +125,7 @@ function CreateDocument(props){
           <div className="main-text-tags">Year: <input name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
           <div className="main-text-tags">Publisher: <input name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
           <div className="main-text-tags">ISBN: <input name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
-          <TagsInput/>
+          {/* <TagsInput/> */}
         </div>
 
         <div className='document-card-container button-card-flex-column'>

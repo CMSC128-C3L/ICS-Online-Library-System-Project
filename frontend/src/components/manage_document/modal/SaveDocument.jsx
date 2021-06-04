@@ -54,7 +54,8 @@ function SaveDocument(props){
                     year: props.book.year,
                     publisher: props.book.publisher,
                     isbn: props.book.isbn,
-                    description: props.book.description
+                    description: props.book.description,
+                    topic: props.book.topic
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.patch(`/api/thesis/${id}`, {
@@ -62,7 +63,8 @@ function SaveDocument(props){
                     author: props.thesis.author,
                     adviser: props.thesis.adviser,
                     pub_date: props.thesis.pub_date,
-                    abstract: props.thesis.abstract
+                    abstract: props.thesis.abstract,
+                    topic: props.thesis.topic
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
@@ -70,7 +72,8 @@ function SaveDocument(props){
                     author: props.sp.author,
                     adviser: props.sp.adviser,
                     pub_date: props.sp.pub_date,
-                    abstract: props.sp.abstract
+                    abstract: props.sp.abstract,
+                    topic: props.sp.topic
                 } , options);
             }
             console.log('Returned data:', response.data);

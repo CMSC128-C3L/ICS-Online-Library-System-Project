@@ -1,5 +1,7 @@
 import './DocumentCard.css'
 
+// functional component to render the details in document card format 
+// used in accessing document
 function DocumentCard(props){
     return (
         <div>
@@ -7,7 +9,7 @@ function DocumentCard(props){
             (function(document){
                 console.log("document card value: ", document.type)
                 switch(document.type){
-                    case "Book":
+                    case "Book": //book
                         return(
                             <div className="document-card-container ">
                                 <div className="document-card-flex-column">
@@ -17,6 +19,7 @@ function DocumentCard(props){
                                 <div className="text-tags">Year Published: {document.yearPublished}</div>
                                 <div className="text-tags">Publisher: {document.publisher}</div>
                                 <div className="text-tags">ISBN: {document.docISBN}</div>
+                                <div className="text-tags">Topic: {document.topic}</div>
                                 </div>
                             </div>
                         )
@@ -29,6 +32,7 @@ function DocumentCard(props){
                                 <div className="text-tags">Author: {document.author}</div>
                                 <div className="text-tags">Adviser: {document.adviser}</div>
                                 <div className="text-tags">Publishing Date: {document.yearPublished}</div>
+                                <div className="text-tags">Topic: {document.topic}</div>
                                 </div>
                             </div>
                         )	

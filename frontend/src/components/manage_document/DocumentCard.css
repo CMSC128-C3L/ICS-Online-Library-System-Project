@@ -98,6 +98,10 @@
     text-align: center;
 }
 
+.multi-select{
+    border: none;
+}
+
 @media (max-width: 880px) {
     .flex-row {
         margin-bottom: 5vh;
