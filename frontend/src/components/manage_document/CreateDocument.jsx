@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from 'react-router';
 import {Box} from "@material-ui/core";
 import axios from 'axios';
-import DownloadIcon from '@material-ui/icons/GetApp';
+import UploadIcon from '@material-ui/icons/Backup';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 import DocumentCard from './DocumentCard';
@@ -116,127 +116,45 @@ function CreateDocument(props){
   return(
     <div>
       {
-        (function(doc_type){
-            <div> 
-            <Modal ref={saveModal}><SaveDocument book={book}/></Modal>
+    <div> 
+    <Modal ref={saveModal}><SaveDocument book={book} type={doc_type}/></Modal>
 
-            <div className='document-card-flex-row'>
-                {/* document thumbnail not editable */}
-                <div className='image-card-container' >
-                <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
-                </div>
-                
-                {/* document attributes are editable*/}
-                <div className='document-card-container document-card-flex-column' key={document.id}>
-                <div className="document-card-flex-column"> 
-                <div className="main-text-tags">Classification: {document.type}</div>
-                <div className="main-text-tags">Title: <input name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
-                <div className="main-text-tags">Author: <input name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
-                <div className="main-text-tags">Year: <input name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
-                <div className="main-text-tags">Publisher: <input name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
-                <div className="main-text-tags">ISBN: <input name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
-                </div>
-                <TagsInput/>
-                </div>
+    <div className='document-card-flex-row'>
+        {/* document thumbnail not editable */}
+        <div className='image-card-container card-content' >
+        <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+        </div>
+        
+        {/* document attributes are editable*/}
+        <div className='document-card-container document-card-flex-column' key={document.id}>
+          <div className="main-text-tags">Classification: {document.type}</div>
+          <div className="main-text-tags">Title: <input name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
+          <div className="main-text-tags">Author: <input name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
+          <div className="main-text-tags">Year: <input name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
+          <div className="main-text-tags">Publisher: <input name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
+          <div className="main-text-tags">ISBN: <input name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
+          <TagsInput/>
+        </div>
 
-                <div className='document-card-container button-card-flex-column'>
-                <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
-                <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
-                </div>
-            </div>
+        <div className='document-card-container button-card-flex-column'>
+          <button className={classes.textStyle} onClick={props.handleDownload}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+          <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
+        </div>
+    </div>
 
-            <div className="description-section">
-                {/* descriptions/abstracts are editable*/}
-                <h2>DESCRIPTION</h2>
-                <Box className={classes.boxStyle}>
-                <input type="text"  name="book_description" defaultValue={document.description} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
-                </Box>
-                
-                <div className = "button-right">
-                <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
-                </div>
-            </div>
-            </div>
-
-          switch(doc_type){
-            // if document is a book
-            case "book":
-                return(
-                  <div> 
-                      <Modal ref={saveModal}><SaveDocument book={book}/></Modal>
-  
-                      <div className='document-card-flex-row'>
-                          {/* document thumbnail not editable */}
-                          <div className='image-card-container' >
-                          <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
-                          </div>
-                          
-                          {/* document attributes are editable*/}
-                          <div className='document-card-container document-card-flex-column' key={document.id}>
-                            <div className="document-card-flex-column"> 
-                            <div className="main-text-tags">Classification: {document.type}</div>
-                            <div className="main-text-tags">Title: <input name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Author: <input name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Year: <input name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
-                            <div className="main-text-tags">Publisher: <input name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">ISBN: <input name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
-                            </div>
-                            <TagsInput/>
-                          </div>
-  
-                          <div className='document-card-container button-card-flex-column'>
-                            <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
-                            <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
-                          </div>
-                      </div>
-  
-                      <div className="description-section">
-                          {/* descriptions/abstracts are editable*/}
-                          <h2>DESCRIPTION</h2>
-                          <Box className={classes.boxStyle}>
-                            <input type="text"  name="book_description" defaultValue={document.description} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
-                          </Box>
-                          
-                          <div className = "button-right">
-                          <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
-                          </div>
-                      </div>
-                  </div>
-                )
-              // unable to edit document
-            case "thesis":
-              return(
-                <div> 
-                    <div className='document-card-flex-row'>
-                        <div className='image-card-container' >
-                        <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
-                        </div>
-                        
-                        <div className='document-card-container document-card-flex-column' key={document.id}>
-                        <DocumentCard
-                            type={document.type}
-                            title={document.title}
-                            author={document.author} 
-                            yearPublished={document.year}
-                            publisher={document.publisher}
-                            docISBN={document.isbn}
-                        />
-                        </div>
-
-                    </div>
-
-                    <div className="description-section">
-                        <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
-                        <Box className={classes.descriptionStyle}>
-                            {document.description}
-                        </Box>
-                    </div>
-                </div>
-              )
-            default:
-              return null;	
-          }
-        })(doc_type)
+    <div className="description-section">
+        {/* descriptions/abstracts are editable*/}
+        <div className="document-card-container">
+        <h2>DESCRIPTION</h2>
+        <Box className={classes.boxStyle}>
+          <input type="text"  name="book_description" defaultValue={document.description} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
+        </Box>
+        </div>
+        <div className = "button-right">
+        <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
+        </div>
+    </div>
+    </div>
     }
     </div>
   )
