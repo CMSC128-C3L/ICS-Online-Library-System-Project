@@ -137,7 +137,7 @@ async function uploadBookCover(req, res) {
         if (newBook === null)
             return res.status(404).send({message:"book not found"});    // the specified book does not exist
 
-        res.status(201).send({message:"book cover image uploaded"});
+        res.status(201).send({_id});
     } catch (err) {
         console.log(err)
         res.status(400).send({message:"error"});
