@@ -21,7 +21,8 @@ module.exports = {
   deleteSp,
   update,
   uploadSp,
-  upload
+  upload,
+  downloadSp
 };
 
 
@@ -48,6 +49,7 @@ async function getOne(req, res) {
         restriction(sp.view_count);
         if(sp!=null){
             res.status(200).send(sp);
+            return;
         }
 
         res.status(404).send({message:"Sp not found"});
@@ -75,7 +77,10 @@ async function deleteSp(req, res) {
     try {
     let _id = req.params.id;
     let sp = await Sp.findOneAndDelete({_id});
-    if(sp!=null)  res.status(200).send(sp);
+    if(sp!=null){
+        res.status(200).send(sp);
+        return;
+    }
     res.status(404).send({message:"Sp not found"});
       } catch(err) {
         res.status(500).send();
@@ -88,7 +93,10 @@ async function update(req, res) {
         let query= {_id};
        
         let sp = await Sp.findOneAndUpdate({_id}, req.body, {upsert: true, new: true}); //create the updated sp or new sp if the filter cannot find the sp 
-        if(sp!=null)  res.status(200).send(sp);
+        if(sp!=null){
+            res.status(200).send(sp);
+            return;
+        } 
 
         res.status(404).send();
        
@@ -106,7 +114,10 @@ async function uploadSp(req, res){
         let _id = req.params.id;
         let sp = await Sp.findById({_id, type:'Special Problem'});
         
-        if(sp==null) return res.status(404).send();
+        if(sp==null){
+          res.status(404).send({message:"Sp not found"});
+          return;
+        }
 
        //setting the file local path
        
@@ -115,8 +126,42 @@ async function uploadSp(req, res){
         if(req.files.spFile!=null)sp.file=req.files.spFile[0].path;
         
         await sp.save();
+      
+        res.status(200).send(req.files);
+    }catch(err){
+        console.log(err);
+        res.status(400).send({message:"Error"});
+    }
+}
+
+
+async function downloadSp(req,res){
+    try{
+        let _id = req.params.id;
+        if(req.user.classification=="Guest" || req.user.classification=="Student"){
+            res.status(403).send({message:"Not Authorized"});
+            return;
+        }
+
+        let sp=await Sp.findOneAndUpdate({_id, type:"Special Problem"},{$inc: {download_count: 1}},{new: true});
+        if(sp==null){
+            res.status(404).send({message:"Sp not found"});
+            return;
+        }
+        let filePath=sp.file;
+    
+      
+        if(filePath==''){
+            res.status(404).send({message:"Sp file not found"});
+            return;
+        }
         
-        res.status(200).send(req.file);
+        let fileName=path.parse(filePath).base;
+        res.download(filePath,fileName); //download the file
+        return;
+        
+
+       
     }catch(err){
         console.log(err);
         res.status(400).send({message:"Error"});
