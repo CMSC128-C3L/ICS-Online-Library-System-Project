@@ -50,6 +50,9 @@ const thesisSchema = new mongoose.Schema({
   topic: {
     type: Array
   },
+  courses: {
+    type: Array
+  },
   journal: {
     type: String,
     default: ''
