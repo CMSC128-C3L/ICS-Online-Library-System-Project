@@ -277,7 +277,7 @@ function ConditionalEdit(props){
                       </div>
                   </div>
                 )
-              } else if(doc_type=="thesis" || doc_type=="thesis"){
+              } else if(doc_type=="thesis" || doc_type=="sp"){
                 return(
                   <div> 
                       <div className='document-card-flex-row'>
