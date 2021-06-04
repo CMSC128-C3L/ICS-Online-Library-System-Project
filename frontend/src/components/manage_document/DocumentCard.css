@@ -5,7 +5,7 @@
     background-position: center;
 }
 
-.edit-main-content{
+.browsebg-container{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -70,6 +70,14 @@
 
 .text-tags{
     font-size: 3vh;
+}
+
+.input-container, .textarea-container{
+  width: 100%;
+  border:none;
+  border-bottom: 1px solid lightgray;
+  resize: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .tags {

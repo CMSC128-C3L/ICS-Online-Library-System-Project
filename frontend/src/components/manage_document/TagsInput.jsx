@@ -38,7 +38,7 @@ function TagsInput(){
     return (
         <div style={{display:"flex"}}>
             <div>
-                <h3>ADD A TAG</h3>
+                <div className="main-text-tags">Add a Tag:</div>
                 <Multiselect 
                 options={options} 
                 displayValue="Topic"

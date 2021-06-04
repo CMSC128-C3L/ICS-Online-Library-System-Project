@@ -98,13 +98,6 @@ function CreateDocument(props){
       else if(target.name==="thesis_adviser") thesis.adviser = target.value;
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
-      console.log(
-        "title: " + thesis.title,
-        "\nauthor: " + thesis.author,
-        "\nadviser: " + thesis.adviser,
-        "\npub_date: " + thesis.pub_date,
-        "\nabstract: " + thesis.abstract
-      )
     }
     
 }

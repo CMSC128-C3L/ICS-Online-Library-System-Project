@@ -144,11 +144,11 @@ function ConditionalEdit(props){
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
                             <div className="main-text-tags">Classification: {document.type}</div>
-                            <div className="main-text-tags">Title: <input name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Author: <input name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Year: <input name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
-                            <div className="main-text-tags">Publisher: <input name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">ISBN: <input name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Title: <input  className="input-container" name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Author: <input className="input-container" name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
+                            <div className="main-text-tags">Publisher: <input className="input-container" name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
                             <TagsInput/>
                           </div>
   
@@ -163,7 +163,7 @@ function ConditionalEdit(props){
                           <div className="document-card-container">
                           <h2>DESCRIPTION</h2>
                           <Box className={classes.boxStyle}>
-                            <input type="text"  name="book_description" defaultValue={document.description} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
+                          <textarea className="textarea-container" name="book_description" defaultValue={document.description} onChange={handleInputChange} cols="40" rows="5"></textarea>
                           </Box>
                           </div>
                           <div className = "button-right">
@@ -181,10 +181,10 @@ function ConditionalEdit(props){
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
                             <div className="main-text-tags">Classification: {document.type}</div>
-                            <div className="main-text-tags">Title: <input name= "thesis_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Author: <input name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Adviser: <input name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
-                            <div className="main-text-tags">Publishing Date: <input name="thesis_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Title: <input className="input-container" name= "thesis_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Adviser: <input className="input-container"  name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
+                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
                             <TagsInput/>
                           </div>
                           <div className='document-card-container button-card-flex-column'>
@@ -198,7 +198,7 @@ function ConditionalEdit(props){
                           <div className="document-card-container">
                           <h2>ABSTRACT</h2>
                           <Box className={classes.boxStyle}>
-                            <input type="text"  name="thesis_abstract" defaultValue={document.abstract} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
+                          <textarea className="textarea-container" name="thesis_abstract" defaultValue={document.abstract} onChange={handleInputChange} cols="40" rows="5"></textarea> 
                           </Box>
                           </div>
                           <div className = "button-right">
@@ -216,10 +216,10 @@ function ConditionalEdit(props){
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
                             <div className="main-text-tags">Classification: {document.type}</div>
-                            <div className="main-text-tags">Title: <input name= "sp_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Author: <input name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Adviser: <input name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
-                            <div className="main-text-tags">Publishing Date: <input name="sp_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Title: <input className="input-container" name= "sp_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
+                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
                             <TagsInput/>
                           </div>
                           <div className='document-card-container button-card-flex-column'>
@@ -233,7 +233,7 @@ function ConditionalEdit(props){
                           <div className="document-card-container">
                           <h2>ABSTRACT</h2>
                           <Box className={classes.boxStyle}>
-                            <input type="text"  name="sp_abstract" defaultValue={document.abstract} onChange={handleInputChange} style={{width:'80em', lineHeight: '28px'}}/> 
+                          <textarea className="textarea-container" name="sp_abstract" defaultValue={document.abstract} onChange={handleInputChange} cols="40" rows="5"></textarea>
                           </Box>
                           </div>
                           <div className = "button-right">
@@ -244,7 +244,7 @@ function ConditionalEdit(props){
                 )
               }
               
-              // unable to edit document
+            // unable to edit document
             case false:
               if(doc_type=="book"){
                 return(
