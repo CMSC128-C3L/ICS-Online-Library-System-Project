@@ -17,6 +17,7 @@ const bookSchema = new mongoose.Schema({
   author: [String],
   book_cover_img: {
     type: String,
+    default: ""
   },
   year: {
     type: Number,
