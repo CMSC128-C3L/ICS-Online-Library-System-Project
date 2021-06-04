@@ -40,7 +40,8 @@ const bookSchema = new mongoose.Schema({
     required: true
   },
   type: {
-    type: String
+    type: String,
+    default: "book"
   },
   courses: [],
   topic: [String]
