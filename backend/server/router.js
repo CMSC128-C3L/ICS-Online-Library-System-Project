@@ -22,6 +22,7 @@ router.delete('/api/users/:id', auth, isAdmin, User.deleteOne);
 router.get('/api/thesis/', auth, Thesis.getAll);
 router.get('/api/thesis/:id', auth, Thesis.getOne);
 router.post('/api/thesis', auth, isAdmin, Thesis.create);
+router.get('/api/thesis/download/:id', auth, Thesis.download);
 router.post('/api/thesis/upload/:id', auth, isAdmin, Thesis.uploadFields, Thesis.uploadFiles);
 router.patch('/api/thesis/:id', auth, isAdmin, Thesis.update);
 router.delete('/api/thesis/:id', auth, isAdmin, Thesis.deleteOne);
