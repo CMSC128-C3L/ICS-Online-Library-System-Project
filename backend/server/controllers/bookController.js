@@ -72,7 +72,7 @@ async function create(req, res) {
     try {
         const book = new Book(req.body);    // get the book data from the request body
         const newBook = await book.save();  // insert the book
-        return res.status(201).send(newBook._id);   // responsd with the id of the new book
+        return res.status(201).send({_id: newBook._id});   // responsd with the id of the new book
 
     } catch (err) {
         // console.log(err);
