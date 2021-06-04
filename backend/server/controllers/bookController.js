@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
         callback(null, path.join(__dirname, '../uploads/books'));
     },
     filename: function(req, file, callback) {
-        callback(null, Date.now() + "-" + file.originalname);
+        callback(null, "s-" + Date.now() + "-" + file.originalname);
     }
 });
 const uploads = multer({ storage }).single('book_cover');
@@ -157,7 +157,12 @@ function bookBase(data) {
     book.author = data.author;
     book.isbn = data.isbn;
     book.publisher = data.publisher;
-    book.book_cover_img = data.book_cover_img;
+    
+    if (data.book_cover_img.split("-")[0] === 's')
+        book.book_cover_img = path.join(__dirname, '../uploads/books/') + data.book_cover_img
+    else 
+        book.book_cover_img = data.book_cover_img
+
     book.topic = data.topic;
     book.course_code = data.courses.map(getCourseCode);
     book.type = data.type;
