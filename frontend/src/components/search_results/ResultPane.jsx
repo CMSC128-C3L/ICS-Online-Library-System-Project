@@ -5,13 +5,14 @@ import Typography from "@material-ui/core/Typography";
 import Container from '@material-ui/core/Container';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import Checkbox from '@material-ui/core/Checkbox';
 import Pagination from '@material-ui/lab/Pagination';
 import queryString from 'query-string';
+import { UserContext } from '../user/UserContext';
 
 //layout purposes
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import ConditionalSort from './ConditionalSort';
-import ConditionalButtons from './ConditionalButtons';
+import SortDropdown from './SortDropdown';
 import AddIcon from '@material-ui/icons/ImportContacts'
 import './SearchCard.css';
 
@@ -22,6 +23,24 @@ import SpCard from './SpCard';
 import { useLocation, useParams, useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
+  tile: {
+    borderRadius: '0.5em',
+    verticalAlign: 'middle',
+    display:'flex',
+    alignItems: 'center',
+    "& .MuiCard-root": {
+      flexGrow: 0.9
+    },
+  },
+  tileGlow: {
+    "& .MuiCard-root":{
+      flexGrow: 0.85,
+      boxShadow: '0 0 5px rgba(214, 50, 50, 0.7)',
+    }
+  },
+  cbox: {
+    alignSelf: 'start',
+  },
 }));
 
 function ResultPane(props){
@@ -131,25 +150,82 @@ function ResultPane(props){
   useEffect(() => {
     setPageCount(Math.ceil(results.length/cardsPerPage))
   }, [results, cardsPerPage])
-  
+
+  // Multiple Select for Deletion
+  const {loggedUser} = useContext(UserContext);
+  const [checked, setChecked] = useState([])
+  const [multSelect, setMultSelect] = useState(false)
+
+  function handleCheck(checked, value) {
+    const index = checked.indexOf(value)
+    const newChecked = [...checked]
+
+    if(index === -1){
+      newChecked.push(value);
+    }else{
+      newChecked.splice(index, 1);
+    } 
+    setChecked(newChecked)
+  }
+
+  const handleMultSelect = () => {
+    setMultSelect(prev => !prev)
+  }
+
+  const handleMultCancel = () => {
+    setMultSelect(prev => !prev)
+    setChecked([])
+  }
+
+  const handleMultDelete = () => {
+    // show pop up containing list of docs to be deleted
+    // with delete all and cancel button similar to user popup
+    // multiple delete requests
+    console.log("To be deleted: ", checked)
+  }
+
   return(
     <Container className= "result-container">
-      <button className="add-doc-button" onClick={handleAdd}><AddIcon className={classes.iconStyle}/></button>
+      <button className="add-doc-button" onClick={handleAdd}>
+        <AddIcon className={classes.iconStyle}/>
+      </button>
       <div className= "result-header">
-        <div className="sort-container">
+        <div className="sub-header-container">
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>
-          <ConditionalSort className="conditional-sort"/>
+          <SortDropdown/>
         </div>
-        <ConditionalButtons className="mult-select"/>
+        {loggedUser.classification === "Admin" ?
+          multSelect?
+            <button className="tool-button mult-cancel" onClick={handleMultCancel}>CANCEL SELECTION</button> :
+            <button className="tool-button" onClick={handleMultSelect}>MULTIPLE SELECT</button>
+          : null
+        }
+        <button className={multSelect? "tool-button mult-del" : "tool-button hide-btn"} onClick={handleMultDelete}>DELETE SELECTED</button>
         <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
       </div>
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {pageResults.map((result, index) => {
-          return(
-            <GridListTile key= {index}>
-              {renderCard(result)}
-            </GridListTile>
-          );
+          {if(multSelect) {
+            return(
+              <GridListTile key= {index} 
+                classes = {{
+                  tile: checked.indexOf(result) !== -1? `${classes.tile} ${classes.tileGlow}` : classes.tile
+                }}>
+                <Checkbox 
+                  checked={checked.indexOf(result) !== -1} 
+                  className={classes.cbox} value={result} 
+                  onChange={() => handleCheck(checked, result)}/>
+                {renderCard(result)}
+              </GridListTile>
+            )
+          }else{
+            return(
+              <GridListTile key= {index} classes={{tile: classes.tile}}>
+                {renderCard(result)}
+              </GridListTile>
+            )
+          }}
+         
         })}
       </GridList>
       <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
