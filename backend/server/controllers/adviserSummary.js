@@ -2,7 +2,6 @@ const Sp = require('../models/Sp.js');
 const Thesis = require('../models/Thesis.js');
 const fs = require("fs");
 const PDF = require("pdfkit");
-const doc = new PDF();
 
 
 module.exports = {
@@ -28,6 +27,7 @@ async function getAdviserSummary(req, res) {
 
 async function getAdviserSummaryPDF(req, res) {
     try {
+        const doc = new PDF();
         const adviser = req.params.adviser;
         const thesis = await Thesis.find({type:'Thesis',adviser}); // get all of the thesis
         const sp = await Sp.find({type:"Special Problem",adviser }); // get all of the sp
