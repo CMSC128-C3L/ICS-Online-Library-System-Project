@@ -23,6 +23,7 @@ module.exports = {
     deleteBook,
     uploadBookCover,
     uploads,
+    bookBase,
 };
 
 
