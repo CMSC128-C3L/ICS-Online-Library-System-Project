@@ -6,8 +6,6 @@ const fs = require("fs");
 const PDF = require("pdfkit");
 const { CLIENT_RENEG_WINDOW } = require("tls");
 const { resolve } = require("path");
-const doc = new PDF();
-
 
 module.exports = {
     getCourseSummary,
@@ -39,6 +37,7 @@ async function getCourseSummary(req, res) {
 async function getCourseSummaryPDF(req, res){
         
     try {
+        const doc = new PDF();
         const course = req.params.course;
 
         const book = await Book.find({'courses.code':course}); // get all of the books
