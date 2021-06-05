@@ -3,6 +3,7 @@ const Book = require('../models/Book.js');
 const Journal = require('../models/Journal.js');
 const Sp = require('../models/Sp.js');
 const User = require('../models/User.js');
+const bookFunc = require('./bookController.js');
 
 module.exports = {
   searchUser,
@@ -41,7 +42,7 @@ async function searchAll(req, res) {
 		const sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
 		const journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$exists: true, $ne : ''}});
 		
-		const book = data.map(item => bookBase(item));
+		const book = data.map(item => bookFunc.bookBase(item));
 		result.push(book);
 		result.push(thesis);
 		result.push(sp);
@@ -49,6 +50,7 @@ async function searchAll(req, res) {
 		
 		res.status(200).send(result);
 	}catch(error){
+		console.log(error);
 		res.status(500).send();
 	}
 }
@@ -68,7 +70,7 @@ async function searchBook(req, res) {
 	try{
 		let query = new RegExp(req.query.search, 'i');
 		const data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {'courses.code': {$regex: query}}]});
-		const book = data.map(item => bookBase(item));
+		const book = data.map(item => bookFunc.bookBase(item));
 		if(book != null) res.status(200).send(book);
 		else res.status(404).send("Book not found!");
 	}catch(error){
@@ -121,7 +123,7 @@ async function advanceSearchBook(req, res) {
 				data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {'courses.code':{$regex: query}}], topic: topics});
 			}
 		}
-		const book = data.map(item => bookBase(item));
+		const book = data.map(item => bookFunc.bookBase(item));
 		if(book != null) res.status(200).send(book);
 		else res.status(404).send("Book not found!");
 	}catch{
@@ -196,23 +198,4 @@ async function advanceSearchJournal(req, res) {
 	}catch{
 		res.status(500).send();
 	}
-}
-
-function bookBase(data) {
-    const book = {}
-    book._id = data._id
-    book.title = data.title;
-    book.year = data.year;
-    book.author = data.author;
-    book.isbn = data.isbn;
-    book.book_cover_img = data.book_cover_img;
-    book.topic = data.topic;
-    book.course_code = data.courses.map(getCourseCode);
-    book.type = data.type;
-
-    return book;
-}
-
-function getCourseCode(data){
-    return data.code;
 }
