@@ -9,7 +9,9 @@ const journalSchema= new mongoose.Schema({
     pub_date: String,
     topic: [String],
     journal: String,
-   	poster: String
+   	poster: String,
+    view_count: Number,
+    download_count: Number
 },{
     collection: 'Papers'
 }
