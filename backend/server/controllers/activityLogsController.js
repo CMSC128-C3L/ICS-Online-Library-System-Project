@@ -20,7 +20,6 @@ async function updateRecord(req, res){
 }
 
 async function recordUser(req, res){
-	console.log(req.body);
 	try{
 		const user_id = req.body.user_id;
 		const logDate = req.body.log_date[0];
