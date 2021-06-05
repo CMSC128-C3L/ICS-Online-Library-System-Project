@@ -19,17 +19,17 @@ function CourseSummary(props){
         
         // Fetch books with course == props.query
         async function fetchSummary(){
-            const books = await api.getBooks(props.query)
+            api.getBooks(props.query).then((books) => {
+                console.log(books.data)
+                setSummary(prevSummary=>({
+                    ...prevSummary,
+                    // name: course.name,
+                    // description: course.description,
+                    // prerequisites: course.prerequisites
+                    books: books.data
+                }))
+            })
             // const course = await api.getCourse(props.query)
-
-            console.log(books.data)
-            setSummary(prevSummary=>({
-                ...prevSummary,
-                // name: course.name,
-                // description: course.description,
-                // prerequisites: course.prerequisites
-                books: books.data
-            }))
         }
 
         fetchSummary()
@@ -67,6 +67,7 @@ function ResultsArea(props){
                         author={book.author}
                         book_cover_img={book.book_cover_img}
                         year={book.year}
+                        topic={book.topic}
                     />
                 })
             }

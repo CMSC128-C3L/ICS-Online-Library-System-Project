@@ -2,26 +2,17 @@
 .navpagination{
    display: flex;
    flex-direction: row;
-   margin: 0.5vh;
+   /* margin: 0.5vh; */
 }
 
 .usertable-container{
    display: flex;
    margin-bottom: 5vh;
-   max-width: 100vw;
+   max-width: 60vw;
    justify-content: center;
    align-items: center;
    border: 1px solid #47abd8;
-}
-
-.table-heading{
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 1.5em;
-  flex-wrap: wrap;
-  flex-shrink: 1;
-  text-align: center;
-  color: white;
+   overflow-x: auto;
 }
 
 .iconbutton-view{
@@ -29,10 +20,8 @@
    max-height: 2.5em;
 }
 
-
-
 .searchbar{
-   width: 100vh;
+   min-width: 45vw;
    height: 5vh;
    margin: 5vh 0vh;
    border: 1px #47abd8 solid;
@@ -43,7 +32,7 @@
 .manageusers-container{
    display: flex;
    flex-direction: column;
-   justify-content: center;
+   align-content: center;
    align-items: center;
 }
 
@@ -59,4 +48,53 @@
    height: 30%;
    width: 30%;
    color: white;
+}
+
+.toolbar-position {
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+}
+
+.toolbar {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   min-width: 57.5vw;
+}
+
+.toolbar-tools {
+   display: flex;
+   width: 100%;
+   align-items: flex-end;
+   color: #47abd8;
+}
+
+.toolbar-btn {
+   background-color: transparent;
+   border: none;
+   margin-left: 0.5em;
+}
+
+.toolbar-btn:hover {
+   background-color: rgb(0,0,0,0.075);
+   border-radius: 0.5em;
+}
+
+.MuiTableRow-root {
+   border-bottom: none;
+   border-left: none;
+   border-right: none;
+ }
+
+.MuiTableSortLabel-root,
+.MuiTableSortLabel-root.MuiTableSortLabel-active,
+.MuiTableSortLabel-root:hover,
+.MuiTableSortLabel-icon {
+   color: white !important;
+   font-weight:700;
+   font-size: 1.25em;
+   text-align: center;
+   /* margin: 0.25em; */
 }

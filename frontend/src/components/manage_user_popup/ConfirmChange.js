@@ -40,13 +40,15 @@ function ConfirmChange(props){
     }, [])
 
     return(
-        <div className="confirm-change popup-container">
+        <div className="popup-container confirm-change">
             <h4 className="text">Type text below to continue</h4>
             <div className="copy-disable key-container text">
                 <h1>{confirm.key}</h1>
             </div>
-            <TextField id="key-input" placeholder="Type here" variant="outlined" onChange={handleInput}/>
-            <button className="save popup-btn" disabled={confirm.disable} onClick={handleConfirmation}>Confirm</button>
+            <form className="form-container">
+                <TextField id="key-input" placeholder="Type here" variant="outlined" onChange={handleInput} autoComplete="off"/>
+                <button className="confirm-btn" disabled={confirm.disable} onClick={handleConfirmation}>Confirm</button>
+            </form>
         </div>
     )
 }
