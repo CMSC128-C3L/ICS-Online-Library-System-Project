@@ -21,88 +21,79 @@ import './DocumentCard.css';
 
 function CreateDocument(props){
   const classes = useStyles();
-  const [document, setDocument] = useState([]);
-  const {id} = useParams();
+  const [doc_type, setDoctype] = useState([]);
   const [selectedValue, setSelectedValue] = useState([]);
 
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
 
-  //get flag whether the edit button from manage document is clicked
-  let location = useLocation();
-  let doc_type;
-
-  if(location.state != undefined) {
-    doc_type = location.state.type;
-  } else {
-    doc_type = "";
-  }
-
-  //get the specific document data 
-  const getDocument = async() =>{
-      let document;
-      
-      try{
-          if(doc_type == "book") document = await axios.get(`/api/books/${id}`);
-          else if(doc_type == "sp") document = await axios.get(`/api/sp/${id}`);
-          else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
-
-          if(doc_type == "thesis") setDocument(document.data[0]);
-          else setDocument(document.data); // doc_type == "book" || doc_type == "sp"
-      }catch(e){
-          console.log(e)
-      }
-  }
-
-  useEffect(() => {
-      getDocument()
-  }, [])
-
   // section to initialize book/sp/thesis
   let book = {
-    title: document.title,
-    year: document.year,
-    author: document.author,
-    publisher: document.publisher,
-    isbn: document.isbn,
-    description: document.description,
-    topic: document.topic
+    type: "",
+    id: "",
+    title: "",
+    year: "",
+    author: "",
+    publisher: "",
+    isbn: "",
+    description: "",
+    topic: "",
+    course: ""
   };
 
   let thesis = {
-    title: document.title,
-    adviser: document.adviser,
-    author: document.author,
-    pub_date: document.pub_date,
-    abstract: document.abstract,
-    topic: document.topic
+    type: "",
+    id: "",
+    title: "",
+    adviser: "",
+    author: "",
+    pub_date: "",
+    abstract: "",
+    topic: "",
+    course: ""
   };
 
   let sp = {
-    title: document.title,
-    adviser: document.adviser,
-    author: document.author,
-    pub_date: document.pub_date,
-    abstract: document.abstract,
-    topic: document.topic
+    type: "",
+    id: "",
+    title: "",
+    adviser: "",
+    author: "",
+    pub_date: "",
+    abstract: "",
+    topic: "",
+    course: ""
   };
 
   const handleInputChange = async(event) =>{
     const target = event.target;
 
     if(doc_type=="book"){
-      if(target.name==="book_title") book.title = target.value;
+      if(target.name==="book_id") book.id = target.value;
+      else if(target.name==="book_title") book.title = target.value;
       else if(target.name==="book_author") book.author = target.value;
       else if(target.name==="book_year") book.year = target.value;
       else if(target.name==="book_publisher") book.publisher = target.value;
       else if(target.name==="book_isbn") book.isbn = target.value;
       else if(target.name==="book_description") book.description = target.value;
       else if(target.name==="book_topic") book.topic = target.value;
+      else if(target.name==="book_course") book.course = target.value;
+
+      console.log("data:\n",
+      book.id,"\n", 
+      book.title,"\n",
+      book.author,"\n",
+      book.year,"\n",
+      book.publisher,"\n",
+      book.isbn,"\n", 
+      book.description,"\n",
+      book.topic,"\n")
     } 
 
     else if(doc_type=="thesis"){
-      if(target.name==="thesis_title") thesis.title = target.value;
+      if(target.name==="thesis_id") thesis.id = target.value;
+      else if(target.name==="thesis_title") thesis.title = target.value;
       else if(target.name==="thesis_author") thesis.author = target.value;
       else if(target.name==="thesis_adviser") thesis.adviser = target.value;
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
@@ -111,7 +102,8 @@ function CreateDocument(props){
     }
 
     else if(doc_type=="sp"){
-      if(target.name==="sp_title") sp.title = target.value;
+      if(target.name==="sp_id") sp.id = target.value;
+      else if(target.name==="sp_title") sp.title = target.value;
       else if(target.name==="sp_author") sp.author = target.value;
       else if(target.name==="sp_adviser") sp.adviser = target.value;
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
@@ -120,6 +112,29 @@ function CreateDocument(props){
     }
 }
 
+// for getting type value
+const handleType  = (selectedItem)  =>{
+  setSelectedValue(selectedItem);
+  console.log("content [type]: \n", selectedValue)
+  
+  if(selectedValue=="Book") {
+    setDoctype("book")
+    book.type = selectedValue;
+  }
+  else if(selectedValue=="Special Problem"){
+    setDoctype("sp")
+    sp.type = selectedValue;
+  } 
+  else if(selectedValue=="Thesis") {
+    setDoctype("thesis")
+    thesis.type = selectedValue;
+  } else setDoctype("")
+}
+
+useEffect(() => {
+  handleType(selectedValue)
+}, [selectedValue])
+
   // for tags input value
   const onSelect  = (selectedItem, type)  =>{
     setSelectedValue(selectedItem);
@@ -127,14 +142,15 @@ function CreateDocument(props){
 
     if(type =="tags"){
       if(doc_type=="book") book.topic = selectedValue;
-      else if(doc_type=="sp")  sp.topic = selectedValue;
-      else if(doc_type=="thesis")  thesis.topic = selectedValue;
-    } else if(type=="type"){
-      //insert method for assigning the classification of document
+      else if(doc_type=="sp") sp.topic = selectedValue;
+      else if(doc_type=="thesis") thesis.topic = selectedValue;
+    } else if(type=="course"){
+      //insert method for assigning the course object of document
     }
     
   }
 
+  // for tags remove value
   const onRemove = (selectedItem, type)  =>{
       setSelectedValue(selectedItem);
       console.log("content [remove]: \n", selectedValue)
@@ -145,6 +161,8 @@ function CreateDocument(props){
         else if(doc_type=="thesis")  thesis.topic = selectedValue;
       } else if(type=="type"){
         //insert method for assigning the classification of document
+      } else if(type=="course"){
+        //insert method for assigning the course object of document
       }
   }
 
@@ -154,7 +172,15 @@ const classification = [
   'Thesis'
 ]
 
-const data = [
+const course = [{
+  code:'', 
+  title: '', 
+  description: '', 
+  units: '', 
+  prerequisite: ''
+}]
+
+const topics = [
   'Algorithms',
   'Android Development',
   'Artificial Intelligence',
@@ -191,43 +217,87 @@ const data = [
             <Modal ref={saveModal}><SaveDocument book={book} type={doc_type}/></Modal>
 
             <div className='document-card-flex-row'>
-                {/* document thumbnail not editable */}
+                {/* document thumbnail should be editable */}
                 <div className='image-card-container card-content' >
-                <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+                <img alt="INSERT A THUMBNAIL" className={classes.imageStyle}></img>
                 </div>
                 
                 {/* document attributes are editable*/}
-                <div className='document-card-container document-card-flex-column' key={document.id}>
+                <div className='document-card-container document-card-flex-column' key={""}>
                   <div className="main-text-tags">Classification: 
                   <Multiselect 
                       selectionLimit="1"
                       placeholder="Document Type"
                       options={classification} 
                       closeIcon="cancel"
-                      isObject={false}
-                      onSelect={(selectedValue)=> onSelect(selectedValue, "type")} 
-                      onRemove={(selectedValue)=> onRemove(selectedValue, "type")}   
+                      isObject={false} 
+                      onSelect={(selectedValue)=> handleType(selectedValue)} 
+                      onRemove={(selectedValue)=> handleType(selectedValue)}   
                       style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
-                      selectedValues={document.topic}
                   />
-                  
                   </div>
-                  <div className="main-text-tags">Title: <input  className="input-container" name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
-                  <div className="main-text-tags">Author: <input className="input-container" name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
-                  <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
-                  <div className="main-text-tags">Publisher: <input className="input-container" name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
-                  <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
-                  {/* <TagsInput topic={book.topic}/> */}
+
+                  {
+                    (function(doc_type){
+                        console.log("document card type: ", doc_type)
+                        switch(doc_type){
+                            case "book": //book
+                                return(
+                                    <div>
+                                      <div className="main-text-tags">ID: <input  className="input-container" name= "book_id" type="text" onChange={handleInputChange}/> </div>
+                                      <div className="main-text-tags">Title: <input  className="input-container" name= "book_title" type="text" onChange={handleInputChange}/> </div>
+                                      <div className="main-text-tags">Author: <input className="input-container" name="book_author" type="text" onChange={handleInputChange}/> </div>
+                                      <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="text" onChange={handleInputChange}/></div>
+                                      <div className="main-text-tags">Publisher: <input className="input-container" name="book_publisher" type="text" onChange={handleInputChange}/> </div>
+                                      <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="text" onChange={handleInputChange}/> </div>
+                                    </div>
+                                )
+                              case "sp": //sp
+                                return(
+                                  <div>
+                                    <div className="main-text-tags">ID: <input  className="input-container" name= "sp_id" type="text" onChange={handleInputChange}/> </div>
+                                    <div className="main-text-tags">Title: <input  className="input-container" name= "sp_title" type="text" onChange={handleInputChange}/> </div>
+                                    <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" onChange={handleInputChange}/> </div>
+                                    <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" onChange={handleInputChange}/></div>
+                                    <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="text" onChange={handleInputChange}/> </div>
+                                  </div>
+                                )
+                              case "thesis": //thesis
+                                return(
+                                  <div>
+                                    <div className="main-text-tags">ID: <input  className="input-container" name= "thesis_id" type="text" onChange={handleInputChange}/> </div>
+                                    <div className="main-text-tags">Title: <input  className="input-container" name= "thesis_title" type="text" onChange={handleInputChange}/> </div>
+                                    <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" onChange={handleInputChange}/> </div>
+                                    <div className="main-text-tags">Adviser: <input className="input-container" name="thesis_adviser" type="text" onChange={handleInputChange}/></div>
+                                    <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="text" onChange={handleInputChange}/> </div>
+                                </div>
+                                )
+                            default: 
+                              return null;
+                        }
+                    })(doc_type)
+                  }
+               
+                  {/* This section is for course of the document */}
+                  <div className="main-text-tags">Courses:</div>
+                  <Multiselect 
+                      placeholder="Add a course"
+                      options={course} 
+                      closeIcon="cancel"
+                      onSelect={(selectedValue)=> onSelect(selectedValue, "course")} 
+                      onRemove={(selectedValue)=> onRemove(selectedValue, "course")}   
+                      style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                  />
+                  {/* This section is for topic of the document */}
                   <div className="main-text-tags">Tags:</div>
                   <Multiselect 
                       placeholder="Add a tag"
-                      options={data} 
+                      options={topics} 
                       closeIcon="cancel"
                       isObject={false}
                       onSelect={(selectedValue)=> onSelect(selectedValue, "tags")} 
                       onRemove={(selectedValue)=> onRemove(selectedValue, "tags")}   
                       style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
-                      selectedValues={document.topic}
                   />
                 </div>
 
@@ -242,7 +312,7 @@ const data = [
                 <div className="document-card-container">
                   <h2 style={{textAlign:'center'}}>DESCRIPTION</h2>
                   <Box className={classes.boxStyle}>
-                  <textarea className="textarea-container" name="book_description" defaultValue={document.description} onChange={handleInputChange} cols="40" rows="5"></textarea>
+                  <textarea className="textarea-container" name="book_description" onChange={handleInputChange} cols="40" rows="5"></textarea>
                   </Box>
                 </div>
                 <div className = "button-right">

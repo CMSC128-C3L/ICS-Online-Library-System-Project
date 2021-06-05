@@ -1,24 +1,18 @@
 import React, {useContext, useState, useRef, useEffect} from 'react'
 import Modal, { UserContext } from './Modal'
 import ConfirmChange from './ConfirmChange'
-import axios from 'axios'
-import './Modal.css'
-
-import { createBrowserHistory } from 'history'
+import { withRouter } from 'react-router-dom'
 import { useHistory, useParams } from 'react-router'
 import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
-
-//for testing purposes
-import { withRouter } from 'react-router-dom';
+import axios from 'axios'
+import './Modal.css'
 
 function SaveDocument(props){
     const {user, close} = useContext(UserContext)
-    // const history = createBrowserHistory({ forceRefresh: true}) //orig
     const history = useHistory();  
     const classes = useStyles();
     const {id} = useParams();
-    const [document, setDocument] = useState("")
 
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
@@ -48,7 +42,8 @@ function SaveDocument(props){
         let response;
         try {
             if(props.type=="book"){
-                response = await axios.patch(`/api/books/${id}`, {
+                response = await axios.post(`/api/books`, {
+                    id: props.book.id,
                     title: props.book.title, 
                     author: props.book.author,
                     year: props.book.year,
@@ -95,10 +90,11 @@ function SaveDocument(props){
         <div className="save-user popupcontainer">
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <SaveIcon className={classes.iconStyle}/>
-
+            <h3 className="text prompt"> ADD NEW DOCUMENT? </h3>
             {
                 (function(document){
                     console.log("document card value: ", document.type)
+                    
                     switch(document.type){
                         case "book":
                             return(

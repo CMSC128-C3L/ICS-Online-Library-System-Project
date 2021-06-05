@@ -9,7 +9,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
 import DocumentCard from './DocumentCard';
 import Modal from './modal/Modal';
-import SaveDocument from './modal/SaveDocument';
+import UpdateDocument from './modal/UpdateDocument';
 import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
 
@@ -182,7 +182,7 @@ const data = [
               if(doc_type=="book"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><SaveDocument book={book} type={doc_type}/></Modal>
+                      <Modal ref={saveModal}><UpdateDocument book={book} type={doc_type}/></Modal>
   
                       <div className='document-card-flex-row'>
                           {/* document thumbnail not editable */}
@@ -235,7 +235,7 @@ const data = [
               } else if(doc_type=="thesis"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><SaveDocument thesis={thesis} type={doc_type}/></Modal>
+                      <Modal ref={saveModal}><UpdateDocument thesis={thesis} type={doc_type}/></Modal>
   
                       <div className='document-card-flex-row'>                          
                           {/* document attributes are editable*/}
@@ -281,7 +281,7 @@ const data = [
               }  else if(doc_type=="sp"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><SaveDocument sp={sp} type={doc_type}/></Modal>
+                      <Modal ref={saveModal}><UpdateDocument sp={sp} type={doc_type}/></Modal>
   
                       <div className='document-card-flex-row'>                          
                           {/* document attributes are editable*/}
