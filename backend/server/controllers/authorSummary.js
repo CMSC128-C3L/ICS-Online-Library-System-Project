@@ -4,7 +4,7 @@ const Journal= require('../models/Journal.js');
 const Thesis = require('../models/Thesis.js');
 const fs = require("fs");
 const PDF = require("pdfkit");
-const doc = new PDF();
+
 
 
 module.exports = {
@@ -21,6 +21,7 @@ async function getAuthorSummaryPDF(req, res) {
         const sp = await Sp.find({type:"Special Problem",author }); // get all of the sp
         
         // Writing the data into pdf file
+        const doc = new PDF();
         const stream = fs.createWriteStream(author +' Summary Report.pdf');
         doc.pipe(stream);
         doc.text("Author Summary Report ", {align: 'center'});
