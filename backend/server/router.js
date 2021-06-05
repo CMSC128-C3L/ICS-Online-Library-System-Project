@@ -4,6 +4,9 @@ const Thesis = require('./controllers/thesisController.js');
 const auth = require('./middlewares/auth.js');
 const router = new express.Router;
 const isAdmin = require('./middlewares/isAdmin.js');
+const AuthorSummary = require("./controllers/authorSummary.js");
+const AdviserSummary = require("./controllers/adviserSummary.js");
+const CourseSummary = require("./controllers/courseSummary.js");
 
 // Sample test route
 router.get('/api', (req, res) => {
@@ -79,7 +82,6 @@ router.get('/api/search/filter/thesis', Search.advanceSearchThesis);
 router.get('/api/search/filter/sp', Search.advanceSearchSp);
 router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
-
 //Activity Logs
 const Logs = require('./controllers/activityLogsController.js');
 router.get('/api/log', auth, Logs.getAll);
@@ -88,6 +90,16 @@ router.get('/api/log/user/:email', auth, Logs.getUserId);
 router.post('/api/log/login', auth, Logs.recordUser);
 router.post('/api/log/logout', auth, Logs.logoutUser);
 
+//author summary
+router.get('/api/authorSummary/:author', AuthorSummary.getAuthorSummary);
+router.get('/api/authorSummaryPDF/:author', AuthorSummary.getAuthorSummaryPDF);
 
-//
+//adviser summary
+router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
+router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPDF);
+
+//course summary
+router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
+router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
+
 module.exports = router;
