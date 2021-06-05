@@ -1,13 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-// import CheckList from './CheckList';
 import CategoryChecklist from './CategoryChecklist';
 import TopicChecklist from './TopicChecklist';
 import Typography from '@material-ui/core/Typography';
 import ReferenceDropdown from './ReferenceDropdown'
 import { ACTIONS } from '../../pages/SearchPage';
 
-const category = {'name': 'Category', 'list': ["Books", "Journals", "Special Problems", "Theses"]};
+const category = {'name': 'Category', 'list': ["Books", "Special Problems", "Theses"]};
 const topic = {
 	'name': 'Topic', 
 	'list': ['Algorithms',
