@@ -1,23 +1,37 @@
 .result-container {
   width: 100%;
-  padding: 1em 0em 1em 0em;
+  padding: 1em 2em 1em 2em;
 }
 
 .result-header {
   display: flex;
-  min-height: 12vh;
+  position: relative;
+  min-height: 70px;
   width: 100%;
   justify-content: space-between;
+  margin-bottom: 0.5em;
+}
+
+.sub-header-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
 }
 
 .search-pagination {
+  position: absolute;
+  bottom: 0;
+  right: 0;
   min-width: 10vw;
   max-width: 30vw;
-  padding: 0em 1em 0em 1em;
   align-self: center;
 }
 
 .bottom-pg {
+  position: unset;
   float: right;
 }
 
@@ -28,7 +42,7 @@
   grid-template-areas:
   "doc-cover title title"
   "doc-cover doc-book-content doc-icons";
-  width: 95%;
+  width: 90%;
   height: 220px;
 }
 
@@ -39,7 +53,7 @@
   grid-template-areas:
   "title title"
   "doc-content doc-icons";
-  width: 95%;
+  width: 90%;
   height: 220px;
 }
 
@@ -50,7 +64,7 @@
 
 .doc-title {
   grid-area: title;
-  padding: 0.8em;
+  padding: 0.4em;
   flex-wrap: nowrap;
   font-weight: 600;
 }
@@ -122,19 +136,45 @@
 }
 
 .tool-button{
+  position: absolute;
+  bottom: 0;
+  left: 10em;
   border-radius: 1em;
   background-color: #47abdb;
   color:  rgb(0, 0, 0);
   border: none;
   font-size: 17px;
-  width: 50vh;
+  width: 30vh;
   height: 5vh;
   margin-left: 2em;
   margin-top: 2vh;
+  align-self: baseline;
 }
 
 .tool-button:hover{
   color: #95D2EC;
+}
+
+.mult-cancel {
+  background-color: #C4C4C4;
+}
+
+.mult-cancel:hover {
+  color: #7F7F7F;
+}
+
+.mult-del {
+  left: 25em;
+  background-color: #B04444;
+  color: #FFF;
+}
+
+.hide-btn {
+  display: none;
+}
+
+.mult-del:hover {
+  color:thistle;
 }
 
 .add-doc-button {
