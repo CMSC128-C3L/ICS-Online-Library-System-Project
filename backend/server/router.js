@@ -73,6 +73,10 @@ router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 router.get('/api/authorSummary/:author', AuthorSummary.getAuthorSummary);
 router.get('/api/authorSummaryPDF/:author', AuthorSummary.getAuthorSummaryPDF);
 
+//adviser summary
+router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
+router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPDF);
+
 //course summary
 router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
 router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
