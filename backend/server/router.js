@@ -74,8 +74,8 @@ router.get('/api/authorSummary/:author', AuthorSummary.getAuthorSummary);
 router.get('/api/authorSummaryPDF/:author', AuthorSummary.getAuthorSummaryPDF);
 
 //course summary
-router.get('/api/courseSummary', CourseSummary.getCourseSummary);
-router.get('/api/courseSummaryPDF', CourseSummary.getCourseSummaryPDF);
+router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
+router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
 
 module.exports = router;
 
