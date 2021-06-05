@@ -25,8 +25,8 @@ function JournalCard(props) {
 	function handleEdit(){
 		console.log('[JOURNAL] when edit button clicked: ', props.doc);
 		history.push({ 
-			pathname: `/search/${props.doc._id}`,
-			state: { fromButtonEdit: true }
+			pathname: `/search/editDocument/${props.doc._id}`,
+			state: { fromButtonEdit: true, type: "journal"}
 		   });
 	}
 
@@ -37,7 +37,7 @@ function JournalCard(props) {
 
 	return(
 		<Card className= "doc-card" style={{backgroundColor: '#F4F4F4'}} title={props.doc.title}>
-			<CardActionArea className="doc-title" onClick={() => history.push(`/search/${props.doc._id}`)}>
+			<CardActionArea className="doc-title" onClick={() => history.push({pathname: `/search/${props.doc._id}`, state: { fromButtonEdit: false, type: "journal" }})}>
 				<Title title={props.doc.title} />
 			</CardActionArea>
 

@@ -20,7 +20,8 @@ import './SearchCard.css';
 import BookCard from './BookCard';
 import ThesisCard from './ThesisCard';
 import SpCard from './SpCard';
-import { useLocation, useParams, useHistory } from 'react-router';
+import { useLocation, useParams, useHistory} from 'react-router';
+import { Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   tile: {
@@ -111,7 +112,7 @@ function ResultPane(props){
 
   const handleAdd = () =>{
     console.log('[DOCUMENT] when add button clicked: ');
-		// openAddModal();
+    history.push(`/createDocument`);
   }
 
   // render card depending on type of doc
@@ -133,6 +134,7 @@ function ResultPane(props){
   const [page, setPage] = useState(1)
   const [pageResults, setPageResults] = useState([])
   const [pageCount, setPageCount] = useState(Math.ceil(pageResults/cardsPerPage))
+
 
   const handleChangePage = (event, value) => {
     setPage(value)
@@ -186,9 +188,13 @@ function ResultPane(props){
   console.log(results)
   return(
     <Container className= "result-container">
-      <button className="add-doc-button" onClick={handleAdd}>
-        <AddIcon className={classes.iconStyle}/>
-      </button>
+        {/* add document only for admin */}
+        {loggedUser.classification === "Admin" ?
+          <button className="add-doc-button" onClick={handleAdd}>
+            <AddIcon className={classes.iconStyle}/>
+          </button>
+          : null
+        }
       <div className= "result-header">
         <div className="sub-header-container">
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>

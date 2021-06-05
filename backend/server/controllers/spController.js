@@ -49,15 +49,11 @@ async function getOne(req, res) {
         restriction(sp.view_count);
         if(sp!=null){
             res.status(200).send(sp);
-            return;
-        }
+        }else res.status(404).send({message:"Sp not found"});
+    }catch(err){
+    res.status(400).send({message:"Error"});
 
-        res.status(404).send({message:"Sp not found"});
-    
-        }catch(err){
-        res.status(400).send({message:"Error"});
-    
-        }
+    }
 
 }
 

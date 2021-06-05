@@ -1,5 +1,28 @@
-.edit-main-content{
+.browsebg{
+    background-image: url('../../assets/icsmh.png');
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
+}
+
+.browsebg-container{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.image-card-container{
+    border: 1;
+    border: #47abd8 solid;
+    border-radius: 1em;
+    background: white;
+    padding: 1vh;
+}
+
+.document-card-container{
+    border: 1;
+    border: #47abd8 solid;
+    border-radius: 1em;
+    background: white;
+    padding: 1vh;
 }
 
 .document-card-flex-column {
@@ -32,7 +55,7 @@
 
 .description-section{
     /* background-color: burlywood; */
-    padding: 1vh 30vh;
+    padding: 5vh 30vh;
 }
 
 .button-right{
@@ -47,6 +70,14 @@
 
 .text-tags{
     font-size: 3vh;
+}
+
+.input-container, .textarea-container{
+  width: 100%;
+  border:none;
+  border-bottom: 1px solid lightgray;
+  resize: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .tags {
@@ -65,6 +96,10 @@
 
 .tag-content{
     text-align: center;
+}
+
+.multi-select{
+    border: none;
 }
 
 @media (max-width: 880px) {
