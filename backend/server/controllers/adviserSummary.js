@@ -43,7 +43,6 @@ async function getAdviserSummaryPDF(req, res) {
         sp.map(item => {
             doc.text("Title: " + item.title);
             doc.text("Adviser: " + item.adviser);
-            doc.text("Adviser: " + item.adviser);
             const editedDate = String(item.pub_date);
             const strippedDate = editedDate.split(" ");
             doc.text("Publication Date: " + strippedDate[1] + " " + strippedDate[2] + ", " + strippedDate[3]);
@@ -57,7 +56,6 @@ async function getAdviserSummaryPDF(req, res) {
         // Writing info of the thesis
         thesis.map(item => {
             doc.text("Title: " + item.title);
-            doc.text("Adviser: " + item.adviser);
             doc.text("Adviser: " + item.adviser);
             const editedDate = String(item.pub_date);
             const strippedDate = editedDate.split(" ");
