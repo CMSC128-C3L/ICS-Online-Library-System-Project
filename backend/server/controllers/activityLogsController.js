@@ -87,12 +87,8 @@ async function logoutUser(req, res){
 }
 
 async function getUserId(req, res){
-	console.log("GET USER ID");
-	const email = req.params.email;
-	console.log(email);
 	try{
 		const email = req.params.email;
-		console.log(email);
 		const user = await User.findOne({email});
 		if(user != null) res.status(200).send(user._id);
 		else res.status(404).send("User not found!");
