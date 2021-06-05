@@ -5,6 +5,7 @@ const auth = require('./middlewares/auth.js');
 const router = new express.Router;
 const isAdmin = require('./middlewares/isAdmin.js');
 const AuthorSummary = require("./controllers/authorSummary.js");
+const AdviserSummary = require("./controllers/adviserSummary.js");
 const CourseSummary = require("./controllers/courseSummary.js");
 
 // Sample test route
