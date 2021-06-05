@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef, useContext} from 'react';
 import { useLocation } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from 'react-router';
@@ -12,6 +12,7 @@ import Modal from './modal/Modal';
 import UpdateDocument from './modal/UpdateDocument';
 import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
+import { UserContext } from '../user/UserContext'
 
 /**
  * functional component
@@ -24,6 +25,7 @@ function ConditionalEdit(props){
   const [document, setDocument] = useState([]);
   const {id} = useParams();
   const [selectedValue, setSelectedValue] = useState([]);
+  const {loggedUser, setLoggedUser} = useContext(UserContext); 
 
   // Create reference to modal
   const saveModal = useRef(null)
@@ -44,6 +46,7 @@ function ConditionalEdit(props){
   //get the specific document data 
   const getDocument = async() =>{
       let document;
+      let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
       
       try{
           if(doc_type == "book") document = await axios.get(`/api/books/${id}`);
@@ -52,6 +55,8 @@ function ConditionalEdit(props){
 
           if(doc_type == "thesis") setDocument(document.data[0]);
           else setDocument(document.data); // doc_type == "book" || doc_type == "sp"
+
+          const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
       }catch(e){
           console.log(e)
       }

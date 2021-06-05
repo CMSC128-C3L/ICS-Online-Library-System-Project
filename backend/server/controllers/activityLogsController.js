@@ -6,7 +6,8 @@ module.exports = {
 	recordUser,
 	logoutUser,
 	getAll,
-	getOne
+	getOne,
+	updateRecord
 };
 
 async function getAll(req, res){
@@ -34,7 +35,7 @@ async function getOne(req, res){
 async function updateRecord(req, res){
 	try{
 		const user_id = req.params.user_id;
-		 
+		const _id = req.body.doc_id;
         const date = new Date();
         const book_log = {
             doc_oid: _id,
@@ -42,7 +43,7 @@ async function updateRecord(req, res){
             status: "view"
         }
         const log = await Logs.findOneAndUpdate({user_id}, {$inc: {doc_count: 1}, $push:{doc_log:book_log}}, {new:true, rawResult:true, useFindAndModify:false});
-
+        res.status(200).send();
 	}catch(err){
 		console.log(err);
 		res.status(500).send();
