@@ -17,6 +17,7 @@ const bookSchema = new mongoose.Schema({
   author: [String],
   book_cover_img: {
     type: String,
+    default: ""
   },
   year: {
     type: Number,
@@ -39,7 +40,8 @@ const bookSchema = new mongoose.Schema({
     required: true
   },
   type: {
-    type: String
+    type: String,
+    default: "Book"
   },
   courses: [],
   topic: [String]
