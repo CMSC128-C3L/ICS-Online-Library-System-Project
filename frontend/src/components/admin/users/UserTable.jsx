@@ -96,6 +96,29 @@ function UserTable(props) {
 
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
+    const getLogs = async() =>{
+        try{
+            let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+
+            const res = await axios.get(`/api/log/`, options)
+            return res.data
+
+        }catch(e){console.log(e)}
+    }
+
+    // Return latest login
+    const getLastLogin = (log) => {
+        return log.log_date.slice(-1)[0].login
+    }
+
+    // Add latest login as property to filtered user objects
+    const joinUserLogs = (users, logs) => {
+        users.forEach((user) => {
+            const index = logs.findIndex(log => log.user_id === user._id)
+            user.last_login = index !== -1 ? getLastLogin(logs[index]) : ""
+        })
+    }
+
     const getUsers = async() =>{
         let users = []
         try{
@@ -103,6 +126,9 @@ function UserTable(props) {
             users = await axios.get("/api/users", options)
             
             const filteredRows = filterRows(users.data)
+            const logs = await getLogs()
+            joinUserLogs(filteredRows, logs)
+
             setRows(filteredRows)
             setRowCount(filteredRows.length)
         }catch(e){console.log(e)}
@@ -252,7 +278,7 @@ function UserTable(props) {
                                         <TableCell align="left">{person.id? person.id : '2018-00000'}</TableCell>
                                         <TableCell id={labelId} align="left">{person.name}</TableCell>
                                         <TableCell align="left">{person.email}</TableCell>
-                                        <TableCell align="left">2021-04-27 00:00:00</TableCell>
+                                        <TableCell align="left">{person.last_login}</TableCell>
                                         <TableCell align="center">{createClassificationCell(person.classification)}</TableCell>
                                         <TableCell align="center">
                                             <IconButton

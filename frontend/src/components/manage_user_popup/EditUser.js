@@ -37,8 +37,8 @@ function EditUser(props){
                             headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, 
                             params: {id: user._id},
                         }
-                        const res = await axios.patch(`/api/users/${user._id}`, { 
-                            "classification": currClassif }, 
+                        const res = await axios.patch(`/api/users/${user._id}`, 
+                            { "classification": currClassif }, 
                             options)  
                         console.log(res)         
                     }catch(e){
