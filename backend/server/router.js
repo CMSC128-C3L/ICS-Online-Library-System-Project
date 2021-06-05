@@ -70,7 +70,8 @@ router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
 
 //author summary
-router.get('/api/authorSummary', AuthorSummary.getSummary);
+router.get('/api/authorSummary/:author', AuthorSummary.getAuthorSummary);
+router.get('/api/authorSummaryPDF/:author', AuthorSummary.getAuthorSummaryPDF);
 
 //course summary
 router.get('/api/courseSummary', CourseSummary.getCourseSummary);
