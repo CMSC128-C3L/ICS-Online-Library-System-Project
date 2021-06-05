@@ -43,40 +43,21 @@ function handleCheck(checked, item){
  * reducer acts on the dispatch received from the components (via context)
  * makes use of current state, and action type and data specified in dispatch
  */
-const reducer = (state, action) => {
-  switch(action.type){
-    case ACTIONS.updateQuery:
-      return { ...state, query: action.query};
-      
-    case ACTIONS.updateCategory:
-      return { ...state, category: handleCheck(state.category, action.item) };
 
-    case ACTIONS.updateCourseCode:
-      return {...state, courseCode: action.item}
-
-    case ACTIONS.updateTopic:
-      return { ...state, topic: handleCheck(state.topic, action.item) };
-      
-    case ACTIONS.reset:
-     return { initialState };
-
-    default:
-      return state;
-  }
-}
+ 
 
 function SearchPage() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  
   
   return (
     <div className="SearchPage">
-      <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
+
         <Navbar className="nav" action={ ACTIONS.updateQuery }/>
         <div className="main">
           <FilterSideBar className="sidebar"/>
           <ResultPane className="result-pane"/>
         </div>
-      </SearchContext.Provider> 
+   
 
     </div>
   );

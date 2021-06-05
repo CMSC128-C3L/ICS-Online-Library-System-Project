@@ -14,7 +14,9 @@ const styleCircle = makeStyles({
         maxheight: '3.5em',
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 'auto'
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: "5%"
     },
 
     icon: {

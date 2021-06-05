@@ -1,11 +1,45 @@
 import './Search.css'
+import React, {useState, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
+import SearchContext from '../search_results/SearchContext'
 
-function Search() {
+export const ACTIONS = {
+  updateQuery: 'UPDATE_QUERY',
+  updateCategory: 'UPDATE_CATEGORY',
+  updateCourseCode: 'UPDATE_COURSE_CODE',
+  updateTopic: 'UPDATE_TOPIC',
+  reset: 'RESET'
+}
+
+
+
+function Search(props) {
+    const [query, setQuery] = useState('');
     const history = useHistory();
+    const searchContext = useContext(SearchContext)
+
+    const handleChange = (event) =>{
+		setQuery(event.target.value);
+    };
+
+    const handleSubmit = (event) =>{
+        event.preventDefault()
+        searchContext.dispatch({
+			type: props.action,
+			query: query
+		})
+
+        history.push('/search');
+    }
+
+    const enterSubmit = (event) =>{
+        if(event.keyCode == 13){
+            handleSubmit(event);
+        }
+    }
     return (                    
         <form className="Search-area">
-            <input className="App-search-bar" type="text" placeholder="Search..."/>
+            <input onKeyDown={enterSubmit} onChange={handleChange} onSubmit={handleSubmit} className="App-search-bar" type="text" placeholder="Search..."/>
             
             <br/>
             <div className="Search-container">
@@ -28,7 +62,7 @@ function Search() {
             </div>
                 
             <br/>
-            <button className="Search-btn">Search</button>
+            <button className="Search-btn" onClick={handleSubmit}>Search</button>
         </form>
     )
 }
