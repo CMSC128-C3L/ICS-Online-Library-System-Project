@@ -188,21 +188,13 @@ function ResultPane(props){
   console.log(results)
   return(
     <Container className= "result-container">
-      {
-        (function(userType){
-          switch(userType){
-            case "Admin":
-              return(
-                <button className="add-doc-button" onClick={handleAdd}><AddIcon className={classes.iconStyle}/></button>
-                )
-            default:
-              return null;	
-          }
-        })(loggedUser.classification)
-      }
-      <button className="add-doc-button" onClick={handleAdd}>
-        <AddIcon className={classes.iconStyle}/>
-      </button>
+        {/* add document only for admin */}
+        {loggedUser.classification === "Admin" ?
+          <button className="add-doc-button" onClick={handleAdd}>
+            <AddIcon className={classes.iconStyle}/>
+          </button>
+          : null
+        }
       <div className= "result-header">
         <div className="sub-header-container">
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>
