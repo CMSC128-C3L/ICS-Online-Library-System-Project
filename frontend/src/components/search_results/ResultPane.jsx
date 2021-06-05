@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 function ResultPane(props){
   const searchContext = useContext(SearchContext);
-  const {loggedUser, setLoggedUser} = useContext(UserContext);
   const classes = useStyles();
   const history = useHistory();
   const [results, setResults] = useState([]);
