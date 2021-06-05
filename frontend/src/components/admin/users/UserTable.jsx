@@ -159,7 +159,7 @@ function UserTable(props) {
         else containerColor = "#47abd8"
 
         return(
-            <span style={{display:'inline-block', width: '50%'}}>
+            <span style={{display:'inline-block', width: '70%'}}>
                 <p className="classification-fontstyle" style={{backgroundColor: containerColor, borderRadius: "200px", padding: "1em 0.5em"}}>{classification}</p>
             </span>
         )
@@ -175,7 +175,7 @@ function UserTable(props) {
     
     return (
         <div className="manageusers manageusers-container">
-            {/* <div> */}
+            
                 <Modal ref={editModal}><EditUser getUsers={getUsers}/></Modal>
                 <Modal ref={deleteModal}><DeleteUser getUsers={getUsers}/></Modal>
                 <Modal ref={multiDeleteModal}><MultiDeleteUser getUsers={getUsers} resetSelected={() => setSelected([])}/></Modal>
@@ -216,7 +216,7 @@ function UserTable(props) {
                 </Toolbar>
 
                 <TableContainer component={Paper} className="usertable usertable-container">
-                    <Table aria-label="users"> 
+                    <Table aria-label="users" size="medium"> 
                         <UserTableHeadMS
                             classes={classes}
                             numSelected={selected.length}
@@ -246,14 +246,15 @@ function UserTable(props) {
                                             <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, person)} inputProps={{'aria-labelledby':labelId}}/>
                                         </TableCell>
                                         
-                                        <TableCell align="center" padding="none">
+                                        <TableCell align="center">
                                             <span style={{display:'inline-block'}}><Avatar alt={person.name} src={person.avatar}></Avatar></span>
                                         </TableCell>
-                                        <TableCell align="center" padding="none">{person.id}</TableCell>
-                                        <TableCell id={labelId} padding="none" align="center">{person.name}</TableCell>
-                                        <TableCell align="center" padding="none">{person.email}</TableCell>
-                                        <TableCell align="center" padding="none">{createClassificationCell(person.classification)}</TableCell>
-                                        <TableCell align="center" padding="none">
+                                        <TableCell align="left">{person.id? person.id : '2018-00000'}</TableCell>
+                                        <TableCell id={labelId} align="left">{person.name}</TableCell>
+                                        <TableCell align="left">{person.email}</TableCell>
+                                        <TableCell align="left">2021-04-27 00:00:00</TableCell>
+                                        <TableCell align="center">{createClassificationCell(person.classification)}</TableCell>
+                                        <TableCell align="center">
                                             <IconButton
                                                 aria-label="delete"
                                                 className="iconbutton-view"
@@ -302,7 +303,7 @@ function UserTable(props) {
                         </TableFooter>
                     </Table>
                 </TableContainer>
-          {/* </div> */}
+          
         </div>
     )
 }

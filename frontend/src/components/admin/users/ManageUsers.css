@@ -2,13 +2,13 @@
 .navpagination{
    display: flex;
    flex-direction: row;
-   margin: 0.5vh;
+   /* margin: 0.5vh; */
 }
 
 .usertable-container{
    display: flex;
    margin-bottom: 5vh;
-   max-width: 50vw;
+   max-width: 60vw;
    justify-content: center;
    align-items: center;
    border: 1px solid #47abd8;
@@ -61,7 +61,7 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   max-width: 50vw;
+   min-width: 57.5vw;
 }
 
 .toolbar-tools {
@@ -94,7 +94,7 @@
 .MuiTableSortLabel-icon {
    color: white !important;
    font-weight:700;
-   font-size: 1.5em;
+   font-size: 1.25em;
    text-align: center;
-   margin: 0.25em;
+   /* margin: 0.25em; */
 }
