@@ -38,7 +38,10 @@ async function getOne(req, res) {
         //get id 
         let _id = req.params.id;    
         //get specific Journal
-        let journal=await Journal.findById({_id});
+        let journal=await Journal.findById(
+            {_id},
+            {$inc: {view_count: 1}},
+            {new: true});
 
         if(journal!=null){
             let temp= {}
@@ -50,12 +53,12 @@ async function getOne(req, res) {
             temp.topic= journal.topic;
             temp.journal= journal.journal;
             temp.poster= journal.poster;
+            temp.view_count = journal.view_count;
             res.status(200).send(temp);
         }
         res.status(404).send();
         }catch(err){
         res.status(400).send();
-    
         }
 
 }
