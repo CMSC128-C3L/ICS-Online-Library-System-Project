@@ -16,12 +16,9 @@ function Logout() {
   const onSuccess = async () => {
     // console.log(loggedUser.email);
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-    const user_id = await axios.get('/api/log/'+loggedUser.email, options);
-    // const data = user_id.json();
-    console.log(user_id);
     const logout_date = new Date();
     const record = await axios.post('/api/log/logout', {
-          user_id: user_id.data,
+          user_id: loggedUser.user_id,
           log_id: loggedUser.log_id,
           log_date: [
               {

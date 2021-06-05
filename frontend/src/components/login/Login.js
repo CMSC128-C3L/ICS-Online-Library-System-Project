@@ -49,7 +49,8 @@ function Login() {
 
       //RECORD LOGIN
       let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-      const user_id = await axios.get('/api/log/'+user.email, options);
+      const user_id = await axios.get('/api/log/user/'+user.email, options);
+      // console.log(user_id);
       const login_date = new Date();
       const record = await axios.post('/api/log/login', {
           user_id: user_id.data,
@@ -62,8 +63,9 @@ function Login() {
           doc_log:[]
       }, options);
       // console.log(user_id.data);
+      user.user_id = user_id.data;
       user.log_id = record.data;
-      console.log(user.log_id);
+      // console.log(user);
       setLoggedUser(user);
       history.push(`/adminHome`); //if success, redirect to user account
       // refreshTokenSetup(res);

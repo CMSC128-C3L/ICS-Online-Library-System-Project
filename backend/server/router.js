@@ -84,7 +84,7 @@ router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 const Logs = require('./controllers/activityLogsController.js');
 router.get('/api/log', auth, Logs.getAll);
 router.get('/api/log/:user_id', auth, Logs.getOne);
-router.get('/api/log/:email', auth, Logs.getUserId);
+router.get('/api/log/user/:email', auth, Logs.getUserId);
 router.post('/api/log/login', auth, Logs.recordUser);
 router.post('/api/log/logout', auth, Logs.logoutUser);
 
