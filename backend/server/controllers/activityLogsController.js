@@ -30,10 +30,11 @@ async function recordUser(req, res){
 			const log = new Logs(req.body);
 			login = await log.save();
 		}else{
-			login = await Logs.findOneAndUpdate({user_id}, {$push:{log_date: logDate}}, {new:true, rawResult:true});
+			login = await Logs.findOneAndUpdate({user_id}, {$push:{log_date: logDate}}, {new:true, rawResult:true, useFindAndModify:false});
 		}
-		console.log(login);
-		res.status(201).send(); 
+		const newLog = await Logs.find({user_id}, {log_date:{$slice:-1}});
+		const _id = newLog[0].log_date[0]._id;
+		res.status(201).send(_id); 
 	}catch(err){
 		console.log(err);
 		res.status(500).send();
@@ -42,16 +43,13 @@ async function recordUser(req, res){
 }
 
 async function logoutUser(req, res){
-	console.log(req.body);
 	try{
 		const user_id = req.body.user_id;
+		const log_id = req.body.log_id;
 		const logDate = req.body.log_date[0].logout;
-		const user = await Logs.findOne({user_id});
-		// if(!user) res.send(400).send();
-		// else{
-		// 	const updateLog = await Logs.updateOne({user_id, "log_date._id":}, {$set:{logout:logDate}});
-		// }
-		res.status(201).send(); 
+		const logout = await Logs.findOneAndUpdate({user_id, 'log_date._id':log_id}, {$set:{'log_date.$.logout':logDate}}, {new:true, rawResult:true, useFindAndModify:false});
+		if(!logout) res.status(400).send(); 
+		else res.status(201).send(); 
 	}catch(err){
 		console.log(err);
 		res.status(500).send();
@@ -61,7 +59,6 @@ async function logoutUser(req, res){
 
 async function getUserId(req, res){
 	try{
-		console.log("GET USER ID");
 		const email = req.params.email;
 		const user = await User.findOne({email});
 		if(user != null) res.status(200).send(user._id);

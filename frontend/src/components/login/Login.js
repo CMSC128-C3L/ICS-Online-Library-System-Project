@@ -44,8 +44,7 @@ function Login() {
 
       // store user token verified by backend server
       const user = decode(data.token);
-      user.log_id = "Some shit";
-      console.log('data', user);
+      // console.log('data', user);
       localStorage.setItem('token', data.token);
 
       //RECORD LOGIN
@@ -63,6 +62,8 @@ function Login() {
           doc_log:[]
       }, options);
       // console.log(user_id.data);
+      user.log_id = record.data;
+      console.log(user.log_id);
       setLoggedUser(user);
       history.push(`/adminHome`); //if success, redirect to user account
       // refreshTokenSetup(res);

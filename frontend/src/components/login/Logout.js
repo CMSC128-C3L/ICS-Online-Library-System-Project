@@ -22,6 +22,7 @@ function Logout() {
     const logout_date = new Date();
     const record = await axios.post('/api/log/logout', {
           user_id: user_id.data,
+          log_id: loggedUser.log_id,
           log_date: [
               {
                 logout: logout_date.toISOString()
