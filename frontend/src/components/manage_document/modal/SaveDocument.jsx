@@ -32,8 +32,9 @@ function SaveDocument(props){
         close()
     }
 
-    const handleRoute = () =>{ 
-        history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
+    const handleRoute = (id) =>{ 
+        history.push({pathname: `/search`, state: { fromButtonEdit: false, type: props.type}})
+        // history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
     }
 
     const handleSubmit = async() =>{
@@ -43,6 +44,7 @@ function SaveDocument(props){
         try {
             if(props.type=="book"){
                 response = await axios.post(`/api/books`, {
+                    type: props.book.type,
                     id: props.book.id,
                     title: props.book.title, 
                     author: props.book.author,
@@ -53,7 +55,9 @@ function SaveDocument(props){
                     topic: props.book.topic
                 } , options);
             } else if(props.type=="thesis"){
-                response = await axios.patch(`/api/thesis/${id}`, {
+                response = await axios.post(`/api/thesis`, {
+                    type: props.thesis.type,
+                    id: props.thesis.id,
                     title: props.thesis.title, 
                     author: props.thesis.author,
                     adviser: props.thesis.adviser,
@@ -62,7 +66,9 @@ function SaveDocument(props){
                     topic: props.thesis.topic
                 } , options);
             } else if(props.type=="sp"){
-                response = await axios.patch(`/api/sp/${id}`, {
+                response = await axios.post(`/api/sp`, {
+                    type: props.sp.type,
+                    id: props.sp.id,
                     title: props.sp.title, 
                     author: props.sp.author,
                     adviser: props.sp.adviser,
@@ -98,15 +104,15 @@ function SaveDocument(props){
                     switch(document.type){
                         case "book":
                             return(
-                                <h3 className="text prompt"> Save changes to"{props.book.title}" {props.book.year}? </h3>
+                                <h3 className="text prompt"> Save changes to "{document.book.title}" {document.book.year}? </h3>
                             )
                         case "thesis":
                             return(
-                                <h3 className="text prompt"> Save changes to"{props.thesis.title}" {props.thesis.pub_date}? </h3>
+                                <h3 className="text prompt"> Save changes to "{document.thesis.title}" {document.thesis.pub_date}? </h3>
                             )
                         case "sp":
                             return(
-                                <h3 className="text prompt"> Save changes to"{props.sp.title}" {props.sp.pub_date}? </h3>
+                                <h3 className="text prompt"> Save changes to "{document.sp.title}" {document.sp.pub_date}? </h3>
                             )
                         default:
                             return null;	

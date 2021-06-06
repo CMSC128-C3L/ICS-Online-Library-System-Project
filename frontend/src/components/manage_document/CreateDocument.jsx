@@ -23,6 +23,7 @@ function CreateDocument(props){
   const classes = useStyles();
   const [doc_type, setDoctype] = useState([]);
   const [selectedValue, setSelectedValue] = useState([]);
+  const [selectedTopic, setSelectedTag] = useState([]);
 
   // Create reference to modal
   const saveModal = useRef(null)
@@ -99,6 +100,14 @@ function CreateDocument(props){
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
       else if(target.name==="thesis_topic") thesis.topic = target.value;
+      console.log("data:\n",
+      thesis.id,"\n", 
+      thesis.title,"\n",
+      thesis.author,"\n",
+      thesis.adviser,"\n",
+      thesis.pub_date,"\n",
+      thesis.abstract,"\n", 
+      thesis.topic,"\n")
     }
 
     else if(doc_type=="sp"){
@@ -109,6 +118,14 @@ function CreateDocument(props){
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
       else if(target.name==="sp_topic") sp.topic = target.value;
+      console.log("data:\n",
+      sp.id,"\n", 
+      sp.title,"\n",
+      sp.author,"\n",
+      sp.adviser,"\n",
+      sp.pub_date,"\n",
+      sp.abstract,"\n", 
+      sp.topic,"\n")
     }
 }
 
@@ -133,37 +150,22 @@ const handleType  = (selectedItem)  =>{
 
 useEffect(() => {
   handleType(selectedValue)
-}, [selectedValue])
+  onSelect(selectedTopic)
+}, [selectedValue, selectedTopic])
 
   // for tags input value
-  const onSelect  = (selectedItem, type)  =>{
-    setSelectedValue(selectedItem);
-    console.log("content [select]: \n", selectedValue)
+  const onSelect  = (selectedTag, type)  =>{
+    setSelectedTag(selectedTag);
+    console.log("content [topic]: \n", selectedTopic)
 
     if(type =="tags"){
-      if(doc_type=="book") book.topic = selectedValue;
-      else if(doc_type=="sp") sp.topic = selectedValue;
-      else if(doc_type=="thesis") thesis.topic = selectedValue;
+      if(doc_type=="book") book.topic = selectedTopic;
+      else if(doc_type=="sp") sp.topic = selectedTopic;
+      else if(doc_type=="thesis") thesis.topic = selectedTopic;
     } else if(type=="course"){
       //insert method for assigning the course object of document
     }
     
-  }
-
-  // for tags remove value
-  const onRemove = (selectedItem, type)  =>{
-      setSelectedValue(selectedItem);
-      console.log("content [remove]: \n", selectedValue)
-
-      if(type =="tags"){
-        if(doc_type=="book") book.topic = selectedValue;
-        else if(doc_type=="sp")  sp.topic = selectedValue;
-        else if(doc_type=="thesis")  thesis.topic = selectedValue;
-      } else if(type=="type"){
-        //insert method for assigning the classification of document
-      } else if(type=="course"){
-        //insert method for assigning the course object of document
-      }
   }
 
 const classification = [
@@ -214,8 +216,6 @@ const topics = [
     <div className="browsebg browsebg-container">
       {
         <div> 
-            <Modal ref={saveModal}><SaveDocument book={book} type={doc_type}/></Modal>
-
             <div className='document-card-flex-row'>
                 {/* document thumbnail should be editable */}
                 <div className='image-card-container card-content' >
@@ -239,11 +239,11 @@ const topics = [
 
                   {
                     (function(doc_type){
-                        console.log("document card type: ", doc_type)
                         switch(doc_type){
                             case "book": //book
                                 return(
                                     <div>
+                                      <Modal ref={saveModal}><SaveDocument book={book} type={doc_type}/></Modal>
                                       <div className="main-text-tags">ID: <input  className="input-container" name= "book_id" type="text" onChange={handleInputChange}/> </div>
                                       <div className="main-text-tags">Title: <input  className="input-container" name= "book_title" type="text" onChange={handleInputChange}/> </div>
                                       <div className="main-text-tags">Author: <input className="input-container" name="book_author" type="text" onChange={handleInputChange}/> </div>
@@ -255,6 +255,7 @@ const topics = [
                               case "sp": //sp
                                 return(
                                   <div>
+                                    <Modal ref={saveModal}><SaveDocument sp={sp} type={doc_type}/></Modal>
                                     <div className="main-text-tags">ID: <input  className="input-container" name= "sp_id" type="text" onChange={handleInputChange}/> </div>
                                     <div className="main-text-tags">Title: <input  className="input-container" name= "sp_title" type="text" onChange={handleInputChange}/> </div>
                                     <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" onChange={handleInputChange}/> </div>
@@ -265,6 +266,7 @@ const topics = [
                               case "thesis": //thesis
                                 return(
                                   <div>
+                                    <Modal ref={saveModal}><SaveDocument thesis={thesis} type={doc_type}/></Modal>
                                     <div className="main-text-tags">ID: <input  className="input-container" name= "thesis_id" type="text" onChange={handleInputChange}/> </div>
                                     <div className="main-text-tags">Title: <input  className="input-container" name= "thesis_title" type="text" onChange={handleInputChange}/> </div>
                                     <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" onChange={handleInputChange}/> </div>
@@ -285,7 +287,7 @@ const topics = [
                       options={course} 
                       closeIcon="cancel"
                       onSelect={(selectedValue)=> onSelect(selectedValue, "course")} 
-                      onRemove={(selectedValue)=> onRemove(selectedValue, "course")}   
+                      onRemove={(selectedValue)=> onSelect(selectedValue, "course")}   
                       style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                   />
                   {/* This section is for topic of the document */}
@@ -295,8 +297,8 @@ const topics = [
                       options={topics} 
                       closeIcon="cancel"
                       isObject={false}
-                      onSelect={(selectedValue)=> onSelect(selectedValue, "tags")} 
-                      onRemove={(selectedValue)=> onRemove(selectedValue, "tags")}   
+                      onSelect={(selectedTopic)=> onSelect(selectedTopic, "tags")} 
+                      onRemove={(selectedTopic)=> onSelect(selectedTopic, "tags")}   
                       style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                   />
                 </div>
