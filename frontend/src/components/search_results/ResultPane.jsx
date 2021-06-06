@@ -7,6 +7,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Checkbox from '@material-ui/core/Checkbox';
 import Pagination from '@material-ui/lab/Pagination';
+import IconButton from '@material-ui/core/IconButton';
 import queryString from 'query-string';
 import { UserContext } from '../user/UserContext';
 import Modal from '../manage_user_popup/Modal';
@@ -53,12 +54,6 @@ function ResultPane(props){
   const location = useLocation();
   const {id} = useParams();
 
-  const TYPES = {
-    "Books": {"dbType": "Book", "route": "book"},
-    "Theses": {"dbType": "Thesis", "route": "thesis"},
-    "Special Problems": {"dbType": "Special Problem", "route": "sp"},
-  }
-
   // get docs based on query and filters
   const getDocuments = async() =>{
     let categories = (searchContext.state.category).toString().split(',');
@@ -79,8 +74,14 @@ function ResultPane(props){
 
     // consolidate promises from get requests
     for(let i = 0; i < categories.length; i++){
+      let typeRoute;
       try{
-        promises.push(axios.get(`/api/search/filter/${TYPES[categories[i]].route}` + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery));
+        if(categories[i] === "Books") typeRoute = "book"
+        else if(categories[i] === "Theses") typeRoute = "thesis"
+        else typeRoute = "sp"
+
+        promises.push(axios.get(`/api/search/filter/${typeRoute}` + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery));
+      
       }catch(err){
         console.log(err)
       }
@@ -104,12 +105,13 @@ function ResultPane(props){
   useEffect(() =>{
     getDocuments();
     setPage(1)    
-    console.log("in use effect")
   }, [searchContext]);
 
   // Create reference to modal
 	const addModal = useRef(null)
 	const openAddModal = (user, props) => {addModal.current.open(user, props)}
+  const multiDeleteModal = useRef(null)
+  const openMultiDeleteModal = () => {multiDeleteModal.current.open()}
 
   const handleAdd = () =>{
     console.log('[DOCUMENT] when add button clicked: ');
@@ -119,11 +121,11 @@ function ResultPane(props){
   // render card depending on type of doc
   const renderCard = (result) =>{
     switch(result.type){
-      case TYPES["Books"].dbType:
+      case "Book":
         return <BookCard doc={result}/>
-      case TYPES["Special Problems"].dbType:
+      case "Special Problem":
         return <SpCard doc={result}/>
-      case TYPES["Theses"].dbType:
+      case "Thesis":
         return <ThesisCard doc={result}/>
       default:
         return null
@@ -186,17 +188,14 @@ function ResultPane(props){
 
   console.log(results)
 
-  const multiDeleteModal = useRef(null)
-  const openMultiDeleteModal = () => {multiDeleteModal.current.open()}
-
   return(
     <Container className= "result-container">
 
       <Modal ref={multiDeleteModal}><MultiDeleteDoc selected={selected} getDocuments={getDocuments} setPage={setPage} resetSelected={() => setSelected([])}/></Modal>
 
-      <button className="add-doc-button" onClick={handleAdd}>
-        <AddIcon className={classes.iconStyle}/>
-      </button>
+      <IconButton className="add-doc-button" onClick={handleAdd}>
+        <AddIcon style={{color: 'black'}}/>
+      </IconButton>
 
       <div className= "result-header">
         <div className="sub-header-container">
@@ -206,9 +205,10 @@ function ResultPane(props){
 
         {/* multiple select only for admin; if admin, button will change depending if mult select is active or not */}
         {loggedUser.classification === "Admin" ?
-          multSelect?
+          (multSelect?
             <button className="tool-button mult-cancel" onClick={handleMultCancel}>CANCEL SELECTION</button> :
             <button className="tool-button" onClick={handleMultSelect}>MULTIPLE SELECT</button>
+          )
           : null
         }
         <button className={selected.length > 0 ? "tool-button mult-del" : "tool-button hide-btn"} onClick={handleMultDelete}>DELETE SELECTED</button>
