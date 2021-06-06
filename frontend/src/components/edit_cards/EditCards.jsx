@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import CardRow from '../cards/CardRow'
 import './EditCards.css'
 import EditIcon from '@material-ui/icons/Edit';
+import EditCard from './EditCard'
 
 function EditCards(props){
     const history = useHistory();
@@ -49,6 +50,11 @@ function EditCards(props){
                 featured={cards.featured}
                 icsnews={cards.icsnews}
             />
+            
+            {/* Temporary area for Edit Card UI */}
+            <div>
+                <EditCard card={cards.featured}/>
+            </div>
         </div>
     )
 }
