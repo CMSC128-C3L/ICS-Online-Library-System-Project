@@ -9,6 +9,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Pagination from '@material-ui/lab/Pagination';
 import queryString from 'query-string';
 import { UserContext } from '../user/UserContext';
+import Modal from '../manage_user_popup/Modal';
+import MultiDeleteDoc from './modal/MultiDeleteDoc';
 
 //layout purposes
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -100,9 +102,9 @@ function ResultPane(props){
   }
 
   useEffect(() =>{
-    setResults([]);
     getDocuments();
     setPage(1)    
+    console.log("in use effect")
   }, [searchContext]);
 
   // Create reference to modal
@@ -153,19 +155,19 @@ function ResultPane(props){
 
   // Multiple Select for Deletion
   const {loggedUser} = useContext(UserContext);
-  const [checked, setChecked] = useState([])
+  const [selected, setSelected] = useState([])
   const [multSelect, setMultSelect] = useState(false)
 
-  function handleCheck(checked, value) {
-    const index = checked.indexOf(value)
-    const newChecked = [...checked]
+  function handleSelect(selected, value) {
+    const index = selected.indexOf(value)
+    const newSelected = [...selected]
 
     if(index === -1){
-      newChecked.push(value);
+      newSelected.push(value);
     }else{
-      newChecked.splice(index, 1);
+      newSelected.splice(index, 1);
     } 
-    setChecked(newChecked)
+    setSelected(newSelected)
   }
 
   const handleMultSelect = () => {
@@ -174,26 +176,34 @@ function ResultPane(props){
 
   const handleMultCancel = () => {
     setMultSelect(prev => !prev)
-    setChecked([])
+    setSelected([])
   }
 
   const handleMultDelete = () => {
-    // show pop up containing list of docs to be deleted
-    // with delete all and cancel button similar to user popup
-    // multiple delete requests
-    console.log("To be deleted: ", checked)
+    console.log("to be deleted...", selected)
+    openMultiDeleteModal(selected)
   }
+
   console.log(results)
+
+  const multiDeleteModal = useRef(null)
+  const openMultiDeleteModal = () => {multiDeleteModal.current.open()}
+
   return(
     <Container className= "result-container">
+
+      <Modal ref={multiDeleteModal}><MultiDeleteDoc selected={selected} getDocuments={getDocuments} setPage={setPage} resetSelected={() => setSelected([])}/></Modal>
+
       <button className="add-doc-button" onClick={handleAdd}>
         <AddIcon className={classes.iconStyle}/>
       </button>
+
       <div className= "result-header">
         <div className="sub-header-container">
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>
           <SortDropdown/>
         </div>
+
         {/* multiple select only for admin; if admin, button will change depending if mult select is active or not */}
         {loggedUser.classification === "Admin" ?
           multSelect?
@@ -201,9 +211,11 @@ function ResultPane(props){
             <button className="tool-button" onClick={handleMultSelect}>MULTIPLE SELECT</button>
           : null
         }
-        <button className={multSelect? "tool-button mult-del" : "tool-button hide-btn"} onClick={handleMultDelete}>DELETE SELECTED</button>
+        <button className={selected.length > 0 ? "tool-button mult-del" : "tool-button hide-btn"} onClick={handleMultDelete}>DELETE SELECTED</button>
+        
         <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
       </div>
+
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {multSelect?
         // render cards with checkboxes if admin chose multiple select
@@ -211,12 +223,12 @@ function ResultPane(props){
             return(
               <GridListTile key= {index} 
                 classes = {{
-                  tile: checked.indexOf(result) !== -1? `${classes.tile} ${classes.tileGlow}` : classes.tile
+                  tile: selected.indexOf(result) !== -1? `${classes.tile} ${classes.tileGlow}` : classes.tile
                 }}>
                 <Checkbox 
-                  checked={checked.indexOf(result) !== -1} 
+                  checked={selected.indexOf(result) !== -1} 
                   className={classes.cbox} value={result} 
-                  onChange={() => handleCheck(checked, result)}/>
+                  onChange={() => handleSelect(selected, result)}/>
                 {renderCard(result)}
               </GridListTile>
             )
@@ -231,6 +243,7 @@ function ResultPane(props){
           })
         }
       </GridList>
+
       <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
     </Container>
   );
