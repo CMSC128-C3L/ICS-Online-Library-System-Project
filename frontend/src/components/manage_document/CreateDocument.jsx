@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef} from 'react';
-import { useLocation } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
-import { useParams } from 'react-router';
 import {Box} from "@material-ui/core";
 import axios from 'axios';
 import UploadIcon from '@material-ui/icons/Backup';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
-import DocumentCard from './DocumentCard';
 import {Multiselect} from 'multiselect-react-dropdown';
 import Modal from './modal/Modal';
 import SaveDocument from './modal/SaveDocument';
@@ -15,8 +12,8 @@ import './DocumentCard.css';
 
 /**
  * functional component
- * conditionally allow edit on documents depending on the button clicked from admin view
- * onChange triggers update from functions stated in manage document 
+ * conditionally render the input attributes according to document type
+ * onHandleType and onSelect handles multi drop down options
  */
 
 function CreateDocument(props){
@@ -67,6 +64,7 @@ function CreateDocument(props){
     course: ""
   };
 
+  // for handling data of new attributes
   const handleInputChange = async(event) =>{
     const target = event.target;
 
@@ -129,7 +127,7 @@ function CreateDocument(props){
     }
 }
 
-// for getting type value
+// for getting document type value
 const handleType  = (selectedItem)  =>{
   setSelectedValue(selectedItem);
   console.log("content [type]: \n", selectedValue)
@@ -148,6 +146,7 @@ const handleType  = (selectedItem)  =>{
   } else setDoctype("")
 }
 
+// useEffect for handling changes in tags input
 useEffect(() => {
   handleType(selectedValue)
   onSelect(selectedTopic)
@@ -167,6 +166,8 @@ useEffect(() => {
     }
     
   }
+
+// THIS SECTION IS A SET OF ARRAYS OF CHOICES 
 
 const classification = [
   'Book',
@@ -217,7 +218,7 @@ const topics = [
       {
         <div> 
             <div className='document-card-flex-row'>
-                {/* document thumbnail should be editable */}
+                {/* document thumbnail should be uploadable */}
                 <div className='image-card-container card-content' >
                 <img alt="INSERT A THUMBNAIL" className={classes.imageStyle}></img>
                 </div>
@@ -240,7 +241,7 @@ const topics = [
                   {
                     (function(doc_type){
                         switch(doc_type){
-                            case "book": //book
+                            case "book": //input section for book attributes
                                 return(
                                     <div>
                                       <Modal ref={saveModal}><SaveDocument book={book} type={doc_type}/></Modal>
@@ -252,7 +253,7 @@ const topics = [
                                       <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="text" onChange={handleInputChange}/> </div>
                                     </div>
                                 )
-                              case "sp": //sp
+                              case "sp": //input section for sp attributes
                                 return(
                                   <div>
                                     <Modal ref={saveModal}><SaveDocument sp={sp} type={doc_type}/></Modal>
@@ -263,7 +264,7 @@ const topics = [
                                     <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="text" onChange={handleInputChange}/> </div>
                                   </div>
                                 )
-                              case "thesis": //thesis
+                              case "thesis": //input section for thesis attributes
                                 return(
                                   <div>
                                     <Modal ref={saveModal}><SaveDocument thesis={thesis} type={doc_type}/></Modal>
@@ -280,7 +281,7 @@ const topics = [
                     })(doc_type)
                   }
                
-                  {/* This section is for course of the document */}
+                  {/* This section is for course of the document, this part has a lot of bugs */}
                   <div className="main-text-tags">Courses:</div>
                   <Multiselect 
                       placeholder="Add a course"

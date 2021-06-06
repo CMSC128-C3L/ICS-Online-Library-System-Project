@@ -107,11 +107,10 @@ function ResultPane(props){
   }, [searchContext]);
 
   // Create reference to modal
-	const addModal = useRef(null)
-	const openAddModal = (user, props) => {addModal.current.open(user, props)}
+	const deleteModal = useRef(null)
+	const openDeleteModal = (user, props) => {deleteModal.current.open(user, props)}
 
   const handleAdd = () =>{
-    console.log('[DOCUMENT] when add button clicked: ');
     history.push(`/createDocument`);
   }
 
