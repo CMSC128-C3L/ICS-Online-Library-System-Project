@@ -108,6 +108,6 @@ const HomeAdvisory = require('./controllers/homeAdvisoryController.js');
 router.get('/api/advisory', HomeAdvisory.getAll);
 router.get('/api/advisory/:id', HomeAdvisory.getOne);
 router.patch('/api/advisory/:id', HomeAdvisory.update);
-router.post('/api/advisory/:id', HomeAdvisory.uploads, HomeAdvisory.uploadThumbnail);
+router.post('/api/advisory/uploads/:id', HomeAdvisory.uploads, HomeAdvisory.uploadThumbnail);
 
 module.exports = router;
