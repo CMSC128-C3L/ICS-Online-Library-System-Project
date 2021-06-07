@@ -115,7 +115,6 @@ function ResultPane(props){
   const openMultiDeleteModal = () => {multiDeleteModal.current.open()}
 
   const handleAdd = () =>{
-    console.log('[DOCUMENT] when add button clicked: ');
     history.push(`/createDocument`);
   }
 
