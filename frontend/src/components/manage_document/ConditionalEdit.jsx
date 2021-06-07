@@ -58,10 +58,8 @@ function ConditionalEdit(props){
   }
 
   useEffect(() => {
-      getDocument()
-      onSelect(selectedValue)
-      onRemove(selectedValue)
-  }, [selectedValue])
+    getDocument()
+}, [])
 
   // section to initialize book/sp/thesis
   let book = {
@@ -94,6 +92,7 @@ function ConditionalEdit(props){
 
   const handleInputChange = async(event) =>{
     const target = event.target;
+    console.log("data:\n")
 
     if(doc_type=="book"){
       if(target.name==="book_title") book.title = target.value;
@@ -103,6 +102,14 @@ function ConditionalEdit(props){
       else if(target.name==="book_isbn") book.isbn = target.value;
       else if(target.name==="book_description") book.description = target.value;
       else if(target.name==="book_topic") book.topic = target.value;
+
+      console.log(book.title)
+      console.log(book.author)
+      console.log(book.year)
+      console.log(book.publisher)
+      console.log(book.isbn)
+      console.log(book.description)
+      console.log(book.topic)
     } 
 
     else if(doc_type=="thesis"){
@@ -112,6 +119,13 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
       else if(target.name==="thesis_topic") thesis.topic = target.value;
+
+      console.log(thesis.title)
+      console.log(thesis.author)
+      console.log(thesis.adviser)
+      console.log(thesis.pub_date)
+      console.log(thesis.abstract)
+      console.log(thesis.topic)
     }
 
     else if(doc_type=="sp"){
@@ -121,6 +135,13 @@ function ConditionalEdit(props){
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
       else if(target.name==="sp_topic") sp.topic = target.value;
+
+      console.log(sp.title)
+      console.log(sp.author)
+      console.log(sp.adviser)
+      console.log(sp.pub_date)
+      console.log(sp.abstract)
+      console.log(sp.topic)
     }
 }
 
@@ -142,6 +163,11 @@ function ConditionalEdit(props){
       else if(doc_type=="sp")  sp.topic = selectedValue;
       else if(doc_type=="thesis")  thesis.topic = selectedValue;
   }
+
+  useEffect(() => {
+    onSelect(selectedValue)
+    onRemove(selectedValue)
+}, [selectedValue])
 
 const data = [
   'Algorithms',
