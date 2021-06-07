@@ -103,4 +103,10 @@ router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPD
 router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
 router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
 
+// Advisory Routes
+const HomeAdvisory = require('./controllers/homeAdvisoryController.js');
+router.get('/api/advisory', HomeAdvisory.getAll);
+router.get('/api/advisory/:id', HomeAdvisory.getOne);
+router.patch('/api/advisory/:id', HomeAdvisory.update);
+
 module.exports = router;
