@@ -12,7 +12,6 @@ function SaveDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
-    const {id} = useParams();
 
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
@@ -38,8 +37,8 @@ function SaveDocument(props){
     }
 
     const handleSubmit = async() =>{
-        //patch request to update [BOOK]
-        console.log("DOCUMENT TYPE SAVE Doc: " + props.type);
+        //post request to create and save document
+        console.log("DOCUMENT TYPE: " + props.type);
         let response;
         try {
             if(props.type=="book"){

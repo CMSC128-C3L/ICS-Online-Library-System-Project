@@ -64,7 +64,7 @@ function SpCard(props) {
 				handleDownload={handleDownload} 
 				handleEdit={handleEdit} 
 				handleDelete={handleDelete}/>
-			<Modal ref={deleteModal}><DeleteDocument/></Modal>
+			<Modal ref={deleteModal}><DeleteDocument sp={props.doc} type={props.doc.type}/></Modal>
 		</Card>
 	);
 }

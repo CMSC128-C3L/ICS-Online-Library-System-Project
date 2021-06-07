@@ -64,7 +64,7 @@ async function create(req, res) {
         res.status(201).send(new_sp);
 
     }catch(err){
-        // console.log(err);
+        console.log(err);
         res.status(400).send({message:"Error"});
     }
 }

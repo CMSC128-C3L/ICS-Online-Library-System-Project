@@ -186,9 +186,7 @@ function ResultPane(props){
     console.log("to be deleted...", selected)
     openMultiDeleteModal(selected)
   }
-
-  console.log(results)
-
+  // console.log(results)
   return(
     <Container className= "result-container">
 
