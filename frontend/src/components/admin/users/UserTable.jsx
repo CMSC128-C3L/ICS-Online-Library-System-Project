@@ -273,7 +273,7 @@ function UserTable(props) {
                                         </TableCell>
                                         
                                         <TableCell align="center">
-                                            <span style={{display:'inline-block'}}><Avatar alt={person.name} src={person.avatar}></Avatar></span>
+                                            <span style={{display:'inline-block'}}><Avatar alt={person.name} src={person.profile_picture}></Avatar></span>
                                         </TableCell>
                                         <TableCell align="left">{person.id? person.id : '2018-00000'}</TableCell>
                                         <TableCell id={labelId} align="left">{person.name}</TableCell>
