@@ -4,6 +4,8 @@ module.exports = {
   getAll,
   getOne,
   update,
+  uploadThumbnail,
+  uploads,
 }
 
 async function getAll(req, res) {
