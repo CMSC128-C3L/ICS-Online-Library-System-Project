@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { useLocation } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from 'react-router';
@@ -12,7 +12,6 @@ import Modal from './modal/Modal';
 import UpdateDocument from './modal/UpdateDocument';
 import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
-import { UserContext } from '../user/UserContext'
 
 /**
  * functional component
@@ -25,11 +24,10 @@ function ConditionalEdit(props){
   const [document, setDocument] = useState([]);
   const {id} = useParams();
   const [selectedValue, setSelectedValue] = useState([]);
-  const {loggedUser, setLoggedUser} = useContext(UserContext); 
 
   // Create reference to modal
   const saveModal = useRef(null)
-  const openSaveModal = (user) => {saveModal.current.open(user, props)}
+  const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
 
   //get flag whether the edit button from manage document is clicked
   let location = useLocation();
@@ -46,7 +44,6 @@ function ConditionalEdit(props){
   //get the specific document data 
   const getDocument = async() =>{
       let document;
-      let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
       
       try{
           if(doc_type == "book") document = await axios.get(`/api/books/${id}`);
@@ -55,8 +52,6 @@ function ConditionalEdit(props){
 
           if(doc_type == "thesis") setDocument(document.data[0]);
           else setDocument(document.data); // doc_type == "book" || doc_type == "sp"
-
-          const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
       }catch(e){
           console.log(e)
       }
@@ -64,44 +59,40 @@ function ConditionalEdit(props){
 
   useEffect(() => {
       getDocument()
-      onSelect(selectedValue)
-      onRemove(selectedValue)
-  }, [selectedValue])
+  }, [])
 
   // section to initialize book/sp/thesis
   let book = {
-    id: document.id,
     title: document.title,
     year: document.year,
     author: document.author,
     publisher: document.publisher,
     isbn: document.isbn,
     description: document.description,
-    topic: [document.topic]
+    topic: document.topic
   };
 
   let thesis = {
-    id: document.id,
     title: document.title,
     adviser: document.adviser,
     author: document.author,
     pub_date: document.pub_date,
     abstract: document.abstract,
-    topic: [document.topic]
+    topic: document.topic
   };
 
   let sp = {
-    id: document.id,
     title: document.title,
     adviser: document.adviser,
     author: document.author,
     pub_date: document.pub_date,
     abstract: document.abstract,
-    topic: [document.topic]
+    topic: document.topic
   };
 
   const handleInputChange = async(event) =>{
     const target = event.target;
+    console.log("data:\n")
 
     if(doc_type=="book"){
       if(target.name==="book_title") book.title = target.value;
@@ -112,7 +103,6 @@ function ConditionalEdit(props){
       else if(target.name==="book_description") book.description = target.value;
       else if(target.name==="book_topic") book.topic = target.value;
 
-      console.log("data:\n")
       console.log(book.title)
       console.log(book.author)
       console.log(book.year)
@@ -130,7 +120,6 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
       else if(target.name==="thesis_topic") thesis.topic = target.value;
 
-      console.log("data:\n")
       console.log(thesis.title)
       console.log(thesis.author)
       console.log(thesis.adviser)
@@ -147,7 +136,6 @@ function ConditionalEdit(props){
       else if(target.name==="sp_abstract") sp.abstract = target.value;
       else if(target.name==="sp_topic") sp.topic = target.value;
 
-      console.log("data:\n")
       console.log(sp.title)
       console.log(sp.author)
       console.log(sp.adviser)
@@ -161,10 +149,11 @@ function ConditionalEdit(props){
   const onSelect  = (selectedItem)  =>{
     setSelectedValue(selectedItem);
     console.log("content [select]: \n", selectedValue)
+    console.log("data:\n")
 
     if(doc_type=="book") {
       book.topic = selectedValue;
-      console.log("data:\n")
+
       console.log(book.title)
       console.log(book.author)
       console.log(book.year)
@@ -173,9 +162,9 @@ function ConditionalEdit(props){
       console.log(book.description)
       console.log(book.topic)
     }
-    else if(doc_type=="sp") {
+    else if(doc_type=="sp")  {
       sp.topic = selectedValue;
-      console.log("data:\n")
+
       console.log(sp.title)
       console.log(sp.author)
       console.log(sp.adviser)
@@ -183,9 +172,9 @@ function ConditionalEdit(props){
       console.log(sp.abstract)
       console.log(sp.topic)
     }
-    else if(doc_type=="thesis") {
+    else if(doc_type=="thesis")  {
       thesis.topic = selectedValue;
-      console.log("data:\n")
+
       console.log(thesis.title)
       console.log(thesis.author)
       console.log(thesis.adviser)
@@ -195,8 +184,18 @@ function ConditionalEdit(props){
     }
   }
 
+  const onRemove = (selectedItem)  =>{
+      setSelectedValue(selectedItem);
+      console.log("content [remove]: \n", selectedValue)
+
+      if(doc_type=="book") book.topic = selectedValue;
+      else if(doc_type=="sp")  sp.topic = selectedValue;
+      else if(doc_type=="thesis")  thesis.topic = selectedValue;
+  }
+
   useEffect(() => {
     onSelect(selectedValue)
+    onRemove(selectedValue)
 }, [selectedValue])
 
 const data = [
@@ -264,7 +263,7 @@ const data = [
                                 closeIcon="cancel"
                                 isObject={false}
                                 onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onSelect(selectedValue)}   
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
                                 style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
@@ -311,7 +310,7 @@ const data = [
                                 closeIcon="cancel"
                                 isObject={false}
                                 onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onSelect(selectedValue)}   
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
                                 style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
@@ -357,7 +356,7 @@ const data = [
                                 closeIcon="cancel"
                                 isObject={false}
                                 onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onSelect(selectedValue)}   
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
                                 style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
