@@ -6,7 +6,7 @@
 }
 
 .usertable-container{
-   display: flex;
+   display: block;
    margin-bottom: 5vh;
    max-width: 60vw;
    justify-content: center;
