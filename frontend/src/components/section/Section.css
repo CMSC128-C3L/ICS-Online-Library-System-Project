@@ -1,0 +1,36 @@
+.Section-area {
+    background-image: url('../../assets/physci.png');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: bottom;
+    padding-top: 5cm;
+    padding-bottom: 5cm;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.circular--portrait {
+    position: relative;
+    overflow: hidden;
+}
+  
+.circular--portrait img {
+    height: auto;
+    border-radius: 50%;
+}
+
+.Right-section {
+    text-align: left;
+    width: 30%;
+    background-color: #EBEBEB;
+}
+
+.Section-title {
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.Section-body {
+    text-align: left;
+}

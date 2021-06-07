@@ -17,6 +17,7 @@ import AdminPageProtectRoute from './components/route/AdminPageProtectRoute';
 import SeeDocument from './pages/SeeDocument'
 import CardEditing from './components/card_editing/CardEditing';
 import CardEditingPage from './pages/CardEditingPage'
+import AboutUs from './pages/AboutUs'
 import EditCardsPage from './pages/EditCardsPage'
 function App() {
   const [loggedUser, setLoggedUser] = useState({});
@@ -42,6 +43,7 @@ function App() {
             <Route exact path="/search/filter/:id" component={SearchPage} />
             <Route exact path="/courseSummary" component={SummaryPage} />
             <Route exact path="/authorSummary" component={SummaryPageAuthor} />
+            <Route exact path="/aboutUs" component={AboutUs} />
           </UserContext.Provider>
         </Switch>
       </BrowserRouter>
