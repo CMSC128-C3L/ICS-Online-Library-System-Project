@@ -184,7 +184,7 @@ function ResultPane(props){
     // multiple delete requests
     console.log("To be deleted: ", checked)
   }
-  console.log(results)
+  // console.log(results)
   return(
     <Container className= "result-container">
         {/* add document only for admin */}

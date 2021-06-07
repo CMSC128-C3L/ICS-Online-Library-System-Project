@@ -13,7 +13,7 @@ function BookCard(props) {
 	
 	// Create reference to modal
 	const deleteModal = useRef(null)
-	const openDeleteModal = (user, props) => {deleteModal.current.open(user, props)}
+	const openDeleteModal = (user) => {deleteModal.current.open(user)}
 	const history = useHistory();
 
   /**
@@ -64,7 +64,7 @@ function BookCard(props) {
 				isBook = {true}
 				handleEdit={handleEdit} 
 				handleDelete={handleDelete}/>
-			<Modal ref={deleteModal}><DeleteDocument/></Modal>
+				<Modal ref={deleteModal}><DeleteDocument book={props.doc} type={props.doc.type}/></Modal>
 		</Card>
 	);
 }

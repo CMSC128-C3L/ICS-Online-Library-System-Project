@@ -12,7 +12,6 @@ function SaveDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
-    const {id} = useParams();
 
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
@@ -47,23 +46,25 @@ function SaveDocument(props){
                     type: props.book.type,
                     id: props.book.id,
                     title: props.book.title, 
-                    author: props.book.author,
+                    author: [props.book.author],
                     year: props.book.year,
                     publisher: props.book.publisher,
                     isbn: props.book.isbn,
                     description: props.book.description,
-                    topic: props.book.topic
+                    topic: [props.book.topic]
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.post(`/api/thesis`, {
-                    type: props.thesis.type,
-                    id: props.thesis.id,
-                    title: props.thesis.title, 
-                    author: props.thesis.author,
-                    adviser: props.thesis.adviser,
-                    pub_date: props.thesis.pub_date,
-                    abstract: props.thesis.abstract,
-                    topic: props.thesis.topic
+                    type: 'Thesis',
+                    id: '123456',
+                    title: 'TEMPORARY THESIS CMSC 128 C3L', 
+                    author: 'props.thesis.author',
+                    adviser: 'props.thesis.adviser',
+                    pub_date: '2021-10-10',
+                    abstract: 'props.thesis.abstract',
+                    topic: 'Algorithms',
+                    journal: '',
+                    poster: ''
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.post(`/api/sp`, {
@@ -74,7 +75,9 @@ function SaveDocument(props){
                     adviser: props.sp.adviser,
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
-                    topic: props.sp.topic
+                    topic: props.sp.topic,
+                    journal: '',
+                    poster: ''      
                 } , options);
             }
             console.log('Returned data:', response.data);

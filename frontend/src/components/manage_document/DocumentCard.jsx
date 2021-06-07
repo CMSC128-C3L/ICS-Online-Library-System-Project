@@ -7,7 +7,7 @@ function DocumentCard(props){
         <div>
             {
             (function(document){
-                console.log("document card value: ", document.type)
+                console.log("document card value: ", typeof(document.topic))
                 switch(document.type){
                     case "Book": //book
                         return(
