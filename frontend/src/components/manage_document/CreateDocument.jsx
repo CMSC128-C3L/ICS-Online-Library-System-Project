@@ -175,13 +175,9 @@ const classification = [
   'Thesis'
 ]
 
-const course = [{
-  code:'', 
-  title: '', 
-  description: '', 
-  units: '', 
-  prerequisite: ''
-}]
+const course = ["CMSC 12", "CMSC 21", "CMSC 22", "CMSC 23", "CMSC 56", "CMSC 57", "CMSC 100", "CMSC 123", "CMSC 124",
+ "CMSC 125", "CMSC 127", "CMSC 128", "CMSC 129", "CMSC 130", "CMSC 131", "CMSC 132", "CMSC 137", "CMSC 141", "CMSC 142", 
+ "CMSC 150", "CMSC 161", "CMSC 165", "CMSC 170", "CMSC 172", "CMSC 173", "CMSC 180"];
 
 const topics = [
   'Algorithms',
@@ -287,6 +283,7 @@ const topics = [
                       placeholder="Add a course"
                       options={course} 
                       closeIcon="cancel"
+                      isObject={false}
                       onSelect={(selectedValue)=> onSelect(selectedValue, "course")} 
                       onRemove={(selectedValue)=> onSelect(selectedValue, "course")}   
                       style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }

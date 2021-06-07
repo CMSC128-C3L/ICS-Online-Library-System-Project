@@ -191,12 +191,15 @@ function ResultPane(props){
 
   return(
     <Container className= "result-container">
-
       <Modal ref={multiDeleteModal}><MultiDeleteDoc selected={selected} getDocuments={getDocuments} setPage={setPage} resetSelected={() => setSelected([])}/></Modal>
 
-      <IconButton className="add-doc-button" onClick={handleAdd}>
-        <AddIcon style={{color: 'black'}}/>
-      </IconButton>
+      {/* add document only for admin */}
+      {loggedUser.classification === "Admin" ?
+        <IconButton className="add-doc-button" onClick={handleAdd}>
+          <AddIcon style={{color: 'black'}}/>
+        </IconButton>
+        : null
+      }
 
       <div className= "result-header">
         <div className="sub-header-container">

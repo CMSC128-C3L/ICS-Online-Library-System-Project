@@ -3,7 +3,6 @@ import React, {useState, useMemo, useReducer} from 'react';
 import AdminHome from './pages/AdminHome';
 import { BrowserRouter, HashRouter, Switch } from 'react-router-dom';
 import AdminAnalytics from './pages/AdminAnalytics'
-import AdminDocManagement from './pages/AdminDocManagement'
 import AdminUserManagement from './pages/AdminUserManagement'
 import {BrowserRouter as Link, Router, Route} from 'react-router-dom'
 import Footer from './components/footer/Footer'
@@ -105,7 +104,6 @@ function App() {
             <Route exact path="/courseSummary" component={SummaryPage} />
             <Route exact path="/authorSummary" component={SummaryPageAuthor} />
             <Route exact path="/" component={GuestHome} />
-            
           </SearchContext.Provider>
           </UserContext.Provider>
         </Switch>

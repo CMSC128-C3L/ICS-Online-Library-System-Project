@@ -64,7 +64,7 @@ function BookCard(props) {
 				isBook = {true}
 				handleEdit={handleEdit} 
 				handleDelete={handleDelete}/>
-			<Modal ref={deleteModal}><DeleteDocument/></Modal>
+			<Modal ref={deleteModal}><DeleteDocument book={props.doc} type={props.doc.type}/></Modal>
 		</Card>
 	);
 }
