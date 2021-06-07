@@ -27,7 +27,7 @@ function ConditionalEdit(props){
 
   // Create reference to modal
   const saveModal = useRef(null)
-  const openSaveModal = (user) => {saveModal.current.open(user, props)}
+  const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
 
   //get flag whether the edit button from manage document is clicked
   let location = useLocation();
@@ -59,38 +59,37 @@ function ConditionalEdit(props){
 
   useEffect(() => {
       getDocument()
-  }, [])
+      onSelect(selectedValue)
+      onRemove(selectedValue)
+  }, [selectedValue])
 
   // section to initialize book/sp/thesis
   let book = {
-    id: document.id,
     title: document.title,
     year: document.year,
     author: document.author,
     publisher: document.publisher,
     isbn: document.isbn,
     description: document.description,
-    topic: [document.topic]
+    topic: document.topic
   };
 
   let thesis = {
-    id: document.id,
     title: document.title,
     adviser: document.adviser,
     author: document.author,
     pub_date: document.pub_date,
     abstract: document.abstract,
-    topic: [document.topic]
+    topic: document.topic
   };
 
   let sp = {
-    id: document.id,
     title: document.title,
     adviser: document.adviser,
     author: document.author,
     pub_date: document.pub_date,
     abstract: document.abstract,
-    topic: [document.topic]
+    topic: document.topic
   };
 
   const handleInputChange = async(event) =>{
@@ -135,10 +134,14 @@ function ConditionalEdit(props){
     else if(doc_type=="thesis")  thesis.topic = selectedValue;
   }
 
-  useEffect(() => {
-    onSelect(selectedValue)
-}, [selectedValue])
+  const onRemove = (selectedItem)  =>{
+      setSelectedValue(selectedItem);
+      console.log("content [remove]: \n", selectedValue)
 
+      if(doc_type=="book") book.topic = selectedValue;
+      else if(doc_type=="sp")  sp.topic = selectedValue;
+      else if(doc_type=="thesis")  thesis.topic = selectedValue;
+  }
 
 const data = [
   'Algorithms',
@@ -205,7 +208,7 @@ const data = [
                                 closeIcon="cancel"
                                 isObject={false}
                                 onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onSelect(selectedValue)}   
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
                                 style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
@@ -252,7 +255,7 @@ const data = [
                                 closeIcon="cancel"
                                 isObject={false}
                                 onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onSelect(selectedValue)}   
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
                                 style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
@@ -298,7 +301,7 @@ const data = [
                                 closeIcon="cancel"
                                 isObject={false}
                                 onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onSelect(selectedValue)}   
+                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
                                 style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
