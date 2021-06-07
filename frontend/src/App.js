@@ -19,6 +19,7 @@ import AccessDocument from './pages/EditDocument'
 import CreateDocument from './pages/CreateDocumentPage'
 import CardEditing from './components/card_editing/CardEditing';
 import CardEditingPage from './pages/CardEditingPage'
+import AboutUs from './pages/AboutUs'
 import EditCardsPage from './pages/EditCardsPage'
 export const ACTIONS = {
   updateQuery: 'UPDATE_QUERY',
@@ -84,11 +85,12 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <div className="App"> 
-      <HashRouter>
+      <BrowserRouter>
         <Switch>
           <UserContext.Provider value={{loggedUser, setLoggedUser}}>
           <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
             <Route exact path="/loggedIn/" component={GuestHome} />
+            <Route exact path="/aboutUs" component={AboutUs} />
             <HomePageRoute exact path="/adminHome" component={AdminHome} />
             <AdminPageProtectRoute exact path="/adminHome/manageUsers" component={AdminUserManagement} />
             <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={SearchPage} />
@@ -103,10 +105,11 @@ function App() {
             <Route exact path="/courseSummary" component={SummaryPage} />
             <Route exact path="/authorSummary" component={SummaryPageAuthor} />
             <Route exact path="/" component={GuestHome} />
+            
           </SearchContext.Provider>
           </UserContext.Provider>
         </Switch>
-      </HashRouter>
+      </BrowserRouter>
       <Footer></Footer>
     </div>
   )
