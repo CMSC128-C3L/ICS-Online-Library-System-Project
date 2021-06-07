@@ -67,19 +67,22 @@ async function update(req, res) {
 
 // route for uploading a thumbnail image to a HomeAdvisory
 async function uploadThumbnail(req, res) {
-    try {
-        const _id = req.params.id;  // the id of the HomeAdvisory to be updated
-        const thumbnail = req.file;
+  try {
+    const _id = req.params.id;  // the id of the HomeAdvisory to be updated
+    const thumbnail = req.file;
 
-        if (!thumbnail)
-            return res.status(400).send({message:"missing thumbnail"});
+    if (!thumbnail)
+        return res.status(400).send({message:"missing thumbnail"});
 
-        // update the path of the thumbnail attribute of the HomeAdvisory
-        // TODO: update the HomeAdvisory and use the model
+    // update the path of the thumbnail attribute of the HomeAdvisory
+    await HomeAdvisory.findOneAndUpdate(
+      {_id},
+      {image: thumbnail.filename},
+    );
 
-
-        res.status(200).send({message:"thumbail saved"});
-    } catch(err) {
-        res.status(400).send({message: "error"});
-    }
+    res.status(200).send({_id});
+  } catch(err) {
+    console.log(err);
+    res.status(40).send({message: "error"});
+  }
 }
