@@ -12,6 +12,13 @@ const handleCourseClick = (event) => {
   /** method to navigate to course summary here */
 }
 
+const handleAdviserClick = (event) => {
+  console.log(event.target.value)
+  /** method to navigate to author summary here
+   *  may be removed and absorbed in author click if method is the same
+   */
+}
+
 function Title(props){
   return(
     <Typography className="doc-title" noWrap={true} variant="h6" style={{fontWeight: '600'}}>
@@ -46,17 +53,29 @@ function Isbn(props){
 
 // max 3 authors shown; will wrap and no ellipsis; et al shown for the other authors
 function AuthorList(props){
-  return(
-    <ul className="clickable-list">
-      {props.author.slice(0,4).map((author, index) => {
-        return (index < 3)? 
-          <li>
-            <button className="clickable-text" value={author} onClick={handleAuthorClick}>{author}</button>
-          </li> :
-          <li><button className="clickable-text no-hover">{'et al.'}</button></li>
-      })}
-    </ul>
-  )
+  if (props.clickable){
+    return(
+      <ul className="clickable-list">
+        {props.author.slice(0,4).map((author, index) => {
+          return (index < 3)? 
+            <li key={author}>
+              <button className="clickable-text" value={author} onClick={handleAuthorClick}>{author}</button>
+            </li> :
+            <li key={author}><button className="clickable-text no-hover">{'et al.'}</button></li>
+        })}
+      </ul>
+    )
+  }else {
+    return(
+      <Typography noWrap gutterBottom variant="body2">
+        {props.author.slice(0,4).map((author, index) => {
+          return (index < 3)? 
+          <span key={author}>{ index ? (', ' + author) : author}</span> : 
+          <span key={author}>{'et al.'}</span>
+        })}
+      </Typography>
+    )
+  }
 }
 
 // max 3 courses shown; adtl will show as ellipsis
@@ -64,15 +83,15 @@ function CourseList(props){
   return(
     <div style={{display:'flex'}}>
       <Typography gutterBottom variant="body2">Reference for:&nbsp;</Typography>
-        <ul className="clickable-list">
-          {props.course.slice(0,4).map((course, index) => {
-            return (index < 3)? 
-              <li>
-                <button className="clickable-text" value={course} onClick={handleCourseClick}>{course}</button>
-              </li> :
-              <li><button className="clickable-text no-hover">{'...'}</button></li>
-          })}
-        </ul>
+      <ul className="clickable-list">
+        {props.course.slice(0,4).map((course, index) => {
+          return (index < 3)? 
+            <li key={course}>
+              <button className="clickable-text" value={course} onClick={handleCourseClick}>{course}</button>
+            </li> :
+            <li key={course}><button className="clickable-text no-hover">{'...'}</button></li>
+        })}
+      </ul>
     </div>
   )
 }
@@ -90,14 +109,18 @@ function TopicList(props){
 
 function AdviserList(props){
   return(
-    <Typography noWrap gutterBottom variant="body2">
-      Adviser:&nbsp;
-      {props.adviser.slice(0,4).map((adviser, index) => {
-        return (index < 3)? 
-        <span key={adviser}>{ index ? (', ' + adviser) : adviser}</span> : 
-        <span key={adviser}>{'...'}</span>
-      })}
-    </Typography>
+    <div style={{display:'flex'}}>
+      <Typography gutterBottom variant="body2">Adviser:&nbsp;</Typography>
+      <ul className="clickable-list">
+        {props.adviser.slice(0,4).map((adviser, index) => {
+          return (index < 3)? 
+            <li key={adviser}>
+              <button className="clickable-text" value={adviser} onClick={handleAdviserClick}>{adviser}</button>
+            </li> :
+            <li key={adviser}><button className="clickable-text no-hover">{'...'}</button></li>
+        })}
+      </ul>
+    </div>
   )
 }
 

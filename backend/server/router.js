@@ -4,6 +4,9 @@ const Thesis = require('./controllers/thesisController.js');
 const auth = require('./middlewares/auth.js');
 const router = new express.Router;
 const isAdmin = require('./middlewares/isAdmin.js');
+const AuthorSummary = require("./controllers/authorSummary.js");
+const AdviserSummary = require("./controllers/adviserSummary.js");
+const CourseSummary = require("./controllers/courseSummary.js");
 
 // Sample test route
 router.get('/api', (req, res) => {
@@ -22,6 +25,8 @@ router.delete('/api/users/:id', auth, isAdmin, User.deleteOne);
 router.get('/api/thesis/', auth, Thesis.getAll);
 router.get('/api/thesis/:id', auth, Thesis.getOne);
 router.post('/api/thesis', auth, isAdmin, Thesis.create);
+router.get('/api/thesis/download/:id', auth, Thesis.download);
+router.post('/api/thesis/upload/:id', auth, isAdmin, Thesis.uploadFields, Thesis.uploadFiles);
 router.patch('/api/thesis/:id', auth, isAdmin, Thesis.update);
 router.delete('/api/thesis/:id', auth, isAdmin, Thesis.deleteOne);
 
@@ -30,9 +35,19 @@ router.delete('/api/thesis/:id', auth, isAdmin, Thesis.deleteOne);
 const Sp = require('./controllers/spController.js');
 router.get('/api/sp',auth, Sp.getAll);
 router.get('/api/sp/:id',auth, Sp.getOne);
+router.get('/api/sp/download/:id',auth,Sp.downloadSp);
 router.post('/api/sp',auth, isAdmin, Sp.create);
 router.patch('/api/sp/:id', auth, isAdmin, Sp.update);
 router.delete('/api/sp/:id', auth, isAdmin, Sp.deleteSp);
+router.post('/api/sp/upload/:id',auth, isAdmin, Sp.upload.fields([{
+  name: "spFile", maxCount: 1
+}, {
+  name: "journalFile", maxCount: 1
+}, {
+  name: "posterFile", maxCount: 1
+}
+]),Sp.uploadSp);
+
 
 
 
@@ -43,6 +58,7 @@ router.get('/api/books/:id', auth, Book.get);
 router.post('/api/books', auth, isAdmin, Book.create);
 router.patch('/api/books/:id', auth, isAdmin, Book.update);
 router.delete('/api/books/:id', auth, isAdmin, Book.deleteBook);
+router.post('/api/books/uploads/:id', auth, Book.uploads, Book.uploadBookCover);
 
 
 
@@ -66,6 +82,25 @@ router.get('/api/search/filter/thesis', Search.advanceSearchThesis);
 router.get('/api/search/filter/sp', Search.advanceSearchSp);
 router.get('/api/search/filter/journal', Search.advanceSearchJournal);
 
+//Activity Logs
+const Logs = require('./controllers/activityLogsController.js');
+router.get('/api/log', auth, Logs.getAll);
+router.get('/api/log/:user_id', auth, Logs.getOne);
+router.get('/api/log/user/:email', auth, Logs.getUserId);
+router.post('/api/log/login', auth, Logs.recordUser);
+router.post('/api/log/logout', auth, Logs.logoutUser);
+router.patch('/api/log/doc/:user_id', auth, Logs.updateRecord);
 
-//
+//author summary
+router.get('/api/authorSummary/:author', AuthorSummary.getAuthorSummary);
+router.get('/api/authorSummaryPDF/:author', AuthorSummary.getAuthorSummaryPDF);
+
+//adviser summary
+router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
+router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPDF);
+
+//course summary
+router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
+router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
+
 module.exports = router;

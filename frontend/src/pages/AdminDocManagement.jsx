@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import EditPage from '../components/manage_document/ManageDocument'
+import EditPage from '../components/manage_document/ConditionalEdit'
 import Header from "../components/header_user/Header"
 
 function AdminDocManagement({match}) {
@@ -11,7 +11,7 @@ function AdminDocManagement({match}) {
     return (
         <div>
             <Header></Header>
-            <EditPage></EditPage>
+            <EditPage/>
         </div>
     )
 }

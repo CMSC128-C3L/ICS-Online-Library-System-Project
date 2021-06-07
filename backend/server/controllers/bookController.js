@@ -1,4 +1,19 @@
 const Book = require("../models/Book.js");
+const multer = require('multer');
+const path = require("path");
+
+
+// This will be used in router.js as middleware for the cover image upload route.
+const storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, path.join(__dirname, '../uploads/books'));
+    },
+    filename: function(req, file, callback) {
+        callback(null, "s-" + Date.now() + "-" + file.originalname);
+    }
+});
+const uploads = multer({ storage }).single('book_cover');
+
 
 module.exports = {
     getAll,
@@ -6,7 +21,11 @@ module.exports = {
     create,
     update,
     deleteBook,
+    uploadBookCover,
+    uploads,
+    bookBase,
 };
+
 
 // Get all Books
 async function getAll(req, res) {
@@ -26,13 +45,20 @@ async function getAll(req, res) {
 async function get(req, res) {
     try {
         const _id = req.params.id;    // get id parameter
-        const data = await Book.findById({_id});  // query the database
+
+        // query the database and increment the number of views
+        const data = await Book.findOneAndUpdate(
+            {_id},
+            {$inc: {view_count: 1}},
+            {new: true});
 
         if (data === null) 
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
         const book = bookBase(data);
         book.description = data.description;
+        book.view_count = data.view_count;
+
         res.status(200).send(book);     // respond with specified book
 
     } catch(err) {
@@ -47,7 +73,7 @@ async function create(req, res) {
     try {
         const book = new Book(req.body);    // get the book data from the request body
         const newBook = await book.save();  // insert the book
-        return res.status(201).send(newBook._id);   // responsd with the id of the new book
+        return res.status(201).send({_id: newBook._id});   // responsd with the id of the new book
 
     } catch (err) {
         // console.log(err);
@@ -93,6 +119,33 @@ async function deleteBook(req, res) {
 }
 
 
+// upload an image for the book cover
+async function uploadBookCover(req, res) {
+    try {
+        const _id = req.params.id;
+        const cover_img = req.file;
+        
+        if (!cover_img)
+            return res.status(400).send({message: "missing image"});
+
+        // update the path in the book_cover_img field
+        const newBook = await Book.findOneAndUpdate(
+            {_id},
+            {book_cover_img: cover_img.filename},
+            {new:true}
+        );
+
+        if (newBook === null)
+            return res.status(404).send({message:"book not found"});    // the specified book does not exist
+
+        res.status(201).send({_id});
+    } catch (err) {
+        console.log(err)
+        res.status(400).send({message:"error"});
+    }
+}
+
+
 /*
     Returns a strip down version of a book, removing info that is not
     needed in displaying a book.
@@ -105,7 +158,12 @@ function bookBase(data) {
     book.author = data.author;
     book.isbn = data.isbn;
     book.publisher = data.publisher;
-    book.book_cover_img = data.book_cover_img;
+    
+    if (data.book_cover_img.split("-")[0] === 's')
+        book.book_cover_img = path.join(__dirname, '../uploads/books/') + data.book_cover_img
+    else 
+        book.book_cover_img = data.book_cover_img
+
     book.topic = data.topic;
     book.course_code = data.courses.map(getCourseCode);
     book.type = data.type;

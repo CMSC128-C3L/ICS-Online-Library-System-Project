@@ -1,230 +1,335 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useContext} from 'react'
 import axios from 'axios'
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableFooter, TablePagination, Avatar} from '@material-ui/core'
-import './ManageUsers.css'
-import UserTablePaginationActions from './UserTablePaginationActions'
-import DeleteIcon from '@material-ui/icons/Delete';
+import {Table, TableBody, TableCell, TableContainer, TableRow, Paper, TableFooter, TablePagination, Avatar, Checkbox, Toolbar, Typography, Icon} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete';
+import SyncIcon from '@material-ui/icons/Sync';
 import EditIcon from '@material-ui/icons/Edit';
-import ArrowUpward from '@material-ui/icons/ArrowUpward'
-import ArrowDownward from '@material-ui/icons/ArrowDownward'
+import {getComparator, stableSort} from './Comparator'
+import UserTablePaginationActions from './UserTablePaginationActions'
 import Modal from '../../manage_user_popup/Modal'
 import EditUser from '../../manage_user_popup/EditUser'
 import DeleteUser from '../../manage_user_popup/DeleteUser'
-import decode from 'jwt-decode'
+import MultiDeleteUser from './MultiDeleteUser'
+import UserTableHeadMS from './UserTableHeadMS'
+import {UserContext} from '../../user/UserContext'
+import './ManageUsers.css'
 
-function UserTable(records, headCells) {
+const useStyles = makeStyles((theme) => ({
+    paper: {
+      width: '100%',
+      marginBottom: theme.spacing(2),
+    },
+    table: {
+      minWidth: 750,
+    },
+    visuallyHidden: {
+      border: 0,
+      clip: 'rect(0 0 0 0)',
+      height: 1,
+      margin: -1,
+      overflow: 'hidden',
+      padding: 0,
+      position: 'absolute',
+      top: 20,
+      width: 1,
+    },
+}));
 
-//initialize collection of user data to an empty array
-const [user, setUser] = useState([])
+function UserTable(props) {
+    const [rows, setRows] = useState([]) //initialize collection of user data to an empty array
+    const [search, setSearch] = useState("") //initialize search to blank
+    const currentUser = useContext(UserContext).loggedUser
 
-//initialize search to blank
-const [search, setSearch] = useState("")
+    const classes = useStyles();
+    const [order, setOrder] = useState('asc'); //default sort order is ascending
+    const [orderBy, setOrderBy] = useState('name') //default sorted column is name
+    const [selected, setSelected] = useState([]) //default selected list empty, key for TableRow
+    const [page, setPage] = useState(0) //initialize table page to page 0
+    const [rowsPerPage, setRowsPerPage] = useState(5) //initialize rows per page to 5
+    const [rowCount, setRowCount] = useState(0) //get number of filtered rows
 
-//initialize table page to page 0
-const [page, setPage] = useState(0)
+    const handleSearch = (event) => {
+        setSearch(event.target.value)
+    }
 
-//initialize rows per page to 5
-const [rowsPerPage, setRowsPerPage] = useState(5)
+    const handleChangePage = (event, newPage) =>{
+        setPage(newPage);
+    }
 
-//get number of filtered rows
-const [rowCount, setRowCount] = useState(0)
+    const handleChangeRowsPerPage = (event) =>{
+        setRowsPerPage(parseInt(event.target.value, 10))
+        setPage(0)
+    }
+    
+    const handleRequestSort = (event, property) => {
+        const isAsc = orderBy === property && order === 'asc'
+        setOrder(isAsc? 'desc' : 'asc')
+        setOrderBy(property)
+    }
 
-/* 
-    Sort Type
-    ascending = 1
-    descending = -1
-*/
-const [sortType, setSortType] = useState(1)
+    const handleSelectAllClick = (e) => {
+        if(e.target.checked) {
+            const newSelecteds = rows.map((n) => n._id)
+            setSelected(newSelecteds)
+            return;
+        }
+        setSelected([]);
+    }
 
-const handleChangePage = (event, newPage) =>{
-    setPage(newPage);
-}
+    const handleClick = (e, person) => {
+        const selectedIndex = selected.indexOf(person._id);
+        let newSelected = []
 
-const handleChangeRowsPerPage = (event) =>{
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-}
-    let users = []
+        if(selectedIndex === -1)
+            newSelected = newSelected.concat(selected, person._id)
+        else if(selectedIndex === 0)
+            newSelected = newSelected.concat(selected.slice(1))
+        else if(selectedIndex === selected.length - 1)
+            newSelected = newSelected.concat(selected.slice(0, -1))
+        else if(selectedIndex > 0)
+            newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1))
+
+        setSelected(newSelected)
+    }
+
+    const isSelected = (id) => selected.indexOf(id) !== -1;
+
+    const getLogs = async() =>{
+        try{
+            let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+
+            const res = await axios.get(`/api/log/`, options)
+            return res.data
+
+        }catch(e){console.log(e)}
+    }
+
+    // Return latest login
+    const getLastLogin = (log) => {
+        return log.log_date.slice(-1)[0].login
+    }
+
+    // Add latest login as property to filtered user objects
+    const joinUserLogs = (users, logs) => {
+        users.forEach((user) => {
+            const index = logs.findIndex(log => log.user_id === user._id)
+            user.last_login = index !== -1 ? getLastLogin(logs[index]) : ""
+        })
+    }
+
     const getUsers = async() =>{
+        let users = []
         try{
             let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
             users = await axios.get("/api/users", options)
-            console.log(users.data)
-            setUser(users.data)
-            setRowCount(users.data.length)
-        
-        }catch(e){
-            console.log(e)
-        }
+            
+            const filteredRows = filterRows(users.data)
+            const logs = await getLogs()
+            joinUserLogs(filteredRows, logs)
+
+            setRows(filteredRows)
+            setRowCount(filteredRows.length)
+        }catch(e){console.log(e)}
     }
 
+    const filterRows = (user) => {
+        const currentUserName = currentUser.given_name.concat(' ',currentUser.family_name)
+        
+        return (user.filter( person => {
+            return(
+                (
+                    // Filter search query
+                    search === ""
+                    || person.name.toLowerCase().includes(search.toLowerCase()) 
+                    || String(person.id).includes(search)
+                    || person.name.toLowerCase().includes(search.toLowerCase())
+                    || person.email.toLowerCase().includes(search.toLowerCase()) 
+                    || person.classification.toLowerCase().includes(search.toLowerCase())
+                )
+                &&  
+                    // Filter current user
+                    currentUserName.toLowerCase() !== person.name.toLowerCase()
+            )
+        }))
+    }
+
+    // Fetch users on first render
     useEffect(() => {
         getUsers()
     }, [])
 
-    // just re-render UserTable component upon successful update and delete user
-    useEffect(() => {   }, [users])
+    // Update row count on query change
+    useEffect(() => {
+        setRowCount(filterRows(rows).length)
+        setPage(0)
+    }, [search])
 
-    const filterRows = () =>{
-       return (user.filter(person=>{
+    // Update row count on rows change
+    useEffect(() => {
+        setRowCount(filterRows(rows).length)
+        setPage(0)
+    }, [rows])
 
-            //if search is blank, all items are considered
-            if(search===""){
-                return person
-            
-            //if search is not empty, filter contents accdg to search
-            }else if(
-            person.name.toLowerCase().includes(search.toLowerCase()) 
-            || String(person.id).includes(search)
-            || person.name.toLowerCase().includes(search.toLowerCase())
-            || person.email.toLowerCase().includes(search.toLowerCase()) 
-            || person.classification.toLowerCase().includes(search.toLowerCase())
-            ){
-                return person
-            }
-        }))
-
-    }
-
-
-    const sortRows = (array) =>{
-    array.sort((a, b) => {
-            if (a.name > b.name) {
-                if(sortType === 1) return 1;
-                else return -1;
-            }
-
-            if (a.name < b.name) {
-                if(sortType === 1) return -1;
-                else return 1;
-            }
-            return 0;
-          
-        });
-    }
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const createClassificationCell = (classification) => {
+        let containerColor
 
-        //if admin, set background color to red 
-        //NOTE: remove classfication 1, used for demonstrative purposes only
-        if(classification === "classification 1" || classification === "classification 1"){
-            return(
-                <span style={{width: "7em", height: "3em", backgroundColor: "#d01b1b", border: "1px #d01b1b solid", borderRadius: "200px", display: "inline-block", justifyContent: "center", padding: "0.5em"}}><p className="classification-fontstyle">{classification}</p></span>
-            )
-        }else if(classification === "Staff" || classification === "Faculty" || classification === "classification 2"){
-            //if faculty or staff, set background color to purple 
-            //NOTE: remove classfication 2, used for demonstrative purposes only
-            
-            return(
-                <span style={{width: "7em", height: "3em", backgroundColor: "#b19cd8", border: "1px #b19cd8 solid", borderRadius: "200px", display: "inline-block", justifyContent: "center", padding: "0.5em"}}><p className="classification-fontstyle">{classification}</p></span>
-            )
-        }else{
-            return(
-                //if student, set background color to sky blue
-                <span style={{width: "7em", height: "3em", backgroundColor: "#47abd8", border: "1px #47abd8 solid", borderRadius: "200px", display: "inline-block", justifyContent: "center", padding: "0.5em"}}><p className="classification-fontstyle">{classification}</p></span>
-            )
-        }
+        // admin -> red
+        // staff or faculty -> purple
+        // student -> sky blue
+        if(classification === "Admin") containerColor = "#d01b1b"
+        else if(classification === "Staff" || classification === "Faculty") containerColor = "#b19cd8"
+        else containerColor = "#47abd8"
+
+        return(
+            <span style={{display:'inline-block', width: '70%'}}>
+                <p className="classification-fontstyle" style={{backgroundColor: containerColor, borderRadius: "200px", padding: "1em 0.5em"}}>{classification}</p>
+            </span>
+        )
     }
 
     // Create reference to modal
     const editModal = useRef(null)
     const deleteModal = useRef(null)
+    const multiDeleteModal = useRef(null)
     const openEditModal = (user) => {editModal.current.open(user)}
     const openDeleteModal = (user) => {deleteModal.current.open(user)}
+    const openMultiDeleteModal = (users) => {multiDeleteModal.current.open(users)}
     
     return (
         <div className="manageusers manageusers-container">
-            <input className="searchbar" type="text" placeholder=" Search User" onChange={e=>{
-                setSearch(e.target.value)
-                setRowCount(filterRows().length)
-                setPage(0)
-            }}/>
-
-          
-            <div>
+            
                 <Modal ref={editModal}><EditUser getUsers={getUsers}/></Modal>
                 <Modal ref={deleteModal}><DeleteUser getUsers={getUsers}/></Modal>
+                <Modal ref={multiDeleteModal}><MultiDeleteUser getUsers={getUsers} resetSelected={() => setSelected([])}/></Modal>
+                
+                <Toolbar className="toolbar">
+                    <input className="searchbar"
+                           type="text"
+                           placeholder=" Search User"
+                           onChange={ (e) => {
+                                handleSearch(e)
+                            }}
+                            value={search}
+                    />
+
+                    <div className='toolbar-position'>
+                        <div className='toolbar-tools'>
+                            {selected.length > 0 ? (
+                                <>
+                                <Typography color='secondary'>{selected.length} selected</Typography>
+                                <button
+                                    className="toolbar-btn"
+                                    onClick={() => openMultiDeleteModal(selected)}>
+                                    <DeleteIcon color='secondary'/>
+                                </button>
+                                </>
+                            ) : (
+                                <>
+                                <Typography color='primary'>Reload Users</Typography>
+                                <button
+                                    className="toolbar-btn"
+                                    onClick={() => getUsers()}>
+                                    <SyncIcon color='primary'/>
+                                </button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </Toolbar>
 
                 <TableContainer component={Paper} className="usertable usertable-container">
-                <Table aria-label="users" > 
-                <TableHead>
-                        <TableRow align="center" justifyContent="center" style={{backgroundColor: "#47abd8"}}>
-                            <TableCell align="center"><h2 className="table-heading">Avatar</h2></TableCell>
-                            <TableCell align="center"><h2 className="table-heading">ID</h2></TableCell>
-                            <TableCell align="center">
-                                <span style={{display: "inline-flex"}}><IconButton onClick={() => {setSortType(-1 * sortType); sortRows(user); }}>{(sortType === 1) ? <ArrowUpward className="arrow-button"/> : <ArrowDownward className="arrow-button"/>}</IconButton>
-                                <h2 className="table-heading">Name</h2></span>
-                            </TableCell>
-                            <TableCell align="center"><h2 className="table-heading">Email</h2></TableCell>
-                            <TableCell align="center"><h2 className="table-heading">Classification</h2></TableCell>
-                            <TableCell align="center"><h2 className="table-heading">Actions</h2></TableCell>
-                        </TableRow>
-                </TableHead>
-                <TableBody>
-                    {filterRows().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(person=>{
-                            return (
-                                <TableRow justifyContent="center">
-                                    <TableCell align="center">
-                                        <span style={{maxWidth: "10%", maxHeight: "10%", display: "inline-block"}}> <Avatar alt={person.name} src={person.avatar} align="center"></Avatar></span>
-                                    </TableCell>
-                                    <TableCell align="center" style={{maxWidth: "30%"}}>
-                                        {person.id} 
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {person.name}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {person.email}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {createClassificationCell(person.classification)}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            aria-label="delete"
-                                            className="iconbutton-view"
-                                            onClick={() => openDeleteModal(person)}>
-                                            <DeleteIcon/>
-                                        </IconButton>
+                    <Table aria-label="users" size="medium"> 
+                        <UserTableHeadMS
+                            classes={classes}
+                            numSelected={selected.length}
+                            order={order}
+                            orderBy={orderBy}
+                            onSelectAllClick={handleSelectAllClick}
+                            onRequestSort={handleRequestSort}
+                            rowCount={rows.length}
+                        />
+                        <TableBody>
+                            {stableSort(filterRows(rows), getComparator(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((person, index) => {
+                                const isItemSelected = isSelected(person._id)
+                                const labelId = `enhanced-table-checkbox-${index}`
+
+                                return (
+                                    <TableRow
+                                        role="checkbox"
+                                        aria-checked={isItemSelected}
+                                        tabIndex={-1}
+                                        key={person._id}
+                                        selected={isItemSelected}
+                                    >
+
+                                        <TableCell padding="checkbox">
+                                            <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, person)} inputProps={{'aria-labelledby':labelId}}/>
+                                        </TableCell>
                                         
-                                        <IconButton
-                                            aria-label="edit"
-                                            className="iconbutton-view"
-                                            onClick={() => openEditModal(person)}>
-                                            <EditIcon/>
-                                        </IconButton>
-                                    </TableCell>
+                                        <TableCell align="center">
+                                            <span style={{display:'inline-block'}}><Avatar alt={person.name} src={person.profile_picture}></Avatar></span>
+                                        </TableCell>
+                                        <TableCell align="left">{person.id? person.id : '2018-00000'}</TableCell>
+                                        <TableCell id={labelId} align="left">{person.name}</TableCell>
+                                        <TableCell align="left">{person.email}</TableCell>
+                                        <TableCell align="left">{person.last_login}</TableCell>
+                                        <TableCell align="center">{createClassificationCell(person.classification)}</TableCell>
+                                        <TableCell align="center">
+                                            <IconButton
+                                                aria-label="delete"
+                                                className="iconbutton-view"
+                                                onClick={() => openDeleteModal(person)}>
+                                                <DeleteIcon/>
+                                            </IconButton>
+                                            
+                                            <IconButton
+                                                aria-label="edit"
+                                                className="iconbutton-view"
+                                                onClick={() => openEditModal(person)}>
+                                                <EditIcon/>
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            }
+
+                            )}
+
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: 77 * emptyRows }} component="th">
+                                    <TableCell colSpan={6} />
                                 </TableRow>
-
-                            )
-                    }
-
-                    )}
-                    
-                </TableBody>
-                <TableFooter align="center">
-                    <TableRow align="center">
-                       <TablePagination
-                                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                colSpan={3}
-                                count={rowCount}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                SelectProps={{
-                                    inputProps: { 'aria-label': 'rows per page' },
-                                    native: true,
-                                }}
-                                
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                                ActionsComponent={UserTablePaginationActions}
-                            />
-                        </TableRow>
-                </TableFooter>
-                </Table>
+                            )}
+                            
+                        </TableBody>
+                        <TableFooter align="center">
+                            <TableRow align="center" component="th">
+                            <TablePagination
+                                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                                        colSpan={8}
+                                        count={rowCount}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        SelectProps={{
+                                            inputProps: { 'aria-label': 'rows per page' },
+                                            native: true,
+                                        }}
+                                        
+                                        onChangePage={handleChangePage}
+                                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                                        ActionsComponent={UserTablePaginationActions}
+                                    />
+                                </TableRow>
+                        </TableFooter>
+                    </Table>
                 </TableContainer>
-          </div>
+          
         </div>
     )
 }

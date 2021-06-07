@@ -15,8 +15,39 @@ const spSchema= new mongoose.Schema({
     },
     abstract: String,
     topic: [String],
-    journal: String,
-    poster: String
+    journal: {
+        type: String,
+        default: ''
+    },
+    poster: {
+        type: String,
+        default: ''
+    },
+    file: {
+        type: String,
+        default: ''
+    },
+    source_code: {
+        type: String,
+        default: ''
+    },
+    view_count: {
+        type: Number,
+        default: 0
+    },
+    download_count: {
+        type: Number,
+        default: 0
+    },
+    view_journal_count: {
+        type: Number,
+        default: 0
+    },
+    download_journal_count: {
+        type: Number,
+        default: 0
+    },
+    courses: []
 
 },{
     collection: 'Papers'

@@ -67,7 +67,7 @@ function Navbar(props){
                         <div className="search">
                             <div className="icon-input">
                                  <form onChange={ handleChange } onSubmit={ handleSubmit } action="">
-                                    <input type="text" placeholder="Search..."/>
+                                    <input type="text" placeholder="Search..." defaultValue={searchContext.state.query}/>
                                     <button type="submit" onClick={ handleSubmit }><img src={searchIcon} alt="SearchIcon" /></button>
                                 </form>
                             </div>

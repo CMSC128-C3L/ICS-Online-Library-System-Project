@@ -43,11 +43,13 @@ function handleCheck(checked, item){
  * reducer acts on the dispatch received from the components (via context)
  * makes use of current state, and action type and data specified in dispatch
  */
+
+
 const reducer = (state, action) => {
   switch(action.type){
     case ACTIONS.updateQuery:
-      console.log("in reducer update query");
       return { ...state, query: action.query};
+      
     case ACTIONS.updateCategory:
       return { ...state, category: handleCheck(state.category, action.item) };
 
@@ -70,13 +72,13 @@ function SearchPage() {
   
   return (
     <div className="SearchPage">
-      <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
+     
         <Navbar className="nav" action={ ACTIONS.updateQuery }/>
         <div className="main">
           <FilterSideBar className="sidebar"/>
           <ResultPane className="result-pane"/>
         </div>
-      </SearchContext.Provider> 
+
 
     </div>
   );

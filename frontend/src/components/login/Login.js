@@ -6,6 +6,7 @@ import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import '../header_user/Header.css';
 import decode from 'jwt-decode';
+import axios from 'axios';
 import { UserContext } from '../user/UserContext'
 
 // refresh token
@@ -43,10 +44,29 @@ function Login() {
 
       // store user token verified by backend server
       const user = decode(data.token);
-      setLoggedUser(user);
-
-      console.log('data', user);
+      // console.log('data', user);
       localStorage.setItem('token', data.token);
+
+      //RECORD LOGIN
+      let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+      const user_id = await axios.get('/api/log/user/'+user.email, options);
+      // console.log(user_id);
+      const login_date = new Date();
+      const record = await axios.post('/api/log/login', {
+          user_id: user_id.data,
+          log_date: [
+              {
+                login: login_date.toISOString()
+              }
+          ],
+          doc_count: 0,
+          doc_log:[]
+      }, options);
+      // console.log(user_id.data);
+      user.user_id = user_id.data;
+      user.log_id = record.data;
+      // console.log(user);
+      setLoggedUser(user);
       history.push(`/adminHome`); //if success, redirect to user account
       // refreshTokenSetup(res);
     }

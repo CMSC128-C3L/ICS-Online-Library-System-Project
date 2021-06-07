@@ -22,8 +22,8 @@ function BookCard(props) {
 	 */
 	function handleEdit(){
 		history.push({ 
-			pathname: `/search/${props.doc._id}`,
-			state: { fromButtonEdit: true }
+			pathname: `/search/editDocument/${props.doc._id}`,
+			state: { fromButtonEdit: true, type: "book" }
 		   });
 
 		console.log('[BOOK] when edit button clicked: ', props.doc);
@@ -35,12 +35,12 @@ function BookCard(props) {
 	}
 
 	return(
-		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}}>
-			<CardMedia className="doc-cover" image={props.doc.book_cover_img} title={props.doc.title}/>
-				<CardActionArea onClick={() => history.push(`/search/${props.doc._id}`)} >
+		<Card className= "doc-book-card" style={{backgroundColor: '#F4F4F4'}} title={props.doc.title}>
+			<CardMedia className="doc-cover" image={props.doc.book_cover_img}/>
+				<CardActionArea className="doc-title" onClick={() => history.push({pathname: `/search/${props.doc._id}`, state: { fromButtonEdit: false, type: "book" }})}>
 					<Title title={props.doc.title} />
 				</CardActionArea>
-
+			
 				<div className="doc-book-content">
 					<div className="doc-year-category">
 						<Year year={props.doc.year} />
@@ -49,7 +49,7 @@ function BookCard(props) {
 
 					<div className="doc-other-details">						
 						<div>							
-              <AuthorList author={props.doc.author} />
+              <AuthorList author={props.doc.author} clickable={true}/>
               <Isbn isbn={props.doc.isbn} />
 						</div>
 						<div>
@@ -64,7 +64,7 @@ function BookCard(props) {
 				isBook = {true}
 				handleEdit={handleEdit} 
 				handleDelete={handleDelete}/>
-			<Modal ref={deleteModal}><DeleteDocument/></Modal>
+			<Modal ref={deleteModal}><DeleteDocument book={props.doc} type={props.doc.type}/></Modal>
 		</Card>
 	);
 }
