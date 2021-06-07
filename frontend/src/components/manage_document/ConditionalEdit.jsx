@@ -64,7 +64,9 @@ function ConditionalEdit(props){
 
   useEffect(() => {
       getDocument()
-  }, [])
+      onSelect(selectedValue)
+      onRemove(selectedValue)
+  }, [selectedValue])
 
   // section to initialize book/sp/thesis
   let book = {
@@ -106,6 +108,15 @@ function ConditionalEdit(props){
       else if(target.name==="book_isbn") book.isbn = target.value;
       else if(target.name==="book_description") book.description = target.value;
       else if(target.name==="book_topic") book.topic = target.value;
+
+      console.log("data:\n")
+      console.log(book.title)
+      console.log(book.author)
+      console.log(book.year)
+      console.log(book.publisher)
+      console.log(book.isbn)
+      console.log(book.description)
+      console.log(book.topic)
     } 
 
     else if(doc_type=="thesis"){
@@ -115,6 +126,14 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
       else if(target.name==="thesis_topic") thesis.topic = target.value;
+
+      console.log("data:\n")
+      console.log(thesis.title)
+      console.log(thesis.author)
+      console.log(thesis.adviser)
+      console.log(thesis.pub_date)
+      console.log(thesis.abstract)
+      console.log(thesis.topic)
     }
 
     else if(doc_type=="sp"){
@@ -124,6 +143,14 @@ function ConditionalEdit(props){
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
       else if(target.name==="sp_topic") sp.topic = target.value;
+
+      console.log("data:\n")
+      console.log(sp.title)
+      console.log(sp.author)
+      console.log(sp.adviser)
+      console.log(sp.pub_date)
+      console.log(sp.abstract)
+      console.log(sp.topic)
     }
 }
 
@@ -132,18 +159,74 @@ function ConditionalEdit(props){
     setSelectedValue(selectedItem);
     console.log("content [select]: \n", selectedValue)
 
-    if(doc_type=="book") book.topic = selectedValue;
-    else if(doc_type=="sp")  sp.topic = selectedValue;
-    else if(doc_type=="thesis")  thesis.topic = selectedValue;
+    if(doc_type=="book") {
+      book.topic = selectedValue;
+      console.log("data:\n")
+      console.log(book.title)
+      console.log(book.author)
+      console.log(book.year)
+      console.log(book.publisher)
+      console.log(book.isbn)
+      console.log(book.description)
+      console.log(book.topic)
+    }
+    else if(doc_type=="sp") {
+      sp.topic = selectedValue;
+      console.log("data:\n")
+      console.log(sp.title)
+      console.log(sp.author)
+      console.log(sp.adviser)
+      console.log(sp.pub_date)
+      console.log(sp.abstract)
+      console.log(sp.topic)
+    }
+    else if(doc_type=="thesis") {
+      thesis.topic = selectedValue;
+      console.log("data:\n")
+      console.log(thesis.title)
+      console.log(thesis.author)
+      console.log(thesis.adviser)
+      console.log(thesis.pub_date)
+      console.log(thesis.abstract)
+      console.log(thesis.topic)
+    }
   }
 
   const onRemove = (selectedItem)  =>{
       setSelectedValue(selectedItem);
       console.log("content [remove]: \n", selectedValue)
 
-      if(doc_type=="book") book.topic = selectedValue;
-      else if(doc_type=="sp")  sp.topic = selectedValue;
-      else if(doc_type=="thesis")  thesis.topic = selectedValue;
+      if(doc_type=="book") {
+        book.topic = selectedValue;
+        console.log("data:\n")
+        console.log(book.title)
+        console.log(book.author)
+        console.log(book.year)
+        console.log(book.publisher)
+        console.log(book.isbn)
+        console.log(book.description)
+        console.log(book.topic)
+      }
+      else if(doc_type=="sp") {
+        sp.topic = selectedValue;
+        console.log("data:\n")
+        console.log(sp.title)
+        console.log(sp.author)
+        console.log(sp.adviser)
+        console.log(sp.pub_date)
+        console.log(sp.abstract)
+        console.log(sp.topic)
+      }
+      else if(doc_type=="thesis") {
+        thesis.topic = selectedValue;
+        console.log("data:\n")
+        console.log(thesis.title)
+        console.log(thesis.author)
+        console.log(thesis.adviser)
+        console.log(thesis.pub_date)
+        console.log(thesis.abstract)
+        console.log(thesis.topic)
+      }
   }
 
 const data = [
