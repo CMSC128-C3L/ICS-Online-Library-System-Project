@@ -7,8 +7,11 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Checkbox from '@material-ui/core/Checkbox';
 import Pagination from '@material-ui/lab/Pagination';
+import IconButton from '@material-ui/core/IconButton';
 import queryString from 'query-string';
 import { UserContext } from '../user/UserContext';
+import Modal from '../manage_user_popup/Modal';
+import MultiDeleteDoc from './modal/MultiDeleteDoc';
 
 //layout purposes
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -52,12 +55,6 @@ function ResultPane(props){
   const location = useLocation();
   const {id} = useParams();
 
-  const TYPES = {
-    "Books": {"dbType": "Book", "route": "book"},
-    "Theses": {"dbType": "Thesis", "route": "thesis"},
-    "Special Problems": {"dbType": "Special Problem", "route": "sp"},
-  }
-
   // get docs based on query and filters
   const getDocuments = async() =>{
     let categories = (searchContext.state.category).toString().split(',');
@@ -78,8 +75,14 @@ function ResultPane(props){
 
     // consolidate promises from get requests
     for(let i = 0; i < categories.length; i++){
+      let typeRoute;
       try{
-        promises.push(axios.get(`/api/search/filter/${TYPES[categories[i]].route}` + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery));
+        if(categories[i] === "Books") typeRoute = "book"
+        else if(categories[i] === "Theses") typeRoute = "thesis"
+        else typeRoute = "sp"
+
+        promises.push(axios.get(`/api/search/filter/${typeRoute}` + "?search=" + (searchContext.state.query).toString().toLowerCase() + "&courseCode=" + (searchContext.state.courseCode).toString() + "&" + topicsQuery));
+      
       }catch(err){
         console.log(err)
       }
@@ -101,7 +104,6 @@ function ResultPane(props){
   }
 
   useEffect(() =>{
-    setResults([]);
     getDocuments();
     setPage(1)    
   }, [searchContext]);
@@ -109,6 +111,8 @@ function ResultPane(props){
   // Create reference to modal
 	const addModal = useRef(null)
 	const openAddModal = (user, props) => {addModal.current.open(user, props)}
+  const multiDeleteModal = useRef(null)
+  const openMultiDeleteModal = () => {multiDeleteModal.current.open()}
 
   const handleAdd = () =>{
     console.log('[DOCUMENT] when add button clicked: ');
@@ -118,11 +122,11 @@ function ResultPane(props){
   // render card depending on type of doc
   const renderCard = (result) =>{
     switch(result.type){
-      case TYPES["Books"].dbType:
+      case "Book":
         return <BookCard doc={result}/>
-      case TYPES["Special Problems"].dbType:
+      case "Special Problem":
         return <SpCard doc={result}/>
-      case TYPES["Theses"].dbType:
+      case "Thesis":
         return <ThesisCard doc={result}/>
       default:
         return null
@@ -155,19 +159,19 @@ function ResultPane(props){
 
   // Multiple Select for Deletion
   const {loggedUser} = useContext(UserContext);
-  const [checked, setChecked] = useState([])
+  const [selected, setSelected] = useState([])
   const [multSelect, setMultSelect] = useState(false)
 
-  function handleCheck(checked, value) {
-    const index = checked.indexOf(value)
-    const newChecked = [...checked]
+  function handleSelect(selected, value) {
+    const index = selected.indexOf(value)
+    const newSelected = [...selected]
 
     if(index === -1){
-      newChecked.push(value);
+      newSelected.push(value);
     }else{
-      newChecked.splice(index, 1);
+      newSelected.splice(index, 1);
     } 
-    setChecked(newChecked)
+    setSelected(newSelected)
   }
 
   const handleMultSelect = () => {
@@ -176,40 +180,44 @@ function ResultPane(props){
 
   const handleMultCancel = () => {
     setMultSelect(prev => !prev)
-    setChecked([])
+    setSelected([])
   }
 
   const handleMultDelete = () => {
-    // show pop up containing list of docs to be deleted
-    // with delete all and cancel button similar to user popup
-    // multiple delete requests
-    console.log("To be deleted: ", checked)
+    console.log("to be deleted...", selected)
+    openMultiDeleteModal(selected)
   }
+
   console.log(results)
+
   return(
     <Container className= "result-container">
-        {/* add document only for admin */}
-        {loggedUser.classification === "Admin" ?
-          <button className="add-doc-button" onClick={handleAdd}>
-            <AddIcon className={classes.iconStyle}/>
-          </button>
-          : null
-        }
+
+      <Modal ref={multiDeleteModal}><MultiDeleteDoc selected={selected} getDocuments={getDocuments} setPage={setPage} resetSelected={() => setSelected([])}/></Modal>
+
+      <IconButton className="add-doc-button" onClick={handleAdd}>
+        <AddIcon style={{color: 'black'}}/>
+      </IconButton>
+
       <div className= "result-header">
         <div className="sub-header-container">
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>
           <SortDropdown/>
         </div>
+
         {/* multiple select only for admin; if admin, button will change depending if mult select is active or not */}
         {loggedUser.classification === "Admin" ?
-          multSelect?
+          (multSelect?
             <button className="tool-button mult-cancel" onClick={handleMultCancel}>CANCEL SELECTION</button> :
             <button className="tool-button" onClick={handleMultSelect}>MULTIPLE SELECT</button>
+          )
           : null
         }
-        <button className={multSelect? "tool-button mult-del" : "tool-button hide-btn"} onClick={handleMultDelete}>DELETE SELECTED</button>
+        <button className={selected.length > 0 ? "tool-button mult-del" : "tool-button hide-btn"} onClick={handleMultDelete}>DELETE SELECTED</button>
+        
         <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
       </div>
+
       <GridList cellHeight={240} spacing={20} className={classes.gridList}>
         {multSelect?
         // render cards with checkboxes if admin chose multiple select
@@ -217,12 +225,12 @@ function ResultPane(props){
             return(
               <GridListTile key= {index} 
                 classes = {{
-                  tile: checked.indexOf(result) !== -1? `${classes.tile} ${classes.tileGlow}` : classes.tile
+                  tile: selected.indexOf(result) !== -1? `${classes.tile} ${classes.tileGlow}` : classes.tile
                 }}>
                 <Checkbox 
-                  checked={checked.indexOf(result) !== -1} 
+                  checked={selected.indexOf(result) !== -1} 
                   className={classes.cbox} value={result} 
-                  onChange={() => handleCheck(checked, result)}/>
+                  onChange={() => handleSelect(selected, result)}/>
                 {renderCard(result)}
               </GridListTile>
             )
@@ -237,6 +245,7 @@ function ResultPane(props){
           })
         }
       </GridList>
+
       <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
     </Container>
   );
