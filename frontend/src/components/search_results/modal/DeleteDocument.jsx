@@ -7,7 +7,6 @@ import './Modal.css'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { useParams } from 'react-router'
 
 function DeleteDocument(props){
     const {user, close} = useContext(UserContext)
@@ -37,13 +36,12 @@ function DeleteDocument(props){
     }
 
     const deleteDocument = async() =>{
-        //patch request to update [BOOK]
-        console.log("DOCUMENT TYPE DELETE Doc: " + props.thesis.id);
+        //delete request to remove document
         
         let response;
         try {
             if(props.type=="Book"){
-                response = await axios.delete(`/api/book/${props.book._id}`, options);
+                response = await axios.delete(`/api/books/${props.book._id}`, options);
             } else if(props.type=="Thesis"){
                 response = await axios.delete(`/api/thesis/${props.thesis._id}`, options);
             } else if(props.type=="Special Problem"){
@@ -59,8 +57,8 @@ function DeleteDocument(props){
     useEffect(() => {
         if(confirmed){
             deleteDocument()
-            handleRoute()
             close()
+            handleRoute()
         }
     }, [confirmed, close])
 
