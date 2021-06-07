@@ -312,7 +312,7 @@ function UserTable(props) {
                             <TableRow align="center" component="th">
                             <TablePagination
                                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                        colSpan={7}
+                                        colSpan={8}
                                         count={rowCount}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
