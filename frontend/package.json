@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
+    "downloadjs": "^1.4.7",
     "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "faker": "^5.5.3",

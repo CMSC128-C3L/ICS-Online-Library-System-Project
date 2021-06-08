@@ -1,9 +1,9 @@
 import React from 'react'
 import AuthorSummary from '../components/author_summary/AuthorSummary'
-
-function SummaryPageAuthor(props){
+import '../components/author_summary/AuthorSummary.css'
+function SummaryPageAuthor(){
     return(
-        <div>
+        <div className="bg-summary">
             <AuthorSummary></AuthorSummary>
         </div>
     )

@@ -101,8 +101,8 @@ function App() {
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage/editAdvisoryCard" component={CardEditingPage} />
             <Route exact path="/search" component={SearchPage} />            
             <Route exact path="/search/filter/:id" component={SearchPage} />
-            <Route exact path="/courseSummary" component={SummaryPage} />
-            <Route exact path="/authorSummary" component={SummaryPageAuthor} />
+            <Route exact path="/courseSummary/:id" component={SummaryPage} />
+            <Route exact path="/authorSummary/:type/:name" component={SummaryPageAuthor} />
             <Route exact path="/" component={GuestHome} />
           </SearchContext.Provider>
           </UserContext.Provider>

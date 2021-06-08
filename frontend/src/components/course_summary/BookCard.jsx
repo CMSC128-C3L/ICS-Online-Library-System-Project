@@ -5,10 +5,10 @@ function BookResult(props){
     return(
         <div className="row book-card">
 
-            {/* 1: Image */}
+            {/* 1: Image
             <div className="image-container">
                 <img src={props.book_cover_img} className="book-image" alt="book"/>
-            </div>
+            </div> */}
 
             {/* 2: Details */}
             <div className="col text details">
@@ -16,10 +16,10 @@ function BookResult(props){
                 {/* 2a: Title, Year, Category */}
                 <div>
                     <h5 className="book-title">{props.title}</h5>
-
+                    <br />
                     <div>
                         <span className="year">{props.year}</span>
-                        <span className="category">BOOK</span>
+                        <span className="category">{props.category}</span>
                     </div>
                 </div>
 

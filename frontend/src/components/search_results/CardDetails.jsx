@@ -1,6 +1,9 @@
 import React from 'react'
 import Typography from "@material-ui/core/Typography"
 import './SearchCard.css'
+import {useHistory} from 'react-router'
+
+
 
 const handleAuthorClick = (event) => {
   console.log(event.target.value)
@@ -12,12 +15,7 @@ const handleCourseClick = (event) => {
   /** method to navigate to course summary here */
 }
 
-const handleAdviserClick = (event) => {
-  console.log(event.target.value)
-  /** method to navigate to author summary here
-   *  may be removed and absorbed in author click if method is the same
-   */
-}
+
 
 function Title(props){
   return(
@@ -53,6 +51,8 @@ function Isbn(props){
 
 // max 3 authors shown; will wrap and no ellipsis; et al shown for the other authors
 function AuthorList(props){
+ 
+
   if (props.clickable){
     return(
       <ul className="clickable-list">
@@ -108,6 +108,16 @@ function TopicList(props){
 }
 
 function AdviserList(props){
+   const history = useHistory();
+
+  const handleAdviserClick = (event) => {
+    console.log(event.target.value)
+    history.push('/authorSummary/adviser/' + event.target.value);
+    /** method to navigate to author summary here
+     *  may be removed and absorbed in author click if method is the same
+     */
+  }
+
   return(
     <div style={{display:'flex'}}>
       <Typography gutterBottom variant="body2">Adviser:&nbsp;</Typography>
