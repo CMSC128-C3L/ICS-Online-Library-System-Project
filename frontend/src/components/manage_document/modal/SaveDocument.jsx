@@ -39,7 +39,6 @@ function SaveDocument(props){
 
     const handleSubmit = async() =>{
         //post request to create and save document
-        console.log("DOCUMENT TYPE: " + props.type);
         let response;
         try {
             if(props.type=="book"){
@@ -90,6 +89,7 @@ function SaveDocument(props){
 
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
+        console.log("DOCUMENT TYPE [savedocument]: " + props.type);
         if(confirmed){
             handleSubmit();
             close();
@@ -103,26 +103,26 @@ function SaveDocument(props){
             <SaveIcon className={classes.iconStyle}/>
             <h3 className="text prompt"> ADD NEW DOCUMENT? </h3>
             {
-                (function(document){
-                    console.log("document card value: ", document.type)
+                // (function(document){
+                //     console.log("document card value: ", document.type)
                     
-                    switch(document.type){
-                        case "book":
-                            return(
-                                <h3 className="text prompt"> Save changes to "{document.book.title}" {document.book.year}? </h3>
-                            )
-                        case "thesis":
-                            return(
-                                <h3 className="text prompt"> Save changes to "{document.thesis.title}" {document.thesis.pub_date}? </h3>
-                            )
-                        case "sp":
-                            return(
-                                <h3 className="text prompt"> Save changes to "{document.sp.title}" {document.sp.pub_date}? </h3>
-                            )
-                        default:
-                            return null;	
-                        }
-                })(props)
+                //     switch(document.type){
+                //         case "book":
+                //             return(
+                //                 <h3 className="text prompt"> Save changes to "{document.book.title}" {document.book.year}? </h3>
+                //             )
+                //         case "thesis":
+                //             return(
+                //                 <h3 className="text prompt"> Save changes to "{document.thesis.title}" {document.thesis.pub_date}? </h3>
+                //             )
+                //         case "sp":
+                //             return(
+                //                 <h3 className="text prompt"> Save changes to "{document.sp.title}" {document.sp.pub_date}? </h3>
+                //             )
+                //         default:
+                //             return null;	
+                //         }
+                // })(props)
             }
 
             <div className="save-cancel">
