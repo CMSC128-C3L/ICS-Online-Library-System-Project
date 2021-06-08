@@ -44,39 +44,39 @@ function SaveDocument(props){
             if(props.type=="book"){
                 response = await axios.post(`/api/books`, {
                     type: 'Book',
-                    id: '123456',
-                    title: 'TEMPORARY BOOK CMSC 128 C3L', 
-                    author: 'props.book.author',
+                    id: props.book.id,
+                    title: props.book.title, 
+                    author: props.book.author,
                     book_cover_img: 'https://geniuspublicationsjaipur.files.wordpress.com/2013/04/software-engineering-book.jpg',
-                    year: '2021',
-                    publisher: 'props.book.publisher',
-                    isbn: '9781593275849',
-                    description: 'props.book.description',
-                    topic: 'Algorithms',
+                    year: props.book.year,
+                    publisher: props.book.publisher,
+                    isbn: props.book.id,
+                    description: props.book.description,
+                    topic: props.book.topic,
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.post(`/api/thesis`, {
                     type: 'Thesis',
-                    id: '123456',
-                    title: 'TEMPORARY THESIS CMSC 128 C3L', 
-                    author: 'props.thesis.author',
-                    adviser: 'props.thesis.adviser',
-                    pub_date: '2021-10-10',
-                    abstract: 'props.thesis.abstract',
-                    topic: 'Algorithms',
+                    id: props.thesis.id,
+                    title: props.thesis.title,
+                    author: props.thesis.author,
+                    adviser: props.thesis.adviser,
+                    pub_date: props.thesis.pub_date,
+                    abstract: props.thesis.abstract,
+                    topic: props.thesis.topic,
                     journal: '',
                     poster: ''
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.post(`/api/sp`, {
                     type: 'Special Problem',
-                    id: '123456',
-                    title: 'TEMPORARY SP CMSC 128 C3L', 
-                    author: 'props.sp.author',
-                    adviser: 'props.sp.adviser',
-                    pub_date: '2021-10-10',
-                    abstract: 'props.sp.abstract',
-                    topic: 'Algorithms',
+                    id: props.sp.id,
+                    title: props.sp.title,
+                    author: props.sp.author,
+                    adviser: props.sp.adviser,
+                    pub_date: props.sp.pub_date,
+                    abstract: props.sp.abstract,
+                    topic: props.sp.topic,
                     journal: '',
                     poster: ''    
                 } , options);
@@ -90,6 +90,37 @@ function SaveDocument(props){
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
         console.log("DOCUMENT TYPE [savedocument]: " + props.type);
+
+        if(props.type=="book"){
+            console.log("SAVE DOCUMENT [book]:\n",
+            props.book.id,"\n", 
+            props.book.title,"\n",
+            props.book.author,"\n",
+            props.book.year,"\n",
+            props.book.publisher,"\n",
+            props.book.isbn,"\n", 
+            props.book.description,"\n",
+            props.book.topic,"\n")
+        } else if(props.type=="thesis"){
+            console.log("SAVE DOCUMENT [thesis]:\n",
+            props.thesis.id,"\n", 
+            props.thesis.title,"\n",
+            props.thesis.author,"\n",
+            props.thesis.adviser,"\n",
+            props.thesis.pub_date,"\n",
+            props.thesis.abstract,"\n", 
+            props.thesis.topic,"\n")
+        } else if(props.type=="sp"){
+            console.log("SAVE DOCUMENT [sp]:\n",
+            props.sp.id,"\n", 
+            props.sp.title,"\n",
+            props.sp.author,"\n",
+            props.sp.adviser,"\n",
+            props.sp.pub_date,"\n",
+            props.sp.abstract,"\n", 
+            props.sp.topic,"\n")
+        }
+        
         if(confirmed){
             handleSubmit();
             close();
@@ -101,28 +132,28 @@ function SaveDocument(props){
         <div className="save-user popupcontainer">
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <SaveIcon className={classes.iconStyle}/>
-            <h3 className="text prompt"> ADD NEW DOCUMENT? </h3>
+            <h3 className="text prompt"> ADD NEW DOCUMENT </h3>
             {
-                // (function(document){
-                //     console.log("document card value: ", document.type)
+                (function(document){
+                    console.log("document card value: ", document.type)
                     
-                //     switch(document.type){
-                //         case "book":
-                //             return(
-                //                 <h3 className="text prompt"> Save changes to "{document.book.title}" {document.book.year}? </h3>
-                //             )
-                //         case "thesis":
-                //             return(
-                //                 <h3 className="text prompt"> Save changes to "{document.thesis.title}" {document.thesis.pub_date}? </h3>
-                //             )
-                //         case "sp":
-                //             return(
-                //                 <h3 className="text prompt"> Save changes to "{document.sp.title}" {document.sp.pub_date}? </h3>
-                //             )
-                //         default:
-                //             return null;	
-                //         }
-                // })(props)
+                    switch(document.type){
+                        case "book":
+                            return(
+                                <h3 className="text prompt"> Are you sure you want to create "{document.book.title}" {document.book.year}? </h3>
+                            )
+                        case "thesis":
+                            return(
+                                <h3 className="text prompt"> Are you sure you want to create "{document.thesis.title}" {document.thesis.pub_date}? </h3>
+                            )
+                        case "sp":
+                            return(
+                                <h3 className="text prompt"> Are you sure you want to create "{document.sp.title}" {document.sp.pub_date}? </h3>
+                            )
+                        default:
+                            return null;	
+                        }
+                })(props)
             }
 
             <div className="save-cancel">

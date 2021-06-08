@@ -146,28 +146,61 @@ const handleType  = (selectedItem)  =>{
   } else setDoctype("")
 }
 
-// useEffect for handling changes in tags input
-useEffect(() => {
-  handleType(selectedValue)
-  onSelect(selectedTopic)
-}, [selectedValue, selectedTopic])
-
   // for tags input value
   const onSelect  = (selectedTag, type)  =>{
     setSelectedTag(selectedTag);
     console.log("content [topic]: \n", selectedTopic)
 
     if(type =="tags"){
-      if(doc_type=="book") book.topic = selectedTopic;
-      else if(doc_type=="sp") sp.topic = selectedTopic;
-      else if(doc_type=="thesis") thesis.topic = selectedTopic;
+      if(doc_type=="book") {
+        book.topic = selectedTopic;
+        console.log("after select topic data:\n",
+        book.id,"\n", 
+        book.title,"\n",
+        book.author,"\n",
+        book.year,"\n",
+        book.publisher,"\n",
+        book.isbn,"\n", 
+        book.description,"\n",
+        book.topic,"\n")
+      }
+      else if(doc_type=="sp") {
+        sp.topic = selectedTopic;
+        console.log("after select topic data:\n",
+        sp.id,"\n", 
+        sp.title,"\n",
+        sp.author,"\n",
+        sp.adviser,"\n",
+        sp.pub_date,"\n",
+        sp.abstract,"\n", 
+        sp.topic,"\n")
+      }
+      else if(doc_type=="thesis") {
+        thesis.topic = selectedTopic;
+        console.log("after select topic data:\n",
+        thesis.id,"\n", 
+        thesis.title,"\n",
+        thesis.author,"\n",
+        thesis.adviser,"\n",
+        thesis.pub_date,"\n",
+        thesis.abstract,"\n", 
+        thesis.topic,"\n")
+      }
     } else if(type=="course"){
       //insert method for assigning the course object of document
+      if(doc_type=="book") book.course = selectedTopic;
+      else if(doc_type=="sp") sp.course = selectedTopic;
+      else if(doc_type=="thesis") thesis.course = selectedTopic;
     }
     
   }
 
 // THIS SECTION IS A SET OF ARRAYS OF CHOICES 
+// useEffect for handling changes in tags input
+useEffect(() => {
+  handleType(selectedValue)
+  onSelect(selectedTopic)
+}, [selectedValue, selectedTopic])
 
 const classification = [
   'Book',
@@ -311,15 +344,42 @@ const topics = [
                   <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
                 </div>
             </div>
-
+                
+            {/* descriptions/abstracts are editable*/}
             <div className="description-section">
-                {/* descriptions/abstracts are editable*/}
-                <div className="document-card-container">
-                  <h2 style={{textAlign:'center'}}>DESCRIPTION</h2>
-                  <Box className={classes.boxStyle}>
-                  <textarea className="textarea-container" name="book_description" onChange={handleInputChange} cols="40" rows="5"></textarea>
-                  </Box>
-                </div>
+                { 
+                    (function(doc_type){
+                        switch(doc_type){
+                            case "thesis": //input section for book attributes
+                              return(
+                                <div className="document-card-container">
+                                  <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
+                                  <Box className={classes.boxStyle}>
+                                  <textarea className="textarea-container" name="thesis_abstract" onChange={handleInputChange} cols="40" rows="5"></textarea>
+                                  </Box>
+                                </div>
+                              )
+                            case "sp": //input section for book attributes
+                              return(
+                                <div className="document-card-container">
+                                  <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
+                                  <Box className={classes.boxStyle}>
+                                  <textarea className="textarea-container" name="sp_abstract" onChange={handleInputChange} cols="40" rows="5"></textarea>
+                                  </Box>
+                                </div>
+                              )
+                            default: 
+                              return(
+                                <div className="document-card-container">
+                                  <h2 style={{textAlign:'center'}}>DESCRIPTION</h2>
+                                  <Box className={classes.boxStyle}>
+                                  <textarea className="textarea-container" name="book_description" onChange={handleInputChange} cols="40" rows="5"></textarea>
+                                  </Box>
+                                </div>
+                              )
+                        }
+                    })(doc_type)
+                  }
                 <div className = "button-right">
                   <button className={classes.saveStyle} onClick={() => openSaveModal()}><SaveIcon className={classes.iconStyle}/></button>
                 </div>
