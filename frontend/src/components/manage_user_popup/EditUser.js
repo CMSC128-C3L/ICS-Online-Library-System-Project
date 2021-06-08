@@ -37,8 +37,8 @@ function EditUser(props){
                             headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, 
                             params: {id: user._id},
                         }
-                        const res = await axios.patch(`/api/users/${user._id}`, { 
-                            "classification": currClassif }, 
+                        const res = await axios.patch(`/api/users/${user._id}`, 
+                            { "classification": currClassif }, 
                             options)  
                         console.log(res)         
                     }catch(e){
@@ -57,7 +57,7 @@ function EditUser(props){
     return(
         <div className="edit-user popup-container">
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
-            <img className="user-avatar" alt={user.name} src={user.avatar}/>
+            <img className="user-avatar" alt={user.name} src={user.profile_picture}/>
             <h3 className="text regular user-id">{user.id}</h3>
             <h2 className="text user-name">{user.name}</h2>
             <h4 className=" text regular user-email">{user.email}</h4>

@@ -72,13 +72,13 @@ function SearchPage() {
   
   return (
     <div className="SearchPage">
-      <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
+     
         <Navbar className="nav" action={ ACTIONS.updateQuery }/>
         <div className="main">
           <FilterSideBar className="sidebar"/>
           <ResultPane className="result-pane"/>
         </div>
-      </SearchContext.Provider> 
+
 
     </div>
   );

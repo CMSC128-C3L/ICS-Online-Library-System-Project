@@ -48,7 +48,7 @@ function DeleteUser(props){
         <div className="delete-user popup-container">
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <h3 className="text prompt">Are you sure you want to delete</h3>
-            <img className="user-avatar" alt={user.name} src={user.avatar}/>
+            <img className="user-avatar" alt={user.name} src={user.profile_picture}/>
             <h3 className="text regular user-id">{user.id}</h3>
             <h2 className="text user-name">{user.name}</h2>
             <h4 className=" text regular user-email">{user.email}</h4>

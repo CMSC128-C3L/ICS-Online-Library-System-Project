@@ -177,7 +177,7 @@
   color:thistle;
 }
 
-.add-doc-button {
+.MuiButtonBase-root.MuiIconButton-root.add-doc-button{
   position: fixed;
   bottom: 10px;
   right: 10px;
@@ -189,6 +189,6 @@
   height:8vh;
 }
 
-.add-doc-button:hover{
+.MuiButtonBase-root.MuiIconButton-root.add-doc-button:hover{
   background-color: #95D2EC;
 }

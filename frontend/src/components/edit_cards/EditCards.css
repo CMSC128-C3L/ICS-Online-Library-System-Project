@@ -22,3 +22,77 @@
     background-color: royalblue;
     transition: 0.5s;
 }
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    align-items: center;
+}
+
+.grid-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.grid-card {
+    justify-self: center;
+}
+
+.textarea {
+    display: block;
+    width: 80%;
+    border: 1px solid #47abdb;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    resize: none;
+}
+
+.form-label {
+    display: block;
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.form-section {
+    margin-bottom: 1em;
+}
+
+.form-upload {
+    display: flex;
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    width: 75%;
+    justify-content: space-around;
+}
+
+.btn.save-btn, .btn.cancel-btn{
+    width: 7.5rem;
+}
+
+.save-btn {
+    background-color: #47abdb;
+}
+
+.cancel-btn {
+    background-color: #ff4242;
+}
+
+.btn.upload-btn {
+    margin-left: 1em;
+    background-color: hsl(0, 0%, 95%);
+    color: black;
+}
+
+.btn.upload-btn:hover {
+    transition: 0.25s;
+    background-color: hsl(0, 0%, 80%);
+
+}

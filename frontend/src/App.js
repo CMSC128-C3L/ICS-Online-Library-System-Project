@@ -3,7 +3,6 @@ import React, {useState, useMemo, useReducer} from 'react';
 import AdminHome from './pages/AdminHome';
 import { BrowserRouter, HashRouter, Switch } from 'react-router-dom';
 import AdminAnalytics from './pages/AdminAnalytics'
-import AdminDocManagement from './pages/AdminDocManagement'
 import AdminUserManagement from './pages/AdminUserManagement'
 import {BrowserRouter as Link, Router, Route} from 'react-router-dom'
 import Footer from './components/footer/Footer'
@@ -19,6 +18,7 @@ import AccessDocument from './pages/EditDocument'
 import CreateDocument from './pages/CreateDocumentPage'
 import CardEditing from './components/card_editing/CardEditing';
 import CardEditingPage from './pages/CardEditingPage'
+import AboutUs from './pages/AboutUs'
 import EditCardsPage from './pages/EditCardsPage'
 export const ACTIONS = {
   updateQuery: 'UPDATE_QUERY',
@@ -84,11 +84,12 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <div className="App"> 
-      <HashRouter>
+      <BrowserRouter>
         <Switch>
           <UserContext.Provider value={{loggedUser, setLoggedUser}}>
           <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
             <Route exact path="/loggedIn/" component={GuestHome} />
+            <Route exact path="/aboutUs" component={AboutUs} />
             <HomePageRoute exact path="/adminHome" component={AdminHome} />
             <AdminPageProtectRoute exact path="/adminHome/manageUsers" component={AdminUserManagement} />
             <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={SearchPage} />
@@ -106,7 +107,7 @@ function App() {
           </SearchContext.Provider>
           </UserContext.Provider>
         </Switch>
-      </HashRouter>
+      </BrowserRouter>
       <Footer></Footer>
     </div>
   )

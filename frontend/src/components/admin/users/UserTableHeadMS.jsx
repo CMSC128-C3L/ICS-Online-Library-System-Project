@@ -4,10 +4,9 @@ import './ManageUsers.css'
 
 const headCells = [
     { id: 'avatar', sortable: false, align: 'center', disablePadding: false, label: 'Avatar' },
-    { id: 'id', sortable: true, align: 'left', disablePadding: false, label: 'ID' },
     { id: 'name', sortable: true, align: 'left', disablePadding: false, label: 'Name' },
     { id: 'email', sortable: true, align: 'left', disablePadding: false, label: 'Email' },
-    { id: 'last_logged', sortable: true, align: 'left', disablePadding: false, label: 'Last Logged In' },
+    { id: 'last_login', sortable: true, align: 'left', disablePadding: false, label: 'Last Logged In' },
     { id: 'classification', sortable: false, align: 'center', disablePadding: false, label: 'Classification' },
     { id: 'actions', sortable: false, align: 'center', disablePadding: false, label: 'Actions' }
 ]

@@ -32,43 +32,54 @@ function SaveDocument(props){
         close()
     }
 
-    const handleRoute = () =>{ 
-        history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
+    const handleRoute = (id) =>{ 
+        history.push({pathname: `/search`, state: { fromButtonEdit: false, type: props.type}})
+        // history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
     }
 
     const handleSubmit = async() =>{
-        //patch request to update [BOOK]
-        console.log("DOCUMENT TYPE SAVE Doc: " + props.type);
+        //post request to create and save document
+        console.log("DOCUMENT TYPE: " + props.type);
         let response;
         try {
             if(props.type=="book"){
                 response = await axios.post(`/api/books`, {
-                    id: props.book.id,
-                    title: props.book.title, 
-                    author: props.book.author,
-                    year: props.book.year,
-                    publisher: props.book.publisher,
-                    isbn: props.book.isbn,
-                    description: props.book.description,
-                    topic: props.book.topic
+                    type: 'Book',
+                    id: '123456',
+                    title: 'TEMPORARY BOOK CMSC 128 C3L', 
+                    author: 'props.book.author',
+                    book_cover_img: '',
+                    year: '2021',
+                    publisher: 'props.book.publisher',
+                    isbn: '9781593275849',
+                    description: 'props.book.description',
+                    topic: 'Algorithms',
                 } , options);
             } else if(props.type=="thesis"){
-                response = await axios.patch(`/api/thesis/${id}`, {
-                    title: props.thesis.title, 
-                    author: props.thesis.author,
-                    adviser: props.thesis.adviser,
-                    pub_date: props.thesis.pub_date,
-                    abstract: props.thesis.abstract,
-                    topic: props.thesis.topic
+                response = await axios.post(`/api/thesis`, {
+                    type: 'Thesis',
+                    id: '123456',
+                    title: 'TEMPORARY THESIS CMSC 128 C3L', 
+                    author: 'props.thesis.author',
+                    adviser: 'props.thesis.adviser',
+                    pub_date: '2021-10-10',
+                    abstract: 'props.thesis.abstract',
+                    topic: 'Algorithms',
+                    journal: '',
+                    poster: ''
                 } , options);
             } else if(props.type=="sp"){
-                response = await axios.patch(`/api/sp/${id}`, {
-                    title: props.sp.title, 
-                    author: props.sp.author,
-                    adviser: props.sp.adviser,
-                    pub_date: props.sp.pub_date,
-                    abstract: props.sp.abstract,
-                    topic: props.sp.topic
+                response = await axios.post(`/api/sp`, {
+                    type: 'Special Problem',
+                    id: '123456',
+                    title: 'TEMPORARY SP CMSC 128 C3L', 
+                    author: 'props.sp.author',
+                    adviser: 'props.sp.adviser',
+                    pub_date: '2021-10-10',
+                    abstract: 'props.sp.abstract',
+                    topic: 'Algorithms',
+                    journal: '',
+                    poster: ''    
                 } , options);
             }
             console.log('Returned data:', response.data);
@@ -98,15 +109,15 @@ function SaveDocument(props){
                     switch(document.type){
                         case "book":
                             return(
-                                <h3 className="text prompt"> Save changes to"{props.book.title}" {props.book.year}? </h3>
+                                <h3 className="text prompt"> Save changes to "{document.book.title}" {document.book.year}? </h3>
                             )
                         case "thesis":
                             return(
-                                <h3 className="text prompt"> Save changes to"{props.thesis.title}" {props.thesis.pub_date}? </h3>
+                                <h3 className="text prompt"> Save changes to "{document.thesis.title}" {document.thesis.pub_date}? </h3>
                             )
                         case "sp":
                             return(
-                                <h3 className="text prompt"> Save changes to"{props.sp.title}" {props.sp.pub_date}? </h3>
+                                <h3 className="text prompt"> Save changes to "{document.sp.title}" {document.sp.pub_date}? </h3>
                             )
                         default:
                             return null;	

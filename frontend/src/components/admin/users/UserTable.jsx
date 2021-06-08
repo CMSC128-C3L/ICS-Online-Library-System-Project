@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete';
 import SyncIcon from '@material-ui/icons/Sync';
 import EditIcon from '@material-ui/icons/Edit';
-import {getComparator, stableSort} from './Comparator'
+import {getComparator, stableSort, formatDateObject} from '../../helpers/Helpers'
 import UserTablePaginationActions from './UserTablePaginationActions'
 import Modal from '../../manage_user_popup/Modal'
 import EditUser from '../../manage_user_popup/EditUser'
@@ -43,8 +43,8 @@ function UserTable(props) {
     const currentUser = useContext(UserContext).loggedUser
 
     const classes = useStyles();
-    const [order, setOrder] = useState('asc'); //default sort order is ascending
-    const [orderBy, setOrderBy] = useState('name') //default sorted column is name
+    const [order, setOrder] = useState('desc'); //default sort order is ascending
+    const [orderBy, setOrderBy] = useState('last_login') //default sorted column is name
     const [selected, setSelected] = useState([]) //default selected list empty, key for TableRow
     const [page, setPage] = useState(0) //initialize table page to page 0
     const [rowsPerPage, setRowsPerPage] = useState(5) //initialize rows per page to 5
@@ -67,6 +67,7 @@ function UserTable(props) {
         const isAsc = orderBy === property && order === 'asc'
         setOrder(isAsc? 'desc' : 'asc')
         setOrderBy(property)
+        setPage(0)
     }
 
     const handleSelectAllClick = (e) => {
@@ -96,6 +97,29 @@ function UserTable(props) {
 
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
+    const getLogs = async() =>{
+        try{
+            let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+
+            const res = await axios.get(`/api/log/`, options)
+            return res.data
+
+        }catch(e){console.log(e)}
+    }
+
+    // Return latest login
+    const getLastLogin = (log) => {
+        return new Date(log.log_date.slice(-1)[0].login)
+    }
+
+    // Add latest login as property to filtered user objects
+    const joinUserLogs = (users, logs) => {
+        users.forEach((user) => {
+            const index = logs.findIndex(log => log.user_id === user._id)
+            user.last_login = index !== -1 ? getLastLogin(logs[index]) : ""
+        })
+    }
+
     const getUsers = async() =>{
         let users = []
         try{
@@ -103,6 +127,8 @@ function UserTable(props) {
             users = await axios.get("/api/users", options)
             
             const filteredRows = filterRows(users.data)
+            const logs = await getLogs()
+            joinUserLogs(filteredRows, logs)
             setRows(filteredRows)
             setRowCount(filteredRows.length)
         }catch(e){console.log(e)}
@@ -247,12 +273,11 @@ function UserTable(props) {
                                         </TableCell>
                                         
                                         <TableCell align="center">
-                                            <span style={{display:'inline-block'}}><Avatar alt={person.name} src={person.avatar}></Avatar></span>
+                                            <span style={{display:'inline-block'}}><Avatar alt={person.name} src={person.profile_picture}></Avatar></span>
                                         </TableCell>
-                                        <TableCell align="left">{person.id? person.id : '2018-00000'}</TableCell>
                                         <TableCell id={labelId} align="left">{person.name}</TableCell>
                                         <TableCell align="left">{person.email}</TableCell>
-                                        <TableCell align="left">2021-04-27 00:00:00</TableCell>
+                                        <TableCell align="left">{formatDateObject(person.last_login)}</TableCell>
                                         <TableCell align="center">{createClassificationCell(person.classification)}</TableCell>
                                         <TableCell align="center">
                                             <IconButton
@@ -276,14 +301,14 @@ function UserTable(props) {
                             )}
 
                             {emptyRows > 0 && (
-                                <TableRow style={{ height: 77 * emptyRows }} component="th">
+                                <TableRow style={{ height: 77 * emptyRows }}>
                                     <TableCell colSpan={6} />
                                 </TableRow>
                             )}
                             
                         </TableBody>
                         <TableFooter align="center">
-                            <TableRow align="center" component="th">
+                            <TableRow align="center">
                             <TablePagination
                                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                                         colSpan={7}
