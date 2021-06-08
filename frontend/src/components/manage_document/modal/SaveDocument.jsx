@@ -48,7 +48,7 @@ function SaveDocument(props){
                     id: '123456',
                     title: 'TEMPORARY BOOK CMSC 128 C3L', 
                     author: 'props.book.author',
-                    book_cover_img: '',
+                    book_cover_img: 'https://geniuspublicationsjaipur.files.wordpress.com/2013/04/software-engineering-book.jpg',
                     year: '2021',
                     publisher: 'props.book.publisher',
                     isbn: '9781593275849',

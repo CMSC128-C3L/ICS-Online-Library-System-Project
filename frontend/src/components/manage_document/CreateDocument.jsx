@@ -215,8 +215,13 @@ const topics = [
         <div> 
             <div className='document-card-flex-row'>
                 {/* document thumbnail should be uploadable */}
-                <div className='image-card-container card-content' >
+                {/* <div className='image-card-container card-content' >
                 <img alt="INSERT A THUMBNAIL" className={classes.imageStyle}></img>
+                </div> */}
+
+                <div className='document-card-container button-card-flex-column'>
+                  <UploadIcon className={classes.iconStyle} style={{alignSelf:'center'}}/>
+                  <button className={classes.textStyle} onClick={props.handleDownload}>UPLOAD THUMBNAIL</button>
                 </div>
                 
                 {/* document attributes are editable*/}
