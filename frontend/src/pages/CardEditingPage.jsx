@@ -1,12 +1,16 @@
 import React from 'react'
 import Header from '../components/header_user/Header'
-import CardEditing from '../components/card_editing/CardEditing'
+import EditCard from '../components/edit_cards/EditCard'
 
 function CardEditingPage() {
     return (
         <div>
             <Header></Header>
-            <CardEditing/>
+            <EditCard card={{
+                header: "Advisory",
+                title: "Lorem ipsum dolor sit amet",
+                link: "",
+            }}></EditCard>
         </div>
     )
 }

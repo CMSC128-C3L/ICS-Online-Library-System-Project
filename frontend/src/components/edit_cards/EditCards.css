@@ -96,3 +96,17 @@
     background-color: hsl(0, 0%, 80%);
 
 }
+
+input[type=file]::file-selector-button{
+    margin-left: 1em;
+    background-color: hsl(0, 0%, 95%);
+    color: black;
+    border: none;
+    border-radius: 0.1em;
+    font-size: 1.25em;
+}
+
+input[type=file]::file-selector-button:hover{
+    transition: 0.25s;
+    background-color: hsl(0, 0%, 80%);
+}

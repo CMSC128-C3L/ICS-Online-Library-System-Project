@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import Card from '../cards/Card'
 import './EditCards.css'
 
 function EditCard({ card }){
     const [content, setContent] = useState(card);
+    let history = useHistory();
     let link = ''; // temporary link setter
 
-    const handleDescriptionChange = (e) => {
+    const handleContentChange = (e) => {
         console.log('eyyy')
+    }
+
+    const handleCancelButton = (e) => {
+        history.push("/adminHome/manageAnnouncements")
     }
 
     return(
@@ -31,12 +37,12 @@ function EditCard({ card }){
 
                     <div className="form-section form-upload">
                         <label for="upload" className="form-label text">Upload photo:</label>
-                        <button name="upload" className="btn upload-btn">Select file</button>
+                        <input id="upload-btn" classname="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*"/>
                     </div>
 
                     <div className="form-section buttons">
                         <button className="btn save-btn">SAVE</button>
-                        <button className="btn cancel-btn">CANCEL</button>
+                        <button className="btn cancel-btn" onClick={handleCancelButton}>CANCEL</button>
                     </div>
 
                 </form>
