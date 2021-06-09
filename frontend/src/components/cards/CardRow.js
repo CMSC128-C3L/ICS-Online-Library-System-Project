@@ -1,8 +1,9 @@
 import Card from './Card'
 import { useEffect, useState } from 'react'
+import EditIcon from '@material-ui/icons/Edit';
 import axios from 'axios'
 
-function CardRow(){
+function CardRow({edit, handleEdit}){
     const [cards, setCards] = useState([])
 
     useEffect(() => {
@@ -18,8 +19,13 @@ function CardRow(){
 
     return (
         <div className='flex-row'>
-            {cards.map(card => {
-                return <Card content={card}/>
+            {cards.map((card, index) => {
+                return (
+                    <div className='flex-col'>
+                        {edit? <div className="edit-btn" onClick={() => handleEdit(index)}><EditIcon/></div> : null}
+                        <Card content={card}/>
+                    </div>
+                )
             })}
         </div>
     )

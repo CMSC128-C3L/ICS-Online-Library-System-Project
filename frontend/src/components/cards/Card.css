@@ -48,7 +48,23 @@
     transition: 0.1s;
     transform: scale(1.05);
     /* box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.25); */
-  }
+}
+
+.edit-btn {
+    width: 1em;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 30px;
+    background-color: lightblue;
+    padding: 8pt;
+    border-radius: 8px;
+    justify-self: center;
+    margin-top: 1.5em;
+}
+
+.edit-btn:hover {
+    background-color: royalblue;
+    transition: 0.5s;
+}
 
 .card-header {
     font-size: 1.5em;
@@ -66,7 +82,7 @@
     margin-top: 0.5em;
 }
 
-img {
+.img {
     width:100%;
     align-self: center;
     box-sizing: border-box;
