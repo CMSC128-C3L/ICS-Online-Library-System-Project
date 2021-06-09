@@ -1,32 +1,28 @@
 import Card from './Card'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
-function CardRow({advisory, featured, icsnews}){
+function CardRow(){
+    const [cards, setCards] = useState([])
+
+    useEffect(() => {
+        let announcements;
+        const getCards = async () => {
+            try{
+                announcements = await axios.get('/api/advisory/')
+                setCards(announcements.data)
+            }catch(e){console.log("error in card fetching")}
+        }
+        getCards();
+    }, [])
+
     return (
         <div className='flex-row'>
-            <Card content={advisory? advisory : advisoryprop}/>
-            <Card content={featured? featured : featuredprop}/>
-            <Card content={icsnews? icsnews : icsnewsprop}/>
+            {cards.map(card => {
+                return <Card content={card}/>
+            })}
         </div>
     )
-}
-
-// Default values for props while db not set
-const advisoryprop = {
-    header : "Advisory",
-    title : "Lorem ipsum dolor sit amet",
-    image : ""
-}
-
-const featuredprop = {
-    header : "Featured",
-    title : "Lorem ipsum dolor sit amet",
-    image : ""
-}
-
-const icsnewsprop = {
-    header : "ICS News",
-    title : "Lorem ipsum dolor sit amet",
-    image : ""
 }
 
 export default CardRow

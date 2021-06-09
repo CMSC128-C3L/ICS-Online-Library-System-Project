@@ -37,7 +37,7 @@ function EditCard({ card }){
 
                     <div className="form-section form-upload">
                         <label for="upload" className="form-label text">Upload photo:</label>
-                        <input id="upload-btn" classname="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*"/>
+                        <input id="upload-btn" className="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*"/>
                     </div>
 
                     <div className="form-section buttons">
