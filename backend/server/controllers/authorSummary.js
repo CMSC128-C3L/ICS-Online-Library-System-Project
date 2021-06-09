@@ -19,10 +19,18 @@ async function getAuthorSummaryPDF(req, res) {
         const book = await Book.find({author}); // get all of the books
         const thesis = await Thesis.find({type:'Thesis',author}); // get all of the thesis
         const sp = await Sp.find({type:"Special Problem",author }); // get all of the sp
+        const path = req.body.path || " "; 
+        let filePath;
         
         // Writing the data into pdf file
         const doc = new PDF();
-        const stream = fs.createWriteStream(author +' Summary Report.pdf');
+        if(path === " "){
+            filePath = author + " Summary Report";
+        }        
+        else{
+            filePath = path + author +" Summary Report";
+        }
+        const stream = fs.createWriteStream(filePath);
         doc.pipe(stream);
         doc.text("Author Summary Report ", {align: 'center'});
         doc.text(author, {align: 'center'});
@@ -74,7 +82,7 @@ async function getAuthorSummaryPDF(req, res) {
         doc.end();
         
         
-        res.status(200).send("Author Summary Downloaded!");   
+        res.status(200).send({msg:"Author Summary Downloaded!",path:filePath});   
     }catch (err) {
         res.status(400).send({message:"error",err});
     }
