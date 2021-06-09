@@ -94,7 +94,7 @@ function App() {
             <AdminPageProtectRoute exact path="/adminHome/manageUsers" component={AdminUserManagement} />
             <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={SearchPage} />
             <AdminPageProtectRoute exact path="/adminHome/manageAnnouncements"  component={EditCardsPage} />
-            <AdminPageProtectRoute exact path="/adminHome/manageAnnouncements/:header" component={CardEditingPage} />
+            <AdminPageProtectRoute exact path="/adminHome/manageAnnouncements/:index" component={CardEditingPage} />
             <Route exact path="/search/:id"  component={AccessDocument} />
             <AdminPageProtectRoute exact path="/search/editDocument/:id"  component={AccessDocument} />
             <AdminPageProtectRoute exact path="/createDocument"  component={CreateDocument} />

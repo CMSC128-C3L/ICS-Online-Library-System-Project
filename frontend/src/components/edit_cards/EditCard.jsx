@@ -6,8 +6,8 @@ import './EditCards.css'
 function EditCard({ card }){
     const [content, setContent] = useState(card);
     let history = useHistory();
-    let link = ''; // temporary link setter
 
+    // TODO: Save changes
     const handleContentChange = (e) => {
         console.log('eyyy')
     }
@@ -17,7 +17,8 @@ function EditCard({ card }){
     }
 
     return(
-        <div class="grid-2">
+        // TODO: Add dropdown for change announcement classification (Advisory/Featured/ICS News)
+        <div className="grid-2">
             <div className="grid-cell grid-card">
                 <Card content={card}></Card>
             </div>
@@ -26,23 +27,23 @@ function EditCard({ card }){
                 <form className="flex-col">
 
                     <div className="form-section">
-                        <label for="description" className="form-label text">Description</label>
+                        <label htmlFor="description" className="form-label text">Description</label>
                         <textarea name="description" rows="4" className="textarea"></textarea>
                     </div>
 
                     <div className="form-section">
-                        <label for="link" className="form-label text">Link</label>
+                        <label htmlFor="link" className="form-label text">Link</label>
                         <textarea name="link" rows="2" className="textarea"></textarea>
                     </div>
 
                     <div className="form-section form-upload">
-                        <label for="upload" className="form-label text">Upload photo:</label>
+                        <label htmlFor="upload" className="form-label text">Upload photo:</label>
                         <input id="upload-btn" className="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*"/>
                     </div>
 
                     <div className="form-section buttons">
                         <button className="btn save-btn">SAVE</button>
-                        <button className="btn cancel-btn" onClick={handleCancelButton}>CANCEL</button>
+                        <button type="cancel" className="btn cancel-btn" onClick={handleCancelButton}>CANCEL</button>
                     </div>
 
                 </form>
