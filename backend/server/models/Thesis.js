@@ -42,7 +42,7 @@ const thesisSchema = new mongoose.Schema({
   author: [String],
   adviser: [String],
   pub_date: {
-    type: Date
+    type: String
   },
   abstract: {
     type: String,
