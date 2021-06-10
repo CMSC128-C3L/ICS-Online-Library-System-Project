@@ -5,7 +5,7 @@ import EditCard from '../components/edit_cards/EditCard'
 import axios from 'axios'
 
 function CardEditingPage() {
-    const [card, setCard] = useState({})
+    const [card, setCard] = useState()
     const { index } = useParams()
     
     // Get all cards but use only {index}'th card
@@ -20,10 +20,16 @@ function CardEditingPage() {
         getCard();
     }, [])
 
+    useEffect(() => {
+    }, [card]);
+
     return (
         <div>
             <Header></Header>
-            <EditCard card={card}></EditCard>
+            {card
+                ? <EditCard card={card}></EditCard>
+                : null
+            }
         </div>
     )
 }
