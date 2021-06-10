@@ -211,6 +211,7 @@ const topics = [
                                       {/* This section is for course of the document, this part has a lot of bugs */}
                                       <div className="main-text-tags">Courses:</div>
                                       <Multiselect 
+                                          id = {book.id}
                                           placeholder="Add a course"
                                           options={course} 
                                           closeIcon="cancel"
@@ -223,6 +224,7 @@ const topics = [
                                       {/* This section is for topic of the document */}
                                       <div className="main-text-tags">Tags:</div>
                                       <Multiselect 
+                                          id = {book.id}
                                           placeholder="Add a tag"
                                           options={topics} 
                                           closeIcon="cancel"
@@ -251,6 +253,7 @@ const topics = [
                                     {/* This section is for course of the document, this part has a lot of bugs */}
                                     <div className="main-text-tags">Courses:</div>
                                     <Multiselect 
+                                        id = {sp.id}
                                         placeholder="Add a course"
                                         options={course} 
                                         closeIcon="cancel"
@@ -263,6 +266,7 @@ const topics = [
                                     {/* This section is for topic of the document */}
                                     <div className="main-text-tags">Tags:</div>
                                     <Multiselect 
+                                        id = {sp.id}
                                         placeholder="Add a tag"
                                         options={topics} 
                                         closeIcon="cancel"
@@ -291,6 +295,7 @@ const topics = [
                                     {/* This section is for course of the document, this part has a lot of bugs */}
                                     <div className="main-text-tags">Courses:</div>
                                     <Multiselect 
+                                        id = {thesis.id}
                                         placeholder="Add a course"
                                         options={course} 
                                         closeIcon="cancel"
@@ -303,6 +308,7 @@ const topics = [
                                     {/* This section is for topic of the document */}
                                     <div className="main-text-tags">Tags:</div>
                                     <Multiselect 
+                                        id = {thesis.id}
                                         placeholder="Add a tag"
                                         options={topics} 
                                         closeIcon="cancel"
