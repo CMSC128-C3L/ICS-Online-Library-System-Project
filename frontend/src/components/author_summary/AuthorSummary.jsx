@@ -3,37 +3,30 @@ import SideDescription from '../side_description/SideDescriptionAuthor'
 import BookResult from '../course_summary/BookCard'
 import api from '../course_summary/FetchMaterials'
 import './AuthorSummary.css'
-import {useParams, useHistory} from 'react-router'
 import axios from 'axios'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
-import {Button} from '@material-ui/core'
-import GetAppIcon from '@material-ui/icons/GetApp';
-import download from 'downloadjs';
-
+import {useParams, useHistory} from 'react-router'
 function AuthorSummary(props){
-    const history = useHistory();
-
-    const goBack = () =>{
-        history.push('/search')
-    }
-
-    let {type, name} = useParams();
+    
+     let {type, name} = useParams();
 
     // Temporary values for code, name, description, prerequisites while no api
     let [summary, setSummary] = useState({
         name: name,
         title:'Institute of Computer Science',
-        documents: []
+        interests:['Data Science', 'Algorithms'],
+        info:'Insert info here',
+        books: [],
     })
 
-     // Fetch books with course == props.query
     const fetchSummary = async() =>{
-            let docs = []
+        let docs = []
             try{
                 let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
 
-                const res = await axios.get(`/api/${type}Summary/${name}`, options);
+                const res = await axios.get(`/api/authorSummary/${name}`, options);
                 docs = res.data.summary
+
+                console.log(docs)
             }catch(e){
                 console.log(e);
             }
@@ -41,54 +34,36 @@ function AuthorSummary(props){
             
            setSummary(prevSummary=>({
                ...prevSummary,
-               documents: docs
+                books: docs
            }))
-        }
 
-        const getPDF = async() =>{
-            try{
-                let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-type': 'application/json', 'Accept': 'application/pdf'}, responseType: 'blob'}
-
-                
-                // axios.get(`/api/${type}SummaryPDF/${name}`, options)
-                // .then(response => {
-                //     const content = 'application/jpg';
-                //     download("https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg", "test.jpg", content)
-                // })
-                //  .catch(error => console.log(error));
-            }catch(e){
-                console.log(e)
-            }
-        }
-
+    }
 
     useEffect(() => {
         
-       
+        // Fetch books with course == props.query
+        
+
         fetchSummary()
     }, [props.query])
 
 
     return(
         <div className="col-center">
-            <div className="col-center">
 
-                <Button className="go-back" onClick={goBack}>
-                    <ArrowBackIcon/>
-                    BACK TO SEARCH PAGE
-                 </Button>
+            <div className="col-center">
+                {/* Render course code depending on inquiry*/}
+                {/* Placeholder profile image */}
+                <img className="pfp" src="https://www.w3schools.com/howto/img_avatar.png"/>
                 <h1 className="text title-case text-center space-0">{summary.name}</h1>
+
+                {/* Render course name depending on inquiry*/}
                 <h4 className="text text-center space-0">{summary.title}</h4>
-                <Button variant="contained" style={{color: "white", backgroundColor: "#47abdb", marginTop: "4vh"}} disableElevation startIcon={<GetAppIcon style={{color: "white"}}/>}
-                    onClick={getPDF}
-                >
-                    Generate summary report
-                </Button>
             </div>
             
-            <div className="row content ">
-                <ResultsArea>{summary.documents}</ResultsArea>
-                
+            <div className="row content margin-3">
+                <ResultsArea>{summary.books}</ResultsArea>
+                <SideDescription description={summary.info}>{summary.interests}</SideDescription>
             </div>
         </div>
     )
@@ -98,15 +73,16 @@ function ResultsArea(props){
     return(
         <div className="results-container">
             {
-                props.children.map((doc, i)=>{
+                props.children.map((book, i)=>{
                     return <BookResult
                         key={i}
-                      
-                        title={doc.title}
-                        author={doc.author}
-                        category={doc.type}
-                        year={doc.year}
-                        topic={doc.topic}
+                        isbn={book.isbn}
+                        title={book.title}
+                        author={book.author}
+                        book_cover_img={book.book_cover_img}
+                        year={book.year}
+                        topic={book.topic}
+                        category={book.type}
                     />
                 })
             }

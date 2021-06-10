@@ -32,8 +32,6 @@
     justify-content: space-between;
     padding: 1em;
     border-radius: inherit;
-    margin-bottom: 1vh;
-    
 }
 
 .book-card:hover {
@@ -92,14 +90,17 @@
 .book-title {
     /* font-size: 100%; */
     /* font-weight: bold; */
-    width: 45vw;
+    width: 30vw;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .book-image {
     height: 20vh;
-    max-width: 15vh;
-    object-fit: cover;
+    max-width: 40vh;
+    object-fit: fill;
 }
 
 .image-container {
@@ -119,7 +120,7 @@
 
 .year, .category {
     color:rgb(121, 121, 121);
-    margin-right: 0em;
+    margin-right: 1em;
 }
 
 .category {

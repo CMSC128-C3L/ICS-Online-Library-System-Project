@@ -4,12 +4,11 @@ import './CourseSummary.css'
 function BookResult(props){
     return(
         <div className="row book-card">
-
-            {/* 1: Image
-            <div className="image-container">
+            {/*1: Image (if book, render image; if not, render nothing) */}
+            {props.category === "Book" ?  (<div className="image-container">
                 <img src={props.book_cover_img} className="book-image" alt="book"/>
-            </div> */}
-
+            </div>) : <></>}
+           
             {/* 2: Details */}
             <div className="col text details">
                 
@@ -39,10 +38,10 @@ function BookResult(props){
                 }</div>
             </div>
             
-            {/* 3: Download Button
+            
             <div className="download">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 11h5l-9 10-9-10h5v-11h8v11zm1 11h-10v2h10v-2z"/></svg>
-            </div> */}
+            </div>
             
         </div>
     )
