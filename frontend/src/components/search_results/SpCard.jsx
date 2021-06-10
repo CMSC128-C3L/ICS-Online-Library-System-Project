@@ -5,7 +5,7 @@ import ConditionalIcon from "./ConditionalIcon"
 import { useHistory } from 'react-router'
 import Modal from './modal/Modal'
 import DeleteDocument from './modal/DeleteDocument'
-import { Title, Category, AuthorList, AdviserList, TopicList } from './CardDetails'
+import { Title, Category, CourseListUpdate, AuthorList, AdviserList, TopicList } from './CardDetails'
 import './SearchCard.css'
 
 function SpCard(props) {
@@ -53,6 +53,7 @@ function SpCard(props) {
 					<div>
 						<AuthorList author={props.doc.author} clickable={false} />
 						<AdviserList adviser={props.doc.adviser} />
+						<CourseListUpdate course={props.doc.courses} />
 					</div>           
 					<TopicList topic={props.doc.topic} />
 				</div>				
