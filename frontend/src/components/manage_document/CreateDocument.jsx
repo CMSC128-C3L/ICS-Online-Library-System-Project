@@ -9,7 +9,7 @@ import {Multiselect} from 'multiselect-react-dropdown';
 import Modal from './modal/Modal';
 import SaveDocument from './modal/SaveDocument';
 import './DocumentCard.css';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller} from 'react-hook-form';
 
 /**
  * functional component
@@ -24,7 +24,7 @@ function CreateDocument(props){
   const [selectedTopic, setSelectedTag] = useState([]);
 
   //for testing validation 
-  const { register, handleSubmit, getValues, formState: { errors } } = useForm();
+  const { register, handleSubmit, getValues, setValue, control, formState: { errors } } = useForm();
 
   // Create reference to modal
   const saveModal = useRef(null)
@@ -58,85 +58,22 @@ function CreateDocument(props){
 
   let sp = {
     type: "",
-    id: "",
-    title: "",
-    adviser: "",
-    author: "",
-    pub_date: "",
-    abstract: "",
+    id: getValues("SP_ID"),
+    title: getValues("SP_Title"),
+    adviser: getValues("SP_Adviser"),
+    author: getValues("SP_Author"),
+    pub_date: getValues("SP_Date"),
+    abstract: getValues("SP_Abstract"),
     topic: [],
     course: []
   };
   let topic_tags = [];
   let course_tags = [];
 
-  // for handling data of new attributes
-  const handleInputChange = async(event) =>{
-    const target = event.target;
-
-    if(doc_type=="book"){
-      if(target.name==="book_id") book.id = target.value;
-      else if(target.name==="book_title") book.title = target.value;
-      else if(target.name==="book_author") book.author = target.value;
-      else if(target.name==="book_year") book.year = target.value;
-      else if(target.name==="book_publisher") book.publisher = target.value;
-      else if(target.name==="book_isbn") book.isbn = target.value;
-      else if(target.name==="book_description") book.description = target.value;
-      // else if(target.name==="book_topic") book.topic = target.value;
-      // else if(target.name==="book_course") book.course = target.value;
-
-      console.log(book)
-      console.log(book.title)
-      console.log(book.author)
-      console.log(book.year)
-      console.log(book.publisher)
-      console.log(book.isbn)
-      console.log(book.description)
-      console.log(book.topic)
-    } 
-
-    else if(doc_type=="thesis"){
-      if(target.name==="thesis_id") thesis.id = target.value;
-      else if(target.name==="thesis_title") thesis.title = target.value;
-      else if(target.name==="thesis_author") thesis.author = target.value;
-      else if(target.name==="thesis_adviser") thesis.adviser = target.value;
-      else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
-      else if(target.name==="thesis_abstract") thesis.abstract = target.value;
-      else if(target.name==="thesis_topic") thesis.topic = target.value;
-
-      console.log(thesis)
-      console.log(thesis.id)
-      console.log(thesis.title)
-      console.log(thesis.author)
-      console.log(thesis.adviser)
-      console.log(thesis.pub_date)
-      console.log(thesis.abstract)
-      console.log(thesis.topic)
-    }
-
-    else if(doc_type=="sp"){
-      if(target.name==="sp_id") sp.id = target.value;
-      else if(target.name==="sp_title") sp.title = target.value;
-      else if(target.name==="sp_author") sp.author = target.value;
-      else if(target.name==="sp_adviser") sp.adviser = target.value;
-      else if(target.name==="sp_pub_date") sp.pub_date = target.value;
-      else if(target.name==="sp_abstract") sp.abstract = target.value;
-      else if(target.name==="sp_topic") sp.topic = target.value;
-
-      console.log(sp)
-      console.log(sp.id)
-      console.log(sp.title)
-      console.log(sp.author)
-      console.log(sp.adviser)
-      console.log(sp.pub_date)
-      console.log(sp.abstract)
-      console.log(sp.topic)
-    }
-}
-
 // for getting document type value
 const handleType  = (selectedItem)  =>{
   setSelectedValue(selectedItem);
+  setValue()
   console.log("content [type]: \n", selectedValue)
   
   if(selectedValue=="Book") {
@@ -161,7 +98,6 @@ const onSelect  = (selectedTag, type)  =>{
   // else if(doc_type=="sp") sp.topic = selectedTopic;
   // else if(doc_type=="thesis") thesis.topic = selectedTopic;
 
-
   if(type ==="tags"){
     console.log("TAGS");
     if(doc_type=="book") book.topic = selectedTopic;
@@ -181,11 +117,6 @@ useEffect(() => {
 }, [selectedValue, selectedTopic])
 
 // THIS SECTION IS A SET OF ARRAYS OF CHOICES 
-// useEffect for handling changes in tags input
-useEffect(() => {
-  handleType(selectedValue)
-  onSelect(selectedTopic)
-}, [selectedValue, selectedTopic])
 
 const classification = [
   'Book',
@@ -246,16 +177,28 @@ const topics = [
                 {/* document attributes are editable*/}
                 <div className='document-card-container document-card-flex-column' key={""}>
                   <div className="main-text-tags">Classification: 
-                  <Multiselect 
-                      selectionLimit="1"
-                      placeholder="Document Type"
-                      options={classification} 
-                      closeIcon="cancel"
-                      isObject={false} 
-                      onSelect={(selectedValue)=> handleType(selectedValue)} 
-                      onRemove={(selectedValue)=> handleType(selectedValue)}   
-                      style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                  
+                  <Controller
+                    control={control}
+                    as={
+                      <Multiselect 
+                        selectionLimit="1"
+                        placeholder="Document Type"
+                        options={classification} 
+                        closeIcon="cancel"
+                        isObject={false} 
+                        onSelect={([selectedValue])=> handleType(selectedValue)} 
+                        onRemove={([selectedValue])=> handleType(selectedValue)}   
+                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                      />
+                    }
+                    rules={{ required: true }}
+                    name="type"
+                    register={register}
+                    setValue={setValue}
                   />
+
+                  {errors.type && <div className="warning">This field is required</div>} 
                   </div>
 
                   {
