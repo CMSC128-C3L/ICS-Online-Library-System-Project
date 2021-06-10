@@ -72,6 +72,11 @@
     font-size: 3vh;
 }
 
+.warning{
+    font-size: 2vh;
+    color: red;
+}
+
 .input-container, .textarea-container{
   width: 100%;
   border:none;

@@ -134,7 +134,7 @@ function SaveDocument(props){
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <SaveIcon className={classes.iconStyle}/>
             <h3 className="text prompt"> ADD NEW DOCUMENT </h3>
-            {
+            {/* {
                 (function(document){
                     console.log("document card value: ", document.type)
                     
@@ -155,7 +155,7 @@ function SaveDocument(props){
                             return null;	
                         }
                 })(props)
-            }
+            } */}
 
             <div className="save-cancel">
                 <button className="save popup-btn" onClick={()=> handleSave(user)}>Save</button>
