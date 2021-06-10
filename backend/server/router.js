@@ -71,16 +71,16 @@ router.get('/api/journal/:id', auth, Journal.getOne);
 
 //search
 const Search = require('./controllers/searchController.js');
-router.get('/api/search/user', Search.searchUser);
-router.get('/api/search/all', Search.searchAll);
-router.get('/api/search/thesis', Search.searchThesis);
-router.get('/api/search/book', Search.searchBook);
-router.get('/api/search/journal', Search.searchJournal);
-router.get('/api/search/sp', Search.searchSp);
-router.get('/api/search/filter/book', Search.advanceSearchBook);
-router.get('/api/search/filter/thesis', Search.advanceSearchThesis);
-router.get('/api/search/filter/sp', Search.advanceSearchSp);
-router.get('/api/search/filter/journal', Search.advanceSearchJournal);
+router.get('/api/search/user', auth, Search.searchUser);
+router.get('/api/search/all', auth, Search.searchAll);
+router.get('/api/search/thesis', auth, Search.searchThesis);
+router.get('/api/search/book', auth, Search.searchBook);
+router.get('/api/search/journal', auth, Search.searchJournal);
+router.get('/api/search/sp', auth, Search.searchSp);
+router.get('/api/search/filter/book', auth, Search.advanceSearchBook);
+router.get('/api/search/filter/thesis', auth, Search.advanceSearchThesis);
+router.get('/api/search/filter/sp', auth, Search.advanceSearchSp);
+router.get('/api/search/filter/journal', auth, Search.advanceSearchJournal);
 
 //Activity Logs
 const Logs = require('./controllers/activityLogsController.js');

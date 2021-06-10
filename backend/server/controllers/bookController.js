@@ -167,6 +167,8 @@ function bookBase(data) {
     book.topic = data.topic;
     book.course_code = data.courses.map(getCourseCode);
     book.type = data.type;
+    book.view_count = data.view_count;
+    book.download_count = data.download_count;
 
     return book;
 }
