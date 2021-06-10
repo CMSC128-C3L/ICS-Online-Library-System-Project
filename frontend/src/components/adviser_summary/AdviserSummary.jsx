@@ -17,7 +17,7 @@ function AdviserSummary(props){
         history.push('/search')
     }
 
-    let {type, name} = useParams();
+    let {name} = useParams();
 
     // Temporary values for code, name, description, prerequisites while no api
     let [summary, setSummary] = useState({

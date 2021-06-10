@@ -4,19 +4,6 @@ import './SearchCard.css'
 import {useHistory} from 'react-router'
 
 
-
-const handleAuthorClick = (event) => {
-  console.log(event.target.value)
-  /** method to navigate to author summary here */
-}
-
-const handleCourseClick = (event) => {
-  console.log(event.target.value)
-  /** method to navigate to course summary here */
-}
-
-
-
 function Title(props){
   return(
     <Typography className="doc-title" noWrap={true} variant="h6" style={{fontWeight: '600'}}>
@@ -51,7 +38,10 @@ function Isbn(props){
 
 // max 3 authors shown; will wrap and no ellipsis; et al shown for the other authors
 function AuthorList(props){
- 
+  const history = useHistory();
+  const handleAuthorClick = (event) => {
+     history.push('/authorSummary/' + event.target.value);
+  }
 
   if (props.clickable){
     return(
@@ -80,6 +70,10 @@ function AuthorList(props){
 
 // max 3 courses shown; adtl will show as ellipsis
 function CourseList(props){
+  const history = useHistory();
+  const handleCourseClick = (event) => {
+    history.push('/courseSummary/' + event.target.value);
+  }
   return(
     <div style={{display:'flex'}}>
       <Typography gutterBottom variant="body2">Reference for:&nbsp;</Typography>

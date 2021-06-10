@@ -5,7 +5,7 @@ function SummaryPageCourse(props){
     return(
         <div>
             {/* Temporary search query*/}
-            <CourseSummary query="CMSC 11"></CourseSummary>
+            <CourseSummary></CourseSummary>
         </div>
     )
 }

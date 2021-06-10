@@ -5,18 +5,36 @@ import api from '../course_summary/FetchMaterials'
 import './AuthorSummary.css'
 import axios from 'axios'
 import {useParams, useHistory} from 'react-router'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import {Button} from '@material-ui/core'
+import GetAppIcon from '@material-ui/icons/GetApp';
+
 function AuthorSummary(props){
-    
-     let {type, name} = useParams();
+    const history = useHistory();
+
+    const goBack = () =>{
+        history.push('/search')
+    }
+
+    let {name} = useParams();
 
     // Temporary values for code, name, description, prerequisites while no api
     let [summary, setSummary] = useState({
         name: name,
-        title:'Institute of Computer Science',
-        interests:['Data Science', 'Algorithms'],
-        info:'Insert info here',
-        books: [],
+
+        documents: [],
     })
+
+    const getPDF = async() =>{
+            try{
+                let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-type': 'application/json', 'Accept': 'application/pdf'}, responseType: 'blob'}
+
+  
+               
+            }catch(e){
+                console.log(e)
+            }
+        }
 
     const fetchSummary = async() =>{
         let docs = []
@@ -34,7 +52,7 @@ function AuthorSummary(props){
             
            setSummary(prevSummary=>({
                ...prevSummary,
-                books: docs
+                documents: docs
            }))
 
     }
@@ -54,16 +72,24 @@ function AuthorSummary(props){
             <div className="col-center">
                 {/* Render course code depending on inquiry*/}
                 {/* Placeholder profile image */}
+                 <Button className="go-back" onClick={goBack}>
+                    <ArrowBackIcon/>
+                    BACK TO SEARCH PAGE
+                 </Button>
                 <img className="pfp" src="https://www.w3schools.com/howto/img_avatar.png"/>
                 <h1 className="text title-case text-center space-0">{summary.name}</h1>
-
+                 <Button variant="contained" style={{color: "white", backgroundColor: "#47abdb", marginTop: "4vh"}} disableElevation startIcon={<GetAppIcon style={{color: "white"}}/>}
+                    onClick={getPDF}
+                >
+                    Generate summary report
+                </Button>
                 {/* Render course name depending on inquiry*/}
                 <h4 className="text text-center space-0">{summary.title}</h4>
             </div>
             
             <div className="row content margin-3">
-                <ResultsArea>{summary.books}</ResultsArea>
-                <SideDescription description={summary.info}>{summary.interests}</SideDescription>
+                <ResultsArea>{summary.documents}</ResultsArea>
+               
             </div>
         </div>
     )
