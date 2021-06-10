@@ -70,6 +70,7 @@ async function get(req, res) {
 
 // Create a new book
 async function create(req, res) {
+    console.log(req.body);
     try {
         const book = new Book(req.body);    // get the book data from the request body
         const newBook = await book.save();  // insert the book
@@ -84,6 +85,7 @@ async function create(req, res) {
 
 // Update a specified book
 async function update(req, res) {
+    console.log(req.body);
     try {
         const book = req.body;      // get the new data of the book from the request body
         const _id = req.params.id;  // get the id of the book to be updated
@@ -167,6 +169,8 @@ function bookBase(data) {
     book.topic = data.topic;
     book.course_code = data.courses.map(getCourseCode);
     book.type = data.type;
+    book.view_count = data.view_count;
+    book.download_count = data.download_count;
 
     return book;
 }

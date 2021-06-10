@@ -27,18 +27,7 @@ function CreateDocument(props){
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
 
   // section to initialize book/sp/thesis
-  let book = {
-    type: "",
-    id: "",
-    title: "",
-    year: "",
-    author: "",
-    publisher: "",
-    isbn: "",
-    description: "",
-    topic: "",
-    course: ""
-  };
+  let book = {};
 
   let thesis = {
     type: "",
@@ -60,9 +49,11 @@ function CreateDocument(props){
     author: "",
     pub_date: "",
     abstract: "",
-    topic: "",
-    course: ""
+    topic: [],
+    course: []
   };
+  let topic_tags = [];
+  let course_tags = [];
 
   // for handling data of new attributes
   const handleInputChange = async(event) =>{
@@ -76,18 +67,26 @@ function CreateDocument(props){
       else if(target.name==="book_publisher") book.publisher = target.value;
       else if(target.name==="book_isbn") book.isbn = target.value;
       else if(target.name==="book_description") book.description = target.value;
-      else if(target.name==="book_topic") book.topic = target.value;
-      else if(target.name==="book_course") book.course = target.value;
+      // else if(target.name==="book_topic") book.topic = target.value;
+      // else if(target.name==="book_course") book.course = target.value;
 
-      console.log("data:\n",
-      book.id,"\n", 
-      book.title,"\n",
-      book.author,"\n",
-      book.year,"\n",
-      book.publisher,"\n",
-      book.isbn,"\n", 
-      book.description,"\n",
-      book.topic,"\n")
+      // console.log("data:\n",
+      // book.id,"\n", 
+      // book.title,"\n",
+      // book.author,"\n",
+      // book.year,"\n",
+      // book.publisher,"\n",
+      // book.isbn,"\n", 
+      // book.description,"\n",
+      // book.topic,"\n")
+      console.log(book);
+      console.log(book.title)
+      console.log(book.author)
+      console.log(book.year)
+      console.log(book.publisher)
+      console.log(book.isbn)
+      console.log(book.description)
+      console.log(book.topic)
     } 
 
     else if(doc_type=="thesis"){
@@ -146,54 +145,30 @@ const handleType  = (selectedItem)  =>{
   } else setDoctype("")
 }
 
-  // for tags input value
-  const onSelect  = (selectedTag, type)  =>{
-    setSelectedTag(selectedTag);
-    console.log("content [topic]: \n", selectedTopic)
+// for tags input value
+const onSelect  = (selectedTag, type)  =>{
+  setSelectedTag(selectedTag);
+  console.log("content [topic]: \n", selectedTopic)
+  if(doc_type=="book") book.topic = selectedTopic;
+  else if(doc_type=="sp") sp.topic = selectedTopic;
+  else if(doc_type=="thesis") thesis.topic = selectedTopic;
 
-    if(type =="tags"){
-      if(doc_type=="book") {
-        book.topic = selectedTopic;
-        console.log("after select topic data:\n",
-        book.id,"\n", 
-        book.title,"\n",
-        book.author,"\n",
-        book.year,"\n",
-        book.publisher,"\n",
-        book.isbn,"\n", 
-        book.description,"\n",
-        book.topic,"\n")
-      }
-      else if(doc_type=="sp") {
-        sp.topic = selectedTopic;
-        console.log("after select topic data:\n",
-        sp.id,"\n", 
-        sp.title,"\n",
-        sp.author,"\n",
-        sp.adviser,"\n",
-        sp.pub_date,"\n",
-        sp.abstract,"\n", 
-        sp.topic,"\n")
-      }
-      else if(doc_type=="thesis") {
-        thesis.topic = selectedTopic;
-        console.log("after select topic data:\n",
-        thesis.id,"\n", 
-        thesis.title,"\n",
-        thesis.author,"\n",
-        thesis.adviser,"\n",
-        thesis.pub_date,"\n",
-        thesis.abstract,"\n", 
-        thesis.topic,"\n")
-      }
-    } else if(type=="course"){
-      //insert method for assigning the course object of document
-      if(doc_type=="book") book.course = selectedTopic;
-      else if(doc_type=="sp") sp.course = selectedTopic;
-      else if(doc_type=="thesis") thesis.course = selectedTopic;
-    }
-    
+
+  if(type =="tags"){
+    if(doc_type=="book") book.topic = selectedTopic;
+    else if(doc_type=="sp") sp.topic = selectedTopic;
+    else if(doc_type=="thesis") thesis.topic = selectedTopic;
+  } else if(type=="course"){
+    //insert method for assigning the course object of document
   }
+  
+}
+
+// useEffect for handling changes in tags input
+useEffect(() => {
+  handleType(selectedValue)
+  onSelect(selectedTopic)
+}, [selectedValue, selectedTopic])
 
 // THIS SECTION IS A SET OF ARRAYS OF CHOICES 
 // useEffect for handling changes in tags input

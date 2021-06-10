@@ -50,9 +50,10 @@ function SaveDocument(props){
                     book_cover_img: 'https://geniuspublicationsjaipur.files.wordpress.com/2013/04/software-engineering-book.jpg',
                     year: props.book.year,
                     publisher: props.book.publisher,
-                    isbn: props.book.id,
+                    isbn: props.book.isbn,
                     description: props.book.description,
                     topic: props.book.topic,
+                    courses: props.book.course
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.post(`/api/thesis`, {

@@ -58,6 +58,7 @@ async function getOne(req, res) {
 }
 
 async function create(req, res) {
+    console.log(req.body);
     try{
         let new_sp= new Sp(req.body);
         await new_sp.save();
@@ -84,6 +85,7 @@ async function deleteSp(req, res) {
 }
 
 async function update(req, res) {
+    console.log(req.body);
     try{
         let _id = req.params.id;
         let query= {_id};

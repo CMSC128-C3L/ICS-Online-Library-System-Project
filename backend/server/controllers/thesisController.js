@@ -53,6 +53,7 @@ async function getOne(req, res) {
 }
 
 async function create(req, res) {
+  console.log(req.body);
   try {
     const thesis = new Thesis(req.body);
     await thesis.save();
@@ -107,6 +108,7 @@ async function download(req, res) {
 }
 
 async function update(req, res) {
+  console.log(req.body);
   try {
     const thesisUpdate = req.body;
     const _id = req.params.id;

@@ -37,16 +37,24 @@ async function searchAll(req, res) {
 	try{
 		const result = [];
 		let query = new RegExp(req.query.search, 'i');
-		const data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {'courses.code': {$regex: query}}]});
-		const thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
-		const sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
-		const journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$exists: true, $ne : ''}});
+		let classification = req.user.classification;
+
+		const book_data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {'courses.code': {$regex: query}}]});
+		const thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		const sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		// const journal_data = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$exists: true, $ne : ''}});
 		
-		const book = data.map(item => bookFunc.bookBase(item));
+		const book = book_data.map(item => bookFunc.bookBase(item));
+		const thesis = thesis_data.map(item => filterResults(item, classification));
+		const sp = sp_data.map(item => filterResults(item, classification));
+		// const journal = journal_data.map(item => bookFunc.bookBase(item));
+		console.log(thesis);
+		console.log(sp);
+
 		result.push(book);
 		result.push(thesis);
 		result.push(sp);
-		result.push(journal);
+		// result.push(journal);
 		
 		res.status(200).send(result);
 	}catch(error){
@@ -57,9 +65,13 @@ async function searchAll(req, res) {
 
 async function searchThesis(req, res) {
 	try{
+		let classification = req.user.classification;
 		let query = new RegExp(req.query.search, 'i');
-		const thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
-		if(thesis != null) res.status(200).send(thesis);
+		const thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		if(thesis_data != null){
+			const thesis = thesis_data.map(item => filterResults(item, classification));
+			res.status(200).send(thesis);
+		}
 		else res.status(404).send("Thesis not found!");
 	}catch(error){
 		res.status(500).send();
@@ -68,6 +80,7 @@ async function searchThesis(req, res) {
 
 async function searchBook(req, res) {
 	try{
+		let classification = req.user.classification;
 		let query = new RegExp(req.query.search, 'i');
 		const data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}, {'courses.code': {$regex: query}}]});
 		const book = data.map(item => bookFunc.bookBase(item));
@@ -80,6 +93,7 @@ async function searchBook(req, res) {
 
 async function searchJournal(req, res) {
 	try{
+		let classification = req.user.classification;
 		let query = new RegExp(req.query.search, 'i');
 		const journal = await Journal.find({$or: [{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {topic:{$regex: query}}], journal:{$exists: true, $ne : ''}});
 		if(journal != null) res.status(200).send(journal);
@@ -91,9 +105,13 @@ async function searchJournal(req, res) {
 
 async function searchSp(req, res) {
 	try{
+		let classification = req.user.classification;
 		let query = new RegExp(req.query.search, 'i');
-		const sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
-		if(sp != null) res.status(200).send(sp);
+		const sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+		if(sp_data != null) {
+			const sp = sp_data.map(item => filterResults(item, classification));
+			res.status(200).send(sp);
+		}
 		else res.status(404).send("SP not found!");
 	}catch(error){
 		res.status(500).send();
@@ -103,6 +121,7 @@ async function searchSp(req, res) {
 
 async function advanceSearchBook(req, res) {
 	try{
+		let classification = req.user.classification;
 		let query = new RegExp(req.query.search, 'i');
 		let courseCode = req.query.courseCode;
 		let topics = req.query.topic;
@@ -133,21 +152,25 @@ async function advanceSearchBook(req, res) {
 
 async function advanceSearchThesis(req, res) {
 	try{
+		let classification = req.user.classification;
 		let query = new RegExp(req.query.search, 'i');
 		let courseCode = req.query.courseCode;
 		let topics = req.query.topic;
-		let thesis;
+		let thesis_data;
 
 		if(req.query.search == '' && topics == '' && courseCode != '') res.status(200).send([]);
 
 		if(typeof(topics) === 'object'){//it's an array 
-			thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:{$all:topics}});
+			thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:{$all:topics}});
 		}else if(topics == ''){
-			thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+			thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
 		}else{//it's a string
-			thesis = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:topics});
+			thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:topics});
 		}
-		if(thesis != null) res.status(200).send(thesis);
+		if(thesis_data != null){
+			const thesis = thesis_data.map(item => filterResults(item, classification));
+			res.status(200).send(thesis);
+		}
 		else res.status(404).send("Thesis not found!");
 	}catch{
 		res.status(500).send();
@@ -156,21 +179,25 @@ async function advanceSearchThesis(req, res) {
 
 async function advanceSearchSp(req, res) {
 	try{
+		let classification = req.user.classification;
 		let query = new RegExp(req.query.search, 'i');
 		let courseCode = req.query.courseCode;
 		let topics = req.query.topic;
-		let sp;
+		let sp_data;
 
 		if(req.query.search == '' && topics == '' && courseCode != '') res.status(200).send([]);
 
 		if(typeof(topics) === 'object'){//it's an array 
-			sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:{$all:topics}});
+			sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:{$all:topics}});
 		}else if(topics == ''){
-			sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
+			sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}]});
 		}else{//it's a string
-			sp = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:topics});
+			sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], topic:topics});
 		}
-		if(sp != null) res.status(200).send(sp);
+		if(sp_data != null){
+			const sp = sp_data.map(item => filterResults(item, classification));
+			res.status(200).send(sp);
+		}
 		else res.status(404).send("SP not found!");
 	}catch{
 		res.status(500).send();
@@ -179,6 +206,7 @@ async function advanceSearchSp(req, res) {
 
 async function advanceSearchJournal(req, res) {
 	try{
+		let classification = req.user.classification;
 		let query = new RegExp(req.query.search, 'i');
 		let courseCode = req.query.courseCode;
 		let topics = req.query.topic;
@@ -198,4 +226,35 @@ async function advanceSearchJournal(req, res) {
 	}catch{
 		res.status(500).send();
 	}
+}
+
+function filterResults(data, classification){
+	const paper = {};
+	switch(classification){
+		case 'Admin':
+			paper.source_code = data.source_code;
+			paper.view_count = data.view_count;
+			paper.download_count = data.download_count;
+			paper.view_journal_count = data.view_journal_count;
+			paper.download_journal_count = data.download_journal_count;
+		case 'Faculty':
+			paper.file = data.file;
+		case 'Staff':
+			paper.file = data.file;
+		case 'Student':
+			paper.poster = data.poster;
+			paper.journal = data.journal;
+		default:
+			paper._id = data._id;
+			paper.id = data.id;
+			paper.type = data.type;
+			paper.title = data.title;
+			paper.author = data.author;
+			paper.adviser = data.adviser;
+			paper.pub_date = data.pub_date;
+			paper.abstract = data.abstract;
+			paper.topic = data.topic;
+	}
+
+	return paper;
 }
