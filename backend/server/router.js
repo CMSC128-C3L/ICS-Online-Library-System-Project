@@ -103,4 +103,9 @@ router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPD
 router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
 router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
 
+//course details
+const Course = require('./controllers/courseController.js');
+router.get('/api/course', auth, Course.getAll);
+router.get('/api/course/:code', auth, Course.getOne);
+
 module.exports = router;

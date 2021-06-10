@@ -157,17 +157,19 @@ const handleType  = (selectedItem)  =>{
 const onSelect  = (selectedTag, type)  =>{
   setSelectedTag(selectedTag);
   console.log("content [topic]: \n", selectedTopic)
-  if(doc_type=="book") book.topic = selectedTopic;
-  else if(doc_type=="sp") sp.topic = selectedTopic;
-  else if(doc_type=="thesis") thesis.topic = selectedTopic;
+  // if(doc_type=="book") book.topic = selectedTopic;
+  // else if(doc_type=="sp") sp.topic = selectedTopic;
+  // else if(doc_type=="thesis") thesis.topic = selectedTopic;
 
 
-  if(type =="tags"){
+  if(type ==="tags"){
+    console.log("TAGS");
     if(doc_type=="book") book.topic = selectedTopic;
     else if(doc_type=="sp") sp.topic = selectedTopic;
     else if(doc_type=="thesis") thesis.topic = selectedTopic;
-  } else if(type=="course"){
+  } else if(type==="course"){
     //insert method for assigning the course object of document
+    book.courses = selectedTopic;
   }
   
 }
