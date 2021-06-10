@@ -17,6 +17,7 @@
     "faker": "^5.5.3",
     "google-auth-library": "^7.0.4",
     "jsonwebtoken": "^8.5.1",
+    "jspdf": "^2.3.1",
     "jwt-decode": "^3.1.2",
     "multiselect-react-dropdown": "^1.6.13",
     "react": "^17.0.2",
