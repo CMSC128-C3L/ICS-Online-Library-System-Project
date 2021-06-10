@@ -62,6 +62,11 @@
     margin-bottom: 1em;
 }
 
+.type-dropdown {
+    display: flex;
+    margin-left: auto;
+}
+
 .form-upload {
     display: flex;
     align-items: center;
