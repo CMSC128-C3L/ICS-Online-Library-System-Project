@@ -46,14 +46,7 @@ function AdviserSummary(props){
         }
 
         const getPDF = async() =>{
-            try{
-                let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-type': 'application/json', 'Accept': 'application/pdf'}, responseType: 'blob'}
-
-  
-               
-            }catch(e){
-                console.log(e)
-            }
+            
         }
 
 

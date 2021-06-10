@@ -42,6 +42,7 @@ function AuthorSummary(props){
                 console.log(e);
             }
             
+            console.log("test");
             
            setSummary(prevSummary=>({
                ...prevSummary,
