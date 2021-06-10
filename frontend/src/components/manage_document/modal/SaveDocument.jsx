@@ -43,16 +43,16 @@ function SaveDocument(props){
         try {
             if(props.type=="book"){
                 response = await axios.post(`/api/books`, {
-                    type: 'Book',
-                    id: '123456',
-                    title: 'TEMPORARY BOOK CMSC 128 C3L', 
-                    author: 'props.book.author',
-                    book_cover_img: 'https://geniuspublicationsjaipur.files.wordpress.com/2013/04/software-engineering-book.jpg',
-                    year: '2021',
-                    publisher: 'props.book.publisher',
-                    isbn: '9781593275849',
-                    description: 'props.book.description',
-                    topic: 'Algorithms',
+                    type: "Book",
+                    id: props.book.id,
+                    title: props.book.title, 
+                    author: props.book.author,
+                    year: props.book.year,
+                    publisher: props.book.publisher,
+                    isbn: props.book.isbn,
+                    description: props.book.description,
+                    topic: props.book.topic,
+                    courses: props.book.course
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.post(`/api/thesis`, {

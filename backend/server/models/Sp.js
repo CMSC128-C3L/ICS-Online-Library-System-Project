@@ -10,7 +10,7 @@ const spSchema= new mongoose.Schema({
     author: [String],
     adviser: [String],
     pub_date: {
-        type: Date,
+        type: String,
         required: true,
     },
     abstract: String,
