@@ -9,7 +9,7 @@ import {Multiselect} from 'multiselect-react-dropdown';
 import Modal from './modal/Modal';
 import SaveDocument from './modal/SaveDocument';
 import './DocumentCard.css';
-import { useForm, Controller} from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 /**
  * functional component
@@ -24,7 +24,7 @@ function CreateDocument(props){
   const [selectedTopic, setSelectedTag] = useState([]);
 
   //for testing validation 
-  const { register, handleSubmit, getValues, setValue, control, formState: { errors } } = useForm();
+  const { register, handleSubmit, getValues, control, formState: { errors } } = useForm();
 
   // Create reference to modal
   const saveModal = useRef(null)
@@ -73,7 +73,6 @@ function CreateDocument(props){
 // for getting document type value
 const handleType  = (selectedItem)  =>{
   setSelectedValue(selectedItem);
-  setValue()
   console.log("content [type]: \n", selectedValue)
   
   if(selectedValue=="Book") {
@@ -178,27 +177,16 @@ const topics = [
                 <div className='document-card-container document-card-flex-column' key={""}>
                   <div className="main-text-tags">Classification: 
                   
-                  <Controller
-                    control={control}
-                    as={
-                      <Multiselect 
-                        selectionLimit="1"
-                        placeholder="Document Type"
-                        options={classification} 
-                        closeIcon="cancel"
-                        isObject={false} 
-                        onSelect={([selectedValue])=> handleType(selectedValue)} 
-                        onRemove={([selectedValue])=> handleType(selectedValue)}   
-                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
-                      />
-                    }
-                    rules={{ required: true }}
-                    name="type"
-                    register={register}
-                    setValue={setValue}
+                  <Multiselect 
+                      selectionLimit="1"
+                      placeholder="Document Type"
+                      options={classification} 
+                      closeIcon="cancel"
+                      isObject={false} 
+                      onSelect={(selectedValue)=> handleType(selectedValue)} 
+                      onRemove={(selectedValue)=> handleType(selectedValue)}   
+                      style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                   />
-
-                  {errors.type && <div className="warning">This field is required</div>} 
                   </div>
 
                   {
@@ -217,7 +205,7 @@ const topics = [
                                       {errors.Year && <div className="warning">This field is required</div>}
                                       <div className="main-text-tags">Publisher: <input type="text" className="input-container" name= "book_publisher" placeholder="Publisher"  {...register("Publisher", {required: true, min: 1})} /> </div>
                                       {errors.Publisher && <div className="warning">This field is required</div>}
-                                      <div className="main-text-tags">ISBN: <input type="number" className="input-container" name= "book_isbn" placeholder="ISBN"  {...register("ISBN", {required: true, min: 1})} /> </div>
+                                      <div className="main-text-tags">ISBN: <input type="text" className="input-container" name= "book_isbn" placeholder="ISBN"  {...register("ISBN", {required: true, min: 1})} /> </div>
                                       {errors.ISBN && <div className="warning">This field is required</div>}
 
                                       {/* This section is for course of the document, this part has a lot of bugs */}
