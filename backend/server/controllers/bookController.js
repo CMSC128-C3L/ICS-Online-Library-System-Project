@@ -158,9 +158,10 @@ function bookBase(data) {
     book.author = data.author;
     book.isbn = data.isbn;
     book.publisher = data.publisher;
-    
+
+    const static_url = 'http://localhost:5000/static/';
     if (data.book_cover_img.split("-")[0] === 's')
-        book.book_cover_img = path.join(__dirname, '../uploads/books/') + data.book_cover_img
+        book.book_cover_img = static_url + data.book_cover_img
     else 
         book.book_cover_img = data.book_cover_img
 
