@@ -50,8 +50,12 @@ function AuthorSummary(props){
                 let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-type': 'application/json', 'Accept': 'application/pdf'}, responseType: 'blob'}
 
                 
-                axios.get(`/api/${type}SummaryPDF/${name}`, options)
-     
+                // axios.get(`/api/${type}SummaryPDF/${name}`, options)
+                // .then(response => {
+                //     const content = 'application/jpg';
+                //     download("https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg", "test.jpg", content)
+                // })
+                //  .catch(error => console.log(error));
             }catch(e){
                 console.log(e)
             }
