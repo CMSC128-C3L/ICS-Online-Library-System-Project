@@ -50,7 +50,12 @@ function CreateDocument(props){
     adviser: getValues("THESIS_Adviser"),
     author: getValues("THESIS_Author"),
     pub_date: getValues("THESIS_Date"),
-    abstract: getValues("THESIS_Abstract")
+    journal: getValues("THESIS_Journal"),
+    poster: getValues("THESIS_Poster"),
+    source_code: getValues("THESIS_Source_Code"),
+    abstract: getValues("THESIS_Abstract"),
+    topic: "",
+    course: ""
   };
 
   let sp = {
@@ -60,7 +65,12 @@ function CreateDocument(props){
     adviser: getValues("SP_Adviser"),
     author: getValues("SP_Author"),
     pub_date: getValues("SP_Date"),
-    abstract: getValues("SP_Abstract")
+    journal: getValues("SP_Journal"),
+    poster: getValues("SP_Poster"),
+    source_code: getValues("SP_Source_Code"),
+    abstract: getValues("SP_Abstract"),
+    topic: [],
+    course: []
   };
 
 // for getting document type value
@@ -202,6 +212,12 @@ useEffect(() => {
                                     {errors.SP_Adviser && <div className="warning">Adviser field is required</div>}
                                     <div className="main-text-tags">Publishing Date: <input className="input-container" type="date" placeholder="Publishing Date" {...register("SP_Date", {required: true, min: 1})} /> </div>
                                     {errors.SP_Date && <div className="warning">Publishing Date field is required</div>}
+                                    <div className="main-text-tags">Journal: <input className="input-container" name="sp_journal" type="text" placeholder="Journal" {...register("SP_Journal", {required: true, min: 1})} /> </div>
+                                    {errors.SP_Journal && <div className="warning">Journal field is required</div>}
+                                    <div className="main-text-tags">Poster: <input className="input-container" name="sp_poster" type="text" placeholder="Poster" {...register("SP_Poster", {required: true, min: 1})} /> </div>
+                                    {errors.SP_Poster && <div className="warning">Poster field is required</div>}
+                                    <div className="main-text-tags">Source Code: <input className="input-container" name="sp_source_code" type="text" placeholder="Source Code" {...register("SP_Source_Code", {required: true, min: 1})} /> </div>
+                                    {errors.SP_Source_Code && <div className="warning">Source Code field is required</div>}
 
                                     {/* This section is for course of the document */}
                                     <div className="main-text-tags">Courses:</div>
@@ -243,6 +259,12 @@ useEffect(() => {
                                     {errors.THESIS_Adviser && <div className="warning">Adviser field is required</div>}
                                     <div className="main-text-tags">Publishing Date: <input className="input-container" type="date" placeholder="Publishing Date" {...register("THESIS_Date", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Date && <div className="warning">Publishing Date field is required</div>}
+                                    <div className="main-text-tags">Journal: <input className="input-container" name="thesis_journal" type="text" placeholder="Journal" {...register("THESIS_Journal", {required: true, min: 1})}/> </div>
+                                    {errors.THESIS_Journal && <div className="warning">Journal field is required</div>}
+                                    <div className="main-text-tags">Poster: <input className="input-container" name="thesis_poster" type="text" placeholder="Poster" {...register("THESIS_Poster", {required: true, min: 1})}/> </div>
+                                    {errors.THESIS_Poster && <div className="warning">Poster field is required</div>}
+                                    <div className="main-text-tags">Source Code: <input className="input-container" name="thesis_source_code" type="text" placeholder="Source Code" {...register("THESIS_Source_Code", {required: true, min: 1})}/> </div>
+                                    {errors.THESIS_Source_Code && <div className="warning">Source Code field is required</div>}
 
                                     {/* This section is for course of the document*/}
                                     <div className="main-text-tags">Courses:</div>

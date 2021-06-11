@@ -36,6 +36,11 @@ function SaveDocument(props){
     const handleSave = (user) => confirmModal.current.open(user)
     const handleCancel = () => close()
     const handleRoute = () => history.push({pathname: `/search`, state: { fromButtonEdit: false, type: props.type}})
+    const splitAuthors = (author) => {
+        let authors = author.split(",");
+        authors = authors.map((author) => author.trim());
+        return authors;
+    }
     
     const handleSubmit = async() =>{
         //post request to create and save document
@@ -47,7 +52,7 @@ function SaveDocument(props){
                     type: 'Book',
                     id: props.book.id,
                     title: props.book.title, 
-                    author: props.book.author,
+                    author: splitAuthors(props.book.author),
                     book_cover_img: 'https://geniuspublicationsjaipur.files.wordpress.com/2013/04/software-engineering-book.jpg',
                     year: props.book.year,
                     publisher: props.book.publisher,
@@ -61,28 +66,30 @@ function SaveDocument(props){
                     type: 'Thesis',
                     id: props.thesis.id,
                     title: props.thesis.title,
-                    author: props.thesis.author,
-                    adviser: props.thesis.adviser,
+                    author: splitAuthors(props.thesis.author),
+                    adviser: splitAuthors(props.thesis.adviser),
                     pub_date: props.thesis.pub_date,
                     abstract: props.thesis.abstract,
                     topic: props.topic,
                     courses: data,
-                    journal: '',
-                    poster: ''
+                    source_code: props.source_code,
+                    journal: props.journal,
+                    poster: props.poster
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.post(`/api/sp`, {
                     type: 'Special Problem',
                     id: props.sp.id,
                     title: props.sp.title,
-                    author: props.sp.author,
-                    adviser: props.sp.adviser,
+                    author: splitAuthors(props.sp.author),
+                    adviser: splitAuthors(props.sp.adviser),
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
                     topic: props.topic,
                     courses: data,
-                    journal: '',
-                    poster: ''    
+                    source_code: props.source_code,
+                    journal: props.journal,
+                    poster: props.poster  
                 } , options);
             }
             console.log('Returned data:', response.data);
