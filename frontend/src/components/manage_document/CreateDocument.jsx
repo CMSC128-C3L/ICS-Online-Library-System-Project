@@ -10,6 +10,8 @@ import Modal from './modal/Modal';
 import SaveDocument from './modal/SaveDocument';
 import './DocumentCard.css';
 import { useForm, Controller } from 'react-hook-form';
+import {classification, course, topics} from './Choices.jsx'
+import Select from 'react-select';
 
 /**
  * functional component
@@ -21,10 +23,11 @@ function CreateDocument(props){
   const classes = useStyles();
   const [doc_type, setDoctype] = useState([]);
   const [selectedValue, setSelectedValue] = useState([]);
-  const [selectedTopic, setSelectedTag] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState([]);
 
   //for testing validation 
-  const { register, handleSubmit, getValues, control, formState: { errors } } = useForm();
+  const { register, handleSubmit, getValues, setValue, control, formState: { errors } } = useForm();
 
   // Create reference to modal
   const saveModal = useRef(null)
@@ -32,7 +35,7 @@ function CreateDocument(props){
 
   // section to initialize book/sp/thesis
   let book = {
-    type: "",
+    type: getValues("controlledSelect"),
     id: getValues("ID"),
     title: getValues("Title"),
     year: getValues("Year"),
@@ -45,7 +48,7 @@ function CreateDocument(props){
   };
 
   let thesis = {
-    type: "",
+    type: getValues("controlledSelect"),
     id: getValues("THESIS_ID"),
     title: getValues("THESIS_Title"),
     adviser: getValues("THESIS_Adviser"),
@@ -57,7 +60,7 @@ function CreateDocument(props){
   };
 
   let sp = {
-    type: "",
+    type: getValues("controlledSelect"),
     id: getValues("SP_ID"),
     title: getValues("SP_Title"),
     adviser: getValues("SP_Adviser"),
@@ -89,95 +92,65 @@ const handleType  = (selectedItem)  =>{
   } else setDoctype("")
 }
 
-// for tags input value
-const onSelect  = (selectedTag, type)  =>{
-  setSelectedTag(selectedTag);
+const selectTopic  = (selectedItem)  =>{
+  setSelectedTopic(selectedItem);
   console.log("content [topic]: \n", selectedTopic)
-  // if(doc_type=="book") book.topic = selectedTopic;
-  // else if(doc_type=="sp") sp.topic = selectedTopic;
-  // else if(doc_type=="thesis") thesis.topic = selectedTopic;
 
-  if(type ==="tags"){
-    console.log("TAGS");
-    if(doc_type=="book") book.topic = selectedTopic;
-    else if(doc_type=="sp") sp.topic = selectedTopic;
-    else if(doc_type=="thesis") thesis.topic = selectedTopic;
-  } else if(type==="course"){
-    //insert method for assigning the course object of document
-    book.courses = selectedTopic;
-  }
-  
+  // method for assigning the topic of document
+  if(doc_type=="book") book.topic = selectedTopic;
+  else if(doc_type=="sp") sp.topic = selectedTopic;
+  else if(doc_type=="thesis") thesis.topic = selectedTopic;
+}
+
+const selectCourse  = (selectedItem)  =>{
+  setSelectedCourse(selectedItem);
+  console.log("content [course]: \n", selectedCourse)
+
+  // method for assigning the course object of document
+  if(doc_type=="book") book.courses = selectedCourse;
+  else if(doc_type=="sp") sp.courses = selectedCourse;
+  else if(doc_type=="thesis") thesis.courses = selectedCourse;
 }
 
 // useEffect for handling changes in tags input
 useEffect(() => {
   handleType(selectedValue)
-  onSelect(selectedTopic)
-}, [selectedValue, selectedTopic])
-
-// THIS SECTION IS A SET OF ARRAYS OF CHOICES 
-
-const classification = [
-  'Book',
-  'Special Problem',
-  'Thesis'
-]
-
-const course = ["CMSC 12", "CMSC 21", "CMSC 22", "CMSC 23", "CMSC 56", "CMSC 57", "CMSC 100", "CMSC 123", "CMSC 124",
- "CMSC 125", "CMSC 127", "CMSC 128", "CMSC 129", "CMSC 130", "CMSC 131", "CMSC 132", "CMSC 137", "CMSC 141", "CMSC 142", 
- "CMSC 150", "CMSC 161", "CMSC 165", "CMSC 170", "CMSC 172", "CMSC 173", "CMSC 180"];
-
-const topics = [
-  'Algorithms',
-  'Android Development',
-  'Artificial Intelligence',
-  'Automata',
-  'Bioinformatics',
-  'Computer Architecture',
-  'Computer Graphics',
-  'Computer Security',
-  'Cryptography',
-  'Data Structures',
-  'Database Management',
-  'Discrete Mathematics',
-  'Distributed Computing',
-  'Human-Computer Interaction',
-  'Image Processing',
-  'Machine Learning',
-  'Networking',
-  'Operating System',
-  'Parallel Algorithms',
-  'Programming Languages',
-  'Robotics',
-  'Security',
-  'Software Engineering',
-  'Special Topic',
-  'Speech Recognition',
-  'User Interface',
-  'Web Development',
-]
+  selectTopic(selectedTopic)
+  selectCourse(selectedCourse)
+}, [selectedValue, selectedTopic, selectedCourse])
 
   return(
     <div className="browsebg browsebg-container">
       {
         <div> 
-            <Modal ref={saveModal}><SaveDocument book={book} sp={sp} thesis={thesis} type={doc_type}/></Modal>
+            <Modal ref={saveModal}><SaveDocument book={book} sp={sp} thesis={thesis} course={selectedCourse} topic={selectedTopic} type={doc_type}/></Modal>
+
             <div className='document-card-flex-row'>
-                {/* document thumbnail should be uploadable */}
+                {/* document thumbnail should be uploadable, should reflect uploaded image */}
                 {/* <div className='image-card-container card-content' >
                 <img alt="INSERT A THUMBNAIL" className={classes.imageStyle}></img>
                 </div> */}
 
-                <div className='document-card-container button-card-flex-column'>
-                  <UploadIcon className={classes.iconStyle} style={{alignSelf:'center'}}/>
-                  <button className={classes.textStyle} onClick={props.handleDownload}>UPLOAD THUMBNAIL</button>
-                </div>
+                {(function(doc_type){
+                    switch(doc_type){
+                    case "book": //if book, can upload book cover image
+                        return(
+                          <div className='document-card-container button-card-flex-column'>
+                          <UploadIcon className={classes.iconStyle} style={{alignSelf:'center'}}/>
+                          <button className={classes.textStyle} onClick={"insert upload function"}>UPLOAD THUMBNAIL</button>
+                          </div>
+                          )
+                    default: 
+                      return null;
+                    }
+                  })(doc_type)
+                  }
                 
                 {/* document attributes are editable*/}
                 <div className='document-card-container document-card-flex-column' key={""}>
                   <div className="main-text-tags">Classification: 
-                  
                   <Multiselect 
+                      id = "doctype"
                       selectionLimit="1"
                       placeholder="Document Type"
                       options={classification} 
@@ -185,9 +158,10 @@ const topics = [
                       isObject={false} 
                       onSelect={(selectedValue)=> handleType(selectedValue)} 
                       onRemove={(selectedValue)=> handleType(selectedValue)}   
-                      style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
-                  />
+                      style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} } 
+                      />
                   </div>
+                  
 
                   {
                     (function(doc_type){
@@ -195,18 +169,18 @@ const topics = [
                             case "book": //input section for book attributes
                                 return(
                                     <div>
-                                      <div className="main-text-tags">ID: <input type="number" className="input-container" name= "book_id" placeholder="ID"  {...register("ID", {required: true, min: 1})} />  </div>
-                                      {errors.ID && <div className="warning">This field is required</div>}
+                                      <div className="main-text-tags">ID: <input type="number" className="input-container" name= "book_id" placeholder="ID"  {...register("ID", {required: true, min: 1})}/>  </div>
+                                      {errors.ID && <div className="warning">ID field is required</div>}
                                       <div className="main-text-tags">Title: <input type="text" className="input-container" name= "book_title" placeholder="Title"  {...register("Title", {required: true, min: 1})} /> </div>
-                                      {errors.Title && <div className="warning">This field is required</div>}
+                                      {errors.Title && <div className="warning">Title field is required</div>}
                                       <div className="main-text-tags">Author: <input type="text" className="input-container" name= "book_author" placeholder="Author"  {...register("Author", {required: true, min: 1})} /> </div>
-                                      {errors.Author && <div className="warning">This field is required</div>}
+                                      {errors.Author && <div className="warning">Author field is required</div>}
                                       <div className="main-text-tags">Year: <input type="number" className="input-container" name= "book_year" placeholder="Year"  {...register("Year", {required: true, min: 1000})} /> </div>
-                                      {errors.Year && <div className="warning">This field is required</div>}
+                                      {errors.Year && <div className="warning">Year field is required</div>}
                                       <div className="main-text-tags">Publisher: <input type="text" className="input-container" name= "book_publisher" placeholder="Publisher"  {...register("Publisher", {required: true, min: 1})} /> </div>
-                                      {errors.Publisher && <div className="warning">This field is required</div>}
+                                      {errors.Publisher && <div className="warning">Publisher field is required</div>}
                                       <div className="main-text-tags">ISBN: <input type="text" className="input-container" name= "book_isbn" placeholder="ISBN"  {...register("ISBN", {required: true, min: 1})} /> </div>
-                                      {errors.ISBN && <div className="warning">This field is required</div>}
+                                      {errors.ISBN && <div className="warning">ISBN field is required</div>}
 
                                       {/* This section is for course of the document, this part has a lot of bugs */}
                                       <div className="main-text-tags">Courses:</div>
@@ -216,8 +190,8 @@ const topics = [
                                           options={course} 
                                           closeIcon="cancel"
                                           isObject={false}
-                                          onSelect={(selectedValue)=> onSelect(selectedValue, "course")} 
-                                          onRemove={(selectedValue)=> onSelect(selectedValue, "course")}   
+                                          onSelect={selectCourse} 
+                                          onRemove={selectCourse}   
                                           style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                       />
 
@@ -229,8 +203,8 @@ const topics = [
                                           options={topics} 
                                           closeIcon="cancel"
                                           isObject={false}
-                                          onSelect={(selectedTopic)=> onSelect(selectedTopic, "tags")} 
-                                          onRemove={(selectedTopic)=> onSelect(selectedTopic, "tags")}   
+                                          onSelect={selectTopic} 
+                                          onRemove={selectTopic}   
                                           style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                       />
                                     </div>
@@ -240,15 +214,15 @@ const topics = [
                                   <div>
                                     
                                     <div className="main-text-tags">ID: <input  className="input-container" name= "sp_id" type="text"  {...register("SP_ID", {required: true, min: 1})}/> </div>
-                                    {errors.SP_ID && <div className="warning">This field is required</div>}
+                                    {errors.SP_ID && <div className="warning">ID field is required</div>}
                                     <div className="main-text-tags">Title: <input  className="input-container" name= "sp_title" type="text"  {...register("SP_Title", {required: true, min: 1})}/>  </div>
-                                    {errors.SP_Title && <div className="warning">This field is required</div>}
+                                    {errors.SP_Title && <div className="warning">Title field is required</div>}
                                     <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text"  {...register("SP_Author", {required: true, min: 1})}/> </div>
-                                    {errors.SP_Author && <div className="warning">This field is required</div>}
+                                    {errors.SP_Author && <div className="warning">Author field is required</div>}
                                     <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text"  {...register("SP_Adviser", {required: true, min: 1})}/>  </div>
-                                    {errors.SP_Adviser && <div className="warning">This field is required</div>}
+                                    {errors.SP_Adviser && <div className="warning">Adviser field is required</div>}
                                     <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="text"  {...register("SP_Date", {required: true, min: 1})} /> </div>
-                                    {errors.SP_Date && <div className="warning">This field is required</div>}
+                                    {errors.SP_Date && <div className="warning">Publishing Date field is required</div>}
 
                                     {/* This section is for course of the document, this part has a lot of bugs */}
                                     <div className="main-text-tags">Courses:</div>
@@ -258,8 +232,10 @@ const topics = [
                                         options={course} 
                                         closeIcon="cancel"
                                         isObject={false}
-                                        onSelect={(selectedValue)=> onSelect(selectedValue, "course")} 
-                                        onRemove={(selectedValue)=> onSelect(selectedValue, "course")}   
+                                        onSelect={selectCourse} 
+                                        onRemove={selectCourse}
+                                        // onSelect={(selectedValue)=> onSelect(selectedValue, "course")} 
+                                        // onRemove={(selectedValue)=> onSelect(selectedValue, "course")}   
                                         style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                     />
 
@@ -271,8 +247,8 @@ const topics = [
                                         options={topics} 
                                         closeIcon="cancel"
                                         isObject={false}
-                                        onSelect={(selectedTopic)=> onSelect(selectedTopic, "tags")} 
-                                        onRemove={(selectedTopic)=> onSelect(selectedTopic, "tags")}   
+                                        onSelect={selectTopic} 
+                                        onRemove={selectTopic}
                                         style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                     />
                                   </div>
@@ -282,39 +258,37 @@ const topics = [
                                   <div>
                                     
                                     <div className="main-text-tags">ID: <input  className="input-container" name= "thesis_id" type="text"  {...register("THESIS_ID", {required: true, min: 1})}/> </div>
-                                    {errors.THESIS_ID && <div className="warning">This field is required</div>}
+                                    {errors.THESIS_ID && <div className="warning">ID field is required</div>}
                                     <div className="main-text-tags">Title: <input  className="input-container" name= "thesis_title" type="text"  {...register("THESIS_Title", {required: true, min: 1})}/> </div>
-                                    {errors.THESIS_Title && <div className="warning">This field is required</div>}
+                                    {errors.THESIS_Title && <div className="warning">Title field is required</div>}
                                     <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text"  {...register("THESIS_Author", {required: true, min: 1})}/> </div>
-                                    {errors.THESIS_Author && <div className="warning">This field is required</div>}
+                                    {errors.THESIS_Author && <div className="warning">Author field is required</div>}
                                     <div className="main-text-tags">Adviser: <input className="input-container" name="thesis_adviser" type="text"  {...register("THESIS_Adviser", {required: true, min: 1})}/></div>
-                                    {errors.THESIS_Adviser && <div className="warning">This field is required</div>}
+                                    {errors.THESIS_Adviser && <div className="warning">Adviser field is required</div>}
                                     <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="text"  {...register("THESIS_Date", {required: true, min: 1})}/> </div>
-                                    {errors.THESIS_Date && <div className="warning">This field is required</div>}
+                                    {errors.THESIS_Date && <div className="warning">Publishing Date field is required</div>}
 
                                     {/* This section is for course of the document, this part has a lot of bugs */}
                                     <div className="main-text-tags">Courses:</div>
                                     <Multiselect 
-                                        id = {thesis.id}
                                         placeholder="Add a course"
                                         options={course} 
                                         closeIcon="cancel"
                                         isObject={false}
-                                        onSelect={(selectedValue)=> onSelect(selectedValue, "course")} 
-                                        onRemove={(selectedValue)=> onSelect(selectedValue, "course")}   
+                                        onSelect={selectCourse} 
+                                        onRemove={selectCourse} 
                                         style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                     />
 
                                     {/* This section is for topic of the document */}
                                     <div className="main-text-tags">Tags:</div>
                                     <Multiselect 
-                                        id = {thesis.id}
                                         placeholder="Add a tag"
                                         options={topics} 
                                         closeIcon="cancel"
                                         isObject={false}
-                                        onSelect={(selectedTopic)=> onSelect(selectedTopic, "tags")} 
-                                        onRemove={(selectedTopic)=> onSelect(selectedTopic, "tags")}   
+                                        onSelect={selectTopic} 
+                                        onRemove={selectTopic}  
                                         style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                     />
                                 </div>
@@ -329,8 +303,8 @@ const topics = [
                 </div>
 
                 <div className='document-card-container button-card-flex-column'>
-                  <button className={classes.textStyle} onClick={props.handleDownload}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                  <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
+                  <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+                  <button className={classes.textStyle} onClick={"call function to update pdf"}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
                 </div>
             </div>
                 
