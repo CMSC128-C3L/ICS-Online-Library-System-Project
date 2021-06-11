@@ -8,6 +8,10 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import {useParams, useHistory} from 'react-router'
 import axios from 'axios'
+import { jsPDF } from "jspdf";
+import logo from '../../assets/ics_logo.jpg';
+import autoTable from 'jspdf-autotable'
+
 function CourseSummary(){
     const history = useHistory();
     let {id} = useParams();
@@ -38,15 +42,97 @@ function CourseSummary(){
     }
 
     const getPDF = async() =>{
-            try{
-                let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-type': 'application/json', 'Accept': 'application/pdf'}, responseType: 'blob'}
+        let doc = new jsPDF('p', 'pt');
+        try{
+            doc.setFont("helvetica");
+            let doc_count = 0;
+            let x = 50;
+            let y = 50;
+            let pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+            let pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+            let label = [
+                {title: "TITLE", dataKey: "Title"}, 
+                {title: "AUTHOR", dataKey: "Author"}, 
+                {title: "ADVISER", dataKey: "Adviser"}, 
+                {title: "DATE", dataKey: "Date"}, 
+                {title: "TYPE", dataKey: "Type"}, 
+                {title: "TOPIC", dataKey: "Topic"}, 
+            ];
+            
+            let data = [];
+            let text = []
 
-               
-               
-            }catch(e){
-                console.log(e)
-            }
+            text.push("SUMMARY REPORT")
+            text.push("Course Summary")
+            doc.text(text,pageWidth / 2,50,'center')
+            text = []
+            text.push(id)
+            doc.setFont("helvetica","bold");          
+            doc.text(text,pageWidth / 2,85,'center')
+            text = []
+
+            summary.documents.map((item, i)=>{
+                //limit 10 document per page
+                if(doc_count >= 15){
+                    doc.text(text,50,130)
+                    doc.addPage()
+                    doc_count = 0
+                }
+                var author = "";
+                var adviser = "";
+                var topic = "";
+                if(item.type === "Book"){
+                    item.author.map((auth) => { author+= auth + ", " });
+                    author = author.slice(0,author.length-2);
+                    item.topic.map((tpc) => { topic+= tpc + ", " });
+                    topic = topic.slice(0,topic.length-2);
+
+                    var temp = [item.title,author,"-",item.year,item.type,topic]
+                }
+                else if(item.type === "Special Problem" || item.type === "Thesis"){
+                    item.author.map((auth) => { author+= auth + ", " });
+                    author = author.slice(0,author.length-2);
+                    item.adviser.map((adv) => { adviser+= adv + ", " });
+                    adviser = adviser.slice(0,adviser.length-2);
+                    item.topic.map((tpc) => { topic+= tpc + ", " });
+                    topic = topic.slice(0,topic.length-2);
+
+                    var temp = [item.title,author,adviser,item.pub_date,item.type,topic]
+                }
+                
+                data.push(temp);
+                doc_count++;
+            })
+            console.log(data)
+            doc.autoTable(
+                label,
+                data,
+                {
+                    startY: 100,
+                    styles: {
+                        halign: "center"
+                    },
+                    columnStyles: {
+                        Title: {columnWidth: 100}, 
+                        Author:{columnWidth:100},
+                        Adviser:{columnWidth:100}, 
+                        Date: {columnWidth: 60}, 
+                        Type: {columnWidth: 50},
+                        Topic: {columnWidth: 100}
+                    }
+                }); //add label and data to the table
+        }catch(e){
+            console.log(e)
         }
+
+        const img = new Image();
+        img.src = logo;
+        img.onload = async function() {
+            await doc.addImage(img,'JPG',110,30,60,60);
+            doc.save(id + "-Course-Summary-Report.pdf");
+        };
+        
+    }
 
     useEffect(() => {
         
