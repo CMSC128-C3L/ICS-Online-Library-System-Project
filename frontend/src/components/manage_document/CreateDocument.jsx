@@ -190,8 +190,8 @@ useEffect(() => {
                                           options={course} 
                                           closeIcon="cancel"
                                           isObject={false}
-                                          onSelect={selectCourse} 
-                                          onRemove={selectCourse}   
+                                          onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                          onRemove={(selectedValue)=> selectCourse(selectedValue)}   
                                           style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                       />
 
@@ -199,12 +199,12 @@ useEffect(() => {
                                       <div className="main-text-tags">Tags:</div>
                                       <Multiselect 
                                           id = {book.id}
-                                          placeholder="Add a tag"
+                                          placeholder="Add a topic"
                                           options={topics} 
                                           closeIcon="cancel"
                                           isObject={false}
-                                          onSelect={selectTopic} 
-                                          onRemove={selectTopic}   
+                                          onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                          onRemove={(selectedValue)=> selectTopic(selectedValue)}      
                                           style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                       />
                                     </div>
@@ -213,15 +213,15 @@ useEffect(() => {
                                 return(
                                   <div>
                                     
-                                    <div className="main-text-tags">ID: <input  className="input-container" name= "sp_id" type="number"  {...register("SP_ID", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">ID: <input  className="input-container" name= "sp_id" type="number"  placeholder="ID" {...register("SP_ID", {required: true, min: 1})}/> </div>
                                     {errors.SP_ID && <div className="warning">ID field is required</div>}
-                                    <div className="main-text-tags">Title: <input  className="input-container" name= "sp_title" type="text"  {...register("SP_Title", {required: true, min: 1})}/>  </div>
+                                    <div className="main-text-tags">Title: <input  className="input-container" name= "sp_title" type="text" placeholder="Title" {...register("SP_Title", {required: true, min: 1})}/>  </div>
                                     {errors.SP_Title && <div className="warning">Title field is required</div>}
-                                    <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text"  {...register("SP_Author", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" placeholder="Author" {...register("SP_Author", {required: true, min: 1})}/> </div>
                                     {errors.SP_Author && <div className="warning">Author field is required</div>}
-                                    <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text"  {...register("SP_Adviser", {required: true, min: 1})}/>  </div>
+                                    <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" placeholder="Adviser" {...register("SP_Adviser", {required: true, min: 1})}/>  </div>
                                     {errors.SP_Adviser && <div className="warning">Adviser field is required</div>}
-                                    <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date"  {...register("SP_Date", {required: true, min: 1})} /> </div>
+                                    <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" placeholder="Publishing Date" {...register("SP_Date", {required: true, min: 1})} /> </div>
                                     {errors.SP_Date && <div className="warning">Publishing Date field is required</div>}
 
                                     {/* This section is for course of the document, this part has a lot of bugs */}
@@ -232,10 +232,8 @@ useEffect(() => {
                                         options={course} 
                                         closeIcon="cancel"
                                         isObject={false}
-                                        onSelect={selectCourse} 
-                                        onRemove={selectCourse}
-                                        // onSelect={(selectedValue)=> onSelect(selectedValue, "course")} 
-                                        // onRemove={(selectedValue)=> onSelect(selectedValue, "course")}   
+                                        onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                        onRemove={(selectedValue)=> selectCourse(selectedValue)}   
                                         style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                     />
 
@@ -243,12 +241,12 @@ useEffect(() => {
                                     <div className="main-text-tags">Tags:</div>
                                     <Multiselect 
                                         id = {sp.id}
-                                        placeholder="Add a tag"
+                                        placeholder="Add a topic"
                                         options={topics} 
                                         closeIcon="cancel"
                                         isObject={false}
-                                        onSelect={selectTopic} 
-                                        onRemove={selectTopic}
+                                        onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                          onRemove={(selectedValue)=> selectTopic(selectedValue)}    
                                         style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                     />
                                   </div>
@@ -257,15 +255,15 @@ useEffect(() => {
                                 return(
                                   <div>
                                     
-                                    <div className="main-text-tags">ID: <input  className="input-container" name= "thesis_id" type="bumber"  {...register("THESIS_ID", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">ID: <input  className="input-container" name= "thesis_id" type="bumber"  placeholder="ID" {...register("THESIS_ID", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_ID && <div className="warning">ID field is required</div>}
-                                    <div className="main-text-tags">Title: <input  className="input-container" name= "thesis_title" type="text"  {...register("THESIS_Title", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">Title: <input  className="input-container" name= "thesis_title" type="text"  placeholder="Title" {...register("THESIS_Title", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Title && <div className="warning">Title field is required</div>}
-                                    <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text"  {...register("THESIS_Author", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" placeholder="Author" {...register("THESIS_Author", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Author && <div className="warning">Author field is required</div>}
-                                    <div className="main-text-tags">Adviser: <input className="input-container" name="thesis_adviser" type="text"  {...register("THESIS_Adviser", {required: true, min: 1})}/></div>
+                                    <div className="main-text-tags">Adviser: <input className="input-container" name="thesis_adviser" type="text" placeholder="Adviser" {...register("THESIS_Adviser", {required: true, min: 1})}/></div>
                                     {errors.THESIS_Adviser && <div className="warning">Adviser field is required</div>}
-                                    <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date"  {...register("THESIS_Date", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" placeholder="Publishing Date" {...register("THESIS_Date", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Date && <div className="warning">Publishing Date field is required</div>}
 
                                     {/* This section is for course of the document, this part has a lot of bugs */}
@@ -275,20 +273,20 @@ useEffect(() => {
                                         options={course} 
                                         closeIcon="cancel"
                                         isObject={false}
-                                        onSelect={selectCourse} 
-                                        onRemove={selectCourse} 
+                                        onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                        onRemove={(selectedValue)=> selectCourse(selectedValue)}   
                                         style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                     />
 
                                     {/* This section is for topic of the document */}
                                     <div className="main-text-tags">Tags:</div>
                                     <Multiselect 
-                                        placeholder="Add a tag"
+                                        placeholder="Add a topic"
                                         options={topics} 
                                         closeIcon="cancel"
                                         isObject={false}
-                                        onSelect={selectTopic} 
-                                        onRemove={selectTopic}  
+                                        onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                        onRemove={(selectedValue)=> selectTopic(selectedValue)}    
                                         style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
                                     />
                                 </div>
