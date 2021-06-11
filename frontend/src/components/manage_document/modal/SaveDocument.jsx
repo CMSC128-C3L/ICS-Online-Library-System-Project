@@ -24,6 +24,16 @@ function SaveDocument(props){
         'Content-Type': 'application/json'
     }
 
+    const getCourse = async(item) =>{
+        const course_data = await axios.get('/api/course/'+ item, options);
+        return course_data.data[0];
+    }
+
+
+    const courses = props.course.map(item => getCourse(item))
+
+    
+
     const handleSave = (user) =>{
         confirmModal.current.open(user)
     }
@@ -40,6 +50,7 @@ function SaveDocument(props){
     const handleSubmit = async() =>{
         //post request to create and save document
         let response;
+        const data = await Promise.all(courses);
         try {
             if(props.type=="book"){
                 response = await axios.post(`/api/books`, {
@@ -53,7 +64,7 @@ function SaveDocument(props){
                     isbn: props.book.isbn,
                     description: props.book.description,
                     topic: props.topic,
-                    courses: props.course
+                    courses: data
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.post(`/api/thesis`, {
@@ -65,7 +76,7 @@ function SaveDocument(props){
                     pub_date: props.thesis.pub_date,
                     abstract: props.thesis.abstract,
                     topic: props.topic,
-                    courses: props.course,
+                    courses: data,
                     journal: '',
                     poster: ''
                 } , options);
@@ -79,7 +90,7 @@ function SaveDocument(props){
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
                     topic: props.topic,
-                    courses: props.course,
+                    courses: data,
                     journal: '',
                     poster: ''    
                 } , options);
