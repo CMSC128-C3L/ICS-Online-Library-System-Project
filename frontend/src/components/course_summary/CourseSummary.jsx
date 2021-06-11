@@ -10,7 +10,7 @@ import {useParams, useHistory} from 'react-router'
 import axios from 'axios'
 import { jsPDF } from "jspdf";
 import logo from '../../assets/ics_logo.jpg';
-import autoTable from 'jspdf-autotable'
+import autoTable from 'jspdf-autotable';
 
 function CourseSummary(){
     const history = useHistory();
@@ -45,7 +45,6 @@ function CourseSummary(){
         let doc = new jsPDF('p', 'pt');
         try{
             doc.setFont("helvetica");
-            let doc_count = 0;
             let x = 50;
             let y = 50;
             let pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
@@ -71,13 +70,11 @@ function CourseSummary(){
             doc.text(text,pageWidth / 2,85,'center')
             text = []
 
+            const img = new Image();
+            img.src = logo;
+            await doc.addImage(img,'JPG',110,30,60,60);
+
             summary.documents.map((item, i)=>{
-                //limit 10 document per page
-                if(doc_count >= 15){
-                    doc.text(text,50,130)
-                    doc.addPage()
-                    doc_count = 0
-                }
                 var author = "";
                 var adviser = "";
                 var topic = "";
@@ -101,7 +98,6 @@ function CourseSummary(){
                 }
                 
                 data.push(temp);
-                doc_count++;
             })
             console.log(data)
             doc.autoTable(
@@ -113,25 +109,15 @@ function CourseSummary(){
                         halign: "center"
                     },
                     columnStyles: {
-                        Title: {columnWidth: 100}, 
-                        Author:{columnWidth:100},
-                        Adviser:{columnWidth:100}, 
                         Date: {columnWidth: 60}, 
-                        Type: {columnWidth: 50},
-                        Topic: {columnWidth: 100}
+                        Type: {columnWidth: 50}
                     }
                 }); //add label and data to the table
         }catch(e){
             console.log(e)
         }
 
-        const img = new Image();
-        img.src = logo;
-        img.onload = async function() {
-            await doc.addImage(img,'JPG',110,30,60,60);
-            doc.save(id + "-Course-Summary-Report.pdf");
-        };
-        
+        doc.save(id + "-Course-Summary-Report.pdf");
     }
 
     useEffect(() => {
