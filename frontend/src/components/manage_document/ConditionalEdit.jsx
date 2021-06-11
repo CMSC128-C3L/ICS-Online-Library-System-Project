@@ -13,6 +13,7 @@ import UpdateDocument from './modal/UpdateDocument';
 import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
 import { UserContext } from '../user/UserContext'
+import {classification, course, topics} from './Choices.jsx'
 
 /**
  * functional component
@@ -24,7 +25,7 @@ function ConditionalEdit(props){
   const classes = useStyles();
   const [document, setDocument] = useState([]);
   const {id} = useParams();
-  const [selectedValue, setSelectedValue] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState([document.topic]);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
 
   // Create reference to modal
@@ -64,38 +65,71 @@ function ConditionalEdit(props){
       getDocument()
   }, [])
 
-  // section to initialize book/sp/thesis
-  let book = {
-    title: document.title,
-    year: document.year,
-    author: document.author,
-    publisher: document.publisher,
-    isbn: document.isbn,
-    description: document.description,
-    topic: document.topic
-  };
+  const [book, setBook] = useState({
+    title: "",
+    year: "",
+    author: "",
+    publisher: "",
+    isbn: "",
+    description: "",
+    courses: "",
+    topic: ""
+  })
 
-  let thesis = {
-    title: document.title,
-    adviser: document.adviser,
-    author: document.author,
-    pub_date: document.pub_date,
-    abstract: document.abstract,
-    topic: document.topic
-  };
+  const [thesis, setThesis] = useState({
+    title: "",
+    adviser: "",
+    author: "",
+    pub_date: "",
+    abstract: "",
+    courses: "",
+    topic: ""
+  })
 
-  let sp = {
-    title: document.title,
-    adviser: document.adviser,
-    author: document.author,
-    pub_date: document.pub_date,
-    abstract: document.abstract,
-    topic: document.topic
-  };
+  const [sp, setSP] = useState({
+    title: "",
+    adviser: "",
+    author: "",
+    pub_date: "",
+    abstract: "",
+    courses: "",
+    topic: ""
+  })
+
+  useEffect(() => {
+    if(doc_type=="book") setBook({ ...book, 
+      title: document.title,
+      year: document.year,
+      author: document.author,
+      publisher: document.publisher,
+      isbn: document.isbn,
+      description: document.description,
+      courses: document.course_code,
+      topic: document.topic
+    })
+    else if(doc_type=="sp") setSP({ ...sp, 
+      title: document.title,
+      adviser: document.adviser,
+      author: document.author,
+      pub_date: document.pub_date,
+      abstract: document.abstract,
+      courses: document.course_code,
+      topic: document.topic
+    })
+    else if(doc_type=="thesis") setThesis({ ...thesis, 
+      title: document.title,
+      adviser: document.adviser,
+      author: document.author,
+      pub_date: document.pub_date,
+      abstract: document.abstract,
+      courses: document.course_code,
+      topic: document.topic
+    })
+  }, [document])
+
 
   const handleInputChange = async(event) =>{
     const target = event.target;
-    console.log("data:\n")
 
     if(doc_type=="book"){
       if(target.name==="book_title") book.title = target.value;
@@ -104,15 +138,6 @@ function ConditionalEdit(props){
       else if(target.name==="book_publisher") book.publisher = target.value;
       else if(target.name==="book_isbn") book.isbn = target.value;
       else if(target.name==="book_description") book.description = target.value;
-      else if(target.name==="book_topic") book.topic = target.value;
-
-      console.log(book.title)
-      console.log(book.author)
-      console.log(book.year)
-      console.log(book.publisher)
-      console.log(book.isbn)
-      console.log(book.description)
-      console.log(book.topic)
     } 
 
     else if(doc_type=="thesis"){
@@ -121,13 +146,6 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_adviser") thesis.adviser = target.value;
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
-      else if(target.name==="thesis_topic") thesis.topic = target.value;
-      console.log(thesis.title)
-      console.log(thesis.author)
-      console.log(thesis.adviser)
-      console.log(thesis.pub_date)
-      console.log(thesis.abstract)
-      console.log(thesis.topic)
     }
 
     else if(doc_type=="sp"){
@@ -136,72 +154,26 @@ function ConditionalEdit(props){
       else if(target.name==="sp_adviser") sp.adviser = target.value;
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
-      else if(target.name==="sp_topic") sp.topic = target.value;
-      console.log(sp.title)
-      console.log(sp.author)
-      console.log(sp.adviser)
-      console.log(sp.pub_date)
-      console.log(sp.abstract)
-      console.log(sp.topic)
     }
 }
 
   // for tags input value
-  const onSelect  = (selectedItem)  =>{
-    setSelectedValue(selectedItem);
-    console.log("content [select]: \n", selectedValue)
-
-    if(doc_type=="book") book.topic = selectedValue;
-    else if(doc_type=="sp")  sp.topic = selectedValue;
-    else if(doc_type=="thesis")  thesis.topic = selectedValue;
-  }
-
-  const onRemove = (selectedItem)  =>{
-      setSelectedValue(selectedItem);
-      console.log("content [remove]: \n", selectedValue)
-
-      if(doc_type=="book") book.topic = selectedValue;
-      else if(doc_type=="sp")  sp.topic = selectedValue;
-      else if(doc_type=="thesis")  thesis.topic = selectedValue;
+  const selectTopic  = (selectedItem)  =>{
+    setSelectedTopic(selectedItem);
+    console.log("content [select]: \n", selectedTopic)
+    
+    if(doc_type=="book") book.topic = selectedTopic
+    else if(doc_type=="sp") sp.topic = selectedTopic
+    else if(doc_type=="thesis") thesis.topic = selectedTopic
   }
 
   useEffect(() => {
-    onSelect(selectedValue)
-    onRemove(selectedValue)
-}, [selectedValue])
-
-const data = [
-  'Algorithms',
-  'Android Development',
-  'Artificial Intelligence',
-  'Automata',
-  'Bioinformatics',
-  'Computer Architecture',
-  'Computer Graphics',
-  'Computer Security',
-  'Cryptography',
-  'Data Structures',
-  'Database Management',
-  'Discrete Mathematics',
-  'Distributed Computing',
-  'Human-Computer Interaction',
-  'Image Processing',
-  'Machine Learning',
-  'Networking',
-  'Operating System',
-  'Parallel Algorithms',
-  'Programming Languages',
-  'Robotics',
-  'Security',
-  'Software Engineering',
-  'Special Topic',
-  'Speech Recognition',
-  'User Interface',
-  'Web Development',
-]
+    selectTopic(selectedTopic)
+}, [selectedTopic])
 
   return(
     <div className="browsebg browsebg-container">
+      <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} type={doc_type}/></Modal>
       {
         (function(allowEdit, doc_type){
           switch(allowEdit){
@@ -211,8 +183,6 @@ const data = [
               if(doc_type=="book"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><UpdateDocument book={book} type={doc_type}/></Modal>
-  
                       <div className='document-card-flex-row'>
                           {/* document thumbnail not editable */}
                           <div className='image-card-container card-content' >
@@ -224,19 +194,19 @@ const data = [
                             <div className="main-text-tags">Classification: {document.type}</div>
                             <div className="main-text-tags">Title: <input  className="input-container" name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Author: <input className="input-container" name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
+                            <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="number" defaultValue={document.year} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publisher: <input className="input-container" name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="number" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
                             {/* <TagsInput topic={book.topic}/> */}
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 
                                 placeholder="Add a tag"
-                                options={data} 
+                                options={topics} 
                                 closeIcon="cancel"
                                 isObject={false}
-                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
-                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                onRemove={(selectedValue)=> selectTopic(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
                           </div>
@@ -264,8 +234,6 @@ const data = [
               } else if(doc_type=="thesis"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><UpdateDocument thesis={thesis} type={doc_type}/></Modal>
-  
                       <div className='document-card-flex-row'>                          
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
@@ -273,17 +241,17 @@ const data = [
                             <div className="main-text-tags">Title: <input className="input-container" name= "thesis_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container"  name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
-                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
                       
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 
                                 placeholder="Add a tag"
-                                options={data} 
+                                options={topics} 
                                 closeIcon="cancel"
                                 isObject={false}
-                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
-                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                onRemove={(selectedValue)=> selectTopic(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
                           </div>
@@ -310,8 +278,6 @@ const data = [
               }  else if(doc_type=="sp"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><UpdateDocument sp={sp} type={doc_type}/></Modal>
-  
                       <div className='document-card-flex-row'>                          
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
@@ -319,17 +285,17 @@ const data = [
                             <div className="main-text-tags">Title: <input className="input-container" name= "sp_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
-                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
   
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 
                                 placeholder="Add a tag"
-                                options={data} 
+                                options={topics} 
                                 closeIcon="cancel"
                                 isObject={false}
-                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
-                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                onRemove={(selectedValue)=> selectTopic(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
                           </div>
@@ -374,6 +340,7 @@ const data = [
                               publisher={document.publisher}
                               docISBN={document.isbn}
                               topic={document.topic}
+                              course={document.course_code}
                           />
                           </div>
   
@@ -383,7 +350,7 @@ const data = [
                         <div className="document-card-container">
                           <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
                           <Box className={classes.descriptionStyle}>
-                              {document.description}
+                          {document.description}
                           </Box>
                           </div>
                       </div>
@@ -397,10 +364,11 @@ const data = [
                           <DocumentCard
                               type={document.type}
                               title={document.title}
-                              author={document.author} 
+                              author={document.author}
                               adviser={document.adviser}
                               yearPublished={document.pub_date}
                               topic={document.topic}
+                              course={document.course_code}
                           />  
                           </div>
                       </div>
@@ -410,7 +378,7 @@ const data = [
                           <h2 style={{textAlign: 'center'}}>ABSTRACT</h2>
                           
                           <Box className={classes.descriptionStyle}>
-                              {document.abstract}
+                          {document.abstract}
                           </Box>
                           </div>
                       </div>

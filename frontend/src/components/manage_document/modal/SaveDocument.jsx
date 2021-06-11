@@ -24,29 +24,19 @@ function SaveDocument(props){
         'Content-Type': 'application/json'
     }
 
+    // get course api
     const getCourse = async(item) =>{
         const course_data = await axios.get('/api/course/'+ item, options);
         return course_data.data[0];
     }
 
-
     const courses = props.course.map(item => getCourse(item))
 
+    //handling save functions
+    const handleSave = (user) => confirmModal.current.open(user)
+    const handleCancel = () => close()
+    const handleRoute = () => history.push({pathname: `/search`, state: { fromButtonEdit: false, type: props.type}})
     
-
-    const handleSave = (user) =>{
-        confirmModal.current.open(user)
-    }
-
-    const handleCancel = () =>{ 
-        close()
-    }
-
-    const handleRoute = (id) =>{ 
-        history.push({pathname: `/search`, state: { fromButtonEdit: false, type: props.type}})
-        // history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
-    }
-
     const handleSubmit = async() =>{
         //post request to create and save document
         let response;
@@ -103,39 +93,6 @@ function SaveDocument(props){
 
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
-        if(props.type=="book"){
-            console.log("SAVE DOCUMENT [book]:\n",
-            props.book.id,"\n", 
-            props.book.title,"\n",
-            props.book.author,"\n",
-            props.book.year,"\n",
-            props.book.publisher,"\n",
-            props.book.isbn,"\n", 
-            props.book.description,"\n",
-            props.topic,"\n",
-            props.course,"\n")
-        } else if(props.type=="thesis"){
-            console.log("SAVE DOCUMENT [thesis]:\n",
-            props.thesis.id,"\n", 
-            props.thesis.title,"\n",
-            props.thesis.author,"\n",
-            props.thesis.adviser,"\n",
-            props.thesis.pub_date,"\n",
-            props.thesis.abstract,"\n", 
-            props.topic,"\n",
-            props.course,"\n")
-        } else if(props.type=="sp"){
-            console.log("SAVE DOCUMENT [sp]:\n",
-            props.sp.id,"\n", 
-            props.sp.title,"\n",
-            props.sp.author,"\n",
-            props.sp.adviser,"\n",
-            props.sp.pub_date,"\n",
-            props.sp.abstract,"\n", 
-            props.topic,"\n",
-            props.course,"\n")
-        }
-        
         if(confirmed){
             handleSubmit();
             close();
@@ -148,28 +105,20 @@ function SaveDocument(props){
             <Modal ref={confirmModal}><ConfirmChange onConfirm={handleConfirmation}>Confirm edit</ConfirmChange></Modal>
             <SaveIcon className={classes.iconStyle}/>
             <h3 className="text prompt"> ADD NEW DOCUMENT </h3>
-            {
-                (function(document){
-                    console.log("document card value: ", document.type)
-                    
-                    switch(document.type){
-                        case "book":
-                            return(
-                                <h3 className="text prompt"> Are you sure you want to create "{document.book.title}" {document.book.year}? </h3>
-                            )
-                        case "thesis":
-                            return(
-                                <h3 className="text prompt"> Are you sure you want to create "{document.thesis.title}" {document.thesis.pub_date}? </h3>
-                            )
-                        case "sp":
-                            return(
-                                <h3 className="text prompt"> Are you sure you want to create "{document.sp.title}" {document.sp.pub_date}? </h3>
-                            )
-                        default:
-                            return null;	
-                        }
-                })(props)
-            }
+            {(function(document){
+                console.log("document card value: ", document.type)
+                
+                switch(document.type){
+                    case "book":
+                        return( <h3 className="text prompt"> Are you sure you want to create "{document.book.title}" {document.book.year}? </h3>)
+                    case "thesis":
+                        return( <h3 className="text prompt"> Are you sure you want to create "{document.thesis.title}" {document.thesis.pub_date}? </h3>)
+                    case "sp":
+                        return( <h3 className="text prompt"> Are you sure you want to create "{document.sp.title}" {document.sp.pub_date}? </h3>)
+                    default:
+                        return null;	
+                    }
+            })(props)}
 
             <div className="save-cancel">
                 <button className="save popup-btn" onClick={()=> handleSave(user)}>Save</button>

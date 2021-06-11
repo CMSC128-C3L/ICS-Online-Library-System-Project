@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef} from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import {Box} from "@material-ui/core";
-import axios from 'axios';
 import UploadIcon from '@material-ui/icons/Backup';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
@@ -9,9 +8,8 @@ import {Multiselect} from 'multiselect-react-dropdown';
 import Modal from './modal/Modal';
 import SaveDocument from './modal/SaveDocument';
 import './DocumentCard.css';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {classification, course, topics} from './Choices.jsx'
-import Select from 'react-select';
 
 /**
  * functional component
@@ -27,7 +25,7 @@ function CreateDocument(props){
   const [selectedCourse, setSelectedCourse] = useState([]);
 
   //for testing validation 
-  const { register, handleSubmit, getValues, setValue, control, formState: { errors } } = useForm();
+  const { register, handleSubmit, getValues, control, formState: { errors } } = useForm();
 
   // Create reference to modal
   const saveModal = useRef(null)
@@ -42,9 +40,7 @@ function CreateDocument(props){
     author:getValues("Author"),
     publisher: getValues("Publisher"),
     isbn: getValues("ISBN"),
-    description: getValues("Description"),
-    topic:"",
-    course: ""
+    description: getValues("Description")
   };
 
   let thesis = {
@@ -54,9 +50,7 @@ function CreateDocument(props){
     adviser: getValues("THESIS_Adviser"),
     author: getValues("THESIS_Author"),
     pub_date: getValues("THESIS_Date"),
-    abstract: getValues("THESIS_Abstract"),
-    topic: "",
-    course: ""
+    abstract: getValues("THESIS_Abstract")
   };
 
   let sp = {
@@ -66,12 +60,8 @@ function CreateDocument(props){
     adviser: getValues("SP_Adviser"),
     author: getValues("SP_Author"),
     pub_date: getValues("SP_Date"),
-    abstract: getValues("SP_Abstract"),
-    topic: [],
-    course: []
+    abstract: getValues("SP_Abstract")
   };
-  let topic_tags = [];
-  let course_tags = [];
 
 // for getting document type value
 const handleType  = (selectedItem)  =>{
@@ -93,23 +83,15 @@ const handleType  = (selectedItem)  =>{
 }
 
 const selectTopic  = (selectedItem)  =>{
+  // method for assigning the topic of document
   setSelectedTopic(selectedItem);
   console.log("content [topic]: \n", selectedTopic)
-
-  // method for assigning the topic of document
-  if(doc_type=="book") book.topic = selectedTopic;
-  else if(doc_type=="sp") sp.topic = selectedTopic;
-  else if(doc_type=="thesis") thesis.topic = selectedTopic;
 }
 
 const selectCourse  = (selectedItem)  =>{
+  // method for assigning the course object of document
   setSelectedCourse(selectedItem);
   console.log("content [course]: \n", selectedCourse)
-
-  // method for assigning the course object of document
-  if(doc_type=="book") book.courses = selectedCourse;
-  else if(doc_type=="sp") sp.courses = selectedCourse;
-  else if(doc_type=="thesis") thesis.courses = selectedCourse;
 }
 
 // useEffect for handling changes in tags input
@@ -162,27 +144,25 @@ useEffect(() => {
                       />
                   </div>
                   
-
-                  {
-                    (function(doc_type){
+                  {(function(doc_type){
                         switch(doc_type){
                             case "book": //input section for book attributes
                                 return(
                                     <div>
-                                      <div className="main-text-tags">ID: <input type="number" className="input-container" name= "book_id" placeholder="ID"  {...register("ID", {required: true, min: 1})}/>  </div>
+                                      <div className="main-text-tags">ID: <input type="number" className="input-container" placeholder="ID"  {...register("ID", {required: true, min: 1})}/>  </div>
                                       {errors.ID && <div className="warning">ID field is required</div>}
-                                      <div className="main-text-tags">Title: <input type="text" className="input-container" name= "book_title" placeholder="Title"  {...register("Title", {required: true, min: 1})} /> </div>
+                                      <div className="main-text-tags">Title: <input type="text" className="input-container"  placeholder="Title"  {...register("Title", {required: true, min: 1})} /> </div>
                                       {errors.Title && <div className="warning">Title field is required</div>}
-                                      <div className="main-text-tags">Author: <input type="text" className="input-container" name= "book_author" placeholder="Author"  {...register("Author", {required: true, min: 1})} /> </div>
+                                      <div className="main-text-tags">Author: <input type="text" className="input-container" placeholder="Author"  {...register("Author", {required: true, min: 1})} /> </div>
                                       {errors.Author && <div className="warning">Author field is required</div>}
-                                      <div className="main-text-tags">Year: <input type="number" className="input-container" name= "book_year" placeholder="Year"  {...register("Year", {required: true, min: 1000})} /> </div>
+                                      <div className="main-text-tags">Year: <input type="number" className="input-container" placeholder="Year"  {...register("Year",  {required: true, min: 1700, max: 2021})} /> </div>
                                       {errors.Year && <div className="warning">Year field is required</div>}
-                                      <div className="main-text-tags">Publisher: <input type="text" className="input-container" name= "book_publisher" placeholder="Publisher"  {...register("Publisher", {required: true, min: 1})} /> </div>
+                                      <div className="main-text-tags">Publisher: <input type="text" className="input-container" placeholder="Publisher"  {...register("Publisher", {required: true, min: 1})} /> </div>
                                       {errors.Publisher && <div className="warning">Publisher field is required</div>}
-                                      <div className="main-text-tags">ISBN: <input type="text" className="input-container" name= "book_isbn" placeholder="ISBN"  {...register("ISBN", {required: true, min: 1})} /> </div>
+                                      <div className="main-text-tags">ISBN: <input type="text" className="input-container" placeholder="ISBN"  {...register("ISBN", {required: true, min: 1})} /> </div>
                                       {errors.ISBN && <div className="warning">ISBN field is required</div>}
 
-                                      {/* This section is for course of the document, this part has a lot of bugs */}
+                                      {/* This section is for course tags of the document */}
                                       <div className="main-text-tags">Courses:</div>
                                       <Multiselect 
                                           id = {book.id}
@@ -212,19 +192,18 @@ useEffect(() => {
                               case "sp": //input section for sp attributes
                                 return(
                                   <div>
-                                    
-                                    <div className="main-text-tags">ID: <input  className="input-container" name= "sp_id" type="number"  placeholder="ID" {...register("SP_ID", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">ID: <input  className="input-container" type="number"  placeholder="ID" {...register("SP_ID", {required: true, min: 1})}/> </div>
                                     {errors.SP_ID && <div className="warning">ID field is required</div>}
-                                    <div className="main-text-tags">Title: <input  className="input-container" name= "sp_title" type="text" placeholder="Title" {...register("SP_Title", {required: true, min: 1})}/>  </div>
+                                    <div className="main-text-tags">Title: <input  className="input-container"  type="text" placeholder="Title" {...register("SP_Title", {required: true, min: 1})}/>  </div>
                                     {errors.SP_Title && <div className="warning">Title field is required</div>}
-                                    <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" placeholder="Author" {...register("SP_Author", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">Author: <input className="input-container" type="text" placeholder="Author" {...register("SP_Author", {required: true, min: 1})}/> </div>
                                     {errors.SP_Author && <div className="warning">Author field is required</div>}
-                                    <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" placeholder="Adviser" {...register("SP_Adviser", {required: true, min: 1})}/>  </div>
+                                    <div className="main-text-tags">Adviser: <input className="input-container" type="text" placeholder="Adviser" {...register("SP_Adviser", {required: true, min: 1})}/>  </div>
                                     {errors.SP_Adviser && <div className="warning">Adviser field is required</div>}
-                                    <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" placeholder="Publishing Date" {...register("SP_Date", {required: true, min: 1})} /> </div>
+                                    <div className="main-text-tags">Publishing Date: <input className="input-container" type="date" placeholder="Publishing Date" {...register("SP_Date", {required: true, min: 1})} /> </div>
                                     {errors.SP_Date && <div className="warning">Publishing Date field is required</div>}
 
-                                    {/* This section is for course of the document, this part has a lot of bugs */}
+                                    {/* This section is for course of the document */}
                                     <div className="main-text-tags">Courses:</div>
                                     <Multiselect 
                                         id = {sp.id}
@@ -254,19 +233,18 @@ useEffect(() => {
                               case "thesis": //input section for thesis attributes
                                 return(
                                   <div>
-                                    
-                                    <div className="main-text-tags">ID: <input  className="input-container" name= "thesis_id" type="bumber"  placeholder="ID" {...register("THESIS_ID", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">ID: <input  className="input-container" type="bumber"  placeholder="ID" {...register("THESIS_ID", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_ID && <div className="warning">ID field is required</div>}
-                                    <div className="main-text-tags">Title: <input  className="input-container" name= "thesis_title" type="text"  placeholder="Title" {...register("THESIS_Title", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">Title: <input  className="input-container"  type="text"  placeholder="Title" {...register("THESIS_Title", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Title && <div className="warning">Title field is required</div>}
-                                    <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" placeholder="Author" {...register("THESIS_Author", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">Author: <input className="input-container" type="text" placeholder="Author" {...register("THESIS_Author", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Author && <div className="warning">Author field is required</div>}
-                                    <div className="main-text-tags">Adviser: <input className="input-container" name="thesis_adviser" type="text" placeholder="Adviser" {...register("THESIS_Adviser", {required: true, min: 1})}/></div>
+                                    <div className="main-text-tags">Adviser: <input className="input-container" type="text" placeholder="Adviser" {...register("THESIS_Adviser", {required: true, min: 1})}/></div>
                                     {errors.THESIS_Adviser && <div className="warning">Adviser field is required</div>}
-                                    <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" placeholder="Publishing Date" {...register("THESIS_Date", {required: true, min: 1})}/> </div>
+                                    <div className="main-text-tags">Publishing Date: <input className="input-container" type="date" placeholder="Publishing Date" {...register("THESIS_Date", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Date && <div className="warning">Publishing Date field is required</div>}
 
-                                    {/* This section is for course of the document, this part has a lot of bugs */}
+                                    {/* This section is for course of the document*/}
                                     <div className="main-text-tags">Courses:</div>
                                     <Multiselect 
                                         placeholder="Add a course"
@@ -294,10 +272,7 @@ useEffect(() => {
                             default: 
                               return null;
                         }
-                    })(doc_type)
-                  }
-               
-                  
+                    })(doc_type)}
                 </div>
 
                 <div className='document-card-container button-card-flex-column'>
@@ -311,37 +286,37 @@ useEffect(() => {
                 { 
                     (function(doc_type){
                         switch(doc_type){
-                            case "thesis": //input section for thesis attributes
+                            case "thesis": //textarea section for thesis abstract
                               return(
                                 <div className="document-card-container">
                                   <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
                                   <Box className={classes.boxStyle}>
-                                  <textarea className="textarea-container" name="thesis_abstract"  cols="40" rows="5" {...register("Abstract", {required: true})}></textarea>
+                                  <textarea className="textarea-container" cols="40" rows="5" {...register("THESIS_Abstract", {required: true})}></textarea>
                                   </Box>
-                                  {errors.Abstract && <div className="warning">This field is required</div>}
+                                  {errors.THESIS_Abstract && <div className="warning">Abstract field is required</div>}
                                 </div>
                               )
-                            case "sp": //input section for sp attributes
+                            case "sp": //textarea section for sp abstract
                               return(
                                 <div className="document-card-container">
                                   <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
                                   <Box className={classes.boxStyle}>
-                                  <textarea className="textarea-container" name="sp_abstract"  cols="40" rows="5" {...register("Abstract", {required: true})}></textarea>
+                                  <textarea className="textarea-container" name="sp_abstract"  cols="40" rows="5" {...register("SP_Abstract", {required: true})}></textarea>
                                   </Box>
-                                  {errors.Abstract && <div className="warning">This field is required</div>}
+                                  {errors.SP_Abstract && <div className="warning">Abstract field is required</div>}
                                 </div>
                               )
-                              case "book":
+                              case "book":  //textarea section for book description
                                 return(
                                   <div className="document-card-container">
                                     <h2 style={{textAlign:'center'}}>DESCRIPTION</h2>
                                     <Box className={classes.boxStyle}>
                                     <textarea className="textarea-container" name="book_description"  cols="40" rows="5" {...register("Description", {required: true})} ></textarea>
                                     </Box>
-                                    {errors.Description && <div className="warning">This field is required</div>}
+                                    {errors.Description && <div className="warning">Description field is required</div>}
                                   </div>
                                 )
-                            default: //input section for book attributes
+                            default:
                               return null
                         }
                     })(doc_type)
