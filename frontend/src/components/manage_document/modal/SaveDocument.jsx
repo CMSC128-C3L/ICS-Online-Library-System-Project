@@ -52,8 +52,8 @@ function SaveDocument(props){
                     publisher: props.book.publisher,
                     isbn: props.book.isbn,
                     description: props.book.description,
-                    topic: props.book.topic,
-                    courses: props.book.course
+                    topic: props.topic,
+                    courses: props.course
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.post(`/api/thesis`, {
@@ -64,7 +64,8 @@ function SaveDocument(props){
                     adviser: props.thesis.adviser,
                     pub_date: props.thesis.pub_date,
                     abstract: props.thesis.abstract,
-                    topic: props.thesis.topic,
+                    topic: props.topic,
+                    courses: props.course,
                     journal: '',
                     poster: ''
                 } , options);
@@ -77,7 +78,8 @@ function SaveDocument(props){
                     adviser: props.sp.adviser,
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
-                    topic: props.sp.topic,
+                    topic: props.topic,
+                    courses: props.course,
                     journal: '',
                     poster: ''    
                 } , options);
@@ -99,7 +101,8 @@ function SaveDocument(props){
             props.book.publisher,"\n",
             props.book.isbn,"\n", 
             props.book.description,"\n",
-            props.book.topic,"\n")
+            props.topic,"\n",
+            props.course,"\n")
         } else if(props.type=="thesis"){
             console.log("SAVE DOCUMENT [thesis]:\n",
             props.thesis.id,"\n", 
@@ -108,7 +111,8 @@ function SaveDocument(props){
             props.thesis.adviser,"\n",
             props.thesis.pub_date,"\n",
             props.thesis.abstract,"\n", 
-            props.thesis.topic,"\n")
+            props.topic,"\n",
+            props.course,"\n")
         } else if(props.type=="sp"){
             console.log("SAVE DOCUMENT [sp]:\n",
             props.sp.id,"\n", 
@@ -117,7 +121,8 @@ function SaveDocument(props){
             props.sp.adviser,"\n",
             props.sp.pub_date,"\n",
             props.sp.abstract,"\n", 
-            props.sp.topic,"\n")
+            props.topic,"\n",
+            props.course,"\n")
         }
         
         if(confirmed){
