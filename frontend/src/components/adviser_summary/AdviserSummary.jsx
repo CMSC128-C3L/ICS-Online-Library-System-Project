@@ -83,11 +83,8 @@ function AdviserSummary(props){
                         halign: "center"
                     },
                     columnStyles: {
-                        // Title: {columnWidth: 200}, 
-                        // Author: {columnWidth: 100}, 
                         Date: {columnWidth: 60}, 
-                        Type: {columnWidth: 50},
-                        // Topic: {columnWidth: 100}
+                        Type: {columnWidth: 50}
                     }
                 }); //add label and data to the table
         }catch(e){
