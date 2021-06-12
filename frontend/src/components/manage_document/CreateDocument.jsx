@@ -122,7 +122,7 @@ useEffect(() => {
                 {/* <div className='image-card-container card-content' >
                 <img alt="INSERT A THUMBNAIL" className={classes.imageStyle}></img>
                 </div> */}
-
+{/* 
                 {(function(doc_type){
                     switch(doc_type){
                     case "book": //if book, can upload book cover image
@@ -136,7 +136,7 @@ useEffect(() => {
                       return null;
                     }
                   })(doc_type)
-                  }
+                  } */}
                 
                 {/* document attributes are editable*/}
                 <div className='document-card-container document-card-flex-column' key={""}>
@@ -297,16 +297,31 @@ useEffect(() => {
                     })(doc_type)}
                 </div>
 
-                <div className='document-card-container button-card-flex-column'>
-                  <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                  <button className={classes.textStyle} onClick={"call function to update pdf"}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
-                </div>
+                
+                {(function(doc_type){
+                        switch(doc_type){
+                              case "book":  //textarea section for book description
+                                return(
+                                  <div className='document-card-container button-card-flex-column'>
+                                  <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+                                  <button className={classes.textStyle} onClick={"call function to update pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  </div>
+                                )
+                            default:
+                              return(
+                                <div className='document-card-container button-card-flex-column'>
+                                <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+                                <button className={classes.textStyle} onClick={"call function to update pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD POSTER</button>
+                                </div>
+                              )
+                        }
+                    })(doc_type)
+                  }
             </div>
                 
             {/* descriptions/abstracts are editable*/}
             <div className="description-section">
-                { 
-                    (function(doc_type){
+                {(function(doc_type){
                         switch(doc_type){
                             case "thesis": //textarea section for thesis abstract
                               return(
@@ -373,8 +388,8 @@ const useStyles = makeStyles(() => ({
           color: "#b3e5fc",
        },
       color:'black', 
-      width:'5vh', 
-      height:'5vh'
+      width:'4vh', 
+      height:'4vh'
   },
   saveStyle:{ 
       backgroundColor: '#47ABD8', 

@@ -1,4 +1,3 @@
-import '../search_results/SearchCard.css'
 import './DocumentCard.css'
 
 const handleAuthorClick = (event) => {
@@ -35,7 +34,21 @@ function DocumentCard(props){
                                 <div className="document-card-flex-column">
                                 <div className="main-text-tags">{document.type}</div>
                                 <div className="main-text-tags">{document.title}</div>
-                                <div className="text-tags">Author: {Object.values(document.author).join(", ")}</div>
+                                <div className="text-tags">
+                                Author: 
+                                <ul className="click-list">
+                                {(document.author).map(([author, index]) => {
+                                    return (
+                                    <li key={index}>
+                                    <button className="click-text" value={author} onClick={handleAuthorClick}>{author}</button>
+                                    </li> 
+                                    )
+                                })}
+                                </ul>
+
+                                
+                                {/* {Object.values(document.author).join(", ")} */}
+                                </div>
                                 <div className="text-tags">Year Published: {document.yearPublished}</div>
                                 <div className="text-tags">Publisher: {document.publisher}</div>
                                 <div className="text-tags">ISBN: {document.docISBN}</div>
