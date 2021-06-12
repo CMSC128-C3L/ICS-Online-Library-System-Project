@@ -7,7 +7,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import './EditCards.css'
 
-function EditCard({ card, index }){
+function EditCard({ card }){
     const classes = useStyles()
     const [content, setContent] = useState(card);
     let history = useHistory();
@@ -138,7 +138,7 @@ function EditCard({ card, index }){
 
                     <div className="form-section form-upload">
                         <label htmlFor="upload" className="form-label text">Upload photo:</label>
-                        <input id="upload-btn" className="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*" onChange={(e)=> handleUpload(e)} />
+                        <input id="upload-btn" className="btn upload-btn" text="Upload" type="file" name="img" accept="image/*" onChange={(e)=> handleUpload(e)} />
                     </div>
 
                     <div className="form-section buttons">

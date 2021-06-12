@@ -15,7 +15,6 @@ function CardRow({edit, handleEdit}){
             }catch(e){console.log("error in card fetching")}
         }
         getCards();
-        console.log(cards);
     }, [])
 
     return (

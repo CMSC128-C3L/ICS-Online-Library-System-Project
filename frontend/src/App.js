@@ -16,7 +16,6 @@ import HomePageRoute from './components/route/HomePageRoute';
 import AdminPageProtectRoute from './components/route/AdminPageProtectRoute';
 import AccessDocument from './pages/EditDocument'
 import CreateDocument from './pages/CreateDocumentPage'
-import CardEditing from './components/card_editing/CardEditing';
 import CardEditingPage from './pages/CardEditingPage'
 import AboutUs from './pages/AboutUs'
 import EditCardsPage from './pages/EditCardsPage'
