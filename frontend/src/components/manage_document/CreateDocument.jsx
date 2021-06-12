@@ -124,7 +124,9 @@ useEffect(() => {
                 </div> */}
                 
                 {/* document attributes are editable*/}
+                <div className='dropdown-container'>
                 <div className='document-card-container document-card-flex-column' key={""}>
+                  
                   <div className="main-text-tags">Classification: 
                   <Multiselect 
                       id = "doctype"
@@ -138,7 +140,7 @@ useEffect(() => {
                       style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} } 
                       />
                   </div>
-                  
+  
                   {(function(doc_type){
                         switch(doc_type){
                             case "book": //input section for book attributes
@@ -283,6 +285,7 @@ useEffect(() => {
                               return null;
                         }
                     })(doc_type)}
+                </div>
                 </div>
 
                 {/* conditional render for buttons */}
