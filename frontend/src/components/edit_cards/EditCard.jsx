@@ -18,10 +18,12 @@ function EditCard({ card, index }){
     const [description, setDescription] = useState(card.description)
     const [link, setLink] = useState(card.link)
     const [displayImage, setDisplayImage] = useState(card.image)
+
+    // To track changes needed for saving
     const [imageToUpload, setImageToUpload] = useState()
     const [fieldChanged, setFieldChanged] = useState(false)
 
-    // To save updated announcement card
+    // To save updated announcement details
     const handleSave = (e) => {
         e.preventDefault()
         const updateCard = async () => {
