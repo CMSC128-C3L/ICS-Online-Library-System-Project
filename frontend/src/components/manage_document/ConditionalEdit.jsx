@@ -95,10 +95,13 @@ function ConditionalEdit(props){
     topic: ""
   })
 
-  const [selectedTopic, setSelectedTopic] = useState([document.topic]);
-  const [selectedCourse, setSelectedCourse] = useState([document.course_code]);
+  const [selectedTopic, setSelectedTopic] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState([]);
 
   useEffect(() => {
+    setSelectedTopic(document.topic)
+    setSelectedCourse(document.course_code)
+
     if(doc_type=="book") setBook({ ...book, 
       title: document.title,
       year: document.year,
@@ -174,9 +177,9 @@ function ConditionalEdit(props){
     setSelectedCourse(selectedItem);
     console.log("content [course]: \n", selectedCourse)
 
-    if(doc_type=="book") book.course = selectedCourse
-    else if(doc_type=="sp") sp.course = selectedCourse
-    else if(doc_type=="thesis") thesis.course = selectedCourse
+    if(doc_type=="book") book.courses = selectedCourse
+    else if(doc_type=="sp") sp.courses = selectedCourse
+    else if(doc_type=="thesis") thesis.courses = selectedCourse
   }
 
   useEffect(() => {

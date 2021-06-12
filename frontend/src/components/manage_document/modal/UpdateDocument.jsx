@@ -30,7 +30,7 @@ function UpdateDocument(props){
     const handleCancel = () => close()
     const handleRoute = () => history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
     const splitAuthors = (author) => {
-        let authors = author.split(",");
+        let authors = author.toString().split(",");
         authors = authors.map((author) => author.trim());
         return authors;
     }
@@ -49,7 +49,7 @@ function UpdateDocument(props){
                     isbn: props.book.isbn,
                     description: props.book.description,
                     topic: props.book.topic,
-                    courses: props.book.course
+                    courses: props.book.courses
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.patch(`/api/thesis/${id}`, {
@@ -59,7 +59,7 @@ function UpdateDocument(props){
                     pub_date: props.thesis.pub_date,
                     abstract: props.thesis.abstract,
                     topic: props.thesis.topic,
-                    courses: props.book.course
+                    courses: props.book.courses
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
@@ -69,7 +69,7 @@ function UpdateDocument(props){
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
                     topic: props.sp.topic,
-                    courses: props.book.course
+                    courses: props.book.courses
                 } , options);
             }
             console.log('Returned data:', response.data);
@@ -82,37 +82,37 @@ function UpdateDocument(props){
     useEffect(() => {
 
         if(props.type=="book"){
-            console.log(props.book.title)
-            console.log(props.book.author)
-            console.log(props.book.year)
-            console.log(props.book.publisher)
-            console.log(props.book.isbn)
-            console.log(props.book.description)
-            console.log(props.book.courses)
-            console.log(props.book.topic)
+            console.log("[book] update title: ", props.book.title)
+            console.log("[book] update author: ", props.book.author)
+            console.log("[book] update year: ",props.book.year)
+            console.log("[book] update publisher: ",props.book.publisher)
+            console.log("[book] update isbn: ",props.book.isbn)
+            console.log("[book] update description: ",props.book.description)
+            console.log("[book] update course: ",props.book.courses)
+            console.log("[book] update topic: ",props.book.topic)
             // console.log(selectedTopic)
           } 
       
           else if(props.type=="thesis"){
-            console.log(props.thesis.title)
-            console.log(props.thesis.author)
-            console.log(props.thesis.adviser)
-            console.log(props.thesis.pub_date)
-            console.log(props.thesis.abstract)
-            console.log(props.thesis.courses)
-            console.log(props.thesis.topic)
+            console.log("[thesis] update title: ", props.thesis.title)
+            console.log("[thesis] update author: ",props.thesis.author)
+            console.log("[thesis] update adviser: ",props.thesis.adviser)
+            console.log("[thesis] update year: ",props.thesis.pub_date)
+            console.log("[thesis] update abstract: ",props.thesis.abstract)
+            console.log("[thesis] update course: ",props.thesis.courses)
+            console.log("[thesis] update topic: ",props.thesis.topic)
             // console.log(selectedTopic)
           }
       
           else if(props.type=="sp"){
             
-            console.log(props.sp.title)
-            console.log(props.sp.author)
-            console.log(props.sp.adviser)
-            console.log(props.sp.pub_date)
-            console.log(props.sp.abstract)
-            console.log(props.sp.courses)
-            console.log(props.sp.topic)
+            console.log("[sp] update title: ", props.sp.title)
+            console.log("[sp] update author: ",props.sp.author)
+            console.log("[sp] update adviser: ",props.sp.adviser)
+            console.log("[sp] update year: ",props.sp.pub_date)
+            console.log("[sp] update abstract: ",props.sp.abstract)
+            console.log("[sp] update course: ",props.sp.courses)
+            console.log("[sp] update topic: ",props.sp.topic)
             // console.log(selectedTopic)
           }
 

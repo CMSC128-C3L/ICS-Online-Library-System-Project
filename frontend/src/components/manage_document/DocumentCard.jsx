@@ -31,7 +31,7 @@ function DocumentCard(props){
         <div>
             {
             (function(document){
-                console.log("document card value: ", typeof(document.topic))
+                console.log("document card value: ", document.type)
                 switch(document.type){
                     case "Book": //book
                         return(
@@ -44,7 +44,7 @@ function DocumentCard(props){
                                     <div className="text-tags"> Author: 
                                         <ul className="click-list">
                                         {Object.values(document.author).map((author) => {
-                                            return (<button className="click-text" onClick={handleAuthorClick}>{author}</button>)
+                                            return (<button className="click-text" key ={document.id} onClick={handleAuthorClick}>{author}</button>)
                                         })}
                                         </ul>
                                     </div>
@@ -54,18 +54,18 @@ function DocumentCard(props){
                                     <div className="text-tags">ISBN: {document.docISBN}</div>
 
                                     {/* clickable course */}
-                                    {Object.keys(document.course).length==0? console.log("[course] undefined"): 
+                                    {Object.keys(document.course).length==0? console.log("[book course] undefined"): 
                                     (<div className="text-tags">Course: 
                                         <ul className="click-list">
                                         {document.course.map((course) => {
-                                            return (<button className="click-text"  onClick={handleCourseClick}>{course}</button>)
+                                            return (<button className="click-text" key ={document.id} onClick={handleCourseClick}>{course}</button>)
                                         })}
                                         </ul>
                                     </div>)
                                     }
 
                                     {/* check if topic is undefined since input field is not required. do not show if undefined. join is used for separating topic array elements by comma */}
-                                    {Object.keys(document.topic).length==0? console.log("[topic] undefined"): 
+                                    {Object.keys(document.topic).length==0? console.log("[book topic] undefined"): 
                                     (<div className="text-tags">Topic: {Object.values(document.topic).join(", ")}</div>)
                                     }
 
@@ -84,7 +84,7 @@ function DocumentCard(props){
                                 <div className="text-tags"> Adviser: 
                                     <ul className="click-list">
                                     {Object.values(adviserObj).map((adviser) => {
-                                        return (<button className="click-text" onClick={handleAdviserClick}>{adviser}</button>)
+                                        return (<button className="click-text" key ={document.id} onClick={handleAdviserClick}>{adviser}</button>)
                                     })}
                                     </ul>
                                 </div>
@@ -92,16 +92,16 @@ function DocumentCard(props){
                                 <div className="text-tags">Publishing Date: {document.yearPublished}</div>
                                 
                                 {/* check if topic is undefined since input field is not required. do not show if undefined */}
-                                {document.topic==undefined? console.log("undefined"): 
+                                {Object.keys(topicObj).length==0? console.log("[sp/thesis topic] undefined"): 
                                 (<div className="text-tags">Topic: {Object.values(topicObj).join(", ")}</div>)
                                 }
 
                                 {/* clickable course, if undefined do not show */}
-                                {document.course_code==undefined? console.log("undefined"): 
+                                {document.course_code==undefined? console.log("[sp/thesis course] undefined"): 
                                 (<div className="text-tags"> Course: 
                                     <ul className="click-list">
                                     {Object.values(courseObj).map((course) => {
-                                        return (<button className="click-text" onClick={handleCourseClick}>{course}</button>)
+                                        return (<button className="click-text" key ={document.id} onClick={handleCourseClick}>{course}</button>)
                                     })}
                                     </ul>
                                 </div>)

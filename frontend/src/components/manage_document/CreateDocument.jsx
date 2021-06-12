@@ -146,18 +146,17 @@ useEffect(() => {
                                 return(
                                     <div>
                                       <div className="main-text-tags">ID: <input type="number" className="input-container" placeholder="ID" {...register("ID", {required: true, min: 1})}/>  </div>
-                                      {errors.ID && <div className="warning">ID field is required</div>}
+                                      {errors.ID && <div className="warning">ID field is required (e.g. 12345)</div>}
                                       <div className="main-text-tags">Title: <input type="text" className="input-container"  placeholder="Title" {...register("Title", {required: true, min: 1})}/> </div>
                                       {errors.Title && <div className="warning">Title field is required</div>}
                                       <div className="main-text-tags">Author: <input type="text" className="input-container" placeholder="Author" {...register("Author", {required: true, min: 1})}/> </div>
                                       {errors.Author && <div className="warning">Author field is required</div>}
                                       <div className="main-text-tags">Year: <input type="number" className="input-container" placeholder="Year" {...register("Year",  {required: true, min: 1700, max: 2021})} /> </div>
-                                      {errors.Year && errors.Year.type == "min" && <div className="warning">Invalid Year Format (e.g. 1999)</div>}
-                                      {errors.Year && errors.Year.type == "max" && <div className="warning">Invalid Year Format (e.g. 1999)</div>}
+                                      {errors.Year && (errors.Year.type == "min" || errors.Year.type == "max") && <div className="warning">Invalid Year Format (e.g. 1999)</div>}
                                       {errors.Year && errors.Year.type == "required" && <div className="warning">Year field is required</div>}
                                       <div className="main-text-tags">Publisher: <input type="text" className="input-container" placeholder="Publisher" {...register("Publisher", {required: true, min: 1})}/> </div>
                                       {errors.Publisher && <div className="warning">Publisher field is required</div>}
-                                      <div className="main-text-tags">ISBN: <input type="text" className="input-container" placeholder="ISBN" {...register("ISBN", {required: true, pattern: /^9\d{11}$/i})} /> </div>
+                                      <div className="main-text-tags">ISBN: <input type="text" className="input-container" placeholder="ISBN" {...register("ISBN", {required: true, pattern: /^9\d{12}$/i})} /> </div>
                                       {errors.ISBN && errors.ISBN.type=="required" && <div className="warning">ISBN field is required</div>}
                                       {errors.ISBN && errors.ISBN.type=="pattern" && <div className="warning">Invalid ISBN Format. Should be 13-digit number starting with 9. </div>}
 
@@ -192,7 +191,7 @@ useEffect(() => {
                                 return(
                                   <div>
                                     <div className="main-text-tags">ID: <input  className="input-container" type="number"  placeholder="ID" {...register("SP_ID", {required: true, min: 1})}/> </div>
-                                    {errors.SP_ID && <div className="warning">ID field is required</div>}
+                                    {errors.SP_ID && <div className="warning">ID field is required (e.g. 12345)</div>}
                                     <div className="main-text-tags">Title: <input  className="input-container"  type="text" placeholder="Title" {...register("SP_Title", {required: true, min: 1})}/>  </div>
                                     {errors.SP_Title && <div className="warning">Title field is required</div>}
                                     <div className="main-text-tags">Author: <input className="input-container" type="text" placeholder="Author" {...register("SP_Author", {required: true, min: 1})}/> </div>

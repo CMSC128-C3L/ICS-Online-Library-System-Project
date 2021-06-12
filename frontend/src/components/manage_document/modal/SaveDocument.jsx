@@ -12,8 +12,8 @@ function SaveDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
-    const {id} = useParams();
-
+    
+    //reference to modal
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
     const handleConfirmation = () => {setConfirmed(true)}
@@ -124,7 +124,7 @@ function SaveDocument(props){
                         return( <h3 className="text prompt"> Are you sure you want to create "{document.sp.title}" {document.sp.pub_date}? </h3>)
                     default:
                         return null;	
-                    }
+                }
             })(props)}
 
             <div className="save-cancel">
