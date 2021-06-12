@@ -8,85 +8,8 @@ const PDF = require("pdfkit");
 
 
 module.exports = {
-    getAuthorSummary,
-    getAuthorSummaryPDF
+    getAuthorSummary
 };
-
-async function getAuthorSummaryPDF(req, res) {
-       
-    try {
-        const author = req.params.author;
-        const book = await Book.find({author}); // get all of the books
-        const thesis = await Thesis.find({type:'Thesis',author}); // get all of the thesis
-        const sp = await Sp.find({type:"Special Problem",author }); // get all of the sp
-        const path = req.body.path || " "; 
-        let filePath;
-        
-        // Writing the data into pdf file
-        const doc = new PDF();
-        if(path === " "){
-            filePath = author + " Summary Report";
-        }        
-        else{
-            filePath = path + author +" Summary Report";
-        }
-        const stream = fs.createWriteStream(filePath);
-        doc.pipe(stream);
-        doc.text("Author Summary Report ", {align: 'center'});
-        doc.text(author, {align: 'center'});
-        doc.text(" ");
-        doc.text(" ");
-        // Writing info of the book
-        book.map(item => {
-            doc.text("Title: " + item.title);
-            doc.text("Author: " + item.author);
-            doc.text("Year: " + item.year);
-            doc.text("Type: " + item.type);
-            doc.text("ISBN: " + item.isbn);
-            doc.text("Topics: ");
-            item.topic.map(tpc => {
-                doc.text("\u0020 " + tpc);
-            });
-            doc.text(" ");
-        });
-        // Writing info of the sp
-        sp.map(item => {
-            doc.text("Title: " + item.title);
-            doc.text("Author: " + item.author);
-            doc.text("Adviser: " + item.adviser);
-            const editedDate = String(item.pub_date);
-            const strippedDate = editedDate.split(" ");
-            doc.text("Publication Date: " + strippedDate[1] + " " + strippedDate[2] + ", " + strippedDate[3]);
-            doc.text("Type: " + item.type);
-            doc.text("Topics: ");
-            item.topic.map(tpc => {
-                doc.text("\u0020 " + tpc);
-            });
-            doc.text(" ");
-        });
-        // Writing info of the thesis
-        thesis.map(item => {
-            doc.text("Title: " + item.title);
-            doc.text("Author: " + item.author);
-            doc.text("Adviser: " + item.adviser);
-            const editedDate = String(item.pub_date);
-            const strippedDate = editedDate.split(" ");
-            doc.text("Publication Date: " + strippedDate[1] + " " + strippedDate[2] + ", " + strippedDate[3]);
-            doc.text("Type: " + item.type);
-            doc.text("Topics: ");
-            item.topic.map(tpc => {
-                doc.text("\u0020 " + tpc);
-            });
-            doc.text(" ");
-        });
-        doc.end();
-        
-        
-        res.status(200).send({msg:"Author Summary Downloaded!",path:filePath});   
-    }catch (err) {
-        res.status(400).send({message:"error",err});
-    }
-}
 
 async function getAuthorSummary(req, res) {
     try {
