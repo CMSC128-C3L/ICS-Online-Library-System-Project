@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useHistory } from 'react-router-dom'
 import Card from '../cards/Card'
 import FormControl from '@material-ui/core/FormControl'
-import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import './EditCards.css'
 
@@ -18,6 +17,9 @@ function EditCard({ card }){
     const [header, setHeader] = useState(card.header)
     const [description, setDescription] = useState(card.description)
     const [link, setLink] = useState(card.link)
+    const [fieldChanged, setFieldChanged] = useState(false)
+    const [newImage, setNewImage] = useState()
+    console.log(card.image)
 
     // To save updated announcement card
     const handleSave = (e) => {
@@ -35,25 +37,53 @@ function EditCard({ card }){
                         "description": content.description,
                         "link": content.link,
                     },
-                    options)  
+                    options) 
                 console.log(res)         
             }catch(e){
                 console.log(e)
             }
         }
-        updateCard()
+
+        const uploadImg = async () => {
+            const formData = new FormData()
+            formData.append('home_advisory', newImage)
+            console.log(Array.from(formData))
+            try{
+                let imgOptions = {
+                    headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data'},
+                    params: {id: content._id}
+                }
+                const res = await axios.post(`/api/advisory/uploads/${content._id}`,
+                    formData,
+                    imgOptions)
+                console.log(res)
+            }catch(e){
+                console.log(e)
+            }
+
+        }
+
+        if(fieldChanged) updateCard()
+        if(newImage) uploadImg()
+
     }
     
     const handleCancelButton = (e) => {
         history.push("/adminHome/manageAnnouncements")
     }
     
+    const handleTemp = (e) => {
+        console.log(e.target.files)
+        setNewImage(e.target.files[0])
+    }
     // To update content and reflect changes in card
     useEffect(() => {
+        setFieldChanged(true)
         setContent((prev)=> {
             if(prev.header !== header) return {...prev, header: header}
             else if(prev.title !== title) return {...prev, title: title}
             else if(prev.description !== description) return {...prev, description: description}
+            // else if(prev.image !== image) return {...prev, image: image}
             else return {...prev, link: link}
         })
     }, [header, title, description, link])
@@ -104,7 +134,7 @@ function EditCard({ card }){
 
                     <div className="form-section form-upload">
                         <label htmlFor="upload" className="form-label text">Upload photo:</label>
-                        <input id="upload-btn" className="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*"/>
+                        <input id="upload-btn" className="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*" onChange={(e)=> handleTemp(e)} />
                     </div>
 
                     <div className="form-section buttons">
