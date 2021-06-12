@@ -29,6 +29,11 @@ function UpdateDocument(props){
     const handleUpdate = (user) => confirmModal.current.open(user)
     const handleCancel = () => close()
     const handleRoute = () => history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
+    const splitAuthors = (author) => {
+        let authors = author.split(",");
+        authors = authors.map((author) => author.trim());
+        return authors;
+    }
     
     const handleSubmit = async() =>{
         //patch request to update document
@@ -38,7 +43,7 @@ function UpdateDocument(props){
             if(props.type=="book"){
                 response = await axios.patch(`/api/books/${id}`, {
                     title: props.book.title, 
-                    author: props.book.author,
+                    author: splitAuthors(props.book.author),
                     year: props.book.year,
                     publisher: props.book.publisher,
                     isbn: props.book.isbn,
@@ -48,8 +53,8 @@ function UpdateDocument(props){
             } else if(props.type=="thesis"){
                 response = await axios.patch(`/api/thesis/${id}`, {
                     title: props.thesis.title, 
-                    author: props.thesis.author,
-                    adviser: props.thesis.adviser,
+                    author: splitAuthors(props.thesis.author),
+                    adviser: splitAuthors(props.thesis.adviser),
                     pub_date: props.thesis.pub_date,
                     abstract: props.thesis.abstract,
                     topic: props.thesis.topic
@@ -57,8 +62,8 @@ function UpdateDocument(props){
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
                     title: props.sp.title, 
-                    author: props.sp.author,
-                    adviser: props.sp.adviser,
+                    author: splitAuthors(props.thesis.author),
+                    adviser: splitAuthors(props.thesis.adviser),
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
                     topic: props.sp.topic
