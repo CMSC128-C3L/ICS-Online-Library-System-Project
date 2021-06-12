@@ -36,3 +36,10 @@ export function formatDateObject(date) {
     ? new Intl.DateTimeFormat('en-us', {dateStyle: 'medium', timeStyle: 'short'}).format(date)
     : ''
 }
+
+// ACcepts date object, outputs date formatted in '<month> <year>'
+export function formatDateOnly(date) {
+  return date
+    ? new Intl.DateTimeFormat('en-us', { year: 'numeric', month: 'long'}).format(date)
+    : ''
+}

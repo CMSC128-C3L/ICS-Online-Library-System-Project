@@ -6,7 +6,7 @@ import ConditionalIcon from "./ConditionalIcon"
 import { useHistory } from 'react-router'
 import Modal from './modal/Modal'
 import DeleteDocument from './modal/DeleteDocument'
-import { Title, Year, Category, AuthorList, Isbn, CourseList, TopicList } from './CardDetails'
+import { Title, CustomDate, Category, AuthorList, Isbn, CourseList, TopicList } from './CardDetails'
 import './SearchCard.css'
 
 function BookCard(props) { 	
@@ -43,7 +43,7 @@ function BookCard(props) {
 			
 				<div className="doc-book-content">
 					<div className="doc-year-category">
-						<Year year={props.doc.year} />
+						<CustomDate date={props.doc.year} />
             <Category category={props.doc.type} />
 					</div>
 
