@@ -6,7 +6,7 @@ function Card(props){
             <div className="card-header text">{props.content.header}</div>
             <div className="card-container">
                 <div className="flex-column">
-                    <img className="img" src={props.content.image} alt="sample"></img>
+                    <img className="card-img" src={props.content.image} alt="sample"></img>
                     <div className="article-title text">{props.content.title}</div>
                     <div className="article-description text">{props.content.description}</div>
                     <a href={props.content.link} target="_blank" rel="noreferrer">

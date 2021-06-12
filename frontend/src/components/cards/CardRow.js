@@ -18,7 +18,7 @@ function CardRow({edit, handleEdit}){
     }, [])
 
     return (
-        <div className='flex-row'>
+        <div className='flex-row margin-v'>
             {cards.map((card, index) => {
                 return (
                     <div className='flex-col' key={index}>

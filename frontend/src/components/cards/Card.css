@@ -28,9 +28,8 @@
 
 .flex-row {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     justify-content: space-around;
-    flex-flow: wrap;
     padding-left: 5em;
     padding-right: 5em;
 }
@@ -41,8 +40,6 @@
     width: 28rem;
     background-color: #47abdb;
     border-radius: 0.5em;
-    margin-top: 3em;
-    margin-bottom: 3em;
     padding-bottom: 1em;
 }
 
@@ -60,7 +57,6 @@
     padding: 8pt;
     border-radius: 8px;
     justify-self: center;
-    margin-top: 1.5em;
 }
 
 .edit-btn:hover {
@@ -70,12 +66,10 @@
 
 .card-header {
     position: relative;
-    top: 4em;
+    top: 15.675rem;
     
     padding-left: 1em;
     padding-right: 1em;
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
 
     width: max-content;
     background-color: #2d8ebb;
@@ -103,12 +97,18 @@
     -webkit-box-orient: vertical;
 }
 
-.img {
+.card-img {
     box-sizing: border-box;
     object-fit: cover;
     width: 100%;
     height: 18rem;
     border-radius: 0.5rem 0.5rem 0 0;
+    margin-top: -2.325rem;
+}
+
+.margin-v {
+    margin-top: 3rem;
+    margin-bottom: 3em;
 }
 
 @media screen and (max-width: 800px){
