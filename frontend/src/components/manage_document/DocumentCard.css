@@ -107,6 +107,32 @@
     border: none;
 }
 
+.click-text {
+background: none;
+border: none;
+font-size: 3vh;
+overflow: hidden;
+text-decoration-line: underline;
+}
+
+.click-text:hover {
+text-decoration-line: none;
+color: #47abdb;
+font-weight: bold;
+}
+
+.click-list {
+display: flex;
+flex-wrap: wrap;
+list-style: none;
+padding-inline-start: 0;
+}
+
+.click-list :not( :last-child)::after {
+content: ", ";
+/* white-space: pre; */
+}
+
 @media (max-width: 880px) {
     .flex-row {
         margin-bottom: 5vh;

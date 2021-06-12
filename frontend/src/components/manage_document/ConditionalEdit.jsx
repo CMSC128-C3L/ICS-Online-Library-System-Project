@@ -197,7 +197,7 @@ function ConditionalEdit(props){
                             <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="number" defaultValue={document.year} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publisher: <input className="input-container" name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="number" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
-                            {/* <TagsInput topic={book.topic}/> */}
+
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 
                                 placeholder="Add a tag"
