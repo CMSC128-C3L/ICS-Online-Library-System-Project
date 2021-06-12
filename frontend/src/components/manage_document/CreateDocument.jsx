@@ -122,21 +122,6 @@ useEffect(() => {
                 {/* <div className='image-card-container card-content' >
                 <img alt="INSERT A THUMBNAIL" className={classes.imageStyle}></img>
                 </div> */}
-{/* 
-                {(function(doc_type){
-                    switch(doc_type){
-                    case "book": //if book, can upload book cover image
-                        return(
-                          <div className='document-card-container button-card-flex-column'>
-                          <UploadIcon className={classes.iconStyle} style={{alignSelf:'center'}}/>
-                          <button className={classes.textStyle} onClick={"insert upload function"}>UPLOAD THUMBNAIL</button>
-                          </div>
-                          )
-                    default: 
-                      return null;
-                    }
-                  })(doc_type)
-                  } */}
                 
                 {/* document attributes are editable*/}
                 <div className='document-card-container document-card-flex-column' key={""}>
@@ -159,18 +144,21 @@ useEffect(() => {
                             case "book": //input section for book attributes
                                 return(
                                     <div>
-                                      <div className="main-text-tags">ID: <input type="number" className="input-container" placeholder="ID"  {...register("ID", {required: true, min: 1})}/>  </div>
+                                      <div className="main-text-tags">ID: <input type="number" className="input-container" placeholder="ID" {...register("ID", {required: true, min: 1})}/>  </div>
                                       {errors.ID && <div className="warning">ID field is required</div>}
-                                      <div className="main-text-tags">Title: <input type="text" className="input-container"  placeholder="Title"  {...register("Title", {required: true, min: 1})} /> </div>
+                                      <div className="main-text-tags">Title: <input type="text" className="input-container"  placeholder="Title" {...register("Title", {required: true, min: 1})}/> </div>
                                       {errors.Title && <div className="warning">Title field is required</div>}
-                                      <div className="main-text-tags">Author: <input type="text" className="input-container" placeholder="Author"  {...register("Author", {required: true, min: 1})} /> </div>
+                                      <div className="main-text-tags">Author: <input type="text" className="input-container" placeholder="Author" {...register("Author", {required: true, min: 1})}/> </div>
                                       {errors.Author && <div className="warning">Author field is required</div>}
-                                      <div className="main-text-tags">Year: <input type="number" className="input-container" placeholder="Year"  {...register("Year",  {required: true, min: 1700, max: 2021})} /> </div>
-                                      {errors.Year && <div className="warning">Year field is required</div>}
-                                      <div className="main-text-tags">Publisher: <input type="text" className="input-container" placeholder="Publisher"  {...register("Publisher", {required: true, min: 1})} /> </div>
+                                      <div className="main-text-tags">Year: <input type="number" className="input-container" placeholder="Year" {...register("Year",  {required: true, min: 1700, max: 2021})} /> </div>
+                                      {errors.Year && errors.Year.type == "min" && <div className="warning">Invalid Year Format (e.g. 1999)</div>}
+                                      {errors.Year && errors.Year.type == "max" && <div className="warning">Invalid Year Format (e.g. 1999)</div>}
+                                      {errors.Year && errors.Year.type == "required" && <div className="warning">Year field is required</div>}
+                                      <div className="main-text-tags">Publisher: <input type="text" className="input-container" placeholder="Publisher" {...register("Publisher", {required: true, min: 1})}/> </div>
                                       {errors.Publisher && <div className="warning">Publisher field is required</div>}
-                                      <div className="main-text-tags">ISBN: <input type="text" className="input-container" placeholder="ISBN"  {...register("ISBN", {required: true, min: 1})} /> </div>
-                                      {errors.ISBN && <div className="warning">ISBN field is required</div>}
+                                      <div className="main-text-tags">ISBN: <input type="text" className="input-container" placeholder="ISBN" {...register("ISBN", {required: true, pattern: /^9\d{11}$/i})} /> </div>
+                                      {errors.ISBN && errors.ISBN.type=="required" && <div className="warning">ISBN field is required</div>}
+                                      {errors.ISBN && errors.ISBN.type=="pattern" && <div className="warning">Invalid ISBN Format. Should be 13-digit number starting with 9. </div>}
 
                                       {/* This section is for course tags of the document */}
                                       <div className="main-text-tags">Courses:</div>
@@ -250,7 +238,7 @@ useEffect(() => {
                                 return(
                                   <div>
                                     <div className="main-text-tags">ID: <input  className="input-container" type="bumber"  placeholder="ID" {...register("THESIS_ID", {required: true, min: 1})}/> </div>
-                                    {errors.THESIS_ID && <div className="warning">ID field is required</div>}
+                                    {errors.THESIS_ID && <div className="warning">ID field is required (e.g. 12345) </div>}
                                     <div className="main-text-tags">Title: <input  className="input-container"  type="text"  placeholder="Title" {...register("THESIS_Title", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Title && <div className="warning">Title field is required</div>}
                                     <div className="main-text-tags">Author: <input className="input-container" type="text" placeholder="Author" {...register("THESIS_Author", {required: true, min: 1})}/> </div>
@@ -297,23 +285,32 @@ useEffect(() => {
                     })(doc_type)}
                 </div>
 
-                
+                {/* conditional render for buttons */}
                 {(function(doc_type){
                         switch(doc_type){
-                              case "book":  //textarea section for book description
+                            case "book":  //button for upload pdf/thumbnail [book]
                                 return(
                                   <div className='document-card-container button-card-flex-column'>
                                   <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={"call function to update pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <button className={classes.textStyle} onClick={"call function to upload thumnail"}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  </div>
+                                )
+                            case "sp":  //button for upload pdf/poster [sp]
+                                return(
+                                  <div className='document-card-container button-card-flex-column'>
+                                  <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+                                  <button className={classes.textStyle} onClick={"call function to upload poster"}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  </div>
+                                )
+                            case "thesis":  //button for upload pdf/poster [thesis]
+                                return(
+                                  <div className='document-card-container button-card-flex-column'>
+                                  <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+                                  <button className={classes.textStyle} onClick={"call function to upload poster"}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
                                   </div>
                                 )
                             default:
-                              return(
-                                <div className='document-card-container button-card-flex-column'>
-                                <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                <button className={classes.textStyle} onClick={"call function to update pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD POSTER</button>
-                                </div>
-                              )
+                              return null
                         }
                     })(doc_type)
                   }
@@ -325,32 +322,47 @@ useEffect(() => {
                         switch(doc_type){
                             case "thesis": //textarea section for thesis abstract
                               return(
-                                <div className="document-card-container">
-                                  <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
-                                  <Box className={classes.boxStyle}>
-                                  <textarea className="textarea-container" cols="40" rows="5" {...register("THESIS_Abstract", {required: true})}></textarea>
-                                  </Box>
-                                  {errors.THESIS_Abstract && <div className="warning">Abstract field is required</div>}
+                              <div>
+                                  <div className="document-card-container">
+                                    <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
+                                    <Box className={classes.boxStyle}>
+                                    <textarea className="textarea-container" cols="40" rows="5" {...register("THESIS_Abstract", {required: true})}></textarea>
+                                    </Box>
+                                    {errors.THESIS_Abstract && <div className="warning">Abstract field is required</div>}
+                                  </div>
+                                  <div className = "button-right">
+                                  <button className={classes.saveStyle} onClick={handleSubmit(openSaveModal)}><SaveIcon className={classes.iconStyle}/></button>
                                 </div>
+                              </div>
                               )
                             case "sp": //textarea section for sp abstract
                               return(
-                                <div className="document-card-container">
-                                  <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
-                                  <Box className={classes.boxStyle}>
-                                  <textarea className="textarea-container" name="sp_abstract"  cols="40" rows="5" {...register("SP_Abstract", {required: true})}></textarea>
-                                  </Box>
-                                  {errors.SP_Abstract && <div className="warning">Abstract field is required</div>}
+                                <div>
+                                  <div className="document-card-container">
+                                    <h2 style={{textAlign:'center'}}>ABSTRACT</h2>
+                                    <Box className={classes.boxStyle}>
+                                    <textarea className="textarea-container" name="sp_abstract"  cols="40" rows="5" {...register("SP_Abstract", {required: true})}></textarea>
+                                    </Box>
+                                    {errors.SP_Abstract && <div className="warning">Abstract field is required</div>}
+                                  </div>
+                                  <div className = "button-right">
+                                    <button className={classes.saveStyle} onClick={handleSubmit(openSaveModal)}><SaveIcon className={classes.iconStyle}/></button>
+                                  </div>
                                 </div>
                               )
                               case "book":  //textarea section for book description
                                 return(
-                                  <div className="document-card-container">
-                                    <h2 style={{textAlign:'center'}}>DESCRIPTION</h2>
-                                    <Box className={classes.boxStyle}>
-                                    <textarea className="textarea-container" name="book_description"  cols="40" rows="5" {...register("Description", {required: true})} ></textarea>
-                                    </Box>
-                                    {errors.Description && <div className="warning">Description field is required</div>}
+                                  <div>
+                                    <div className="document-card-container">
+                                      <h2 style={{textAlign:'center'}}>DESCRIPTION</h2>
+                                      <Box className={classes.boxStyle}>
+                                      <textarea className="textarea-container" name="book_description"  cols="40" rows="5" {...register("Description", {required: true})} ></textarea>
+                                      </Box>
+                                      {errors.Description && <div className="warning">Description field is required</div>}
+                                    </div>
+                                    <div className = "button-right">
+                                      <button className={classes.saveStyle} onClick={handleSubmit(openSaveModal)}><SaveIcon className={classes.iconStyle}/></button>
+                                    </div>
                                   </div>
                                 )
                             default:
@@ -358,9 +370,7 @@ useEffect(() => {
                         }
                     })(doc_type)
                   }
-                <div className = "button-right">
-                  <button className={classes.saveStyle} onClick={handleSubmit(openSaveModal)}><SaveIcon className={classes.iconStyle}/></button>
-                </div>
+                
             </div>
         </div>
     }

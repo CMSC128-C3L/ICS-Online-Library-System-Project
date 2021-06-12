@@ -122,15 +122,13 @@ font-weight: bold;
 }
 
 .click-list {
-display: flex;
-flex-wrap: wrap;
-list-style: none;
+display: inline;
+margin: 0px;
 padding-inline-start: 0;
 }
 
 .click-list :not( :last-child)::after {
 content: ", ";
-/* white-space: pre; */
 }
 
 @media (max-width: 880px) {
