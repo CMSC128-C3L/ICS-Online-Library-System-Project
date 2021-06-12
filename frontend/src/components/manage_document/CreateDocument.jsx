@@ -170,7 +170,7 @@ useEffect(() => {
                                           isObject={false}
                                           onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                           onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                          style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                          style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                       />
 
                                       {/* This section is for topic of the document */}
@@ -183,7 +183,7 @@ useEffect(() => {
                                           isObject={false}
                                           onSelect={(selectedValue)=> selectTopic(selectedValue)} 
                                           onRemove={(selectedValue)=> selectTopic(selectedValue)}      
-                                          style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                          style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                       />
                                     </div>
                                 )
@@ -217,7 +217,7 @@ useEffect(() => {
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                         onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                     />
 
                                     {/* This section is for topic of the document */}
@@ -230,7 +230,7 @@ useEffect(() => {
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectTopic(selectedValue)} 
                                           onRemove={(selectedValue)=> selectTopic(selectedValue)}    
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                     />
                                   </div>
                                 )
@@ -263,7 +263,7 @@ useEffect(() => {
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                         onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                     />
 
                                     {/* This section is for topic of the document */}
@@ -275,7 +275,7 @@ useEffect(() => {
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectTopic(selectedValue)} 
                                         onRemove={(selectedValue)=> selectTopic(selectedValue)}    
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                     />
                                 </div>
                                 )
@@ -291,22 +291,22 @@ useEffect(() => {
                             case "book":  //button for upload pdf/thumbnail [book]
                                 return(
                                   <div className='document-card-container button-card-flex-column'>
-                                  <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={"call function to upload thumnail"}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <button className={classes.textStyle} onClick={props.handleUploadPDF}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+                                  <button className={classes.textStyle} onClick={props.handleUploadCover}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
                                   </div>
                                 )
                             case "sp":  //button for upload pdf/poster [sp]
                                 return(
                                   <div className='document-card-container button-card-flex-column'>
-                                  <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={"call function to upload poster"}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <button className={classes.textStyle} onClick={props.handleUploadPDF}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+                                  <button className={classes.textStyle} onClick={props.handleUploadPoster}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
                                   </div>
                                 )
                             case "thesis":  //button for upload pdf/poster [thesis]
                                 return(
                                   <div className='document-card-container button-card-flex-column'>
-                                  <button className={classes.textStyle} onClick={"call function to upload pdf"}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={"call function to upload poster"}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <button className={classes.textStyle} onClick={props.handleUploadPDF}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
+                                  <button className={classes.textStyle} onClick={props.handleUploadPoster}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
                                   </div>
                                 )
                             default:

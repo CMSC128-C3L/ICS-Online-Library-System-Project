@@ -25,6 +25,14 @@ function UpdateDocument(props){
         'Content-Type': 'application/json'
     }
 
+     // get course api
+     const getCourse = async(item) =>{
+        const course_data = await axios.get('/api/course/'+ item, options);
+        return course_data.data[0];
+    }
+
+    const courses = props.course.map(item => getCourse(item))
+
     //for handling update function
     const handleUpdate = (user) => confirmModal.current.open(user)
     const handleCancel = () => close()
@@ -37,8 +45,9 @@ function UpdateDocument(props){
     
     const handleSubmit = async() =>{
         //patch request to update document
-        console.log("DOCUMENT TYPE UPDATE Doc: " + props.type);
         let response;
+        const data = await Promise.all(courses);
+
         try {
             if(props.type=="book"){
                 response = await axios.patch(`/api/books/${id}`, {
@@ -49,7 +58,7 @@ function UpdateDocument(props){
                     isbn: props.book.isbn,
                     description: props.book.description,
                     topic: props.book.topic,
-                    courses: props.book.courses
+                    courses: [] 
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.patch(`/api/thesis/${id}`, {
@@ -90,7 +99,6 @@ function UpdateDocument(props){
             console.log("[book] update description: ",props.book.description)
             console.log("[book] update course: ",props.book.courses)
             console.log("[book] update topic: ",props.book.topic)
-            // console.log(selectedTopic)
           } 
       
           else if(props.type=="thesis"){
@@ -101,7 +109,6 @@ function UpdateDocument(props){
             console.log("[thesis] update abstract: ",props.thesis.abstract)
             console.log("[thesis] update course: ",props.thesis.courses)
             console.log("[thesis] update topic: ",props.thesis.topic)
-            // console.log(selectedTopic)
           }
       
           else if(props.type=="sp"){
@@ -113,7 +120,6 @@ function UpdateDocument(props){
             console.log("[sp] update abstract: ",props.sp.abstract)
             console.log("[sp] update course: ",props.sp.courses)
             console.log("[sp] update topic: ",props.sp.topic)
-            // console.log(selectedTopic)
           }
 
         if(confirmed){

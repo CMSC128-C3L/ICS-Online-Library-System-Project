@@ -195,7 +195,7 @@ function ConditionalEdit(props){
 
   return(
     <div className="browsebg browsebg-container">
-      <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} type={doc_type}/></Modal>
+      <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} course={selectedCourse} type={doc_type}/></Modal>
       {
         (function(allowEdit, doc_type){
           switch(allowEdit){

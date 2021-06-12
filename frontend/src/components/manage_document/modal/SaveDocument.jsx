@@ -46,6 +46,7 @@ function SaveDocument(props){
         //post request to create and save document
         let response;
         const data = await Promise.all(courses);
+        console.log("save doc: ", typeof(props.book.author))
         try {
             if(props.type=="book"){
                 response = await axios.post(`/api/books`, {
@@ -113,8 +114,6 @@ function SaveDocument(props){
             <SaveIcon className={classes.iconStyle}/>
             <h3 className="text prompt"> ADD NEW DOCUMENT </h3>
             {(function(document){
-                console.log("document card value: ", document.type)
-                
                 switch(document.type){
                     case "book":
                         return( <h3 className="text prompt"> Are you sure you want to create "{document.book.title}" {document.book.year}? </h3>)
@@ -124,7 +123,7 @@ function SaveDocument(props){
                         return( <h3 className="text prompt"> Are you sure you want to create "{document.sp.title}" {document.sp.pub_date}? </h3>)
                     default:
                         return null;	
-                }
+                    }
             })(props)}
 
             <div className="save-cancel">
