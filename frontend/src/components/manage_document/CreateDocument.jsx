@@ -124,7 +124,6 @@ useEffect(() => {
                 </div> */}
                 
                 {/* document attributes are editable*/}
-                <div className='dropdown-container'>
                 <div className='document-card-container document-card-flex-column' key={""}>
                   
                   <div className="main-text-tags">Classification: 
@@ -137,7 +136,7 @@ useEffect(() => {
                       isObject={false} 
                       onSelect={(selectedValue)=> handleType(selectedValue)} 
                       onRemove={(selectedValue)=> handleType(selectedValue)}   
-                      style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} } 
+                      style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%'}} } 
                       />
                   </div>
   
@@ -285,7 +284,6 @@ useEffect(() => {
                               return null;
                         }
                     })(doc_type)}
-                </div>
                 </div>
 
                 {/* conditional render for buttons */}

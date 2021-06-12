@@ -37,7 +37,7 @@ function UpdateDocument(props){
     
     const handleSubmit = async() =>{
         //patch request to update document
-        console.log("DOCUMENT TYPE UPDATE Doc: " + props.topic);
+        console.log("DOCUMENT TYPE UPDATE Doc: " + props.type);
         let response;
         try {
             if(props.type=="book"){
@@ -48,7 +48,8 @@ function UpdateDocument(props){
                     publisher: props.book.publisher,
                     isbn: props.book.isbn,
                     description: props.book.description,
-                    topic: props.book.topic
+                    topic: props.book.topic,
+                    courses: props.book.course
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.patch(`/api/thesis/${id}`, {
@@ -57,7 +58,8 @@ function UpdateDocument(props){
                     adviser: splitAuthors(props.thesis.adviser),
                     pub_date: props.thesis.pub_date,
                     abstract: props.thesis.abstract,
-                    topic: props.thesis.topic
+                    topic: props.thesis.topic,
+                    courses: props.book.course
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
@@ -66,7 +68,8 @@ function UpdateDocument(props){
                     adviser: splitAuthors(props.thesis.adviser),
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
-                    topic: props.sp.topic
+                    topic: props.sp.topic,
+                    courses: props.book.course
                 } , options);
             }
             console.log('Returned data:', response.data);
@@ -77,6 +80,42 @@ function UpdateDocument(props){
 
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(() => {
+
+        if(props.type=="book"){
+            console.log(props.book.title)
+            console.log(props.book.author)
+            console.log(props.book.year)
+            console.log(props.book.publisher)
+            console.log(props.book.isbn)
+            console.log(props.book.description)
+            console.log(props.book.courses)
+            console.log(props.book.topic)
+            // console.log(selectedTopic)
+          } 
+      
+          else if(props.type=="thesis"){
+            console.log(props.thesis.title)
+            console.log(props.thesis.author)
+            console.log(props.thesis.adviser)
+            console.log(props.thesis.pub_date)
+            console.log(props.thesis.abstract)
+            console.log(props.thesis.courses)
+            console.log(props.thesis.topic)
+            // console.log(selectedTopic)
+          }
+      
+          else if(props.type=="sp"){
+            
+            console.log(props.sp.title)
+            console.log(props.sp.author)
+            console.log(props.sp.adviser)
+            console.log(props.sp.pub_date)
+            console.log(props.sp.abstract)
+            console.log(props.sp.courses)
+            console.log(props.sp.topic)
+            // console.log(selectedTopic)
+          }
+
         if(confirmed){
             handleSubmit();
             close();

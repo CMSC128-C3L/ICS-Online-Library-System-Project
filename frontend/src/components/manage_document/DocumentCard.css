@@ -3,10 +3,7 @@
     background-repeat: no-repeat;
     background-size:cover;
     background-position: center;
-}
-
-.dropdown-container{
-    padding: 10vh;
+    min-height: 50vh;
 }
 
 .browsebg-container{
@@ -27,6 +24,7 @@
     border-radius: 1em;
     background: white;
     padding: 1vh;
+    
 }
 
 .document-card-flex-column {
@@ -36,6 +34,7 @@
     flex-wrap: wrap;
     flex-direction: column;
     justify-content:center;
+   
 }
 
 .document-card-flex-row {

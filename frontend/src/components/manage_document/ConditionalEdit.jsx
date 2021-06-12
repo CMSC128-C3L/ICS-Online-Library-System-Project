@@ -25,7 +25,6 @@ function ConditionalEdit(props){
   const classes = useStyles();
   const [document, setDocument] = useState([]);
   const {id} = useParams();
-  const [selectedTopic, setSelectedTopic] = useState([document.topic]);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
 
   // Create reference to modal
@@ -95,6 +94,9 @@ function ConditionalEdit(props){
     courses: "",
     topic: ""
   })
+
+  const [selectedTopic, setSelectedTopic] = useState([document.topic]);
+  const [selectedCourse, setSelectedCourse] = useState([document.course_code]);
 
   useEffect(() => {
     if(doc_type=="book") setBook({ ...book, 
@@ -167,9 +169,20 @@ function ConditionalEdit(props){
     else if(doc_type=="thesis") thesis.topic = selectedTopic
   }
 
+  const selectCourse  = (selectedItem)  =>{
+    // method for assigning the course object of document
+    setSelectedCourse(selectedItem);
+    console.log("content [course]: \n", selectedCourse)
+
+    if(doc_type=="book") book.course = selectedCourse
+    else if(doc_type=="sp") sp.course = selectedCourse
+    else if(doc_type=="thesis") thesis.course = selectedCourse
+  }
+
   useEffect(() => {
     selectTopic(selectedTopic)
-}, [selectedTopic])
+    selectCourse(selectedCourse)
+}, [selectedTopic, selectedCourse])
 
   return(
     <div className="browsebg browsebg-container">
@@ -208,6 +221,18 @@ function ConditionalEdit(props){
                                 onRemove={(selectedValue)=> selectTopic(selectedValue)}   
                                 style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
+                            />
+
+                            <div className="main-text-tags">Course:</div>
+                            <Multiselect 
+                                placeholder="Add a course"
+                                options={course} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                onRemove={(selectedValue)=> selectCourse(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
+                                selectedValues={document.course_code}
                             />
                           </div>
   
@@ -254,6 +279,18 @@ function ConditionalEdit(props){
                                 style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
+
+                            <div className="main-text-tags">Course:</div>
+                            <Multiselect 
+                                placeholder="Add a course"
+                                options={course} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                onRemove={(selectedValue)=> selectCourse(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
+                                selectedValues={document.course_code}
+                            />
                           </div>
                           <div className='document-card-container button-card-flex-column'>
                             <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
@@ -298,7 +335,19 @@ function ConditionalEdit(props){
                                 style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
-                          </div>
+
+                            <div className="main-text-tags">Course:</div>
+                            <Multiselect 
+                                placeholder="Add a course"
+                                options={course} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                onRemove={(selectedValue)=> selectCourse(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
+                                selectedValues={document.course_code}
+                            />
+                            </div>
                           <div className='document-card-container button-card-flex-column'>
                             <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
                             <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
