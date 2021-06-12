@@ -96,8 +96,8 @@ router.get('/api/authorSummary/:author', auth, isAdmin, AuthorSummary.getAuthorS
 router.get('/api/authorSummaryPDF/:author', auth, isAdmin, AuthorSummary.getAuthorSummaryPDF);
 
 //adviser summary
-router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
-router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPDF);
+router.get('/api/adviserSummary/:adviser', auth, isAdmin, AdviserSummary.getAdviserSummary);
+router.get('/api/adviserSummaryPDF/:adviser', auth, isAdmin, AdviserSummary.getAdviserSummaryPDF);
 
 //course summary
 router.get('/api/courseSummary/:course', auth, isAdmin, CourseSummary.getCourseSummary);
