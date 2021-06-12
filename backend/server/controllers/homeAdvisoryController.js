@@ -72,12 +72,13 @@ async function uploadThumbnail(req, res) {
     const thumbnail = req.file;
 
     if (!thumbnail)
-        return res.status(400).send({message:"missing thumbnail"});
+        return res.status(400).send({message:"missing thumbnail image"});
 
     // update the path of the thumbnail attribute of the HomeAdvisory
+    const filename = 'http://localhost:5000/static/' + thumbnail.filename;
     await HomeAdvisory.findOneAndUpdate(
       {_id},
-      {image: thumbnail.filename},
+      {image: filename},
     );
 
     res.status(200).send({_id});
