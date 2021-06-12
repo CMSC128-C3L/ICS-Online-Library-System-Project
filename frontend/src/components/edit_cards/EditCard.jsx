@@ -7,19 +7,19 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import './EditCards.css'
 
-function EditCard({ card }){
+function EditCard({ card, index }){
     const classes = useStyles()
     const [content, setContent] = useState(card);
     let history = useHistory();
 
-    // To track temporary changes to be put in content
+    // To track temporary changes to be put in display
     const [title, setTitle] = useState(card.title)
     const [header, setHeader] = useState(card.header)
     const [description, setDescription] = useState(card.description)
     const [link, setLink] = useState(card.link)
+    const [displayImage, setDisplayImage] = useState(card.image)
+    const [imageToUpload, setImageToUpload] = useState()
     const [fieldChanged, setFieldChanged] = useState(false)
-    const [newImage, setNewImage] = useState()
-    console.log(card.image)
 
     // To save updated announcement card
     const handleSave = (e) => {
@@ -44,10 +44,11 @@ function EditCard({ card }){
             }
         }
 
+        // Place image file to upload in a FormData and send as part of request
         const uploadImg = async () => {
             const formData = new FormData()
-            formData.append('home_advisory', newImage)
-            console.log(Array.from(formData))
+            formData.append('home_advisory', imageToUpload)
+
             try{
                 let imgOptions = {
                     headers: {'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data'},
@@ -62,19 +63,20 @@ function EditCard({ card }){
             }
 
         }
-
+        
+        // Send requests depending if field and/or image changed
         if(fieldChanged) updateCard()
-        if(newImage) uploadImg()
-
+        if(imageToUpload) uploadImg()
+        history.push("/adminHome/manageAnnouncements")
     }
     
     const handleCancelButton = (e) => {
         history.push("/adminHome/manageAnnouncements")
     }
     
-    const handleTemp = (e) => {
-        console.log(e.target.files)
-        setNewImage(e.target.files[0])
+    const handleUpload = (e) => {
+        setDisplayImage(URL.createObjectURL(e.target.files[0]))
+        setImageToUpload(e.target.files[0])
     }
     // To update content and reflect changes in card
     useEffect(() => {
@@ -83,10 +85,10 @@ function EditCard({ card }){
             if(prev.header !== header) return {...prev, header: header}
             else if(prev.title !== title) return {...prev, title: title}
             else if(prev.description !== description) return {...prev, description: description}
-            // else if(prev.image !== image) return {...prev, image: image}
+            else if(prev.image !== displayImage) return {...prev, image: displayImage}
             else return {...prev, link: link}
         })
-    }, [header, title, description, link])
+    }, [header, title, description, link, displayImage])
 
     return(
         <div className="grid-2">
@@ -134,7 +136,7 @@ function EditCard({ card }){
 
                     <div className="form-section form-upload">
                         <label htmlFor="upload" className="form-label text">Upload photo:</label>
-                        <input id="upload-btn" className="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*" onChange={(e)=> handleTemp(e)} />
+                        <input id="upload-btn" className="btn upload-btn" text="Upload" type="file" id="img" name="img" accept="image/*" onChange={(e)=> handleUpload(e)} />
                     </div>
 
                     <div className="form-section buttons">
