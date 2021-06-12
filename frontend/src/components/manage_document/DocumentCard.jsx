@@ -24,14 +24,15 @@ function DocumentCard(props){
     let authorObj = {},topicObj = {},courseObj = {},adviserObj = {};
     Object.assign(adviserObj, props.adviser)
     Object.assign(topicObj, props.topic)
-    Object.assign(courseObj, props.course_code)
+    Object.assign(courseObj, props.course)
     Object.assign(authorObj, props.author)
 
     return (
         <div>
             {
             (function(document){
-                console.log("document card value: ", document.type)
+                console.log("[docard] document course: ", document.course)
+                console.log("[docard] document type: ", document.type)
                 switch(document.type){
                     case "Book": //book
                         return(
@@ -97,7 +98,7 @@ function DocumentCard(props){
                                 }
 
                                 {/* clickable course, if undefined do not show */}
-                                {document.course_code==undefined? console.log("[sp/thesis course] undefined"): 
+                                {Object.keys(courseObj).length==0? console.log("[sp/thesis course] undefined"): 
                                 (<div className="text-tags"> Course: 
                                     <ul className="click-list">
                                     {Object.values(courseObj).map((course) => {

@@ -54,6 +54,7 @@ function ConditionalEdit(props){
           else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
 
           setDocument(document.data); 
+          console.log("conditional edit data:\n", document.data.courses)
           const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
       }catch(e){
           console.log(e)
@@ -100,9 +101,8 @@ function ConditionalEdit(props){
 
   useEffect(() => {
     setSelectedTopic(document.topic)
-    setSelectedCourse(document.course_code)
-
-    if(doc_type=="book") setBook({ ...book, 
+    
+    if(doc_type=="book") {setBook({ ...book, 
       title: document.title,
       year: document.year,
       author: document.author,
@@ -112,24 +112,30 @@ function ConditionalEdit(props){
       courses: document.course_code,
       topic: document.topic
     })
-    else if(doc_type=="sp") setSP({ ...sp, 
+    setSelectedCourse(document.course_code)
+    }
+    else if(doc_type=="sp") {setSP({ ...sp, 
       title: document.title,
       adviser: document.adviser,
       author: document.author,
       pub_date: document.pub_date,
       abstract: document.abstract,
-      courses: document.course_code,
+      courses: document.courses,
       topic: document.topic
     })
-    else if(doc_type=="thesis") setThesis({ ...thesis, 
+    setSelectedCourse(document.courses)
+    }
+    else if(doc_type=="thesis") {setThesis({ ...thesis, 
       title: document.title,
       adviser: document.adviser,
       author: document.author,
       pub_date: document.pub_date,
       abstract: document.abstract,
-      courses: document.course_code,
+      courses: document.courses,
       topic: document.topic
     })
+    setSelectedCourse(document.courses)
+    }
   }, [document])
 
 
@@ -292,7 +298,7 @@ function ConditionalEdit(props){
                                 onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                 onRemove={(selectedValue)=> selectCourse(selectedValue)}   
                                 style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
-                                selectedValues={document.course_code}
+                                selectedValues={document.courses}
                             />
                           </div>
                           <div className='document-card-container button-card-flex-column'>
@@ -348,7 +354,7 @@ function ConditionalEdit(props){
                                 onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                 onRemove={(selectedValue)=> selectCourse(selectedValue)}   
                                 style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
-                                selectedValues={document.course_code}
+                                selectedValues={document.courses}
                             />
                             </div>
                           <div className='document-card-container button-card-flex-column'>
@@ -413,6 +419,7 @@ function ConditionalEdit(props){
                   <div> 
                       <div className='document-card-flex-row'>
                           <div className='document-card-flex-column' key={document.id}>
+                            {console.log("conditional edit course: " ,document.course_code)}
                           <DocumentCard
                               type={document.type}
                               title={document.title}
@@ -420,7 +427,7 @@ function ConditionalEdit(props){
                               adviser={document.adviser}
                               yearPublished={document.pub_date}
                               topic={document.topic}
-                              course={document.course_code}
+                              course={document.courses}
                           />  
                           </div>
                       </div>

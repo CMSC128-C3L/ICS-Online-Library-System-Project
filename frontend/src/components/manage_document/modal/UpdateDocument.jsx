@@ -59,17 +59,17 @@ function UpdateDocument(props){
                     pub_date: props.thesis.pub_date,
                     abstract: props.thesis.abstract,
                     topic: props.thesis.topic,
-                    courses: props.book.courses
+                    courses: props.thesis.courses
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
                     title: props.sp.title, 
-                    author: splitAuthors(props.thesis.author),
-                    adviser: splitAuthors(props.thesis.adviser),
+                    author: splitAuthors(props.sp.author),
+                    adviser: splitAuthors(props.sp.adviser),
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
                     topic: props.sp.topic,
-                    courses: props.book.courses
+                    courses: props.sp.courses
                 } , options);
             }
             console.log('Returned data:', response.data);
