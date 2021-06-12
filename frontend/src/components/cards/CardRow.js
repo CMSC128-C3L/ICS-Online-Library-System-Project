@@ -15,13 +15,14 @@ function CardRow({edit, handleEdit}){
             }catch(e){console.log("error in card fetching")}
         }
         getCards();
+        console.log(cards);
     }, [])
 
     return (
         <div className='flex-row'>
             {cards.map((card, index) => {
                 return (
-                    <div className='flex-col'>
+                    <div className='flex-col' key={index}>
                         {edit? <div className="edit-btn" onClick={() => handleEdit(index)}><EditIcon/></div> : null}
                         <Card content={card}/>
                     </div>

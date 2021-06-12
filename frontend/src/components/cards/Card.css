@@ -7,6 +7,7 @@
     font-weight: bold;
     width: 5em;
     margin-bottom: 0.5em;
+    margin-top: 0.5em;
 }
 
 .view-button:hover {
@@ -17,16 +18,12 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.text-regular {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: normal;
-}
-
 .flex-column {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .flex-row {
@@ -34,19 +31,19 @@
     flex-direction: row;
     justify-content: space-around;
     flex-flow: wrap;
-    padding-left: 12vw;
-    padding-right: 12vw;
+    padding-left: 5em;
+    padding-right: 5em;
 }
 
 .card-container {
-    margin-top: 5vh;
-    margin-bottom: 10vh;
-    padding: 1em;
-    width: 30%;
-    height: auto;
     box-sizing: border-box;
+    height: 32em;
+    width: 28rem;
     background-color: #47abdb;
     border-radius: 0.5em;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    padding-bottom: 1em;
 }
 
 .view-button:hover, .a:hover {
@@ -72,40 +69,59 @@
 }
 
 .card-header {
-    font-size: 1.5em;
-    font-weight: bold;
+    position: relative;
+    top: 4em;
+    
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+
+    width: max-content;
+    background-color: #2d8ebb;
+    font-size: 1.75rem;
     color: white;
-    text-align: center;
-    margin-bottom: 0.3em;
 }
 
 .article-title {
-    font-size: 1em;
+    font-size: 1.25rem;
     color: white;
     text-align: center;
-    margin-bottom: 1em;
-    margin-top: 0.5em;
+}
+
+.article-description {
+    font-size: 1rem;
+    color: white;
+    text-align: justify;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .img {
-    width:100%;
-    align-self: center;
     box-sizing: border-box;
+    object-fit: cover;
+    width: 100%;
+    height: 18rem;
+    border-radius: 0.5rem 0.5rem 0 0;
 }
 
-@media (max-width: 880px) {
-    .flex-row {
-        margin-bottom: 5vh;
+@media screen and (max-width: 800px){
+    .article-description{
+        -webkit-line-clamp: 1;
     }
 
-    .category-row {
-        justify-content: space-between;
+    .flex-row{
+        padding: 2em;
     }
 
-    .card-container {
-        width: auto;
-        height: auto;
-        align-self: center;
-        margin-bottom: 2vh;
+    .view-button{
+        margin-top: 1em;
+        margin-bottom: 0;
     }
 }
