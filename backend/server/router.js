@@ -100,7 +100,7 @@ router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
 router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPDF);
 
 //course summary
-router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
-router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
+router.get('/api/courseSummary/:course', auth, isAdmin, CourseSummary.getCourseSummary);
+router.get('/api/courseSummaryPDF/:course',  auth, isAdmin, CourseSummary.getCourseSummaryPDF);
 
 module.exports = router;
