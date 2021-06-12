@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
+import React, {useCallback, useState, useEffect, useRef, useContext} from 'react'
 import axios from 'axios'
-import {Table, TableBody, TableCell, TableContainer, TableRow, Paper, TableFooter, TablePagination, Avatar, Checkbox, Toolbar, Typography, Icon} from '@material-ui/core'
+import {Table, TableBody, TableCell, TableContainer, TableRow, Paper, TableFooter, TablePagination, Avatar, Checkbox, Toolbar, Typography} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -142,42 +142,46 @@ function UserTable(props) {
         }catch(e){console.log(e)}
     }
 
-    const filterRows = (user) => {
-        const currentUserName = currentUser.given_name.concat(' ',currentUser.family_name)
-        
-        return (user.filter( person => {
-            return(
-                (
-                    // Filter search query
-                    search === ""
-                    || person.name.toLowerCase().includes(search.toLowerCase()) 
-                    || String(person.id).includes(search)
-                    || person.name.toLowerCase().includes(search.toLowerCase())
-                    || person.email.toLowerCase().includes(search.toLowerCase()) 
-                    || person.classification.toLowerCase().includes(search.toLowerCase())
+    const filterRows = useCallback(
+        (user) => {
+            const currentUserName = currentUser.given_name.concat(' ',currentUser.family_name)
+            
+            return (user.filter( person => {
+                return(
+                    (
+                        // Filter search query
+                        search === ""
+                        || person.name.toLowerCase().includes(search.toLowerCase()) 
+                        || String(person.id).includes(search)
+                        || person.name.toLowerCase().includes(search.toLowerCase())
+                        || person.email.toLowerCase().includes(search.toLowerCase()) 
+                        || person.classification.toLowerCase().includes(search.toLowerCase())
+                    )
+                    &&  
+                        // Filter current user
+                        currentUserName.toLowerCase() !== person.name.toLowerCase()
                 )
-                &&  
-                    // Filter current user
-                    currentUserName.toLowerCase() !== person.name.toLowerCase()
-            )
-        }))
-    }
+            }))
+    }, [currentUser.family_name, currentUser.given_name, search])
 
     // Fetch users on first render
     useEffect(() => {
         getUsers()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     // Update row count on query change
     useEffect(() => {
         setRowCount(filterRows(rows).length)
         setPage(0)
+        // eslint-disable-next-line react-hooks/exhaustive-deps        
     }, [search])
 
     // Update row count on rows change
     useEffect(() => {
         setRowCount(filterRows(rows).length)
         setPage(0)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rows])
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
