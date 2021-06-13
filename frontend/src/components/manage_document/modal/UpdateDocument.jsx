@@ -88,6 +88,7 @@ function UpdateDocument(props){
                 } , options);
             }
             console.log('Returned data:', response.data);
+            // handleRoute()
         } catch (e) {
             console.log(`Axios request failed: ${e}`);
         }
