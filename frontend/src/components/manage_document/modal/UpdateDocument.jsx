@@ -6,12 +6,14 @@ import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
 import axios from 'axios'
 import './Modal.css'
+import {FileContext} from '../FileContext'
 
 function UpdateDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
     const {id} = useParams();
+    const {file, setFile} = useContext(FileContext)
 
     //for modal confirmation
     const confirmModal = useRef(null)
@@ -75,6 +77,25 @@ function UpdateDocument(props){
                     journal: props.thesis.journal,
                     poster: props.thesis.poster
                 } , options);
+
+                  console.log("thesis save")
+                //upload document
+                if(file.length > 0){
+                    const formData = new FormData();
+                    formData.append("title", props.thesis.title);
+                    formData.append("thesisDocument", file[0]);
+                    console.log("uploading thesis..")
+                    try{
+                        axios.post(`/api/thesis/upload/${id}`, formData, options);
+
+                        console.log("sucess!")
+                    }catch(e){
+                        console.log(e)
+                    }
+                }
+
+                response = await axios.get(`/api/thesis/${id}`)
+                console.log("WOWOW Data: ", response.data);
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
                     title: props.sp.title, 

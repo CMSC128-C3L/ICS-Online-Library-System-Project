@@ -20,6 +20,7 @@ import CardEditing from './components/card_editing/CardEditing';
 import CardEditingPage from './pages/CardEditingPage'
 import AboutUs from './pages/AboutUs'
 import EditCardsPage from './pages/EditCardsPage'
+import { FileContext } from './components/manage_document/FileContext';
 export const ACTIONS = {
   updateQuery: 'UPDATE_QUERY',
   updateCategory: 'UPDATE_CATEGORY',
@@ -32,10 +33,10 @@ export const ACTIONS = {
 
 function App() {
   const [loggedUser, setLoggedUser] = useState({});
-  
+  const [file, setFile] = useState('');
   //create what the value is
   const providerValue = useMemo(() => [{loggedUser, setLoggedUser}], [loggedUser, setLoggedUser])
-  
+   const providerValue2 = useMemo(() => [{file, setFile}], [file, setFile])
   /* FUNCTIONS AND STATES NEEDED TO HANDLE SEARCH FILTERS */
   const initialState = {
     query: '',
@@ -94,11 +95,14 @@ function App() {
             <AdminPageProtectRoute exact path="/adminHome/manageUsers" component={AdminUserManagement} />
             <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={SearchPage} />
             <Route exact path="/search/:id"  component={AccessDocument} />
+
+            
             <AdminPageProtectRoute exact path="/search/editDocument/:id"  component={AccessDocument} />
             <AdminPageProtectRoute exact path="/createDocument"  component={CreateDocument} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage" component={EditCardsPage} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage/editAdvisoryCard" component={CardEditingPage} />
+
             <Route exact path="/search" component={SearchPage} />            
             <Route exact path="/search/filter/:id" component={SearchPage} />
             <Route exact path="/courseSummary" component={SummaryPage} />

@@ -7,13 +7,14 @@ import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
 import axios from 'axios'
 import './Modal.css'
-
+import {FileContext} from '../FileContext'
 function SaveDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
-    
-    //reference to modal
+    const {id} = useParams();
+    const {file, setFile} = useContext(FileContext)
+
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
     const handleConfirmation = () => {setConfirmed(true)}
@@ -77,7 +78,25 @@ function SaveDocument(props){
                     journal: props.thesis.journal,
                     poster: props.thesis.poster
                 } , options);
+                
+                console.log("thesis save")
+                //upload document
+                if(file.length > 0){
+                    const formData = new FormData();
+                    formData.append("title", props.thesis.title);
+                    formData.append("thesisDocument", file[0]);
+                    console.log("uploading thesis..")
+                    try{
+                        axios.post(`/api/thesis/upload/${id}`, formData, options);
+
+                        console.log("sucess!")
+                    }catch(e){
+                        console.log(e)
+                    }
+                }
             } else if(props.type=="sp"){
+                
+                console.log('here')
                 response = await axios.post(`/api/sp`, {
                     type: 'Special Problem',
                     id: props.sp.id,
@@ -92,8 +111,26 @@ function SaveDocument(props){
                     journal: props.sp.journal,
                     poster: props.sp.poster  
                 } , options);
+
+                if(file.length > 0){
+                    const formData = new FormData();
+                    formData.append("title", props.sp.title);
+                    formData.append("spFile", file[0]);
+                    console.log("uploading sp..")
+                    try{
+                        axios.post(`/api/sp/upload/${id}`, formData, options);
+
+                        console.log("sucess!")
+                    }catch(e){
+                        console.log('test')
+                        console.log(e)
+                    }
+                }
             }
             console.log('Returned data:', response.data);
+
+            response = axios.get(`/api/sp/${id}`, options);
+            console.log('new', response.data);
         } catch (e) {
             console.log(`Axios request failed: ${e}`);
         }
