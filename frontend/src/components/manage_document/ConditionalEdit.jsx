@@ -13,7 +13,11 @@ import UpdateDocument from './modal/UpdateDocument';
 import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
 import { UserContext } from '../user/UserContext'
-import {classification, course, topics} from './Choices.jsx'
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import {course, topics} from './Choices.jsx';
+import samplePDF from './pdf/ASRI.pdf';
+import ViewPDF from "./ViewPDF";
 
 /**
  * functional component
@@ -53,14 +57,20 @@ function ConditionalEdit(props){
       let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
       
       try{
-          if(doc_type == "book") document = await axios.get(`/api/books/${id}`, options);
+          if(doc_type == "book") document = await axios.get(`/api/books/${id}`,
+          // options
+          );
           else if(doc_type == "sp"){
-            document = await axios.get(`/api/sp/${id}`, options);
+            document = await axios.get(`/api/sp/${id}`,
+            // options
+            );
             let courses = document.data.courses.map(getCourseCode);
             document.data.courses = courses;
           }
           else if(doc_type == "thesis"){
-            document = await axios.get(`/api/thesis/${id}`, options);
+            document = await axios.get(`/api/thesis/${id}`,
+            // options
+            );
             let courses = document.data.courses.map(getCourseCode);
             document.data.courses = courses;
           }
@@ -95,7 +105,10 @@ function ConditionalEdit(props){
     pub_date: "",
     abstract: "",
     courses: "",
-    topic: ""
+    topic: "",
+    code:"",
+    journal: "",
+    poster: ""
   })
 
   const [sp, setSP] = useState({
@@ -105,7 +118,10 @@ function ConditionalEdit(props){
     pub_date: "",
     abstract: "",
     courses: "",
-    topic: ""
+    topic: "",
+    code:"",
+    journal: "",
+    poster: ""
   })
 
   const [selectedTopic, setSelectedTopic] = useState([]);
@@ -133,7 +149,10 @@ function ConditionalEdit(props){
       pub_date: document.pub_date,
       abstract: document.abstract,
       courses: document.courses,
-      topic: document.topic
+      topic: document.topic,
+      code: document.source_code,
+      journal: document.journal,
+      poster: document.poster
     })
     setSelectedCourse(document.courses)
     }
@@ -144,7 +163,10 @@ function ConditionalEdit(props){
       pub_date: document.pub_date,
       abstract: document.abstract,
       courses: document.courses,
-      topic: document.topic
+      topic: document.topic,
+      code: document.source_code,
+      journal: document.journal,
+      poster: document.poster
     })
     setSelectedCourse(document.courses)
     }
@@ -211,11 +233,19 @@ function ConditionalEdit(props){
     selectCourse(selectedCourse)
 }, [selectedTopic, selectedCourse])
 
+const [view, setView] = React.useState('journal');
+
+const handleView = (event, newToggle) => {
+  setView(newToggle);
+  console.log(newToggle)
+};
+
   return(
     <div className="browsebg browsebg-container">
       <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} course={selectedCourse} type={doc_type}/></Modal>
       {
-        (function(allowEdit, doc_type){
+        (function(allowEdit, doc_type, userType){
+          console.log("CONDITIONAL EDIT USER TYPE", userType)
           switch(allowEdit){
             // editable document
             case true:
@@ -405,74 +435,166 @@ function ConditionalEdit(props){
               
             // unable to edit document
             case false:
-              if(doc_type=="book"){
-                return(
-                  <div> 
-                      <div className='document-card-flex-row'>
-                          <div className='image-card-container' >
-                            <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
-                          </div>
-
-                          <div className='document-card-flex-column' key={document.id}>
-                          <DocumentCard
-                              type={document.type}
-                              title={document.title}
-                              author={document.author} 
-                              yearPublished={document.year}
-                              publisher={document.publisher}
-                              docISBN={document.isbn}
-                              topic={document.topic}
-                              course={document.course_code}
-                          />
-                          </div>
+              if(userType==undefined){ // if guest, do not show option for posters/journals
+                if(doc_type=="book"){
+                  return(
+                    <div> 
+                        <div className='document-card-flex-row'>
+                            <div className='image-card-container' >
+                              <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+                            </div>
   
-                      </div>
-  
-                      <div className="description-section">
-                        <div className="document-card-container">
-                          <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
-                          <Box className={classes.descriptionStyle}>
-                          {document.description}
-                          </Box>
-                          </div>
-                      </div>
-                  </div>
-                )
-              } else if(doc_type=="thesis" || doc_type=="sp"){
-                return(
-                  <div> 
-                      <div className='document-card-flex-row'>
-                          <div className='document-card-flex-column' key={document.id}>
-                            {console.log("conditional edit course: " ,document.course_code)}
-                          <DocumentCard
-                              type={document.type}
-                              title={document.title}
-                              author={document.author}
-                              adviser={document.adviser}
-                              yearPublished={document.pub_date}
-                              topic={document.topic}
-                              course={document.courses}
-                          />  
-                          </div>
-                      </div>
-  
-                      <div className="description-section">
+                            <div className='document-card-flex-column' key={document.id}>
+                            <DocumentCard
+                                type={document.type}
+                                title={document.title}
+                                author={document.author} 
+                                yearPublished={document.year}
+                                publisher={document.publisher}
+                                docISBN={document.isbn}
+                                topic={document.topic}
+                                course={document.course_code}
+                            />
+                            </div>
+    
+                        </div>
+    
+                        <div className="description-section">
                           <div className="document-card-container">
-                          <h2 style={{textAlign: 'center'}}>ABSTRACT</h2>
-                          
-                          <Box className={classes.descriptionStyle}>
-                          {document.abstract}
-                          </Box>
+                            <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
+                            <Box className={classes.descriptionStyle}>
+                            {document.description}
+                            </Box>
+                            </div>
+                        </div>
+                    </div>
+                  )
+                } else if(doc_type=="thesis" || doc_type=="sp"){
+                  return(
+                    <div> 
+                        <div className='document-card-flex-row'>
+                            <div className='document-card-flex-column' key={document.id}>
+                              {console.log("conditional edit course: " ,document.course_code)}
+                            <DocumentCard
+                                type={document.type}
+                                title={document.title}
+                                author={document.author}
+                                adviser={document.adviser}
+                                yearPublished={document.pub_date}
+                                topic={document.topic}
+                                course={document.courses}
+                            />  
+                            </div>
+                        </div>
+    
+                        <div className="description-section">
+                            <div className="document-card-container">
+                            <h2 style={{textAlign: 'center'}}>ABSTRACT</h2>
+                            
+                            <Box className={classes.descriptionStyle}>
+                            {document.abstract}
+                            </Box>
+                            </div>
+                        </div>
+                    </div>
+                  )
+                } 
+              } else { // if authenticated user, show option for posters/journals
+                if(doc_type=="book"){
+                  return(
+                    <div> 
+                        <div className='document-card-flex-row'>
+                            <div className='image-card-container' >
+                              <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+                            </div>
+  
+                            <div className='document-card-flex-column' key={document.id}>
+                            <DocumentCard
+                                type={document.type}
+                                title={document.title}
+                                author={document.author} 
+                                yearPublished={document.year}
+                                publisher={document.publisher}
+                                docISBN={document.isbn}
+                                topic={document.topic}
+                                course={document.course_code}
+                            />
+                            </div>
+    
+                        </div>
+    
+                        <div className="description-section">
+                          <div className="document-card-container">
+                            <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
+                            <Box className={classes.descriptionStyle}>
+                            {document.description}
+                            </Box>
+                            </div>
+                        </div>
+                    </div>
+                  )
+                } else if(doc_type=="thesis" || doc_type=="sp"){
+                  return(
+                    <div> 
+                        <div className='document-card-flex-row'>
+                            <div className='document-card-flex-column' key={document.id}>
+                              {console.log("conditional edit course: " ,document.course_code)}
+                            <DocumentCard
+                                type={document.type}
+                                title={document.title}
+                                author={document.author}
+                                adviser={document.adviser}
+                                yearPublished={document.pub_date}
+                                topic={document.topic}
+                                course={document.courses}
+                            />  
+                            </div>
+                        </div>
+    
+                        <div className="description-section">
+                            <div className="document-card-container">
+                            <h2 style={{textAlign: 'center'}}>ABSTRACT</h2>
+                            
+                            <Box className={classes.descriptionStyle}>
+                            {document.abstract}
+                            </Box>
+                            </div>
+                        </div>
+
+                        <div className="description-section">
+                          <div className="document-card-container">
+                          <ToggleButtonGroup
+                            value={view}
+                            exclusive
+                            onChange={handleView}
+                            aria-label="text alignment"
+                          >
+                            <ToggleButton className={classes.toggleStyle} value="poster" aria-label="left aligned">
+                              POSTER
+                            </ToggleButton>
+                            <ToggleButton className={classes.toggleStyle} value="journal" aria-label="centered">
+                              JOURNAL
+                            </ToggleButton>
+                          </ToggleButtonGroup>
+
+                          {doc_type=="sp"?console.log("SP journal:", sp.journal):console.log("Thesis journal:", thesis.journal)}
+                          <div className="all-page-container">
+                            {/* use this section to import sample PDF files */}
+                            <ViewPDF pdf={samplePDF} />
                           </div>
-                      </div>
-                  </div>
-                )
-              } 
+                          
+
+                          </div>
+                        </div>
+                    </div>
+                  )
+                } 
+              }
              
             default:
               return null;	
           }
-        })(allowEdit, doc_type)
+        })(allowEdit, doc_type, loggedUser.classification)
     }
     </div>
   )
@@ -507,6 +629,12 @@ const useStyles = makeStyles(() => ({
       borderRadius:'10vh', 
       width:'10vh', 
       height:'10vh'
+  },
+  toggleStyle:{ 
+    backgroundColor: '#47ABD8', 
+    border:'transparent',
+    width:'10vh', 
+    height:'10vh'
   },
   boxStyle:{
     flexWrap: "wrap",
