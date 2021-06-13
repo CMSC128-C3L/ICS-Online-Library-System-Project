@@ -111,7 +111,10 @@ function DocumentCard(props){
                                 </div>)
                                 }
 
-                                {userType=="Faculty" || userType=="Staff" || userType=="Admin"?<div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null}
+                                {/* check if source code is empty, if not, check if faculty and up to get access to source code */}
+                                {document.code == ""? null:
+                                userType=="Faculty" || userType=="Staff" || userType=="Admin"?<div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null
+                                }
                                 </div>
                             </div>
                         )	
