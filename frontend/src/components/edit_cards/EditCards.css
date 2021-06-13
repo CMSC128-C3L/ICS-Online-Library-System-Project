@@ -90,6 +90,20 @@
     background-color: #ff4242;
 }
 
+.clear-btn {
+    float: right;
+    background-color: transparent;
+    border-radius: 0.25rem;
+    fill: #ff4242;
+    border: none;
+    padding: 0.5rem;
+}
+
+.clear-btn:hover{
+    fill: hsl(0, 100%, 75%);
+    transition: 0.25s;
+}
+
 .btn.upload-btn {
     margin-left: 1em;
     background-color: hsl(0, 0%, 95%);
@@ -104,14 +118,9 @@
 
 input[type=file]::file-selector-button{
     margin-left: 1em;
-    background-color: hsl(0, 0%, 95%);
+    background-color: transparent;
     color: black;
     border: none;
     border-radius: 0.1em;
     font-size: 1.25em;
-}
-
-input[type=file]::file-selector-button:hover{
-    transition: 0.25s;
-    background-color: hsl(0, 0%, 80%);
 }
