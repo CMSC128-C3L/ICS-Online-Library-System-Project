@@ -90,7 +90,7 @@ function UpdateDocument(props){
                 } , options);
             }
             console.log('Returned data:', response.data);
-            // handleRoute()
+            handleRoute()
         } catch (e) {
             console.log(`Axios request failed: ${e}`);
         }
@@ -101,9 +101,6 @@ function UpdateDocument(props){
         if(confirmed){
             handleSubmit();
             close();
-            setTimeout(() => {
-                handleRoute()
-              }, 1000);
         }
     }, [confirmed, close])
 
