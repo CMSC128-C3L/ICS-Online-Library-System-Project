@@ -46,7 +46,7 @@ async function getOne(req, res) {
         //get specific Sp
         let sp=await Sp.findOneAndUpdate({_id, type:"Special Problem"},{$inc: {view_count: 1}},{new: true}); //updated view_count
         sp=await Sp.findById({_id,type:"Special Problem"},restriction(req.user.classification)); //find the sp with restriction depending on user classification
-        restriction(sp.view_count);
+        // restriction(sp.view_count);
         if(sp!=null){
             res.status(200).send(sp);
         }else res.status(404).send({message:"Sp not found"});
@@ -168,18 +168,18 @@ async function downloadSp(req,res){
 
 function restriction(classification){
     const options={};
-    if(classification == 'Guest' || classification == 'Student'){
+    if(classification === 'Guest' || classification === 'Student'){
+        console.log(classification);
         options.file=0;
         options.source_code=0;
         options.view_count=0;
         options.download_count=0;
-        if(classification == 'Guest'){
+        options.view_journal_count = 0;
+        options.download_journal_count = 0;
+        if(classification === 'Guest'){
             options.journal=0;
             options.poster=0;
         }
-        return options;
     }
-
-
-
+    return options;
 }

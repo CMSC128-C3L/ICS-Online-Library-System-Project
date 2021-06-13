@@ -43,18 +43,30 @@ function ConditionalEdit(props){
     allowEdit = false;
   }
 
+  const getCourseCode = (data) => {
+    return data.code;
+  }
+
   //get the specific document data 
   const getDocument = async() =>{
       let document;
       let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
       
       try{
-          if(doc_type == "book") document = await axios.get(`/api/books/${id}`);
-          else if(doc_type == "sp") document = await axios.get(`/api/sp/${id}`);
-          else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
+          if(doc_type == "book") document = await axios.get(`/api/books/${id}`, options);
+          else if(doc_type == "sp"){
+            document = await axios.get(`/api/sp/${id}`, options);
+            let courses = document.data.courses.map(getCourseCode);
+            document.data.courses = courses;
+          }
+          else if(doc_type == "thesis"){
+            document = await axios.get(`/api/thesis/${id}`, options);
+            let courses = document.data.courses.map(getCourseCode);
+            document.data.courses = courses;
+          }
 
           setDocument(document.data); 
-          console.log("conditional edit data:\n", document.data.courses)
+          console.log("conditional edit data:\n", document.data)
           const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
       }catch(e){
           console.log(e)
@@ -156,6 +168,9 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_author") thesis.author = target.value;
       else if(target.name==="thesis_adviser") thesis.adviser = target.value;
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
+      else if(target.name==="thesis_journal") thesis.journal = target.value;
+      else if(target.name==="thesis_poster") thesis.poster = target.value;
+      else if(target.name==="thesis_source_code") thesis.source_code = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
     }
 
@@ -164,6 +179,9 @@ function ConditionalEdit(props){
       else if(target.name==="sp_author") sp.author = target.value;
       else if(target.name==="sp_adviser") sp.adviser = target.value;
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
+      else if(target.name==="sp_journal") sp.journal = target.value;
+      else if(target.name==="sp_poster") sp.poster = target.value;
+      else if(target.name==="sp_source_code") sp.source_code = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
     }
 }
@@ -276,6 +294,9 @@ function ConditionalEdit(props){
                             <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container"  name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Journal: <input className="input-container" name="thesis_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Poster: <input className="input-container" name="thesis_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Source Code: <input className="input-container" name="thesis_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
                       
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 
@@ -332,6 +353,9 @@ function ConditionalEdit(props){
                             <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Journal: <input className="input-container" name="sp_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Poster: <input className="input-container" name="sp_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Source Code: <input className="input-container" name="sp_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
   
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 

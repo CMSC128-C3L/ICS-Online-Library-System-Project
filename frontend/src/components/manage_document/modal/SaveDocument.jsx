@@ -73,9 +73,9 @@ function SaveDocument(props){
                     abstract: props.thesis.abstract,
                     topic: props.topic,
                     courses: data,
-                    source_code: props.source_code,
-                    journal: props.journal,
-                    poster: props.poster
+                    source_code: props.thesis.source_code,
+                    journal: props.thesis.journal,
+                    poster: props.thesis.poster
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.post(`/api/sp`, {
@@ -88,9 +88,9 @@ function SaveDocument(props){
                     abstract: props.sp.abstract,
                     topic: props.topic,
                     courses: data,
-                    source_code: props.source_code,
-                    journal: props.journal,
-                    poster: props.poster  
+                    source_code: props.sp.source_code,
+                    journal: props.sp.journal,
+                    poster: props.sp.poster  
                 } , options);
             }
             console.log('Returned data:', response.data);

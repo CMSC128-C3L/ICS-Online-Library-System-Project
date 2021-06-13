@@ -68,7 +68,10 @@ function UpdateDocument(props){
                     pub_date: props.thesis.pub_date,
                     abstract: props.thesis.abstract,
                     topic: props.thesis.topic,
-                    courses: props.thesis.courses
+                    courses: data,
+                    source_code: props.thesis.source_code,
+                    journal: props.thesis.journal,
+                    poster: props.thesis.poster
                 } , options);
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
@@ -78,7 +81,10 @@ function UpdateDocument(props){
                     pub_date: props.sp.pub_date,
                     abstract: props.sp.abstract,
                     topic: props.sp.topic,
-                    courses: props.sp.courses
+                    courses: data,
+                    source_code: props.sp.source_code,
+                    journal: props.sp.journal,
+                    poster: props.sp.poster  
                 } , options);
             }
             console.log('Returned data:', response.data);
