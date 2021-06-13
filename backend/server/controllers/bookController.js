@@ -43,6 +43,7 @@ async function getAll(req, res) {
 
 // Get a specific book
 async function get(req, res) {
+    console.log("GET ONE");
     try {
         const _id = req.params.id;    // get id parameter
 
@@ -56,8 +57,7 @@ async function get(req, res) {
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
         const book = bookBase(data);
-        book.description = data.description;
-        book.view_count = data.view_count;
+        console.log(book);
 
         res.status(200).send(book);     // respond with specified book
 
@@ -161,6 +161,7 @@ function bookBase(data) {
     book.author = data.author;
     book.isbn = data.isbn;
     book.publisher = data.publisher;
+    book.description = data.description;
     
     if (data.book_cover_img.split("-")[0] === 's')
         book.book_cover_img = path.join(__dirname, '../uploads/books/') + data.book_cover_img

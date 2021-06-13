@@ -40,6 +40,7 @@ async function getAll(req, res) {
 	
 }
 async function getOne(req, res) {
+    console.log("GET ONE");
 	try{
         //get id 
         let _id = req.params.id;    
@@ -48,6 +49,7 @@ async function getOne(req, res) {
         sp=await Sp.findById({_id,type:"Special Problem"},restriction(req.user.classification)); //find the sp with restriction depending on user classification
         // restriction(sp.view_count);
         if(sp!=null){
+            console.log(sp);
             res.status(200).send(sp);
         }else res.status(404).send({message:"Sp not found"});
     }catch(err){
