@@ -75,7 +75,10 @@ function ConditionalEdit(props){
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
 
     try{
-      if(doc_type == "thesis") axios.get(`api/thesis/download/${id}`, options)
+      if(doc_type == "thesis"){
+        axios.get(`/api/thesis/download/${id}`, options)
+        console.log("yay")
+      }
     }catch(e){
       console.log(e)
     }
