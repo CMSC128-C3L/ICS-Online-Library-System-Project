@@ -16,7 +16,6 @@ import { UserContext } from '../user/UserContext'
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import {course, topics} from './Choices.jsx';
-import samplePDF from './pdf/ASRI.pdf';
 import ViewPDF from "./ViewPDF";
 
 /**
@@ -53,40 +52,34 @@ function ConditionalEdit(props){
 
   //get the specific document data 
   const getDocument = async() =>{
-      let document;
-      let options;
-      if(Object.entries(loggedUser).length === 0){//empty
-        options =  {}
-      }else{//not empty
-        options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-      }
-      
-      try{
-          if(doc_type == "book") document = await axios.get(`/api/books/${id}`,
-          // options
-          );
-          else if(doc_type == "sp"){
-            document = await axios.get(`/api/sp/${id}`,
-            // options
-            );
-            let courses = document.data.courses.map(getCourseCode);
-            document.data.courses = courses;
-          }
-          else if(doc_type == "thesis"){
-            document = await axios.get(`/api/thesis/${id}`,
-            // options
-            );
-            let courses = document.data.courses.map(getCourseCode);
-            document.data.courses = courses;
-          }
+    let document;
+    let options;
+    if(Object.entries(loggedUser).length === 0){//empty
+      options =  {}
+    }else{//not empty
+      options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+    }
+    
+    try{
+        if(doc_type == "book") document = await axios.get(`/api/books/${id}`, options);
+        else if(doc_type == "sp"){
+          document = await axios.get(`/api/sp/${id}`, options);
+          let courses = document.data.courses.map(getCourseCode);
+          document.data.courses = courses;
+        }
+        else if(doc_type == "thesis"){
+          document = await axios.get(`/api/thesis/${id}`, options);
+          let courses = document.data.courses.map(getCourseCode);
+          document.data.courses = courses;
+        }
 
-          setDocument(document.data); 
-          console.log("conditional edit data:\n", document.data)
-          const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
-      }catch(e){
-          console.log(e)
-      }
-  }
+        setDocument(document.data); 
+        console.log("conditional edit data:\n", document.data)
+        const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
+    }catch(e){
+        console.log(e)
+    }
+}
 
   useEffect(() => {
       getDocument()
@@ -238,11 +231,11 @@ function ConditionalEdit(props){
     selectCourse(selectedCourse)
 }, [selectedTopic, selectedCourse])
 
-const [view, setView] = React.useState('journal');
+const [view, setView] = useState('journal');
 
 const handleView = (event, newToggle) => {
   setView(newToggle);
-  console.log(newToggle)
+  console.log(newToggle);
 };
 
   return(
@@ -574,21 +567,20 @@ const handleView = (event, newToggle) => {
                             onChange={handleView}
                             aria-label="text alignment"
                           >
-                            <ToggleButton className={classes.toggleStyle} value="poster" aria-label="left aligned">
+                            <ToggleButton value="poster" aria-label="left aligned">
                               POSTER
                             </ToggleButton>
-                            <ToggleButton className={classes.toggleStyle} value="journal" aria-label="centered">
+                            <ToggleButton value="journal" aria-label="centered">
                               JOURNAL
                             </ToggleButton>
                           </ToggleButtonGroup>
 
-                          {doc_type=="sp"?console.log("SP journal:", sp.journal):console.log("Thesis journal:", thesis.journal)}
                           <div className="all-page-container">
-                            {/* use this section to import sample PDF files */}
-                            <ViewPDF pdf={samplePDF} />
+                          {doc_type=="sp"? 
+                          view=="journal"? <ViewPDF pdf={sp.journal}/>:<ViewPDF pdf={sp.poster}/>:
+                          view=="journal"? <ViewPDF pdf={thesis.journal}/>:<ViewPDF pdf={thesis.poster}/>}
                           </div>
                           
-
                           </div>
                         </div>
                     </div>
