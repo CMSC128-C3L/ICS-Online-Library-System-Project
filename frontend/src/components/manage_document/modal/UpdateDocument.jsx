@@ -1,7 +1,6 @@
 import React, {useContext, useState, useRef, useEffect} from 'react'
 import Modal, { UserContext } from './Modal'
 import ConfirmChange from './ConfirmChange'
-import { withRouter } from 'react-router-dom'
 import { useHistory, useParams } from 'react-router'
 import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
@@ -36,7 +35,10 @@ function UpdateDocument(props){
     //for handling update function
     const handleUpdate = (user) => confirmModal.current.open(user)
     const handleCancel = () => close()
-    const handleRoute = () => history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
+    const handleRoute = () => {
+        console.log("naguupdate na..")
+        history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
+    }
     const splitAuthors = (author) => {
         let authors = author.toString().split(",");
         authors = authors.map((author) => author.trim());
@@ -95,44 +97,13 @@ function UpdateDocument(props){
     }
 
     // if confirmed then close modal and redirect to search page to see changes
-    useEffect(() => {
-
-        if(props.type=="book"){
-            console.log("[book] update title: ", props.book.title)
-            console.log("[book] update author: ", props.book.author)
-            console.log("[book] update year: ",props.book.year)
-            console.log("[book] update publisher: ",props.book.publisher)
-            console.log("[book] update isbn: ",props.book.isbn)
-            console.log("[book] update description: ",props.book.description)
-            console.log("[book] update course: ",props.book.courses)
-            console.log("[book] update topic: ",props.book.topic)
-          } 
-      
-          else if(props.type=="thesis"){
-            console.log("[thesis] update title: ", props.thesis.title)
-            console.log("[thesis] update author: ",props.thesis.author)
-            console.log("[thesis] update adviser: ",props.thesis.adviser)
-            console.log("[thesis] update year: ",props.thesis.pub_date)
-            console.log("[thesis] update abstract: ",props.thesis.abstract)
-            console.log("[thesis] update course: ",props.thesis.courses)
-            console.log("[thesis] update topic: ",props.thesis.topic)
-          }
-      
-          else if(props.type=="sp"){
-            
-            console.log("[sp] update title: ", props.sp.title)
-            console.log("[sp] update author: ",props.sp.author)
-            console.log("[sp] update adviser: ",props.sp.adviser)
-            console.log("[sp] update year: ",props.sp.pub_date)
-            console.log("[sp] update abstract: ",props.sp.abstract)
-            console.log("[sp] update course: ",props.sp.courses)
-            console.log("[sp] update topic: ",props.sp.topic)
-          }
-
+    useEffect(async() => {
         if(confirmed){
             handleSubmit();
             close();
-            handleRoute()
+            setTimeout(() => {
+                handleRoute()
+              }, 1000);
         }
     }, [confirmed, close])
 
@@ -173,4 +144,4 @@ const useStyles = makeStyles(() => ({
     }
   }));
 
-export default withRouter(UpdateDocument);
+export default UpdateDocument;

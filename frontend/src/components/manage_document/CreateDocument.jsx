@@ -53,9 +53,7 @@ function CreateDocument(props){
     journal: getValues("THESIS_Journal"),
     poster: getValues("THESIS_Poster"),
     source_code: getValues("THESIS_Source_Code"),
-    abstract: getValues("THESIS_Abstract"),
-    topic: "",
-    course: ""
+    abstract: getValues("THESIS_Abstract")
   };
 
   let sp = {
@@ -68,9 +66,7 @@ function CreateDocument(props){
     journal: getValues("SP_Journal"),
     poster: getValues("SP_Poster"),
     source_code: getValues("SP_Source_Code"),
-    abstract: getValues("SP_Abstract"),
-    topic: [],
-    course: []
+    abstract: getValues("SP_Abstract")
   };
 
 // for getting document type value
