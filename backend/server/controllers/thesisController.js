@@ -41,10 +41,12 @@ async function getAll(req, res) {
 }
 
 async function getOne(req, res) {
+  console.log("GET ONE");
   try {
     const _id = req.params.id;
     const thesis = await Thesis.findOneAndUpdate({_id, type:'Thesis'}, {$inc: {view_count: 1}}).select(createOptions(req.user.classification));
     if(!thesis) return res.status(404).send();
+    console.log(thesis);
     res.send(thesis); 
   } catch(error) {
     console.log(error);

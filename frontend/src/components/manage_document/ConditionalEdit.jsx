@@ -50,7 +50,12 @@ function ConditionalEdit(props){
   //get the specific document data 
   const getDocument = async() =>{
       let document;
-      let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+      let options;
+      if(Object.entries(loggedUser).length === 0){//empty
+        options =  {}
+      }else{//not empty
+        options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+      }
       
       try{
           if(doc_type == "book") document = await axios.get(`/api/books/${id}`, options);
