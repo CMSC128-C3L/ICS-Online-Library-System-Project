@@ -1,3 +1,5 @@
+import React, {useContext} from 'react';
+import { UserContext } from '../user/UserContext'
 import './DocumentCard.css'
 
 const handleAuthorClick = (event) => {
@@ -21,18 +23,19 @@ const handleAdviserClick = (event) => {
 // used in accessing document
 function DocumentCard(props){
     //method for assigning props to object (for mapping values) 
+    const {loggedUser, setLoggedUser} = useContext(UserContext); 
     let authorObj = {},topicObj = {},courseObj = {},adviserObj = {};
     Object.assign(adviserObj, props.adviser)
     Object.assign(topicObj, props.topic)
     Object.assign(courseObj, props.course)
     Object.assign(authorObj, props.author)
-
+    
     return (
         <div>
             {
-            (function(document){
+            (function(document, userType){
                 console.log("[docard] document course: ", document.course)
-                console.log("[docard] document type: ", document.type)
+                console.log("[docard] user type: ", userType)
                 switch(document.type){
                     case "Book": //book
                         return(
@@ -107,11 +110,13 @@ function DocumentCard(props){
                                     </ul>
                                 </div>)
                                 }
+
+                                {userType=="Faculty" || userType=="Staff" || userType=="Admin"?<div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null}
                                 </div>
                             </div>
                         )	
                 }
-            })(props)
+            })(props, loggedUser.classification)
             }
         </div>
     )

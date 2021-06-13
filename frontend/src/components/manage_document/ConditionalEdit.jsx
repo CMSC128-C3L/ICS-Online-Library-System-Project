@@ -235,7 +235,7 @@ const [view, setView] = useState('journal');
 
 const handleView = (event, newToggle) => {
   setView(newToggle);
-  console.log(newToggle);
+  console.log("toggle: ", newToggle);
 };
 
   return(
@@ -472,8 +472,7 @@ const handleView = (event, newToggle) => {
                     <div> 
                         <div className='document-card-flex-row'>
                             <div className='document-card-flex-column' key={document.id}>
-                              {console.log("conditional edit course: " ,document.course_code)}
-                            <DocumentCard
+                              <DocumentCard
                                 type={document.type}
                                 title={document.title}
                                 author={document.author}
@@ -481,7 +480,7 @@ const handleView = (event, newToggle) => {
                                 yearPublished={document.pub_date}
                                 topic={document.topic}
                                 course={document.courses}
-                            />  
+                              />  
                             </div>
                         </div>
     
@@ -515,7 +514,6 @@ const handleView = (event, newToggle) => {
                                 publisher={document.publisher}
                                 docISBN={document.isbn}
                                 topic={document.topic}
-                                course={document.course_code}
                             />
                             </div>
     
@@ -536,8 +534,17 @@ const handleView = (event, newToggle) => {
                     <div> 
                         <div className='document-card-flex-row'>
                             <div className='document-card-flex-column' key={document.id}>
-                              {console.log("conditional edit course: " ,document.course_code)}
-                            <DocumentCard
+                              {userType=="Student"?
+                              <DocumentCard
+                              type={document.type}
+                              title={document.title}
+                              author={document.author}
+                              adviser={document.adviser}
+                              yearPublished={document.pub_date}
+                              topic={document.topic}
+                              course={document.courses}
+                              />:
+                              <DocumentCard
                                 type={document.type}
                                 title={document.title}
                                 author={document.author}
@@ -545,7 +552,9 @@ const handleView = (event, newToggle) => {
                                 yearPublished={document.pub_date}
                                 topic={document.topic}
                                 course={document.courses}
-                            />  
+                                code={document.source_code}
+                              /> }
+                            
                             </div>
                         </div>
     

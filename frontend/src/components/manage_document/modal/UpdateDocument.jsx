@@ -101,10 +101,6 @@ function UpdateDocument(props){
         if(confirmed){
             handleSubmit();
             close();
-<<<<<<< HEAD
-=======
-            // handleRoute()
->>>>>>> 67a542e885262ad6e9bf0c231c14384dac24c19f
         }
     }, [confirmed, close])
 
