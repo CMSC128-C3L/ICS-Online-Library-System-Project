@@ -58,7 +58,7 @@ function UpdateDocument(props){
                     isbn: props.book.isbn,
                     description: props.book.description,
                     topic: props.book.topic,
-                    courses: [] 
+                    courses:data 
                 } , options);
             } else if(props.type=="thesis"){
                 response = await axios.patch(`/api/thesis/${id}`, {
