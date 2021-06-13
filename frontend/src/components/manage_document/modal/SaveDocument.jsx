@@ -7,12 +7,13 @@ import { makeStyles } from "@material-ui/core/styles"
 import SaveIcon from '@material-ui/icons/Save'
 import axios from 'axios'
 import './Modal.css'
-
+import {FileContext} from '../FileContext'
 function SaveDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
     const {id} = useParams();
+    const {file, setFile} = useContext(FileContext)
 
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
@@ -76,6 +77,22 @@ function SaveDocument(props){
                     journal: props.journal,
                     poster: props.poster
                 } , options);
+                
+                console.log("thesis save")
+                //upload document
+                if(file.length > 0){
+                    const formData = new FormData();
+                    formData.append("title", props.thesis.title);
+                    formData.append("thesisDocument", file[0]);
+                    console.log("uploading thesis..")
+                    try{
+                        axios.post(`/api/thesis/upload/${id}`, formData, options);
+
+                        console.log("sucess!")
+                    }catch(e){
+                        console.log(e)
+                    }
+                }
             } else if(props.type=="sp"){
                 response = await axios.post(`/api/sp`, {
                     type: 'Special Problem',

@@ -10,7 +10,7 @@ import SaveDocument from './modal/SaveDocument';
 import './DocumentCard.css';
 import { useForm } from 'react-hook-form';
 import {classification, course, topics} from './Choices.jsx'
-
+import {FileContext} from './FileContext';
 /**
  * functional component
  * conditionally render the input attributes according to document type

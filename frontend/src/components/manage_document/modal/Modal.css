@@ -134,3 +134,48 @@
 .confirm-button:disabled {
     background-color: rgb(71,171,216,0.5);
 }
+
+.upload-zone{
+    border: 0.4vh dashed gray;
+    height: 10vh;
+    width: 50vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 13%;
+    margin-left: 4%;
+    display: flex;
+    flex-direction: row;
+}
+
+.text{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    margin-right: 3%;
+    margin: 2%;
+}
+
+.upload-title{
+    font-family: 'Roboto', sans-serif;
+    font-weight: bolder;
+    margin-top: 2%;
+    margin-right: 3%;
+    margin-bottom: 3%;
+}
+
+.file-status{
+    margin-top: 5%;
+}
+
+.upload-file-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.confirm-cancel{
+    display: flex;
+    flex-direction: row;
+    margin-top: 3%;
+    align-content: center;
+    justify-content: center;
+}

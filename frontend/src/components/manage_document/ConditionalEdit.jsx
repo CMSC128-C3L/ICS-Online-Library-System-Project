@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useContext} from 'react';
+import React, {useMemo, useState, useEffect, useRef, useContext} from 'react';
+import {useDropZone} from 'react-dropzone';
 import { useLocation } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from 'react-router';
@@ -14,7 +15,9 @@ import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
 import { UserContext } from '../user/UserContext'
 import {classification, course, topics} from './Choices.jsx'
-
+import { FileContext } from './FileContext';
+import UploadFile from './modal/UploadFile';
+import Button from '@material-ui/core/Button'
 /**
  * functional component
  * conditionally allow edit on documents depending on the button clicked from admin view
@@ -27,11 +30,14 @@ function ConditionalEdit(props){
   const {id} = useParams();
   const [selectedTopic, setSelectedTopic] = useState([document.topic]);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
-
+  // const {file, setFile} = useContext(FileContext)
+  const [file, setFile] = useState([])
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
-
+  const uploadFileModal = useRef(null);
+  const openFileModal = () => {uploadFileModal.current.open(props)}
+  
   //get flag whether the edit button from manage document is clicked
   let location = useLocation();
   let allowEdit, doc_type;
@@ -55,10 +61,24 @@ function ConditionalEdit(props){
           else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
 
           setDocument(document.data); 
+         
+          console.log('test: ', file);
+
           const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
+
       }catch(e){
           console.log(e)
       }
+  }
+
+  const downloadFile = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+
+    try{
+      if(doc_type == "thesis") axios.get(`api/thesis/download/${id}`)
+    }catch(e){
+      console.log(e)
+    }
   }
 
   useEffect(() => {
@@ -173,7 +193,9 @@ function ConditionalEdit(props){
 
   return(
     <div className="browsebg browsebg-container">
+      <FileContext.Provider value={{file, setFile}}>
       <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} type={doc_type}/></Modal>
+      <Modal ref={uploadFileModal}><UploadFile document={document} /></Modal>
       {
         (function(allowEdit, doc_type){
           switch(allowEdit){
@@ -212,7 +234,7 @@ function ConditionalEdit(props){
                           </div>
   
                           <div className='document-card-container button-card-flex-column'>
-                            <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
+                            <button className={classes.textStyle} onClick={() => openFileModal()}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
                             <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
                           </div>
                       </div>
@@ -256,8 +278,10 @@ function ConditionalEdit(props){
                             />
                           </div>
                           <div className='document-card-container button-card-flex-column'>
-                            <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
-                            <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
+                            <h4>File</h4>
+                            <Button onClick={() => openFileModal()}>Select New File</Button>
+                            <p>Current File: {file.length === 0 ? <p>None</p> : <p>{file[0].name}</p>}</p>
+                            <Button onClick={() => downloadFile()}>Download File</Button>
                           </div>
                       </div>
   
@@ -301,7 +325,7 @@ function ConditionalEdit(props){
                           </div>
                           <div className='document-card-container button-card-flex-column'>
                             <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
-                            <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
+                            <button className={classes.textStyle} onClick={() => openFileModal()}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
                           </div>
                       </div>
   
@@ -391,6 +415,8 @@ function ConditionalEdit(props){
           }
         })(allowEdit, doc_type)
     }
+
+    </FileContext.Provider>
     </div>
   )
 }
