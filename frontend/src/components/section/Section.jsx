@@ -17,6 +17,7 @@ import tin from './../../assets/profilePictures/Tin.png'
 import vince from './../../assets/profilePictures/Vince.png'
 import rener from './../../assets/profilePictures/Rener.png'
 import keisha from './../../assets/profilePictures/Keisha.png'
+import neo from './../../assets/profilePictures/Neo.png'
 import undefined from './../../assets/profilePictures/undefined.png'
 
 export default class AboutUs extends Component {
@@ -144,7 +145,7 @@ export default class AboutUs extends Component {
                     <div className="card-grid">
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={undefined} style={{width: '75%'}}/>
+                                <img src={neo} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Neo
