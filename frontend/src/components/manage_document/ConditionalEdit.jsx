@@ -73,9 +73,10 @@ function ConditionalEdit(props){
 
   const downloadFile = async() =>{
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-
     try{
-      if(doc_type == "thesis") axios.get(`api/thesis/download/${id}`)
+      if(doc_type === "thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }
     }catch(e){
       console.log(e)
     }
