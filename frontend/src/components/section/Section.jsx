@@ -15,6 +15,8 @@ import robert from './../../assets/profilePictures/Robert.png'
 import sam from './../../assets/profilePictures/Sam.png'
 import tin from './../../assets/profilePictures/Tin.png'
 import vince from './../../assets/profilePictures/Vince.png'
+import rener from './../../assets/profilePictures/Rener.png'
+import keisha from './../../assets/profilePictures/Keisha.png'
 import undefined from './../../assets/profilePictures/undefined.png'
 
 export default class AboutUs extends Component {
@@ -32,12 +34,14 @@ export default class AboutUs extends Component {
                             <div className="Section-title">
                                 Section C-3L
                             </div>
-                            CMSC 128 - ICS, UPLB<br/>
-                            Second Semester, A.Y 2020 - 2021
+                            <div className="Section-subtitle">
+                            CMSC 128 • ICS, UPLB<br/>
+                            Second Semester, A.Y. 2020 - 2021
+                            </div>
                         </div>
                         <br/>
                         <div className="Section-body">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                            One among nine sections that remotely took CMSC 128 - Introduction to Software Engineering in the middle of a pandemic, Section C-3L is a diverse bunch of student developers from the University of the Philippines Los Baños. With the unprecedented shift to alternative modes of learning, the developers sought to create a system that is both relevant and useful to the current situation. The result is EyeCS: Window to Knowledge, an accessible, reliable, and user-friendly online library system for students and teachers of the Institute of Computer Science, UPLB. Below is the roster of students who worked hand in hand to bring this library to fruition, under the leadership of the project's manager Jeri Ogbinar.
                         </div>
                     </div>
                 </div>
@@ -56,7 +60,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={undefined} style={{width: '75%'}}/>
+                                <img src={keisha} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Keisha
@@ -72,7 +76,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={undefined} style={{width: '75%'}}/>
+                                <img src={rener} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Rener

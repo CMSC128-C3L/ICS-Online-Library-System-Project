@@ -23,17 +23,27 @@
 .Right-section {
     text-align: left;
     width: 30%;
-    background-color: #EBEBEB;
+    padding: 2.5%;
+    background-color: rgba(255, 255, 255, 0.75)
 }
 
 .Section-title {
-    font-weight: bold;
+    font-weight: bolder;
     font-size: 50px;
+    font-family: sans-serif;
+}
+
+.Section-subtitle {
+    font-weight: bold;
+    font-size: 15px;
     font-family: sans-serif;
 }
 
 .Section-body {
     text-align: left;
+    font-family: sans-serif;
+    font-style: italic;
+    font-size: 17px;
 }
 
 .Team-name {
@@ -72,5 +82,5 @@
 .profile-picture {
     text-align: center;
     margin-top: 5px;
-    margin-bottom: -4px;
+    margin-bottom: -3px;
 }
