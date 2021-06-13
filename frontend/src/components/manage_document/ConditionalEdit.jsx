@@ -30,6 +30,7 @@ function ConditionalEdit(props){
   const {id} = useParams();
   const [selectedTopic, setSelectedTopic] = useState([document.topic]);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
+  const [uploadToggle, setUploadToggle] = useState('file')
   // const {file, setFile} = useContext(FileContext)
   const [file, setFile] = useState([])
   // Create reference to modal
@@ -56,13 +57,13 @@ function ConditionalEdit(props){
       let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
       
       try{
-          if(doc_type == "book") document = await axios.get(`/api/books/${id}`);
-          else if(doc_type == "sp") document = await axios.get(`/api/sp/${id}`);
-          else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
+          if(doc_type == "book") document = await axios.get(`/api/books/${id}`, options);
+          else if(doc_type == "sp") document = await axios.get(`/api/sp/${id}`, options);
+          else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`, options);
 
           setDocument(document.data); 
          
-          console.log('test: ', file);
+          console.log('test: ', document.data);
 
           const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
 
@@ -71,8 +72,14 @@ function ConditionalEdit(props){
       }
   }
 
+  const displayFileName = (fileName) =>{
+
+    return fileName.split('\\').pop();
+  }
+
   const downloadFile = async() =>{
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+    
     try{
       if(doc_type === "thesis") {
         let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+id, '_parent');
@@ -104,7 +111,8 @@ function ConditionalEdit(props){
     pub_date: "",
     abstract: "",
     courses: "",
-    topic: ""
+    topic: "",
+    file: ""
   })
 
   const [sp, setSP] = useState({
@@ -114,7 +122,8 @@ function ConditionalEdit(props){
     pub_date: "",
     abstract: "",
     courses: "",
-    topic: ""
+    topic: "",
+    file: ""
   })
 
   useEffect(() => {
@@ -135,8 +144,12 @@ function ConditionalEdit(props){
       pub_date: document.pub_date,
       abstract: document.abstract,
       courses: document.course_code,
-      topic: document.topic
-    })
+      topic: document.topic,
+      file: [document.file]
+    }
+
+    
+    )
     else if(doc_type=="thesis") setThesis({ ...thesis, 
       title: document.title,
       adviser: document.adviser,
@@ -144,7 +157,8 @@ function ConditionalEdit(props){
       pub_date: document.pub_date,
       abstract: document.abstract,
       courses: document.course_code,
-      topic: document.topic
+      topic: document.topic,
+      file: [document.file]
     })
   }, [document])
 
@@ -195,7 +209,7 @@ function ConditionalEdit(props){
   return(
     <div className="browsebg browsebg-container">
       <FileContext.Provider value={{file, setFile}}>
-      <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} type={doc_type}/></Modal>
+      <Modal ref={saveModal} hlimit="90%"><UpdateDocument book={book} sp={sp} thesis={thesis} type={doc_type}/></Modal>
       <Modal ref={uploadFileModal}><UploadFile document={document} /></Modal>
       {
         (function(allowEdit, doc_type){
@@ -278,12 +292,23 @@ function ConditionalEdit(props){
                                 selectedValues={document.topic}
                             />
                           </div>
-                          <div className='document-card-container button-card-flex-column'>
+                          <div className="document-card-container  uploads-container">
+                          {uploadToggle === 'file' ? 
+                          (  <div>
                             <h4>File</h4>
                             <Button onClick={() => openFileModal()}>Select New File</Button>
-                            <p>Current File: {file.length === 0 ? <p>None</p> : <p>{file[0].name}</p>}</p>
+                            <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
                             <Button onClick={() => downloadFile()}>Download File</Button>
+                          </div>) : 
+                          
+                          (<div>
+                            <h4>Poster</h4>
+                            <Button onClick={() => openFileModal()}>Select New File</Button>
+                            <span style={{overflow: "hidden"}}>Current File: {document.file === undefined || document.file === ''  ? <p>None</p> : <button className="clickable-text" onClick={downloadFile}>{document.file}</button>}</span>
+                            <Button onClick={() => downloadFile()}>Download File</Button>
+                          </div>)}
                           </div>
+                        
                       </div>
   
                       <div className="description-section">

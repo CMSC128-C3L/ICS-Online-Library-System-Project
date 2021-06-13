@@ -154,7 +154,14 @@
     margin-right: 3%;
     margin: 2%;
 }
-
+.error{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    margin-right: 3%;
+    margin: 2%;
+    font-size: 1.5vh;
+    color: red;
+}
 .upload-title{
     font-family: 'Roboto', sans-serif;
     font-weight: bolder;
@@ -178,4 +185,6 @@
     margin-top: 3%;
     align-content: center;
     justify-content: center;
+    margin-bottom: 5%;
 }
+

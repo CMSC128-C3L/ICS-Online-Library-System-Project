@@ -8,8 +8,8 @@ import { UserContext } from './Modal'
 
 function UploadFile({document}) {
 
-    const {file, setFile} = useContext(FileContext)
-    const [tempFile, setTempFile] = useState([])
+    const {poster, setPoster} = useContext(PosterContext)
+    const [tempPoster, setTempPoster] = useState([])
     const {user, close} = useContext(UserContext)
     const [error, setError] = useState('')
 
@@ -26,9 +26,7 @@ function UploadFile({document}) {
 
     const handleCancel = () => close()
     const handleSave = () =>{
-
-        
-        setFile(tempFile)
+        setPoster(tempPoster)
         close()
     }
 
@@ -44,7 +42,7 @@ function UploadFile({document}) {
                 <input {...getInputProps()} />
                 <div className="upload-zone">
                     <p className="text">Drag and drop files here...</p>
-                    <Button variant="contained" style={{color: "white", backgroundColor: "#47abdb"}} startIcon={<CloudUploadIcon/>}>BROWSE FILES</Button>
+                    <Button variant="contained" color="primary" startIcon={<CloudUploadIcon/>}>BROWSE FILES</Button>
                 </div>
                 
             </div>
@@ -59,7 +57,7 @@ function UploadFile({document}) {
             </div>
 
             <div className="confirm-cancel">
-            <Button variant="contained" style={{color: "white", backgroundColor: "#47abdb"}} onClick={handleSave}>Save</Button>
+            <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
             <Button variant="contained" color="secondary" style={{marginLeft: "1%"}} onClick={handleCancel}>Cancel</Button>
             </div>
         </div>

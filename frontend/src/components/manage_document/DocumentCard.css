@@ -53,6 +53,15 @@
     justify-content:center;
 }
 
+.uploads-container{
+    width: 50vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content:center;
+}
+
 .description-section{
     /* background-color: burlywood; */
     padding: 5vh 30vh;
@@ -105,6 +114,24 @@
 
 .multi-select{
     border: none;
+}
+
+.clickable-text {
+  background: none;
+  border: none;
+  padding: 0em;
+  font-size: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration-line: underline;
+}
+
+
+
+.clickable-text:hover {
+  text-decoration-line: none;
+  color: #47abdb;
+  font-weight: bold;
 }
 
 @media (max-width: 880px) {
