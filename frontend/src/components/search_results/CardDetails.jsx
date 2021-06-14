@@ -3,6 +3,13 @@ import Typography from "@material-ui/core/Typography"
 import './SearchCard.css'
 import {useHistory} from 'react-router'
 
+function getYear(date){
+   let splitDate = String(date).split('-')
+
+   //if date has mm/dd/yyyy format, get yyyy otherwise as is
+   if(splitDate.length === 3) return  splitDate[2]
+   else return splitDate[0]
+}
 
 function Title(props){
   return(
@@ -13,9 +20,10 @@ function Title(props){
 }
 
 function CustomDate(props){
+
   return(
     <Typography className="doc-year" variant="subtitle2">
-			{props.date}
+			{getYear(props.date)}
 		</Typography>
   )
 }

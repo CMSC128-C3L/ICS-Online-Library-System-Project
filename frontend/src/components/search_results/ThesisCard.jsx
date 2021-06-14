@@ -46,7 +46,7 @@ function ThesisCard(props) {
 
 			<div className="doc-content">
 				<div className="doc-year-category">
-					{props.doc.pub_date}
+					<CustomDate date={props.doc.pub_date} />
 					<Category category={props.doc.type} />
 				</div>
 
