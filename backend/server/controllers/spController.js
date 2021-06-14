@@ -118,16 +118,15 @@ async function uploadSp(req, res){
           res.status(404).send({message:"Sp not found"});
           return;
         }
-
        //setting the file local path
        
-        if(req.files.journalFile!=null)sp.journal=req.files.journalFile[0].path;
-        if(req.files.posterFile!=null)sp.poster=req.files.posterFile[0].path;
-        if(req.files.spFile!=null)sp.file=req.files.spFile[0].path;
+        if(req.files.journalFile!=null)sp.journal=cleanDirname(req.files.journalFile[0].path);
+        if(req.files.posterFile!=null)sp.poster=cleanDirname(req.files.posterFile[0].path);
+        if(req.files.spFile!=null)sp.file=cleanDirname(req.files.spFile[0].path);
         
         await sp.save();
       
-        res.status(200).send(req.files);
+        res.status(200).send();
     }catch(err){
         console.log(err);
         res.status(400).send({message:"Error"});
@@ -148,16 +147,13 @@ async function downloadSp(req,res){
             res.status(404).send({message:"Sp not found"});
             return;
         }
-        let filePath=sp.file;
-    
-      
-        if(filePath==''){
+        if(sp.file==''){
             res.status(404).send({message:"Sp file not found"});
             return;
         }
+        const filepath = path.join(__dirname, `/../${sp.file}`);
         
-        let fileName=path.parse(filePath).base;
-        res.download(filePath,fileName); //download the file
+        res.download(filepath); //download the file
         return;
         
 
@@ -185,3 +181,11 @@ function restriction(classification){
     }
     return options;
 }
+
+
+
+function cleanDirname(dirname) {
+    const dirToRemove = path.join(__dirname, '/../');
+    const cleanedDirname = dirname.replace(dirToRemove, "");
+    return cleanedDirname
+  }
