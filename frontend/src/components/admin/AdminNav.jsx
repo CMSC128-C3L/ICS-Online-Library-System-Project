@@ -20,7 +20,7 @@ function AdminNav() {
                     <img src={peopleIcon} alt=""></img>                 
                 </AdminButton>
             
-                <AdminButton title="Check analytics" description="Browse in-depth analytics of your website" link="browseAnalytics">
+                <AdminButton title="Manage announcements" description="Edit homepage announcement cards" link="manageAnnouncements">
                     <img src={analyticsIcon} alt=""></img>
                 </AdminButton>
                     
