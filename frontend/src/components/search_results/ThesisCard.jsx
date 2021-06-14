@@ -5,7 +5,8 @@ import ConditionalIcon from "./ConditionalIcon"
 import { useHistory } from 'react-router'
 import Modal from './modal/Modal'
 import DeleteDocument from './modal/DeleteDocument'
-import { Title, Category, CustomDate, AuthorList, AdviserList, TopicList } from './CardDetails'
+// import { Title, Category, CustomDate, AuthorList, AdviserList, TopicList } from './CardDetails'
+import { Title, Category, CustomDate, CourseListUpdate, AuthorList, AdviserList, TopicList } from './CardDetails'
 import { formatDateOnly } from '../helpers/Helpers'
 import './SearchCard.css'
 
