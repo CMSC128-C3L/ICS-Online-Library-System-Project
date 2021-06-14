@@ -1,12 +1,12 @@
 import React, {useContext, useCallback, useState, useEffect} from 'react'
 import { useDropzone } from 'react-dropzone'
-import { FileContext } from '../FileContext'
+import { PosterContext } from '../PosterContext'
 import Button from '@material-ui/core/Button'
 import './Modal.css'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { UserContext } from './Modal'
 
-function UploadFile({document}) {
+function UploadPoster({document}) {
 
     const {poster, setPoster} = useContext(PosterContext)
     const [tempPoster, setTempPoster] = useState([])
@@ -19,7 +19,10 @@ function UploadFile({document}) {
     } 
     const onDrop = useCallback((acceptedFile) =>{
 
-        if(isPDF(acceptedFile)) setTempFile(acceptedFile)
+        if(isPDF(acceptedFile)) {
+            setTempPoster(acceptedFile)
+            console.log("pdf accepted")
+        }
         else return setError('File type not supported. Please only upload PDF files.')
        
     }, []);
@@ -50,10 +53,10 @@ function UploadFile({document}) {
             <div className="file-status">
                 <p className="error">{error}</p>
                 <h3 className="upload-title">New File:</h3>
-                {tempFile.length > 0 ? (<p className="text">{tempFile[0].name}</p>) : (<p className="text">None</p>)}
+                {tempPoster.length > 0 ? (<p className="text">{tempPoster[0].name}</p>) : (<p className="text">None</p>)}
 
                 <h3 className="upload-title">Current Uploaded File:</h3>
-                {document.file !== undefined ? (<p className="text">{document.file}</p>) : (<p className="text">None</p>)}
+                {document.file !== undefined ? (<p className="text">{document.poster}</p>) : (<p className="text">None</p>)}
             </div>
 
             <div className="confirm-cancel">
@@ -64,8 +67,6 @@ function UploadFile({document}) {
     )
 }
 
-function FileDetail({file}){
 
-}
 
-export default UploadFile
+export default UploadPoster

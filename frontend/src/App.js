@@ -85,7 +85,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <div className="App"> 
-          <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
+    <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
       <BrowserRouter>
         <Switch>
           <UserContext.Provider value={{loggedUser, setLoggedUser}}>
@@ -111,8 +111,8 @@ function App() {
           </UserContext.Provider>
         </Switch>
       </BrowserRouter>
-      <Footer />
-      </SearchContext.Provider>
+      <Footer></Footer>
+    </SearchContext.Provider>   
     </div>
   )
 }

@@ -7,13 +7,14 @@ import SaveIcon from '@material-ui/icons/Save'
 import axios from 'axios'
 import './Modal.css'
 import {FileContext} from '../FileContext'
-
+import {PosterContext} from '../PosterContext'
 function UpdateDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
     const {id} = useParams();
     const {file, setFile} = useContext(FileContext)
+    const {poster, setPoster} = useContext(PosterContext)
 
     //for modal confirmation
     const confirmModal = useRef(null)
@@ -94,6 +95,21 @@ function UpdateDocument(props){
                     }
                 }
 
+                //upload poster
+                if(poster.length > 0){
+                    const formData = new FormData();
+                    formData.append("title", props.thesis.title);
+                    formData.append("poster", poster[0]);
+                    console.log("uploading thesis poster..")
+                    try{
+                        axios.post(`/api/thesis/upload/${id}`, formData, options);
+
+                        console.log("sucess!")
+                    }catch(e){
+                        console.log(e)
+                    }
+                }
+
                 response = await axios.get(`/api/thesis/${id}`)
                 console.log("WOWOW Data: ", response.data);
             } else if(props.type=="sp"){
@@ -110,6 +126,37 @@ function UpdateDocument(props){
                     poster: props.sp.poster  
                 } , options);
             }
+
+             if(file.length > 0){
+                    const formData = new FormData();
+                    formData.append("title", props.sp.title);
+                    formData.append("spFile", file[0]);
+                    console.log("uploading sp..")
+                    try{
+                        axios.post(`/api/sp/upload/${id}`, formData, options);
+
+                        console.log("sucess!")
+                    }catch(e){
+                        console.log('test')
+                        console.log(e)
+                    }
+             }
+
+             console.log('uploading poster', poster[0])
+              //upload poster
+                if(poster.length > 0){
+                    const formData = new FormData();
+                    formData.append("title", props.sp.title);
+                    formData.append("poster", poster[0]);
+                    console.log("uploading thesis poster..")
+                    try{
+                        axios.post(`/api/sp/upload/${id}`, formData, options);
+
+                        console.log("sucess!")
+                    }catch(e){
+                        console.log(e)
+                    }
+                }
             console.log('Returned data:', response.data);
             handleRoute()
         } catch (e) {
