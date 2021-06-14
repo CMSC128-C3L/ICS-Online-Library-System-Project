@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef, useContext} from 'react';
+import {useDropZone} from 'react-dropzone';
+import { useLocation } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import {Box} from "@material-ui/core";
 import UploadIcon from '@material-ui/icons/Backup';
@@ -11,6 +13,8 @@ import './DocumentCard.css';
 import { useForm } from 'react-hook-form';
 import {classification, course, topics} from './Choices.jsx'
 import {FileContext} from './FileContext';
+import {BookCoverContext} from './BookCoverContext';
+import UploadBookCover from './modal/UploadBookCover';
 /**
  * functional component
  * conditionally render the input attributes according to document type
@@ -20,6 +24,7 @@ import {FileContext} from './FileContext';
 function CreateDocument(props){
   const classes = useStyles();
   const [doc_type, setDoctype] = useState([]);
+  const [cover, setCover] = useState([]);
   const [selectedValue, setSelectedValue] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState([]);
@@ -30,6 +35,13 @@ function CreateDocument(props){
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
+  const uploadCoverModal = useRef(null);
+  const openCoverModal = () => {uploadCoverModal.current.open(props)};
+
+  const displayFileName = (fileName) =>{
+    console.log(fileName.split('\\').pop());
+    return fileName.split('\\').pop();
+  }
 
   // section to initialize book/sp/thesis
   let book = {
@@ -111,8 +123,9 @@ useEffect(() => {
     <div className="browsebg browsebg-container">
       {
         <div> 
+            <BookCoverContext.Provider value={{cover, setCover}}>
             <Modal ref={saveModal}><SaveDocument book={book} sp={sp} thesis={thesis} course={selectedCourse} topic={selectedTopic} type={doc_type}/></Modal>
-
+            <Modal ref={uploadCoverModal}><UploadBookCover document={document} /></Modal>
             <div className='document-card-flex-row'>
                 {/* document thumbnail should be uploadable, should reflect uploaded image */}
                 {/* <div className='image-card-container card-content' >
@@ -288,7 +301,8 @@ useEffect(() => {
                                 return(
                                   <div className='document-card-container button-card-flex-column'>
                                   <button className={classes.textStyle} onClick={props.handleUploadPDF}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={props.handleUploadCover}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <button className={classes.textStyle} onClick={() => openCoverModal()}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <span style={{overflow: "hidden"}}>Book Cover: {cover.length === 0  ? <p>None</p> :  <p>{cover[0].name}</p>}</span>
                                   </div>
                                 )
                             case "sp":  //button for upload pdf/poster [sp]
@@ -368,6 +382,7 @@ useEffect(() => {
                   }
                 
             </div>
+            </BookCoverContext.Provider>
         </div>
     }
     </div>

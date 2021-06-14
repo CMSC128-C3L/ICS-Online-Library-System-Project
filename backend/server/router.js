@@ -35,7 +35,7 @@ router.delete('/api/thesis/:id', auth, isAdmin, Thesis.deleteOne);
 const Sp = require('./controllers/spController.js');
 router.get('/api/sp',auth, Sp.getAll);
 router.get('/api/sp/:id',auth, Sp.getOne);
-router.get('/api/sp/download/:id',auth,Sp.downloadSp);
+router.get('/api/sp/download/:token/:id',Sp.downloadSp);
 router.post('/api/sp',auth, isAdmin, Sp.create);
 router.patch('/api/sp/:id', auth, isAdmin, Sp.update);
 router.delete('/api/sp/:id', auth, isAdmin, Sp.deleteSp);
@@ -58,7 +58,7 @@ router.get('/api/books/:id', auth, Book.get);
 router.post('/api/books', auth, isAdmin, Book.create);
 router.patch('/api/books/:id', auth, isAdmin, Book.update);
 router.delete('/api/books/:id', auth, isAdmin, Book.deleteBook);
-router.post('/api/books/uploads/:id', auth, Book.uploads, Book.uploadBookCover);
+router.post('/api/books/upload/:id', auth, Book.uploads, Book.uploadBookCover);
 
 
 

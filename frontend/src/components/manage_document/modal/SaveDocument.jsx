@@ -8,12 +8,15 @@ import SaveIcon from '@material-ui/icons/Save'
 import axios from 'axios'
 import './Modal.css'
 import {FileContext} from '../FileContext'
+import {BookCoverContext} from '../BookCoverContext';
+
 function SaveDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
     const {id} = useParams();
-    const {file, setFile} = useContext(FileContext)
+    const {file, setFile} = useContext(FileContext);
+    const {cover, setCover} = useContext(BookCoverContext);
 
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
@@ -57,7 +60,7 @@ function SaveDocument(props){
                     id: props.book.id,
                     title: props.book.title, 
                     author: splitAuthors(props.book.author),
-                    book_cover_img: 'https://geniuspublicationsjaipur.files.wordpress.com/2013/04/software-engineering-book.jpg',
+                    // book_cover_img: 'https://geniuspublicationsjaipur.files.wordpress.com/2013/04/software-engineering-book.jpg',
                     year: props.book.year,
                     publisher: props.book.publisher,
                     isbn: props.book.isbn,
@@ -65,6 +68,20 @@ function SaveDocument(props){
                     topic: props.topic,
                     courses: data
                 } , options);
+                console.log("BOOK COVER UPLOAD");
+                if(cover.length > 0){
+                    const formData = new FormData();
+                    // formData.append("title", props.thesis.title);
+                    formData.append("book_cover", cover[0]);
+                    console.log("uploading poster..")
+                    try{
+                        axios.post('/api/books/upload/'+response.data._id, formData, options);
+
+                        console.log("success!")
+                    }catch(e){
+                        console.log(e)
+                    }
+                }
             } else if(props.type=="thesis"){
                 response = await axios.post(`/api/thesis`, {
                     type: 'Thesis',

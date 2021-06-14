@@ -1,6 +1,7 @@
 const Sp = require('../models/Sp.js');
 const multer = require('multer');
 const path = require('path');
+const jwt = require("jsonwebtoken");
 
 const uploadsPath = path.join(__dirname, '../uploads/sp');
 const multerStorage = multer.diskStorage({
@@ -138,7 +139,11 @@ async function uploadSp(req, res){
 async function downloadSp(req,res){
     try{
         let _id = req.params.id;
-        if(req.user.classification=="Guest" || req.user.classification=="Student"){
+        const token = req.params.token;
+        const decoded = jwt.verify(token, process.env.ACCESS_JWT_SECRET);
+        console.log(decoded.classification);
+        
+        if(decoded.classification=="Guest" || decoded.classification=="Student"){
             res.status(403).send({message:"Not Authorized"});
             return;
         }
