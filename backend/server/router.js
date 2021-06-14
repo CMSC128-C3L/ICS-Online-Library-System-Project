@@ -93,15 +93,12 @@ router.patch('/api/log/doc/:user_id', auth, Logs.updateRecord);
 
 //author summary
 router.get('/api/authorSummary/:author', auth, isAdmin, AuthorSummary.getAuthorSummary);
-router.post('/api/authorSummaryPDF/:author', auth, isAdmin, AuthorSummary.getAuthorSummaryPDF);
 
 //adviser summary
-router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
-router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPDF);
+router.get('/api/adviserSummary/:adviser', auth, isAdmin, AdviserSummary.getAdviserSummary);
 
 //course summary
-router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
-router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
+router.get('/api/courseSummary/:course', auth, isAdmin, CourseSummary.getCourseSummary);
 
 // Advisory Routes
 const HomeAdvisory = require('./controllers/homeAdvisoryController.js');

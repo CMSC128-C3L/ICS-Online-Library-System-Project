@@ -1,23 +1,8 @@
 import React from 'react'
 import Typography from "@material-ui/core/Typography"
 import './SearchCard.css'
+import {useHistory} from 'react-router'
 
-const handleAuthorClick = (event) => {
-  console.log(event.target.value)
-  /** method to navigate to author summary here */
-}
-
-const handleCourseClick = (event) => {
-  console.log(event.target.value)
-  /** method to navigate to course summary here */
-}
-
-const handleAdviserClick = (event) => {
-  console.log(event.target.value)
-  /** method to navigate to author summary here
-   *  may be removed and absorbed in author click if method is the same
-   */
-}
 
 function Title(props){
   return(
@@ -53,6 +38,11 @@ function Isbn(props){
 
 // max 3 authors shown; will wrap and no ellipsis; et al shown for the other authors
 function AuthorList(props){
+  const history = useHistory();
+  const handleAuthorClick = (event) => {
+     history.push('/authorSummary/' + event.target.value);
+  }
+
   if (props.clickable){
     return(
       <ul className="clickable-list">
@@ -80,6 +70,10 @@ function AuthorList(props){
 
 // max 3 courses shown; adtl will show as ellipsis
 function CourseList(props){
+  const history = useHistory();
+  const handleCourseClick = (event) => {
+    history.push('/courseSummary/' + event.target.value);
+  }
   return(
     <div style={{display:'flex'}}>
       <Typography gutterBottom variant="body2">Reference for:&nbsp;</Typography>
@@ -96,6 +90,31 @@ function CourseList(props){
   )
 }
 
+// max 3 courses shown; adtl will show as ellipsis
+function CourseListUpdate(props){
+  const history = useHistory();
+  const handleCourseClick = (event) => {
+    history.push('/courseSummary/' + event.target.value);
+  }
+  return(
+    <div style={{display:'flex'}}>
+      <Typography gutterBottom variant="body2">Reference for:&nbsp;</Typography>
+      <ul className="clickable-list">
+        {props.course.slice(0,4).map((course, index) => {
+          return (index < 3)? 
+            <li key={course.code}>
+              <button className="clickable-text" value={course.code} onClick={handleCourseClick}>{course.code}</button>
+            </li> :
+            <li key={course}><button className="clickable-text no-hover">{'...'}</button></li>
+        })}
+      </ul>
+    </div>
+  )
+}
+
+
+
+
 function TopicList(props){
   return(
     <Typography noWrap gutterBottom variant="body2">
@@ -108,6 +127,16 @@ function TopicList(props){
 }
 
 function AdviserList(props){
+   const history = useHistory();
+
+  const handleAdviserClick = (event) => {
+    console.log(event.target.value)
+    history.push('/adviserSummary/' + event.target.value);
+    /** method to navigate to author summary here
+     *  may be removed and absorbed in author click if method is the same
+     */
+  }
+
   return(
     <div style={{display:'flex'}}>
       <Typography gutterBottom variant="body2">Adviser:&nbsp;</Typography>
@@ -124,4 +153,4 @@ function AdviserList(props){
   )
 }
 
-export {Title, Year, Category, AuthorList, Isbn, CourseList, TopicList, AdviserList}
+export {Title, Year, Category, AuthorList, Isbn, CourseList, CourseListUpdate, TopicList, AdviserList}

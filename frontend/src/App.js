@@ -8,7 +8,8 @@ import {BrowserRouter as Link, Router, Route} from 'react-router-dom'
 import Footer from './components/footer/Footer'
 import SearchPage from './pages/SearchPage'
 import GuestHome from './pages/GuestHome'
-import SummaryPage from './pages/SummaryPage'
+import SummaryPageCourse from './pages/SummaryPageCourse'
+import SummaryPageAdviser from './pages/SummaryPageAdviser'
 import SummaryPageAuthor from './pages/SummaryPageAuthor'
 import { UserContext } from './components/user/UserContext';
 import SearchContext from './components/search_results/SearchContext'
@@ -101,8 +102,9 @@ function App() {
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
             <Route exact path="/search" component={SearchPage} />            
             <Route exact path="/search/filter/:id" component={SearchPage} />
-            <Route exact path="/courseSummary" component={SummaryPage} />
-            <Route exact path="/authorSummary" component={SummaryPageAuthor} />
+            <Route exact path="/courseSummary/:id" component={SummaryPageCourse} />
+            <Route exact path="/adviserSummary/:name" component={SummaryPageAdviser} />
+            <Route exact path="/authorSummary/:name" component={SummaryPageAuthor} />
             <Route exact path="/" component={GuestHome} />
           </SearchContext.Provider>
           </UserContext.Provider>

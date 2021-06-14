@@ -25,6 +25,7 @@ function ConditionalEdit(props){
   const [document, setDocument] = useState([]);
   const {id} = useParams();
   const [selectedValue, setSelectedValue] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
 
   // Create reference to modal
@@ -59,7 +60,31 @@ function ConditionalEdit(props){
           console.log(e)
       }
   }
+   const onFileChange = (event) => {
+    
+      // Update the state
+      setSelectedFile(event.target.files[0]);
+      console.log("selectedFile: ", event.target.files[0])
+    
+    };
 
+    const onFileUpload = () => {
+     
+      const formData = new FormData();
+      formData.append("title", document.title);
+      formData.append("thesisDocument", selectedFile);
+  
+      let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+      
+      
+      try{
+        axios.post(`/api/thesis/upload/${id}`, formData, options);
+
+        console.log('yes')
+      }catch(e){
+        console.log(e);
+      }
+    }
   useEffect(() => {
       getDocument()
   }, [])
@@ -288,7 +313,11 @@ const data = [
                             />
                           </div>
                           <div className='document-card-container button-card-flex-column'>
-                            <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
+                            
+                <input type="file" onChange={onFileChange} />
+                <button onClick={onFileUpload}> Upload!
+                </button>
+                             
                             <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
                           </div>
                       </div>
@@ -334,7 +363,7 @@ const data = [
                             />
                           </div>
                           <div className='document-card-container button-card-flex-column'>
-                            <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
+                            <button className={classes.textStyle} onClick={console.log(document)}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
                             <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
                           </div>
                       </div>
