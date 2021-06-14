@@ -38,6 +38,7 @@ function CategoryChecklist(props){
 	const classes = useStyles();
 	
 	const searchContext = useContext(SearchContext);
+	console.log(searchContext)
 
 	const handleChange = (item) =>{
 		searchContext.dispatch({ type: props.action, item: item});	

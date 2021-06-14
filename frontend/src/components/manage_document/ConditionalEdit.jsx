@@ -23,6 +23,8 @@ import { PosterContext } from './PosterContext'
 import UploadFile from './modal/UploadFile';
 import UploadPoster from './modal/UploadPoster';
 import Button from '@material-ui/core/Button'
+import decode from 'jwt-decode';
+
 /**
  * functional component
  * conditionally allow edit on documents depending on the button clicked from admin view
@@ -38,6 +40,9 @@ function ConditionalEdit(props){
   // const {file, setFile} = useContext(FileContext)
   const [file, setFile] = useState([])
   const [poster, setPoster] = useState([])
+  const [selectedValue, setSelectedValue] = useState([]);
+  const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
+  console.log(uData)
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}

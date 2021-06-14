@@ -86,11 +86,10 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <div className="App"> 
-    <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
+          <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
       <BrowserRouter>
         <Switch>
           <UserContext.Provider value={{loggedUser, setLoggedUser}}>
-          
             <Route exact path="/loggedIn/" component={GuestHome} />
             <Route exact path="/aboutUs" component={AboutUs} />
             <HomePageRoute exact path="/adminHome" component={AdminHome} />
@@ -111,13 +110,11 @@ function App() {
             <Route exact path="/adviserSummary/:name" component={SummaryPageAdviser} />
             <Route exact path="/authorSummary/:name" component={SummaryPageAuthor} />
             <Route exact path="/" component={GuestHome} />
-
           </UserContext.Provider>
         </Switch>
       </BrowserRouter>
-
-      <Footer></Footer>
-                   </SearchContext.Provider>   
+      <Footer />
+      </SearchContext.Provider>
     </div>
 
   )
