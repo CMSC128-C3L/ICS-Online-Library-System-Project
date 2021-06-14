@@ -565,7 +565,8 @@ const handleView = (event, newToggle) => {
                             <div className='image-card-container' >
                               <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
                             </div>
-  
+
+                            {console.log("[conditional edit] document course: ", document.course_code)}
                             <div className='document-card-flex-column' key={document.id}>
                             <DocumentCard
                                 type={document.type}
@@ -575,6 +576,7 @@ const handleView = (event, newToggle) => {
                                 publisher={document.publisher}
                                 docISBN={document.isbn}
                                 topic={document.topic}
+                                course={document.course_code}
                             />
                             </div>
     
