@@ -92,8 +92,8 @@ router.post('/api/log/logout', auth, Logs.logoutUser);
 router.patch('/api/log/doc/:user_id', auth, Logs.updateRecord);
 
 //author summary
-router.get('/api/authorSummary/:author', AuthorSummary.getAuthorSummary);
-router.get('/api/authorSummaryPDF/:author', AuthorSummary.getAuthorSummaryPDF);
+router.get('/api/authorSummary/:author', auth, isAdmin, AuthorSummary.getAuthorSummary);
+router.post('/api/authorSummaryPDF/:author', auth, isAdmin, AuthorSummary.getAuthorSummaryPDF);
 
 //adviser summary
 router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
