@@ -1,16 +1,19 @@
 import './Card.css'
-import sample from '../../assets/sample.jpg'
 
 function Card(props){
     return (
-        <div className="card card-container flex-column">
+        <div className="margin-bot-2">
             <div className="card-header text">{props.content.header}</div>
-            <img className="img" src={sample} alt="sample"></img>
-            <div className="article-title text">{props.content.title}</div>
-            <div className="article-title text-regular">{props.content.description}</div>
-            <a href="test">
-                <button className="view-button">VIEW</button>
-            </a>
+            <div className="card-container">
+                <div className="flex-column">
+                    <img className="card-img" src={props.content.image} alt="sample"></img>
+                    <div className="article-title opensans">{props.content.title}</div>
+                    <div className="article-description montserrat">{props.content.description}</div>
+                    <a href={props.content.link} target="_blank" rel="noreferrer">
+                        <button className="opensans view-button">VIEW</button>
+                    </a>
+                </div>
+            </div>
         </div>
     )
 }

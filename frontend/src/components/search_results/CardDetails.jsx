@@ -12,10 +12,10 @@ function Title(props){
   )
 }
 
-function Year(props){
+function CustomDate(props){
   return(
     <Typography className="doc-year" variant="subtitle2">
-			{props.year}
+			{props.date}
 		</Typography>
   )
 }
@@ -153,4 +153,5 @@ function AdviserList(props){
   )
 }
 
-export {Title, Year, Category, AuthorList, Isbn, CourseList, CourseListUpdate, TopicList, AdviserList}
+export {Title, CustomDate, Category, AuthorList, Isbn, CourseList, TopicList, AdviserList}
+
