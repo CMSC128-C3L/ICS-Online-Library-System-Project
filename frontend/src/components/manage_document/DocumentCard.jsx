@@ -1,7 +1,10 @@
-import React, {useContext} from 'react';
+import React, {useContext, useParams} from 'react';
 import { UserContext } from '../user/UserContext'
 import './DocumentCard.css'
-
+import decode from 'jwt-decode';
+import Button from '@material-ui/core/Button'
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import FindInPageIcon from '@material-ui/icons/FindInPage';
 const handleAuthorClick = (event) => {
     console.log(event.target.value)
     /** method to navigate to author summary here */
@@ -19,16 +22,53 @@ const handleAdviserClick = (event) => {
      */
 }
 
+const isPrivileged = (user) =>{
+    if(user === "Faculty" || user === "Staff" || user === "Admin") return true
+    else return false
+}
+
+
+
 // functional component to render the details in document card format 
 // used in accessing document
 function DocumentCard(props){
     //method for assigning props to object (for mapping values) 
-    const {loggedUser, setLoggedUser} = useContext(UserContext); 
+    const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
     let authorObj = {},topicObj = {},courseObj = {},adviserObj = {};
     Object.assign(adviserObj, props.adviser)
     Object.assign(topicObj, props.topic)
     Object.assign(courseObj, props.course)
     Object.assign(authorObj, props.author)
+  
+    const downloadFile = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+        console.log(props.type, "typee")
+    try{
+      if(props.type === "Thesis") {
+          console.log("thesis donwlaod")
+        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+      }else if(props.type === "Special Problem"){
+          console.log("sp downlaod")
+        let popUp = window.open("http://localhost:5000/api/sp/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+      }
+    }catch(e){
+      
+    }
+  }
+
+  const downloadPoster = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+    
+    try{
+      if(props.type === "Thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+      }else if(props.type === "Special Problem"){
+        let popUp = window.open("http://localhost:5000/api/sp/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
     
     return (
         <div>
@@ -115,11 +155,13 @@ function DocumentCard(props){
                                 {document.code == ""? null:
                                 userType=="Faculty" || userType=="Staff" || userType=="Admin"?<div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null
                                 }
+
+                                {(document.file !== '' || document.file !== undefined) && (isPrivileged(userType)) ? <div className="download-buttons"><Button variant="contained" style={{backgroundColor: '#47abd8', color: "white", marginTop: "5%", marginBottom: "5%"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>Download Journal</Button> <Button style={{backgroundColor: '#ff4242', color: "white", marginBottom: "5%"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>Download Poster</Button></div> : null}
                                 </div>
                             </div>
                         )	
                 }
-            })(props, loggedUser.classification)
+            })(props, uData.classification)
             }
         </div>
     )

@@ -107,7 +107,7 @@ function ConditionalEdit(props){
 
   const downloadFile = async() =>{
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-    
+ 
     try{
       if(doc_type === "thesis") {
         let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+id, '_parent');
@@ -118,6 +118,7 @@ function ConditionalEdit(props){
       console.log(e)
     }
   }
+
 
   useEffect(() => {
       getDocument()
@@ -580,6 +581,7 @@ const handleUploadToggle = (event, newToggle) =>{
                         <div className='document-card-flex-row'>
                             <div className='document-card-flex-column' key={document.id}>
                               <DocumentCard
+                                docID={document._id}
                                 type={document.type}
                                 title={document.title}
                                 author={document.author}
@@ -615,6 +617,7 @@ const handleUploadToggle = (event, newToggle) =>{
                             {console.log("[conditional edit] document course: ", document.course_code)}
                             <div className='document-card-flex-column' key={document.id}>
                             <DocumentCard
+                                docID={document._id}
                                 type={document.type}
                                 title={document.title}
                                 author={document.author} 
@@ -645,6 +648,7 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className='document-card-flex-column' key={document.id}>
                               {userType=="Student"?
                               <DocumentCard
+                              docID={document._id}
                               type={document.type}
                               title={document.title}
                               author={document.author}
@@ -654,6 +658,7 @@ const handleUploadToggle = (event, newToggle) =>{
                               course={document.courses}
                               />:
                               <DocumentCard
+                              docID={document._id}
                                 type={document.type}
                                 title={document.title}
                                 author={document.author}
