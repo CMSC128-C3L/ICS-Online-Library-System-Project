@@ -1,0 +1,79 @@
+.filter-bar-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #F8F8F8;
+  width: 210px;
+  padding: 0.7em 1em;
+  flex-grow: 0;
+}
+
+.MuiTypography-root.filter-header {
+  margin-left: 0.55em;
+}
+
+.filter-list-container {
+  background-color: 'transparent';
+  margin-top: 10;
+  margin-bottom: 10;
+  width: 100%;
+}
+
+.filter-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow: auto;
+  padding: 0em;
+  margin: 0em;
+}
+
+.filter-category {
+  overflow: hidden;
+}
+
+.filter-category > * {
+  margin-top: 0.25em;
+}
+
+.MuiTypography-root.filter-list-label{
+  margin-left: 0.7em;
+}
+
+.filter-list-item {
+  font-size: 12;
+  height: auto;
+}
+
+.filter-list-item:hover {
+  background-color: #ebebeb;
+}
+
+.MuiFormControlLabel-root.filter-list-item {
+  margin-left: 0em;
+}
+
+.filter-dropdown-container {
+  margin: 1em 0em 2em 0.7em;
+}
+
+.filter-dropdown {
+  height: 40px;
+  width: 90%;
+  margin-left: 0.55em;
+}
+
+.MuiFormLabel-root.MuiInputLabel-root.filter-input-label, .filter-dropdown-options {
+  font-size: 14px;
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked.filter-checkbox{
+  color: #47abdb;
+}
+
+.MuiIconButton-root.Mui-checked.filter-checkbox:hover{
+  background-color: rgba(104, 192, 233, 0.1);
+}
+
+.MuiIconButton-root.filter-checkbox:hover{
+  background-color: rgba(104, 192, 233, 0.1);
+}

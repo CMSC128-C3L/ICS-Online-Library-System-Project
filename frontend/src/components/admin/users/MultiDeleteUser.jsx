@@ -4,7 +4,7 @@ import ConfirmChange from '../../manage_user_popup/ConfirmChange'
 import axios from 'axios'
 import '../../manage_user_popup/styles.css'
 
-function MultiDeleteUser(props){
+function MultiDeleteUser({resetSelected, getUsers}){
     const {user: users, close} = useContext(UserContext) // user here is an array of user objects
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
@@ -41,11 +41,11 @@ function MultiDeleteUser(props){
                 deleteUser(userId)
             })
 
-            props.resetSelected() // reset selected array
-            props.getUsers() // update users to trigger useEffect in User Table
+            resetSelected() // reset selected array
+            getUsers() // update users to trigger useEffect in User Table
             close() // close modal
         }
-    }, [confirmed, close, users])
+    }, [confirmed, close, users, getUsers, resetSelected])
 
     return(
         <div className="popup-container multi-delete-user">

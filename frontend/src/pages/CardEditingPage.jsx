@@ -18,7 +18,7 @@ function CardEditingPage() {
             }catch(e){console.log("error in card fetching")}
         }
         getCard();
-    }, [])
+    }, [index])
 
     useEffect(() => {
     }, [card]);
