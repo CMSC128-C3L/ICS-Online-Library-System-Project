@@ -58,7 +58,7 @@ router.get('/api/books/:id', auth, Book.get);
 router.post('/api/books', auth, isAdmin, Book.create);
 router.patch('/api/books/:id', auth, isAdmin, Book.update);
 router.delete('/api/books/:id', auth, isAdmin, Book.deleteBook);
-router.post('/api/books/uploads/:id', auth, Book.uploads, Book.uploadBookCover);
+router.post('/api/books/upload/:id', auth, Book.uploads, Book.uploadBookCover);
 
 
 
@@ -93,20 +93,18 @@ router.patch('/api/log/doc/:user_id', auth, Logs.updateRecord);
 
 //author summary
 router.get('/api/authorSummary/:author', auth, isAdmin, AuthorSummary.getAuthorSummary);
-router.get('/api/authorSummaryPDF/:author', auth, isAdmin, AuthorSummary.getAuthorSummaryPDF);
 
 //adviser summary
-router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
-router.get('/api/adviserSummaryPDF/:adviser', AdviserSummary.getAdviserSummaryPDF);
+router.get('/api/adviserSummary/:adviser', auth, isAdmin, AdviserSummary.getAdviserSummary);
 
 //course summary
-router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
-router.get('/api/courseSummaryPDF/:course', CourseSummary.getCourseSummaryPDF);
+router.get('/api/courseSummary/:course', auth, isAdmin, CourseSummary.getCourseSummary);
 
 //course details
 const Course = require('./controllers/courseController.js');
 router.get('/api/course', auth, Course.getAll);
 router.get('/api/course/:code', auth, Course.getOne);
+
 // Advisory Routes
 const HomeAdvisory = require('./controllers/homeAdvisoryController.js');
 router.get('/api/advisory', HomeAdvisory.getAll);

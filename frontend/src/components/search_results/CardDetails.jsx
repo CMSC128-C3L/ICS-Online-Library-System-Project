@@ -108,13 +108,13 @@ function CourseListUpdate({course}){
     <div style={{display:'flex'}}>
       <Typography gutterBottom variant="body2">Reference for:&nbsp;</Typography>
       <ul className="clickable-list">
-        {course.slice(0,4).map((course, index) => {
+        {/*{course.slice(0,4).map((course, index) => {
           return (index < 3)? 
             <li key={course.code}>
               <button className="clickable-text" value={course.code} onClick={handleCourseClick}>{course.code}</button>
             </li> :
             <li key={course}><button className="clickable-text no-hover">{'...'}</button></li>
-        })}
+        })}*/}
       </ul>
     </div>
   )
@@ -161,5 +161,5 @@ function AdviserList(props){
   )
 }
 
-export {Title, CustomDate, Category, AuthorList, Isbn, CourseList, TopicList, AdviserList}
 
+export {Title, CustomDate, Category, AuthorList, Isbn, CourseList, TopicList, AdviserList}

@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
         callback(null, "s-" + Date.now() + "-" + file.originalname);
     }
 });
-const uploads = multer({ storage }).single('book_cover');
+const uploads = multer({storage}).single('book_cover');
 
 
 module.exports = {
@@ -43,7 +43,6 @@ async function getAll(req, res) {
 
 // Get a specific book
 async function get(req, res) {
-    console.log("GET ONE");
     try {
         const _id = req.params.id;    // get id parameter
 
@@ -57,7 +56,6 @@ async function get(req, res) {
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
         const book = bookBase(data);
-        console.log(book);
 
         res.status(200).send(book);     // respond with specified book
 
@@ -70,10 +68,8 @@ async function get(req, res) {
 
 // Create a new book
 async function create(req, res) {
-    console.log(req.body);
     try {
         const book = new Book(req.body);    // get the book data from the request body
-        console.log(book);
         const newBook = await book.save();  // insert the book
         return res.status(201).send({_id: newBook._id});   // responsd with the id of the new book
 
@@ -86,7 +82,6 @@ async function create(req, res) {
 
 // Update a specified book
 async function update(req, res) {
-    console.log(req.body);
     try {
         const book = req.body;      // get the new data of the book from the request body
         const _id = req.params.id;  // get the id of the book to be updated
@@ -127,7 +122,7 @@ async function uploadBookCover(req, res) {
     try {
         const _id = req.params.id;
         const cover_img = req.file;
-        
+
         if (!cover_img)
             return res.status(400).send({message: "missing image"});
 
@@ -163,7 +158,6 @@ function bookBase(data) {
     book.publisher = data.publisher;
     book.description = data.description;
     
-
     const static_url = 'http://localhost:5000/static/';
     if (data.book_cover_img.split("-")[0] === 's')
         book.book_cover_img = static_url + data.book_cover_img

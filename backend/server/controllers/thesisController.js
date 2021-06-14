@@ -105,7 +105,9 @@ async function download(req, res) {
       return res.status(403).send();
     if(thesis.file === '') return res.status(404).send();
     const filepath = path.join(__dirname, `/../${thesis.file}`);
+    // const filepath = thesis.file;
 
+    console.log(filepath);
     res.download(filepath);
   } catch(error) {
     console.log(error);

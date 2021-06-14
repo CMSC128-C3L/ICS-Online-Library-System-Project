@@ -20,7 +20,6 @@ import rener from './../../assets/profilePictures/Rener.png'
 import keisha from './../../assets/profilePictures/Keisha.png'
 import neo from './../../assets/profilePictures/Neo.png'
 import undefined from './../../assets/profilePictures/undefined.png'
-
 import { roster } from './Roster'
 
 const customStyles = {
@@ -36,8 +35,6 @@ const customStyles = {
       alignItems: 'center'
     },
 };
-
-
 
 export default class AboutUs extends React.Component {
     constructor(props) {

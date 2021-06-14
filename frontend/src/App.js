@@ -84,8 +84,8 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <div className="App"> 
-          <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
+    <div className="App">
+    <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
       <BrowserRouter>
         <Switch>
           <UserContext.Provider value={{loggedUser, setLoggedUser}}>
@@ -97,11 +97,12 @@ function App() {
             <AdminPageProtectRoute exact path="/adminHome/manageAnnouncements"  component={EditCardsPage} />
             <AdminPageProtectRoute exact path="/adminHome/manageAnnouncements/:index" component={CardEditingPage} />
             <Route exact path="/search/:id"  component={AccessDocument} />
-
-            
             <AdminPageProtectRoute exact path="/search/editDocument/:id"  component={AccessDocument} />
             <AdminPageProtectRoute exact path="/createDocument"  component={CreateDocument} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
+            <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage" component={EditCardsPage} />
+            <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage/editAdvisoryCard" component={CardEditingPage} />
+
             <Route exact path="/search" component={SearchPage} />            
             <Route exact path="/search/filter/:id" component={SearchPage} />
             <Route exact path="/courseSummary/:id" component={SummaryPageCourse} />
@@ -111,10 +112,9 @@ function App() {
           </UserContext.Provider>
         </Switch>
       </BrowserRouter>
-      <Footer />
-      </SearchContext.Provider>
+      <Footer></Footer>
+    </SearchContext.Provider>   
     </div>
-
   )
 }
 export default App

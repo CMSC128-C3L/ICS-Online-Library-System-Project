@@ -35,14 +35,16 @@ function ConditionalEdit(props){
   const classes = useStyles();
   const [document, setDocument] = useState([]);
   const {id} = useParams();
+  const [selectedValue, setSelectedValue] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
   const [uploadToggle, setUploadToggle] = useState('file')
+  const [poster, setPoster] = useState([]);
   // const {file, setFile} = useContext(FileContext)
   const [file, setFile] = useState([])
-  const [poster, setPoster] = useState([])
-  const [selectedValue, setSelectedValue] = useState([]);
   const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
   console.log(uData)
+  
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
@@ -100,7 +102,6 @@ function ConditionalEdit(props){
 }
 
   const displayFileName = (fileName) =>{
-
     return fileName.split('\\').pop();
   }
 
@@ -117,7 +118,7 @@ function ConditionalEdit(props){
       console.log(e)
     }
   }
-  
+
   useEffect(() => {
       getDocument()
   }, [])
