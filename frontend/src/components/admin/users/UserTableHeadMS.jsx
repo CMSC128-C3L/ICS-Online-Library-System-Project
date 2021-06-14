@@ -7,6 +7,7 @@ const headCells = [
     { id: 'name', sortable: true, align: 'left', disablePadding: false, label: 'Name' },
     { id: 'email', sortable: true, align: 'left', disablePadding: false, label: 'Email' },
     { id: 'last_login', sortable: true, align: 'left', disablePadding: false, label: 'Last Logged In' },
+    { id: 'last_logout', sortable: true, align: 'left', disablePadding: false, label: 'Last Logged Out' },
     { id: 'classification', sortable: false, align: 'center', disablePadding: false, label: 'Classification' },
     { id: 'actions', sortable: false, align: 'center', disablePadding: false, label: 'Actions' }
 ]
@@ -19,7 +20,7 @@ function UserTableHeadMS(props){
 
     return (
         <TableHead>
-            <TableRow style={{backgroundColor: '#47abd8'}} component="th">
+            <TableRow style={{backgroundColor: '#47abd8', border: 'none'}}>
                 <TableCell padding="checkbox">
                     <Checkbox
                         indeterminate={numSelected > 0 && numSelected < rowCount}

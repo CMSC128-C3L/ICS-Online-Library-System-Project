@@ -95,15 +95,14 @@ function App() {
             <HomePageRoute exact path="/adminHome" component={AdminHome} />
             <AdminPageProtectRoute exact path="/adminHome/manageUsers" component={AdminUserManagement} />
             <AdminPageProtectRoute exact path="/adminHome/manageDocuments"  component={SearchPage} />
+            <AdminPageProtectRoute exact path="/adminHome/manageAnnouncements"  component={EditCardsPage} />
+            <AdminPageProtectRoute exact path="/adminHome/manageAnnouncements/:index" component={CardEditingPage} />
             <Route exact path="/search/:id"  component={AccessDocument} />
 
             
             <AdminPageProtectRoute exact path="/search/editDocument/:id"  component={AccessDocument} />
             <AdminPageProtectRoute exact path="/createDocument"  component={CreateDocument} />
             <AdminPageProtectRoute exact path="/adminHome/browseAnalytics" component={AdminAnalytics} />
-            <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage" component={EditCardsPage} />
-            <AdminPageProtectRoute exact path="/adminHome/browseAnalytics/editFrontPage/editAdvisoryCard" component={CardEditingPage} />
-
             <Route exact path="/search" component={SearchPage} />            
             <Route exact path="/search/filter/:id" component={SearchPage} />
             <Route exact path="/courseSummary/:id" component={SummaryPageCourse} />

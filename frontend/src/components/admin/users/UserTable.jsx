@@ -112,11 +112,19 @@ function UserTable(props) {
         return new Date(log.log_date.slice(-1)[0].login)
     }
 
+    // Return latest logout
+    const getLastLogout = (log) => {
+        const reversedLogs = log.log_date.slice().reverse()
+        const index = reversedLogs.findIndex(date => date.logout !== undefined)
+        return index !==-1 ? new Date(reversedLogs[index].logout) : ""
+    }
+
     // Add latest login as property to filtered user objects
     const joinUserLogs = (users, logs) => {
         users.forEach((user) => {
             const index = logs.findIndex(log => log.user_id === user._id)
             user.last_login = index !== -1 ? getLastLogin(logs[index]) : ""
+            user.last_logout = index !== -1 ? getLastLogout(logs[index]) : ""
         })
     }
 
@@ -278,6 +286,7 @@ function UserTable(props) {
                                         <TableCell id={labelId} align="left">{person.name}</TableCell>
                                         <TableCell align="left">{person.email}</TableCell>
                                         <TableCell align="left">{formatDateObject(person.last_login)}</TableCell>
+                                        <TableCell align="left">{formatDateObject(person.last_logout)}</TableCell>
                                         <TableCell align="center">{createClassificationCell(person.classification)}</TableCell>
                                         <TableCell align="center">
                                             <IconButton
@@ -301,8 +310,8 @@ function UserTable(props) {
                             )}
 
                             {emptyRows > 0 && (
-                                <TableRow style={{ height: 77 * emptyRows }}>
-                                    <TableCell colSpan={6} />
+                                <TableRow style={{ height: 109 * emptyRows }}>
+                                    <TableCell colSpan={8} />
                                 </TableRow>
                             )}
                             
@@ -311,7 +320,7 @@ function UserTable(props) {
                             <TableRow align="center">
                             <TablePagination
                                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                        colSpan={7}
+                                        colSpan={8}
                                         count={rowCount}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
