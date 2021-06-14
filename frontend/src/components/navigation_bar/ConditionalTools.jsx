@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import {useHistory} from 'react-router-dom';
-import { UserContext } from '../user/UserContext';
+import decode from 'jwt-decode';
 
 /**
  * functional component 
@@ -10,7 +10,7 @@ import { UserContext } from '../user/UserContext';
  */
 
 function ConditionalTools(){
-  const {loggedUser, setLoggedUser} = useContext(UserContext);
+  const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}'
   const history = useHistory();
   
   return(
@@ -34,7 +34,7 @@ function ConditionalTools(){
                 </div>
               )	
           }
-        })(loggedUser.classification)
+        })(data.classification)
     }
     </div>
   )

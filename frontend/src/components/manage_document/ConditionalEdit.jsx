@@ -12,7 +12,7 @@ import Modal from './modal/Modal';
 import UpdateDocument from './modal/UpdateDocument';
 import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
-import { UserContext } from '../user/UserContext'
+import decode from 'jwt-decode';
 
 /**
  * functional component
@@ -25,8 +25,8 @@ function ConditionalEdit(props){
   const [document, setDocument] = useState([]);
   const {id} = useParams();
   const [selectedValue, setSelectedValue] = useState([]);
-  const {loggedUser, setLoggedUser} = useContext(UserContext); 
-
+  const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
+  console.log(uData)
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
@@ -54,7 +54,7 @@ function ConditionalEdit(props){
           else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
 
           setDocument(document.data); 
-          const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
+          const log = await axios.patch('/api/log/doc/'+uData.user_id,{doc_id:id});
       }catch(e){
           console.log(e)
       }
@@ -169,7 +169,6 @@ function ConditionalEdit(props){
     onSelect(selectedValue)
     onRemove(selectedValue)
 }, [selectedValue])
-
 const data = [
   'Algorithms',
   'Android Development',

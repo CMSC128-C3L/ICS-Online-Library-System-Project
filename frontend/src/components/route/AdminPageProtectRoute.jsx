@@ -1,16 +1,16 @@
 import React, {useContext} from 'react'
 import { Redirect, Route } from 'react-router'
-import { UserContext } from '../user/UserContext'
+import decode from 'jwt-decode';
 
 function AdminPageProtectRoute({component: Component, ...rest}) {
-    const {loggedUser, setLoggedUser} = useContext(UserContext)
+    const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
     return (
         <Route
             {...rest}
 
             render={props =>{
 
-                if(loggedUser.classification === 'Admin'){
+                if(data.classification === 'Admin'){
                     return <Component {...props} />
                 } 
                 

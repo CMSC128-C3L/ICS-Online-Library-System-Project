@@ -13,8 +13,8 @@ import EditUser from '../../manage_user_popup/EditUser'
 import DeleteUser from '../../manage_user_popup/DeleteUser'
 import MultiDeleteUser from './MultiDeleteUser'
 import UserTableHeadMS from './UserTableHeadMS'
-import {UserContext} from '../../user/UserContext'
 import './ManageUsers.css'
+import decode from 'jwt-decode';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 function UserTable(props) {
     const [rows, setRows] = useState([]) //initialize collection of user data to an empty array
     const [search, setSearch] = useState("") //initialize search to blank
-    const currentUser = useContext(UserContext).loggedUser
+    const currentUser = decode(localStorage.getItem('token'))
 
     const classes = useStyles();
     const [order, setOrder] = useState('desc'); //default sort order is ascending
