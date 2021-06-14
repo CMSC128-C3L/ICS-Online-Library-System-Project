@@ -23,14 +23,64 @@
 .Right-section {
     text-align: left;
     width: 30%;
-    background-color: #EBEBEB;
+    padding: 2.5%;
+    background-color: rgba(255, 255, 255, 0.75)
 }
 
 .Section-title {
-    font-weight: bold;
+    font-weight: bolder;
     font-size: 50px;
+    font-family: sans-serif;
+}
+
+.Section-subtitle {
+    font-weight: bold;
+    font-size: 15px;
+    font-family: sans-serif;
 }
 
 .Section-body {
     text-align: left;
+    font-family: sans-serif;
+    font-style: italic;
+    font-size: 17px;
+}
+
+.Team-name {
+    text-align: center;
+    font-weight: bold;
+    font-size: 35px;
+    font-family: sans-serif;
+    text-decoration: underline;
+}
+
+.card-grid {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 300px;
+}
+
+.person-card {
+    width: 200px;
+    height: 200px;
+    margin: 30px;
+    background-color: #ffffff;
+    box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.50);
+    border-radius: 0.5em;
+}
+
+.person-name {
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    font-family: sans-serif;
+}
+
+.profile-picture {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: -3px;
 }
