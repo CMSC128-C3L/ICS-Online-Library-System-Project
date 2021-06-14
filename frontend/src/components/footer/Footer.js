@@ -1,6 +1,7 @@
 import CategoryColumn from './CategoryColumn'
 import icsLogo from '../../assets/ics_logo.png'
 import './Footer.css'
+import { ACTIONS } from '../../pages/SearchPage';
 
 function Footer(props) {
     return(
@@ -11,9 +12,9 @@ function Footer(props) {
             </div>
             <div className="footer-row">
                 <div className="category-row">
-                    <CategoryColumn content={searchprop}></CategoryColumn>
-                    <CategoryColumn content={contactprop}></CategoryColumn>
-                    <CategoryColumn content={socialprop}></CategoryColumn>
+                    <CategoryColumn content={searchprop} action={ACTIONS.updateCategory}></CategoryColumn>
+                    <CategoryColumn content={contactprop} action={ACTIONS.updateCategory}></CategoryColumn>
+                    <CategoryColumn content={socialprop} action={ACTIONS.updateCategory}></CategoryColumn>
                 </div>
             </div>
         </div>

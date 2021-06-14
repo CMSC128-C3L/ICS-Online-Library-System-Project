@@ -4,7 +4,8 @@ import IconButton from '@material-ui/core/IconButton';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { UserContext } from '../user/UserContext';
+import decode from 'jwt-decode';
+
 
 const useStyles = makeStyles((theme) => ({
   controlIcons: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ConditionalIcon(props){
   const classes = useStyles();
-  const {loggedUser, setLoggedUser} = useContext(UserContext);
+  const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
 
   return(
     <div className={classes.controlIcons}>
@@ -68,7 +69,7 @@ function ConditionalIcon(props){
             default:
               return null;	
           }
-        })(loggedUser.classification)
+        })(data.classification)
     }
     </div>
   )

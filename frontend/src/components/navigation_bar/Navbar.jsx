@@ -10,9 +10,11 @@ import { useHistory } from 'react-router';
 import ConditionalTools from './ConditionalTools';
 import Button from '@material-ui/core/Button';
 import updateQueryString from '../search_results/UpdateQueryString';
+import decode from 'jwt-decode';
 
 function Navbar(props){
     const {loggedUser, setLoggedUser} = useContext(UserContext)
+    const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}'
     const searchContext = useContext(SearchContext);
     const history = useHistory();
 
@@ -33,7 +35,7 @@ function Navbar(props){
     };
 
     const renderComponentsBasedOnState = () =>{
-        if(JSON.stringify(loggedUser) === '{}'){
+        if(data === '{}'){
             return(
                 <div className="useraccount">
                     <Login/>
@@ -46,7 +48,7 @@ function Navbar(props){
             return(
                 <div className="useraccount">
                     <div className="container">
-                        {loggedUser.given_name}
+                        {data.given_name}
                         <Logout/>
                     </div>
                 </div>
@@ -57,7 +59,7 @@ function Navbar(props){
     return(
         <div className="Navbar">
                 {/* LEFT SIDE START */}
-                <div className="leftSide"> <img src={icsLogo} alt="logo"/> </div>
+                {/* <div className="leftSide"> <img src={icsLogo} alt="logo"/> </div> */}
                 {/* LEFT SIDE END */}
                 
                 {/* MIDDLE SIDE START */}

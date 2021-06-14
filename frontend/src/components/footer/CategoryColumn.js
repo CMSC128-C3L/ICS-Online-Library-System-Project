@@ -1,13 +1,32 @@
 import './Footer.css'
+import React, { useContext } from 'react';
+import SearchContext from '../search_results/SearchContext'
+import updateQueryString from '../search_results/UpdateQueryString';
+
+function fixLinks(word) {
+    if (word === "Home")  return "/adminHome"
+    else if (word === "About Us") return "/aboutUs"
+    else if (word === "Support") return "/support"
+    else return "/search"
+}
+
 
 function CategoryColumn(props){
+    const searchContext = useContext(SearchContext);
+    const handleChange = (item) =>{
+        if(item === "SP") item = 'Special Problems'
+        else if (item === "Thesis") item = "Theses"
+        searchContext.setState({category: [item]})
+        updateQueryString(searchContext);
+        console.log(searchContext)
+    }
     const title = <> <div className="category-title">{props.content.title}</div> <hr className="foothr"/> </>
     let links;
 
     // Render links if category serves as navigation tool
     // Else, show social media icons
     if(props.content.isNav)
-        links = <> <div className="column"> {(props.content.links.map(link => <a className="a" href="test" key={link}> {link} </a>))} </div> </>
+        links = <> <div className="column"> {(props.content.links.map(link => <a className="a" href={fixLinks(link)} onClick={() => handleChange(link)} key={link}> {link} </a>))} </div> </>
     else{
         links = <> 
 

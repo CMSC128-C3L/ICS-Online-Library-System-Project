@@ -72,6 +72,10 @@
     border-radius: 0.5em;
 }
 
+.person-card:hover {
+    cursor: pointer;
+}
+
 .person-name {
     text-align: center;
     font-weight: bold;
@@ -83,4 +87,34 @@
     text-align: center;
     margin-top: 5px;
     margin-bottom: -3px;
+}
+
+.prof {
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modalTitle{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2em;
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    text-align: center;
+}
+
+.modalSubtitle{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    font-style: italic;
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    text-align: center;
+}
+
+.modalContainer {
+    width: 100%;
+    text-align: justify;
 }

@@ -21,6 +21,8 @@ import {classification, course, topics} from './Choices.jsx'
 import { FileContext } from './FileContext';
 import UploadFile from './modal/UploadFile';
 import Button from '@material-ui/core/Button'
+import decode from 'jwt-decode';
+
 /**
  * functional component
  * conditionally allow edit on documents depending on the button clicked from admin view
@@ -37,6 +39,8 @@ function ConditionalEdit(props){
   const [uploadToggle, setUploadToggle] = useState('file')
   // const {file, setFile} = useContext(FileContext)
   const [file, setFile] = useState([])
+  const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
+  console.log(uData)
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
@@ -125,8 +129,8 @@ function ConditionalEdit(props){
       
       try{
         axios.post(`/api/thesis/upload/${id}`, formData, options);
-
-        console.log('yes')
+        setDocument(document.data); 
+        const log = await axios.patch('/api/log/doc/'+uData.user_id,{doc_id:id});
       }catch(e){
         console.log(e);
       }
@@ -291,6 +295,36 @@ const handleView = (event, newToggle) => {
   setView(newToggle);
   console.log("toggle: ", newToggle);
 };
+
+const data = [
+  'Algorithms',
+  'Android Development',
+  'Artificial Intelligence',
+  'Automata',
+  'Bioinformatics',
+  'Computer Architecture',
+  'Computer Graphics',
+  'Computer Security',
+  'Cryptography',
+  'Data Structures',
+  'Database Management',
+  'Discrete Mathematics',
+  'Distributed Computing',
+  'Human-Computer Interaction',
+  'Image Processing',
+  'Machine Learning',
+  'Networking',
+  'Operating System',
+  'Parallel Algorithms',
+  'Programming Languages',
+  'Robotics',
+  'Security',
+  'Software Engineering',
+  'Special Topic',
+  'Speech Recognition',
+  'User Interface',
+  'Web Development',
+]
 
   return(
     <div className="browsebg browsebg-container">

@@ -17,6 +17,7 @@ const clientId = '138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleuserc
 function Login() {
   const history = useHistory();
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
+  console.log(localStorage)
 
   const onSuccess = async (res) => {
     var auth2 = window.gapi.auth2.getAuthInstance();

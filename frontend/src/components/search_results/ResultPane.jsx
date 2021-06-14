@@ -9,9 +9,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Pagination from '@material-ui/lab/Pagination';
 import IconButton from '@material-ui/core/IconButton';
 import queryString from 'query-string';
-import { UserContext } from '../user/UserContext';
 import Modal from '../manage_user_popup/Modal';
 import MultiDeleteDoc from './modal/MultiDeleteDoc';
+import decode from 'jwt-decode';
 
 //layout purposes
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -62,6 +62,7 @@ function ResultPane(props){
     let promises = [];
 
     //if user has yet to select any category, set to all
+    console.log(searchContext)
     if((searchContext.state.category).toString() === "") categories = ['Books', 'Special Problems', 'Theses'];
     console.log('categories: ', categories);
     console.log('course code: ', searchContext.state.courseCode)
@@ -157,7 +158,8 @@ function ResultPane(props){
   }, [results, cardsPerPage])
 
   // Multiple Select for Deletion
-  const {loggedUser} = useContext(UserContext);
+  const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
+  console.log(uData)
   const [selected, setSelected] = useState([])
   const [multSelect, setMultSelect] = useState(false)
 
@@ -194,7 +196,7 @@ function ResultPane(props){
       <Modal ref={multiDeleteModal}><MultiDeleteDoc selected={selected} getDocuments={getDocuments} setPage={setPage} resetSelected={() => setSelected([])}/></Modal>
 
       {/* add document only for admin */}
-      {loggedUser.classification === "Admin" ?
+      {uData.classification === "Admin" ?
         <IconButton className="add-doc-button" onClick={handleAdd}>
           <AddIcon style={{color: 'black'}}/>
         </IconButton>
@@ -208,7 +210,7 @@ function ResultPane(props){
         </div>
 
         {/* multiple select only for admin; if admin, button will change depending if mult select is active or not */}
-        {loggedUser.classification === "Admin" ?
+        {uData.classification === "Admin" ?
           (multSelect?
             <button className="tool-button mult-cancel" onClick={handleMultCancel}>CANCEL SELECTION</button> :
             <button className="tool-button" onClick={handleMultSelect}>MULTIPLE SELECT</button>
