@@ -50,6 +50,7 @@ function ConditionalEdit(props){
   const openFileModal = () => {uploadFileModal.current.open(props)}
   const uploadPosterModal = useRef(null);
   const openPosterModal = () => {uploadPosterModal.current.open(props)}
+
   //get flag whether the edit button from manage document is clicked
   let location = useLocation();
   let allowEdit, doc_type;
@@ -70,7 +71,7 @@ function ConditionalEdit(props){
   const getDocument = async() =>{
     let document;
     let options;
-    if(Object.entries(loggedUser).length === 0){//empty
+    if(Object.entries(uData).length === 0){//empty
       options =  {}
     }else{//not empty
       options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
@@ -89,9 +90,10 @@ function ConditionalEdit(props){
           document.data.courses = courses;
         }
 
+
         setDocument(document.data); 
         console.log("conditional edit data:\n", document.data)
-        const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
+        const log = await axios.patch('/api/log/doc/'+uData.user_id,{doc_id:id});
     }catch(e){
         console.log(e)
     }
@@ -423,7 +425,7 @@ const handleUploadToggle = (event, newToggle) =>{
                          (<div className="upload-navigation">
                             <h4>Poster</h4>
                             <Button onClick={() => openPosterModal()}>Select New Poster</Button>
-                            <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.journal)}</p>}</span>
+                            <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
                             <Button onClick={() => downloadFile()}>Download Poster</Button>
                              <span style={{overflow: "hidden"}}>New Poster: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
                           </div>)}
@@ -512,7 +514,7 @@ const handleUploadToggle = (event, newToggle) =>{
                           (<div className="upload-navigation">
                             <h4>Poster</h4>
                             <Button onClick={() => openPosterModal()}>Select New Poster</Button>
-                            <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.journal === undefined || document.journal === ''  ? <p>None</p> : <p>{displayFileName(document.journal)}</p>}</span>
+                            <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
                             <Button onClick={() => downloadFile()}>Download Poster</Button>
                              <span style={{overflow: "hidden"}}>New File: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
                           </div>)}
@@ -706,7 +708,7 @@ const handleUploadToggle = (event, newToggle) =>{
             default:
               return null;	
           }
-        })(allowEdit, doc_type, loggedUser.classification)
+        })(allowEdit, doc_type, uData.classification)
     }
     </PosterContext.Provider>
     </FileContext.Provider>

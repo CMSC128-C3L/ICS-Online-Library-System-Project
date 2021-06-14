@@ -52,8 +52,10 @@ function UpdateDocument(props){
         //patch request to update document
         let response;
         const data = await Promise.all(courses);
-
+        
         try {
+
+            console.log('handle submit after promise', props.type)
             if(props.type=="book"){
                 response = await axios.patch(`/api/books/${id}`, {
                     title: props.book.title, 
@@ -66,6 +68,8 @@ function UpdateDocument(props){
                     courses:data 
                 } , options);
             } else if(props.type=="thesis"){
+
+                console.log("this thesis lit man")
                 response = await axios.patch(`/api/thesis/${id}`, {
                     title: props.thesis.title, 
                     author: splitAuthors(props.thesis.author),
@@ -125,29 +129,23 @@ function UpdateDocument(props){
                     journal: props.sp.journal,
                     poster: props.sp.poster  
                 } , options);
-            }
-
-             if(file.length > 0){
+                
+                if(file.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
                     formData.append("spFile", file[0]);
-                    console.log("uploading sp..")
                     try{
-                        axios.post(`/api/sp/upload/${id}`, formData, options);
-
-                        console.log("sucess!")
+                        axios.post(`/api/sp/upload/${id}`, formData, options)
+                        console.log('yasss')
                     }catch(e){
-                        console.log('test')
                         console.log(e)
                     }
-             }
+                }
 
-             console.log('uploading poster', poster[0])
-              //upload poster
-                if(poster.length > 0){
+                 if(poster.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
-                    formData.append("poster", poster[0]);
+                    formData.append("posterFile ", poster[0]);
                     console.log("uploading thesis poster..")
                     try{
                         axios.post(`/api/sp/upload/${id}`, formData, options);
@@ -157,6 +155,10 @@ function UpdateDocument(props){
                         console.log(e)
                     }
                 }
+                
+            }
+
+
             console.log('Returned data:', response.data);
             handleRoute()
         } catch (e) {
@@ -167,6 +169,7 @@ function UpdateDocument(props){
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(async() => {
         if(confirmed){
+            console.log("confirmed!!")
             handleSubmit();
             close();
         }
