@@ -74,7 +74,7 @@ export default class AboutUs extends React.Component {
                 <div className="Section-area">
                     <div className="Left-section">
                         <div className="circular--portrait">
-                            <img alt="" src={logo} style={{width: '80%'}}/>
+                            <img src={logo} style={{width: '80%'}}/>
                         </div>
                     </div>
                     <div className="Right-section">

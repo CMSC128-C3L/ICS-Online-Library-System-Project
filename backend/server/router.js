@@ -100,16 +100,16 @@ router.get('/api/adviserSummary/:adviser', auth, isAdmin, AdviserSummary.getAdvi
 //course summary
 router.get('/api/courseSummary/:course', auth, isAdmin, CourseSummary.getCourseSummary);
 
+//course details
+const Course = require('./controllers/courseController.js');
+router.get('/api/course', auth, Course.getAll);
+router.get('/api/course/:code', auth, Course.getOne);
+
 // Advisory Routes
 const HomeAdvisory = require('./controllers/homeAdvisoryController.js');
 router.get('/api/advisory', HomeAdvisory.getAll);
 router.get('/api/advisory/:id', HomeAdvisory.getOne);
 router.patch('/api/advisory/:id', HomeAdvisory.update);
 router.post('/api/advisory/uploads/:id', HomeAdvisory.uploads, HomeAdvisory.uploadThumbnail);
-
-//course details
-const Course = require('./controllers/courseController.js');
-router.get('/api/course', auth, Course.getAll);
-router.get('/api/course/:code', auth, Course.getOne);
 
 module.exports = router;

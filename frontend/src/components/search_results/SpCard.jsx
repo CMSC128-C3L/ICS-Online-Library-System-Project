@@ -5,8 +5,7 @@ import ConditionalIcon from "./ConditionalIcon"
 import { useHistory } from 'react-router'
 import Modal from './modal/Modal'
 import DeleteDocument from './modal/DeleteDocument'
-// import { Title, Category, CustomDate, AuthorList, AdviserList, TopicList,  } from './CardDetails'
-import { Title, Category, CustomDate, CourseListUpdate, AuthorList, AdviserList, TopicList } from './CardDetails'
+import { Title, Category, CustomDate, AuthorList, AdviserList, TopicList } from './CardDetails'
 import { formatDateOnly } from '../helpers/Helpers'
 import './SearchCard.css'
 
@@ -47,7 +46,7 @@ function SpCard(props) {
 
 			<div className="doc-content">				
 				<div className="doc-year-category">
-					<CustomDate date={formatDateOnly(new Date(props.doc.pub_date))} />
+					{props.doc.pub_date}
 					<Category category={props.doc.type} />
 				</div>
 
@@ -55,7 +54,7 @@ function SpCard(props) {
 					<div>
 						<AuthorList author={props.doc.author} clickable={false} />
 						<AdviserList adviser={props.doc.adviser} />
-						<CourseListUpdate course={props.doc.courses} />
+						
 					</div>           
 					<TopicList topic={props.doc.topic} />
 				</div>				

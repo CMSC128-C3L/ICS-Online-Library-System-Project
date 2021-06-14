@@ -8,7 +8,6 @@ import axios from 'axios'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import {Button} from '@material-ui/core'
 import GetAppIcon from '@material-ui/icons/GetApp';
-import download from 'downloadjs';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 import logo from '../../assets/ics_logo.jpg';

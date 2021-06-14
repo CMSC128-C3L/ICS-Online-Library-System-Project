@@ -91,7 +91,7 @@ function CourseList(props){
 }
 
 // max 3 courses shown; adtl will show as ellipsis
-function CourseListUpdate(props){
+function CourseListUpdate({course}){
   const history = useHistory();
   const handleCourseClick = (event) => {
     history.push('/courseSummary/' + event.target.value);
@@ -100,7 +100,7 @@ function CourseListUpdate(props){
     <div style={{display:'flex'}}>
       <Typography gutterBottom variant="body2">Reference for:&nbsp;</Typography>
       <ul className="clickable-list">
-        {/*{props.course.slice(0,4).map((course, index) => {
+        {/*{course.slice(0,4).map((course, index) => {
           return (index < 3)? 
             <li key={course.code}>
               <button className="clickable-text" value={course.code} onClick={handleCourseClick}>{course.code}</button>
@@ -154,5 +154,4 @@ function AdviserList(props){
 }
 
 
-// export {Title, CustomDate, Category, AuthorList, Isbn, CourseList, TopicList, AdviserList}
-export {Title, CustomDate, Category, AuthorList, Isbn, CourseList, CourseListUpdate, TopicList, AdviserList}
+export {Title, CustomDate, Category, AuthorList, Isbn, CourseList, TopicList, AdviserList}

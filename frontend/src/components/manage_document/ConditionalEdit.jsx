@@ -39,11 +39,12 @@ function ConditionalEdit(props){
   const [selectedFile, setSelectedFile] = useState(null);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
   const [uploadToggle, setUploadToggle] = useState('file')
+  const [poster, setPoster] = useState([]);
   // const {file, setFile} = useContext(FileContext)
   const [file, setFile] = useState([])
   const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
   console.log(uData)
-  const [poster, setPoster] = useState([])
+  
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
@@ -115,20 +116,8 @@ function ConditionalEdit(props){
       console.log(e)
     }
   }
-   const onFileChange = (event) => {
-    
-      // Update the state
-      setSelectedFile(event.target.files[0]);
-      console.log("selectedFile: ", event.target.files[0])
-    
-    };
-
-    const onFileUpload = () => {
-     
-      const formData = new FormData();
-      formData.append("title", document.title);
-      formData.append("thesisDocument", selectedFile);
   
+<<<<<<< HEAD
       let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
       
       
@@ -140,6 +129,8 @@ function ConditionalEdit(props){
         console.log(e);
       }
     }
+=======
+>>>>>>> merge-feature05
   useEffect(() => {
       getDocument()
   }, [])
@@ -301,40 +292,10 @@ const handleView = (event, newToggle) => {
   console.log("toggle: ", newToggle);
 };
 
-const data = [
-  'Algorithms',
-  'Android Development',
-  'Artificial Intelligence',
-  'Automata',
-  'Bioinformatics',
-  'Computer Architecture',
-  'Computer Graphics',
-  'Computer Security',
-  'Cryptography',
-  'Data Structures',
-  'Database Management',
-  'Discrete Mathematics',
-  'Distributed Computing',
-  'Human-Computer Interaction',
-  'Image Processing',
-  'Machine Learning',
-  'Networking',
-  'Operating System',
-  'Parallel Algorithms',
-  'Programming Languages',
-  'Robotics',
-  'Security',
-  'Software Engineering',
-  'Special Topic',
-  'Speech Recognition',
-  'User Interface',
-  'Web Development',
-]
 const handleUploadToggle = (event, newToggle) =>{
   setUploadToggle(newToggle);
   console.log('upload toggle: ', newToggle);
 }
-
 
   return(
     <div className="browsebg browsebg-container">
@@ -450,7 +411,6 @@ const handleUploadToggle = (event, newToggle) =>{
                                 selectedValues={document.courses}
                             />
                           </div>
-
                           <div className="document-card-container  uploads-container">
                               <ToggleButtonGroup
                             value={uploadToggle}
