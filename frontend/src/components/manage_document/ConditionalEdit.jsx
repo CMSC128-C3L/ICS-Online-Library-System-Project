@@ -117,20 +117,20 @@ function ConditionalEdit(props){
     }
   }
   
-<<<<<<< HEAD
-      let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+
+  // const upload
+  //     let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
       
       
-      try{
-        axios.post(`/api/thesis/upload/${id}`, formData, options);
-        setDocument(document.data); 
-        // const log = await axios.patch('/api/log/doc/'+uData.user_id,{doc_id:id});
-      }catch(e){
-        console.log(e);
-      }
-    }
-=======
->>>>>>> merge-feature05
+  //     try{
+  //       axios.post(`/api/thesis/upload/${id}`, formData, options);
+  //       setDocument(document.data); 
+  //       // const log = await axios.patch('/api/log/doc/'+uData.user_id,{doc_id:id});
+  //     }catch(e){
+  //       console.log(e);
+  //     }
+  //   }
+
   useEffect(() => {
       getDocument()
   }, [])
