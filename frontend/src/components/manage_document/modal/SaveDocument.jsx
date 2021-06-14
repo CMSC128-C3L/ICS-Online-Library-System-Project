@@ -48,6 +48,8 @@ function SaveDocument(props){
         let response;
         const data = await Promise.all(courses);
         console.log("save doc: ", typeof(props.book.author))
+
+        console.log('testing!!!!!!!!!')
         try {
             if(props.type=="book"){
                 response = await axios.post(`/api/books`, {
@@ -129,8 +131,7 @@ function SaveDocument(props){
             }
             console.log('Returned data:', response.data);
 
-            response = axios.get(`/api/sp/${id}`, options);
-            console.log('new', response.data);
+           
         } catch (e) {
             console.log(`Axios request failed: ${e}`);
         }
