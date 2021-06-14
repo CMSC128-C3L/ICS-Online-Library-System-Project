@@ -1,6 +1,6 @@
 import React from 'react'
 import './SideDescription.css'
-import '../author_summary/AuthorSummary.css'
+import '../adviser_summary/AdviserSummary.css'
 
 function SideDescriptionAuthor(props){
     return(

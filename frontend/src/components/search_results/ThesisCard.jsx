@@ -1,11 +1,11 @@
-import React, { useRef} from 'react'
+import React, { useRef, useEffect} from 'react'
 import Card from "@material-ui/core/Card"
 import CardActionArea from "@material-ui/core/CardActionArea"
 import ConditionalIcon from "./ConditionalIcon"
 import { useHistory } from 'react-router'
 import Modal from './modal/Modal'
 import DeleteDocument from './modal/DeleteDocument'
-import { Title, Category, AuthorList, AdviserList, TopicList } from './CardDetails'
+import { Title, Category, CourseListUpdate, AuthorList, AdviserList, TopicList } from './CardDetails'
 import './SearchCard.css'
 
 function ThesisCard(props) {
@@ -36,6 +36,7 @@ function ThesisCard(props) {
 		openDeleteModal();
 	}
 
+
 	return(
 		<Card className= "doc-card" style={{backgroundColor: '#F4F4F4'}} title={props.doc.title}>
 			<CardActionArea className="doc-title" onClick={() => history.push({pathname: `/search/${props.doc._id}`, state: { fromButtonEdit: false, type: "thesis" }})}>
@@ -52,6 +53,7 @@ function ThesisCard(props) {
 					<div>
 						<AuthorList author={props.doc.author} clickable={false}/>
 						<AdviserList adviser={props.doc.adviser} />
+						
 					</div>
 					<TopicList topic={props.doc.topic} />
 				</div>

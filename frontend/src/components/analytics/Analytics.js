@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router';
-import AuthorSummary from '../author_summary/AuthorSummary';
+
 import './Analytics.css'
 
 

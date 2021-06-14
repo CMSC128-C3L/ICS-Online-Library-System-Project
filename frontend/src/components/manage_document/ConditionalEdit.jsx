@@ -110,7 +110,7 @@ function ConditionalEdit(props){
       console.log(e)
     }
   }
-
+  
   useEffect(() => {
       getDocument()
   }, [])
@@ -512,7 +512,6 @@ const handleUploadToggle = (event, newToggle) =>{
                              <span style={{overflow: "hidden"}}>New File: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
                           </div>)}
                           </div>
-
                       </div>
   
                       <div className="description-section">

@@ -68,6 +68,8 @@ async function getAdviserSummaryPDF(req, res) {
             doc.text(" ");
         });
         doc.end();
+
+        
         
         res.status(200).send("Adviser Summary Downloaded!");   
     }catch (err) {
