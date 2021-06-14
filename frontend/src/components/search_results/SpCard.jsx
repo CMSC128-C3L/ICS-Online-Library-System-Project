@@ -46,7 +46,7 @@ function SpCard(props) {
 
 			<div className="doc-content">				
 				<div className="doc-year-category">
-					<CustomDate date={formatDateOnly(new Date(props.doc.pub_date))} />
+					{props.doc.pub_date}
 					<Category category={props.doc.type} />
 				</div>
 
