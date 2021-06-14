@@ -18,7 +18,7 @@ function Header({name}) {
             return(
                 <div className="Header-container-right" >
                     <Login/>
-                    <Button className="Button" onClick={() => history.push('/support')}>Support</Button>
+                    
                 </div>
             )
         }
@@ -26,7 +26,7 @@ function Header({name}) {
         else{
             return(
                   <div className="Header-container-right" >
-                    <Button className="Button">{data.given_name}</Button>
+                    <Button className="Button" disabled>{data.given_name}</Button>
                     <Logout/>
                 </div>
             )

@@ -39,7 +39,6 @@ function Navbar(props){
             return(
                 <div className="useraccount">
                     <Login/>
-                    <Button onClick={() => history.push('/support')} style={{fontSize: "17px"}}>Support</Button>
                 </div>
             )
         }

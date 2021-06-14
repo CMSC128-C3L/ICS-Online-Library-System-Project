@@ -1,9 +1,9 @@
 import CategoryColumn from './CategoryColumn'
 import icsLogo from '../../assets/ics_logo.png'
 import './Footer.css'
-import { ACTIONS } from '../../pages/SearchPage';
 
 function Footer(props) {
+    
     return(
         <div className="footer-container">
             <div className="placeholder-ilib-logo">
@@ -12,9 +12,9 @@ function Footer(props) {
             </div>
             <div className="footer-row">
                 <div className="category-row">
-                    <CategoryColumn content={searchprop} action={ACTIONS.updateCategory}></CategoryColumn>
-                    <CategoryColumn content={contactprop} action={ACTIONS.updateCategory}></CategoryColumn>
-                    <CategoryColumn content={socialprop} action={ACTIONS.updateCategory}></CategoryColumn>
+                    <CategoryColumn content={searchprop}></CategoryColumn>
+                    <CategoryColumn content={contactprop}></CategoryColumn>
+                    <CategoryColumn content={socialprop}></CategoryColumn>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@ const searchprop = {
 const contactprop = {
     title: "Contact Us",
     isNav: true,
-    links: ["Support", "About Us"]
+    links: ["About Us"]
 }
 
 const socialprop = {

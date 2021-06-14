@@ -4,7 +4,7 @@ import { UserContext } from '../user/UserContext'
 import decode from 'jwt-decode';
 
 function HomePageRoute({component: Component, ...rest}) {
-    const {loggedUser, setLoggedUser} = useContext(UserContext)
+
     const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}'
     return (
         <Route
