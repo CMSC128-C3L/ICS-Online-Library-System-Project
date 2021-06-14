@@ -27,7 +27,7 @@ export default class AboutUs extends Component {
                 <div className="Section-area">
                     <div className="Left-section">
                         <div className="circular--portrait">
-                            <img src={logo} style={{width: '80%'}}/>
+                            <img alt="" src={logo} style={{width: '80%'}}/>
                         </div>
                     </div>
                     <div className="Right-section">
@@ -53,7 +53,7 @@ export default class AboutUs extends Component {
                     <div className="card-grid">
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={jeri} style={{width: '75%'}}/>
+                                <img alt="" src={jeri} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Jeri
@@ -61,7 +61,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={keisha} style={{width: '75%'}}/>
+                                <img alt=""src={keisha} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Keisha
@@ -69,7 +69,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={alwin} style={{width: '75%'}}/>
+                                <img alt="" src={alwin} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Alwin
@@ -77,7 +77,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={rener} style={{width: '75%'}}/>
+                                <img alt=""src={rener} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Rener
@@ -85,7 +85,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={elsha} style={{width: '75%'}}/>
+                                <img alt="" src={elsha} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Elsha
@@ -99,7 +99,7 @@ export default class AboutUs extends Component {
                     <div className="card-grid">
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={janos} style={{width: '75%'}}/>
+                                <img alt="" src={janos} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Janos
@@ -107,7 +107,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={aaron} style={{width: '75%'}}/>
+                                <img alt=""src={aaron} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Aaron
@@ -115,7 +115,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={ralf} style={{width: '75%'}}/>
+                                <img alt=""src={ralf} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Ralf
@@ -123,7 +123,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={sam} style={{width: '75%'}}/>
+                                <img alt=""src={sam} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Sam
@@ -131,7 +131,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={vince} style={{width: '75%'}}/>
+                                <img alt=""src={vince} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Vince
@@ -145,7 +145,7 @@ export default class AboutUs extends Component {
                     <div className="card-grid">
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={neo} style={{width: '75%'}}/>
+                                <img alt=""src={neo} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Neo
@@ -153,7 +153,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={tin} style={{width: '75%'}}/>
+                                <img alt=""src={tin} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Tin
@@ -161,7 +161,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={lester} style={{width: '75%'}}/>
+                                <img alt=""src={lester} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Lester
@@ -169,7 +169,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={bullet} style={{width: '75%'}}/>
+                                <img alt=""src={bullet} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Bullet
@@ -177,7 +177,7 @@ export default class AboutUs extends Component {
                         </div>
                         <div className="person-card">
                             <div className="profile-picture">
-                                <img src={robert} style={{width: '75%'}}/>
+                                <img alt=""src={robert} style={{width: '75%'}}/>
                             </div>
                             <div className="person-name">
                                 Robert

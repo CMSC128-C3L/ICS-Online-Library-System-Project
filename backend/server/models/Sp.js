@@ -16,20 +16,16 @@ const spSchema= new mongoose.Schema({
     abstract: String,
     topic: [String],
     journal: {
-        type: String,
-        default: ''
+        type: String
     },
     poster: {
-        type: String,
-        default: ''
+        type: String
     },
     file: {
-        type: String,
-        default: ''
+        type: String
     },
     source_code: {
-        type: String,
-        default: ''
+        type: String
     },
     view_count: {
         type: Number,

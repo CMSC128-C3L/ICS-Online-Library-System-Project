@@ -35,7 +35,7 @@ async function getAll(req, res) {
         res.status(200).send(book);     // respond with the array of books
         
     } catch (err) {
-        // console.log(err);
+        console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -43,6 +43,7 @@ async function getAll(req, res) {
 
 // Get a specific book
 async function get(req, res) {
+    console.log("GET ONE");
     try {
         const _id = req.params.id;    // get id parameter
 
@@ -56,13 +57,12 @@ async function get(req, res) {
             return res.status(404).send({message:"book not found"});    // specified book does not exist
 
         const book = bookBase(data);
-        book.description = data.description;
-        book.view_count = data.view_count;
+        console.log(book);
 
         res.status(200).send(book);     // respond with specified book
 
     } catch(err) {
-        // console.log(err);
+        console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -70,13 +70,15 @@ async function get(req, res) {
 
 // Create a new book
 async function create(req, res) {
+    console.log(req.body);
     try {
         const book = new Book(req.body);    // get the book data from the request body
+        console.log(book);
         const newBook = await book.save();  // insert the book
         return res.status(201).send({_id: newBook._id});   // responsd with the id of the new book
 
     } catch (err) {
-        // console.log(err);
+        console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -84,6 +86,7 @@ async function create(req, res) {
 
 // Update a specified book
 async function update(req, res) {
+    console.log(req.body);
     try {
         const book = req.body;      // get the new data of the book from the request body
         const _id = req.params.id;  // get the id of the book to be updated
@@ -95,7 +98,7 @@ async function update(req, res) {
         return res.status(200).send(bookBase(newBook));   // respond with the updated book  
 
     } catch (err) {
-        // console.log(err);
+        console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -113,7 +116,7 @@ async function deleteBook(req, res) {
         return res.status(200).send({message:"book deleted"});  // send ok response        
 
     } catch (err) {
-        // console.log(err);
+        console.log(err);
         res.status(400).send({message:"error"});
     }
 }
@@ -158,7 +161,8 @@ function bookBase(data) {
     book.author = data.author;
     book.isbn = data.isbn;
     book.publisher = data.publisher;
-
+    book.description = data.description;
+    
     const static_url = 'http://localhost:5000/static/';
     if (data.book_cover_img.split("-")[0] === 's')
         book.book_cover_img = static_url + data.book_cover_img
@@ -168,6 +172,8 @@ function bookBase(data) {
     book.topic = data.topic;
     book.course_code = data.courses.map(getCourseCode);
     book.type = data.type;
+    book.view_count = data.view_count;
+    book.download_count = data.download_count;
 
     return book;
 }

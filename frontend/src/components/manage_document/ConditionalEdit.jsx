@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useContext} from 'react';
+import React, {useMemo, useState, useEffect, useRef, useContext} from 'react';
+import {useDropZone} from 'react-dropzone';
 import { useLocation } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from 'react-router';
@@ -13,7 +14,13 @@ import UpdateDocument from './modal/UpdateDocument';
 import {Multiselect} from 'multiselect-react-dropdown';
 import './DocumentCard.css';
 import { UserContext } from '../user/UserContext'
-
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ViewPDF from "./ViewPDF";
+import {classification, course, topics} from './Choices.jsx'
+import { FileContext } from './FileContext';
+import UploadFile from './modal/UploadFile';
+import Button from '@material-ui/core/Button'
 /**
  * functional component
  * conditionally allow edit on documents depending on the button clicked from admin view
@@ -27,11 +34,15 @@ function ConditionalEdit(props){
   const [selectedValue, setSelectedValue] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
-
+  const [uploadToggle, setUploadToggle] = useState('file')
+  // const {file, setFile} = useContext(FileContext)
+  const [file, setFile] = useState([])
   // Create reference to modal
   const saveModal = useRef(null)
   const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
-
+  const uploadFileModal = useRef(null);
+  const openFileModal = () => {uploadFileModal.current.open(props)}
+  
   //get flag whether the edit button from manage document is clicked
   let location = useLocation();
   let allowEdit, doc_type;
@@ -44,21 +55,56 @@ function ConditionalEdit(props){
     allowEdit = false;
   }
 
+  const getCourseCode = (data) => {
+    return data.code;
+  }
+
   //get the specific document data 
   const getDocument = async() =>{
-      let document;
-      let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-      
-      try{
-          if(doc_type == "book") document = await axios.get(`/api/books/${id}`);
-          else if(doc_type == "sp") document = await axios.get(`/api/sp/${id}`);
-          else if(doc_type == "thesis") document = await axios.get(`/api/thesis/${id}`);
+    let document;
+    let options;
+    if(Object.entries(loggedUser).length === 0){//empty
+      options =  {}
+    }else{//not empty
+      options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+    }
+    
+    try{
+        if(doc_type == "book") document = await axios.get(`/api/books/${id}`, options);
+        else if(doc_type == "sp"){
+          document = await axios.get(`/api/sp/${id}`, options);
+          let courses = document.data.courses.map(getCourseCode);
+          document.data.courses = courses;
+        }
+        else if(doc_type == "thesis"){
+          document = await axios.get(`/api/thesis/${id}`, options);
+          let courses = document.data.courses.map(getCourseCode);
+          document.data.courses = courses;
+        }
 
-          setDocument(document.data); 
-          const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
-      }catch(e){
-          console.log(e)
+        setDocument(document.data); 
+        console.log("conditional edit data:\n", document.data)
+        const log = await axios.patch('/api/log/doc/'+loggedUser.user_id,{doc_id:id});
+    }catch(e){
+        console.log(e)
+    }
+}
+
+  const displayFileName = (fileName) =>{
+
+    return fileName.split('\\').pop();
+  }
+
+  const downloadFile = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+    
+    try{
+      if(doc_type === "thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+id, '_parent');
       }
+    }catch(e){
+      console.log(e)
+    }
   }
    const onFileChange = (event) => {
     
@@ -89,38 +135,98 @@ function ConditionalEdit(props){
       getDocument()
   }, [])
 
-  // section to initialize book/sp/thesis
-  let book = {
-    title: document.title,
-    year: document.year,
-    author: document.author,
-    publisher: document.publisher,
-    isbn: document.isbn,
-    description: document.description,
-    topic: document.topic
-  };
+  const [book, setBook] = useState({
+    title: "",
+    year: "",
+    author: "",
+    publisher: "",
+    isbn: "",
+    description: "",
+    courses: "",
+    topic: ""
+  })
 
-  let thesis = {
-    title: document.title,
-    adviser: document.adviser,
-    author: document.author,
-    pub_date: document.pub_date,
-    abstract: document.abstract,
-    topic: document.topic
-  };
+  const [thesis, setThesis] = useState({
+    title: "",
+    adviser: "",
+    author: "",
+    pub_date: "",
+    abstract: "",
+    courses: "",
+    topic: "",
+    code:"",
+    journal: "",
+    poster: "",
+    file: ""
+  })
 
-  let sp = {
-    title: document.title,
-    adviser: document.adviser,
-    author: document.author,
-    pub_date: document.pub_date,
-    abstract: document.abstract,
-    topic: document.topic
-  };
+  const [sp, setSP] = useState({
+    title: "",
+    adviser: "",
+    author: "",
+    pub_date: "",
+    abstract: "",
+    courses: "",
+    topic: "",
+    code:"",
+    journal: "",
+    poster: "",
+    file: ""
+  })
+
+  const [selectedTopic, setSelectedTopic] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState([]);
+
+  useEffect(() => {
+    setSelectedTopic(document.topic)
+    
+    if(doc_type=="book") {setBook({ ...book, 
+      title: document.title,
+      year: document.year,
+      author: document.author,
+      publisher: document.publisher,
+      isbn: document.isbn,
+      description: document.description,
+      courses: document.course_code,
+      topic: document.topic
+    })
+    setSelectedCourse(document.course_code)
+    }
+    else if(doc_type=="sp") {setSP({ ...sp, 
+      title: document.title,
+      adviser: document.adviser,
+      author: document.author,
+      pub_date: document.pub_date,
+      abstract: document.abstract,
+      courses: document.courses,
+      topic: document.topic,
+      code: document.source_code,
+      journal: document.journal,
+      poster: document.poster,
+      file: document.file
+    })
+    setSelectedCourse(document.courses)
+    }
+    else if(doc_type=="thesis") {setThesis({ ...thesis, 
+      title: document.title,
+      adviser: document.adviser,
+      author: document.author,
+      pub_date: document.pub_date,
+      abstract: document.abstract,
+      courses: document.courses,
+      topic: document.topic,
+      code: document.source_code,
+      journal: document.journal,
+      poster: document.poster,
+      file: document.file
+    })
+    setSelectedCourse(document.courses)
+    }
+  }, [document])
+
 
   const handleInputChange = async(event) =>{
     const target = event.target;
-    console.log("data:\n")
 
     if(doc_type=="book"){
       if(target.name==="book_title") book.title = target.value;
@@ -129,15 +235,6 @@ function ConditionalEdit(props){
       else if(target.name==="book_publisher") book.publisher = target.value;
       else if(target.name==="book_isbn") book.isbn = target.value;
       else if(target.name==="book_description") book.description = target.value;
-      else if(target.name==="book_topic") book.topic = target.value;
-
-      console.log(book.title)
-      console.log(book.author)
-      console.log(book.year)
-      console.log(book.publisher)
-      console.log(book.isbn)
-      console.log(book.description)
-      console.log(book.topic)
     } 
 
     else if(doc_type=="thesis"){
@@ -145,14 +242,10 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_author") thesis.author = target.value;
       else if(target.name==="thesis_adviser") thesis.adviser = target.value;
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
+      else if(target.name==="thesis_journal") thesis.journal = target.value;
+      else if(target.name==="thesis_poster") thesis.poster = target.value;
+      else if(target.name==="thesis_source_code") thesis.source_code = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
-      else if(target.name==="thesis_topic") thesis.topic = target.value;
-      console.log(thesis.title)
-      console.log(thesis.author)
-      console.log(thesis.adviser)
-      console.log(thesis.pub_date)
-      console.log(thesis.abstract)
-      console.log(thesis.topic)
     }
 
     else if(doc_type=="sp"){
@@ -160,75 +253,54 @@ function ConditionalEdit(props){
       else if(target.name==="sp_author") sp.author = target.value;
       else if(target.name==="sp_adviser") sp.adviser = target.value;
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
+      else if(target.name==="sp_journal") sp.journal = target.value;
+      else if(target.name==="sp_poster") sp.poster = target.value;
+      else if(target.name==="sp_source_code") sp.source_code = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
-      else if(target.name==="sp_topic") sp.topic = target.value;
-      console.log(sp.title)
-      console.log(sp.author)
-      console.log(sp.adviser)
-      console.log(sp.pub_date)
-      console.log(sp.abstract)
-      console.log(sp.topic)
     }
 }
 
   // for tags input value
-  const onSelect  = (selectedItem)  =>{
-    setSelectedValue(selectedItem);
-    console.log("content [select]: \n", selectedValue)
-
-    if(doc_type=="book") book.topic = selectedValue;
-    else if(doc_type=="sp")  sp.topic = selectedValue;
-    else if(doc_type=="thesis")  thesis.topic = selectedValue;
+  const selectTopic  = (selectedItem)  =>{
+    setSelectedTopic(selectedItem);
+    console.log("content [select]: \n", selectedTopic)
+    
+    if(doc_type=="book") book.topic = selectedTopic
+    else if(doc_type=="sp") sp.topic = selectedTopic
+    else if(doc_type=="thesis") thesis.topic = selectedTopic
   }
 
-  const onRemove = (selectedItem)  =>{
-      setSelectedValue(selectedItem);
-      console.log("content [remove]: \n", selectedValue)
+  const selectCourse  = (selectedItem)  =>{
+    // method for assigning the course object of document
+    setSelectedCourse(selectedItem);
+    console.log("content [course]: \n", selectedCourse)
 
-      if(doc_type=="book") book.topic = selectedValue;
-      else if(doc_type=="sp")  sp.topic = selectedValue;
-      else if(doc_type=="thesis")  thesis.topic = selectedValue;
+    if(doc_type=="book") book.courses = selectedCourse
+    else if(doc_type=="sp") sp.courses = selectedCourse
+    else if(doc_type=="thesis") thesis.courses = selectedCourse
   }
 
   useEffect(() => {
-    onSelect(selectedValue)
-    onRemove(selectedValue)
-}, [selectedValue])
+    selectTopic(selectedTopic)
+    selectCourse(selectedCourse)
+}, [selectedTopic, selectedCourse])
 
-const data = [
-  'Algorithms',
-  'Android Development',
-  'Artificial Intelligence',
-  'Automata',
-  'Bioinformatics',
-  'Computer Architecture',
-  'Computer Graphics',
-  'Computer Security',
-  'Cryptography',
-  'Data Structures',
-  'Database Management',
-  'Discrete Mathematics',
-  'Distributed Computing',
-  'Human-Computer Interaction',
-  'Image Processing',
-  'Machine Learning',
-  'Networking',
-  'Operating System',
-  'Parallel Algorithms',
-  'Programming Languages',
-  'Robotics',
-  'Security',
-  'Software Engineering',
-  'Special Topic',
-  'Speech Recognition',
-  'User Interface',
-  'Web Development',
-]
+const [view, setView] = useState('journal');
+
+const handleView = (event, newToggle) => {
+  setView(newToggle);
+  console.log("toggle: ", newToggle);
+};
 
   return(
     <div className="browsebg browsebg-container">
+      
+      <FileContext.Provider value={{file, setFile}}>
+      <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} course={selectedCourse} type={doc_type}/></Modal>
+      <Modal ref={uploadFileModal}><UploadFile document={document} /></Modal>
       {
-        (function(allowEdit, doc_type){
+        (function(allowEdit, doc_type, userType){
+          console.log("CONDITIONAL EDIT USER TYPE", userType)
           switch(allowEdit){
             // editable document
             case true:
@@ -236,8 +308,6 @@ const data = [
               if(doc_type=="book"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><UpdateDocument book={book} type={doc_type}/></Modal>
-  
                       <div className='document-card-flex-row'>
                           {/* document thumbnail not editable */}
                           <div className='image-card-container card-content' >
@@ -249,27 +319,36 @@ const data = [
                             <div className="main-text-tags">Classification: {document.type}</div>
                             <div className="main-text-tags">Title: <input  className="input-container" name= "book_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Author: <input className="input-container" name="book_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="text" defaultValue={document.year} onChange={handleInputChange}/></div>
+                            <div className="main-text-tags">Year: <input className="input-container" name="book_year" type="number" defaultValue={document.year} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publisher: <input className="input-container" name="book_publisher" type="text" defaultValue={document.publisher} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="text" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
-                            {/* <TagsInput topic={book.topic}/> */}
+                            <div className="main-text-tags">ISBN: <input className="input-container" name="book_isbn" type="number" defaultValue={document.isbn} onChange={handleInputChange}/> </div>
+
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 
                                 placeholder="Add a tag"
-                                options={data} 
+                                options={topics} 
                                 closeIcon="cancel"
                                 isObject={false}
-                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
-                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                onRemove={(selectedValue)=> selectTopic(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
+
+                            <div className="main-text-tags">Course:</div>
+                            <Multiselect 
+                                placeholder="Add a course"
+                                options={course} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                onRemove={(selectedValue)=> selectCourse(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
+                                selectedValues={document.course_code}
+                            />
                           </div>
-  
-                          <div className='document-card-container button-card-flex-column'>
-                            <button className={classes.textStyle} onClick={props.handleDownload}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
-                            <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
-                          </div>
+                          
+                          
                       </div>
   
                       <div className="description-section">
@@ -289,8 +368,6 @@ const data = [
               } else if(doc_type=="thesis"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><UpdateDocument thesis={thesis} type={doc_type}/></Modal>
-  
                       <div className='document-card-flex-row'>                          
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
@@ -298,28 +375,56 @@ const data = [
                             <div className="main-text-tags">Title: <input className="input-container" name= "thesis_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container"  name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
-                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Journal: <input className="input-container" name="thesis_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Poster: <input className="input-container" name="thesis_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Source Code: <input className="input-container" name="thesis_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
                       
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 
                                 placeholder="Add a tag"
-                                options={data} 
+                                options={topics} 
                                 closeIcon="cancel"
                                 isObject={false}
-                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
-                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                onRemove={(selectedValue)=> selectTopic(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
+
+                            <div className="main-text-tags">Course:</div>
+                            <Multiselect 
+                                placeholder="Add a course"
+                                options={course} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                onRemove={(selectedValue)=> selectCourse(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
+                                selectedValues={document.courses}
+                            />
                           </div>
-                          <div className='document-card-container button-card-flex-column'>
-                            
-                <input type="file" onChange={onFileChange} />
-                <button onClick={onFileUpload}> Upload!
-                </button>
-                             
-                            <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
+
+                          <div className="document-card-container  uploads-container">
+                          {uploadToggle === 'file' ? 
+                          (  <div>
+                            <h4>File</h4>
+                            <Button onClick={() => openFileModal()}>Select New File</Button>
+                            <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
+                            <Button onClick={() => downloadFile()}>Download File</Button>
+                            <br/>
+                            <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
+                          </div>) : 
+                          
+                          (<div>
+                            <h4>Poster</h4>
+                            <Button onClick={() => openFileModal()}>Select New File</Button>
+                            <span style={{overflow: "hidden"}}>Current Uploaded File: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
+                            <Button onClick={() => downloadFile()}>Download File</Button>
+                             <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
+                          </div>)}
                           </div>
+                        
                       </div>
   
                       <div className="description-section">
@@ -339,8 +444,6 @@ const data = [
               }  else if(doc_type=="sp"){
                 return(
                   <div> 
-                      <Modal ref={saveModal}><UpdateDocument sp={sp} type={doc_type}/></Modal>
-  
                       <div className='document-card-flex-row'>                          
                           {/* document attributes are editable*/}
                           <div className='document-card-container document-card-flex-column' key={document.id}>
@@ -348,23 +451,54 @@ const data = [
                             <div className="main-text-tags">Title: <input className="input-container" name= "sp_title" type="text" defaultValue={document.title} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
-                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="text" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Journal: <input className="input-container" name="sp_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Poster: <input className="input-container" name="sp_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Source Code: <input className="input-container" name="sp_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
   
                             <div className="main-text-tags">Tags:</div>
                             <Multiselect 
                                 placeholder="Add a tag"
-                                options={data} 
+                                options={topics} 
                                 closeIcon="cancel"
                                 isObject={false}
-                                onSelect={(selectedValue)=> onSelect(selectedValue)} 
-                                onRemove={(selectedValue)=> onRemove(selectedValue)}   
-                                style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                onSelect={(selectedValue)=> selectTopic(selectedValue)} 
+                                onRemove={(selectedValue)=> selectTopic(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
                                 selectedValues={document.topic}
                             />
-                          </div>
-                          <div className='document-card-container button-card-flex-column'>
-                            <button className={classes.textStyle} onClick={console.log(document)}><DownloadIcon className={classes.iconStyle}/> DOWNLOAD PDF</button>
-                            <button className={classes.textStyle} onClick={props.handleEdit}><EditIcon className={classes.iconStyle}/>UPDATE PDF</button>
+
+                            <div className="main-text-tags">Course:</div>
+                            <Multiselect 
+                                placeholder="Add a course"
+                                options={course} 
+                                closeIcon="cancel"
+                                isObject={false}
+                                onSelect={(selectedValue)=> selectCourse(selectedValue)} 
+                                onRemove={(selectedValue)=> selectCourse(selectedValue)}   
+                                style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} }
+                                selectedValues={document.courses}
+                            />
+                            </div>
+
+                           <div className="document-card-container  uploads-container">
+                          {uploadToggle === 'file' ? 
+                          (  <div>
+                            <h4>File</h4>
+                            <Button onClick={() => openFileModal()}>Select New File</Button>
+                            <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
+                            <Button onClick={() => downloadFile()}>Download File</Button>
+                            <br/>
+                            <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
+                          </div>) : 
+                          
+                          (<div>
+                            <h4>Poster</h4>
+                            <Button onClick={() => openFileModal()}>Select New File</Button>
+                            <span style={{overflow: "hidden"}}>Current Uploaded File: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
+                            <Button onClick={() => downloadFile()}>Download File</Button>
+                             <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
+                          </div>)}
                           </div>
                       </div>
   
@@ -386,72 +520,179 @@ const data = [
               
             // unable to edit document
             case false:
-              if(doc_type=="book"){
-                return(
-                  <div> 
-                      <div className='document-card-flex-row'>
-                          <div className='image-card-container' >
-                            <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
-                          </div>
+              if(userType==undefined){ // if guest, do not show option for posters/journals
+                if(doc_type=="book"){
+                  return(
+                    <div> 
+                        <div className='document-card-flex-row'>
+                            <div className='image-card-container' >
+                              <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+                            </div>
+  
+                            <div className='document-card-flex-column' key={document.id}>
+                            <DocumentCard
+                                type={document.type}
+                                title={document.title}
+                                author={document.author} 
+                                yearPublished={document.year}
+                                publisher={document.publisher}
+                                docISBN={document.isbn}
+                                topic={document.topic}
+                                course={document.course_code}
+                            />
+                            </div>
+    
+                        </div>
+    
+                        <div className="description-section">
+                          <div className="document-card-container">
+                            <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
+                            <Box className={classes.descriptionStyle}>
+                            {document.description}
+                            </Box>
+                            </div>
+                        </div>
+                    </div>
+                  )
+                } else if(doc_type=="thesis" || doc_type=="sp"){
+                  return(
+                    <div> 
+                        <div className='document-card-flex-row'>
+                            <div className='document-card-flex-column' key={document.id}>
+                              <DocumentCard
+                                type={document.type}
+                                title={document.title}
+                                author={document.author}
+                                adviser={document.adviser}
+                                yearPublished={document.pub_date}
+                                topic={document.topic}
+                                course={document.courses}
+                              />  
+                            </div>
+                        </div>
+    
+                        <div className="description-section">
+                            <div className="document-card-container">
+                            <h2 style={{textAlign: 'center'}}>ABSTRACT</h2>
+                            
+                            <Box className={classes.descriptionStyle}>
+                            {document.abstract}
+                            </Box>
+                            </div>
+                        </div>
+                    </div>
+                  )
+                } 
+              } else { // if authenticated user, show option for posters/journals
+                if(doc_type=="book"){
+                  return(
+                    <div> 
+                        <div className='document-card-flex-row'>
+                            <div className='image-card-container' >
+                              <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+                            </div>
 
-                          <div className='document-card-flex-column' key={document.id}>
-                          <DocumentCard
+                            {console.log("[conditional edit] document course: ", document.course_code)}
+                            <div className='document-card-flex-column' key={document.id}>
+                            <DocumentCard
+                                type={document.type}
+                                title={document.title}
+                                author={document.author} 
+                                yearPublished={document.year}
+                                publisher={document.publisher}
+                                docISBN={document.isbn}
+                                topic={document.topic}
+                                course={document.course_code}
+                            />
+                            </div>
+    
+                        </div>
+    
+                        <div className="description-section">
+                          <div className="document-card-container">
+                            <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
+                            <Box className={classes.descriptionStyle}>
+                            {document.description}
+                            </Box>
+                            </div>
+                        </div>
+                    </div>
+                  )
+                } else if(doc_type=="thesis" || doc_type=="sp"){
+                  return(
+                    <div> 
+                        <div className='document-card-flex-row'>
+                            <div className='document-card-flex-column' key={document.id}>
+                              {userType=="Student"?
+                              <DocumentCard
                               type={document.type}
                               title={document.title}
-                              author={document.author} 
-                              yearPublished={document.year}
-                              publisher={document.publisher}
-                              docISBN={document.isbn}
-                              topic={document.topic}
-                          />
-                          </div>
-  
-                      </div>
-  
-                      <div className="description-section">
-                        <div className="document-card-container">
-                          <h2 style={{textAlign: 'center'}}>DESCRIPTION</h2>
-                          <Box className={classes.descriptionStyle}>
-                              {document.description}
-                          </Box>
-                          </div>
-                      </div>
-                  </div>
-                )
-              } else if(doc_type=="thesis" || doc_type=="sp"){
-                return(
-                  <div> 
-                      <div className='document-card-flex-row'>
-                          <div className='document-card-flex-column' key={document.id}>
-                          <DocumentCard
-                              type={document.type}
-                              title={document.title}
-                              author={document.author} 
+                              author={document.author}
                               adviser={document.adviser}
                               yearPublished={document.pub_date}
                               topic={document.topic}
-                          />  
-                          </div>
-                      </div>
-  
-                      <div className="description-section">
+                              course={document.courses}
+                              />:
+                              <DocumentCard
+                                type={document.type}
+                                title={document.title}
+                                author={document.author}
+                                adviser={document.adviser}
+                                yearPublished={document.pub_date}
+                                topic={document.topic}
+                                course={document.courses}
+                                code={document.source_code}
+                              /> }
+                            
+                            </div>
+                        </div>
+    
+                        <div className="description-section">
+                            <div className="document-card-container">
+                            <h2 style={{textAlign: 'center'}}>ABSTRACT</h2>
+                            
+                            <Box className={classes.descriptionStyle}>
+                            {document.abstract}
+                            </Box>
+                            </div>
+                        </div>
+
+                        <div className="description-section">
                           <div className="document-card-container">
-                          <h2 style={{textAlign: 'center'}}>ABSTRACT</h2>
-                          
-                          <Box className={classes.descriptionStyle}>
-                              {document.abstract}
-                          </Box>
+                          <ToggleButtonGroup
+                            value={view}
+                            exclusive
+                            onChange={handleView}
+                            aria-label="text alignment"
+                          >
+                            <ToggleButton value="poster" aria-label="left aligned">
+                              POSTER
+                            </ToggleButton>
+                            <ToggleButton value="journal" aria-label="centered">
+                              JOURNAL
+                            </ToggleButton>
+                          </ToggleButtonGroup>
+
+                          <div className="all-page-container">
+                          {doc_type=="sp"? 
+                          view=="journal"? <ViewPDF pdf={sp.journal}/>:<ViewPDF pdf={sp.poster}/>:
+                          view=="journal"? <ViewPDF pdf={thesis.journal}/>:<ViewPDF pdf={thesis.poster}/>}
                           </div>
-                      </div>
-                  </div>
-                )
-              } 
+                          
+                          </div>
+                        </div>
+                    </div>
+                  )
+                } 
+              }
              
             default:
               return null;	
           }
-        })(allowEdit, doc_type)
+        })(allowEdit, doc_type, loggedUser.classification)
     }
+
+    </FileContext.Provider>
     </div>
   )
 }
@@ -485,6 +726,12 @@ const useStyles = makeStyles(() => ({
       borderRadius:'10vh', 
       width:'10vh', 
       height:'10vh'
+  },
+  toggleStyle:{ 
+    backgroundColor: '#47ABD8', 
+    border:'transparent',
+    width:'10vh', 
+    height:'10vh'
   },
   boxStyle:{
     flexWrap: "wrap",

@@ -54,24 +54,20 @@ const thesisSchema = new mongoose.Schema({
     type: Array
   },
   journal: {
-    type: String,
-    default: ''
+    type: String
   },
   poster: {
-    type: String,
-    default: ''
+    type: String
   },
   download_count: {
    type: Number,
    default: 0
   },
   file: {
-   type: String,
-   default: ''
+   type: String
   },
   source_code: {
-    type: String,
-    default: ''
+    type: String
   },
   view_count: {
     type: Number,

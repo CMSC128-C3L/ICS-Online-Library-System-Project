@@ -1,6 +1,7 @@
 const Thesis = require('../models/Thesis.js');
 const multer = require('multer');
 const path = require('path');
+const jwt = require("jsonwebtoken");
 
 const storagePath = path.join(__dirname, '../uploads/thesis');
 const storage = multer.diskStorage({
@@ -41,10 +42,12 @@ async function getAll(req, res) {
 }
 
 async function getOne(req, res) {
+  console.log("GET ONE");
   try {
     const _id = req.params.id;
     const thesis = await Thesis.findOneAndUpdate({_id, type:'Thesis'}, {$inc: {view_count: 1}}).select(createOptions(req.user.classification));
     if(!thesis) return res.status(404).send();
+    console.log(thesis);
     res.send(thesis); 
   } catch(error) {
     console.log(error);
@@ -53,6 +56,7 @@ async function getOne(req, res) {
 }
 
 async function create(req, res) {
+  console.log(req.body);
   try {
     const thesis = new Thesis(req.body);
     await thesis.save();
@@ -90,15 +94,18 @@ async function uploadFiles(req, res) {
 async function download(req, res) {
   try {
     const _id = req.params.id;
+    const token = req.params.token;
     const thesis = await Thesis.findOneAndUpdate({_id, type:'Thesis'}, {$inc: {download_count: 1}});
     if(!thesis) return res.status(404).send();
 
+    const decoded = jwt.verify(token, process.env.ACCESS_JWT_SECRET);
+    console.log(decoded.classification);
     const notAllowed = ["Student", "Guest"];
-    if(notAllowed.includes(req.user.classification)) 
+    if(notAllowed.includes(decoded.classification)) 
       return res.status(403).send();
     if(thesis.file === '') return res.status(404).send();
     const filepath = path.join(__dirname, `/../${thesis.file}`);
-    
+
     res.download(filepath);
   } catch(error) {
     console.log(error);
@@ -107,6 +114,7 @@ async function download(req, res) {
 }
 
 async function update(req, res) {
+  console.log(req.body);
   try {
     const thesisUpdate = req.body;
     const _id = req.params.id;

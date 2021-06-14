@@ -5,7 +5,7 @@ import './Modal.css'
 const portal = document.getElementById('portal')
 export const UserContext = createContext()
 
-function Modal({ children }, ref){
+function Modal({ children }, ref, hlimit){
     const [details, setDetails] = useState({
         user: {},
         display: false,
@@ -45,7 +45,7 @@ function Modal({ children }, ref){
         details.display?
             <div className="modal-wrapper">
                 <div className="modal-backdrop"/>
-                <div className="modal-box">
+                <div className="modal-box" style={hlimit ? {height: hlimit} : {}}>
                     <button id="close-button" onClick={close}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs/><path d="M23 20.168l-8.185-8.187L23 3.807 20.168 1l-8.182 8.179L3.81 1 1 3.81l8.186 8.196L1 20.19 3.81 23l8.203-8.192L20.193 23z"/></svg>
                     </button>

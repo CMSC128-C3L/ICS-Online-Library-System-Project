@@ -32,7 +32,7 @@ function MultiDeleteDoc(props){
             params: {id: doc._id}
           }
           
-          if(doc.type === "Book") typeRoute = "book"
+          if(doc.type === "Book") typeRoute = "books"
           else if(doc.type === "Thesis") typeRoute = "thesis"
           else typeRoute = "sp"
 
