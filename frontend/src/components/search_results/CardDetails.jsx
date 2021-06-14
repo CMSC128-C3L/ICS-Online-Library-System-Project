@@ -100,13 +100,13 @@ function CourseListUpdate(props){
     <div style={{display:'flex'}}>
       <Typography gutterBottom variant="body2">Reference for:&nbsp;</Typography>
       <ul className="clickable-list">
-        {props.course.slice(0,4).map((course, index) => {
+        {/*{props.course.slice(0,4).map((course, index) => {
           return (index < 3)? 
             <li key={course.code}>
               <button className="clickable-text" value={course.code} onClick={handleCourseClick}>{course.code}</button>
             </li> :
             <li key={course}><button className="clickable-text no-hover">{'...'}</button></li>
-        })}
+        })}*/}
       </ul>
     </div>
   )
