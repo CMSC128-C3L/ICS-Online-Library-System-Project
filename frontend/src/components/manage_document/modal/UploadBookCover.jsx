@@ -15,13 +15,13 @@ function UploadBookCover({document}) {
     const [error, setError] = useState('')
 
     const isImage = (acceptedFile) =>{
-        if(acceptedFile[0].type === 'image/jpeg') return true;
+        if(acceptedFile[0].type === 'image/jpeg' || acceptedFile[0].type === 'image/png') return true;
         else return false;
     } 
     const onDrop = useCallback((acceptedFile) =>{
 
         if(isImage(acceptedFile)) setTempCover(acceptedFile)
-        else return setError('File type not supported. Please only upload JPG/JPEG files.')
+        else return setError('File type not supported. Please only upload JPG/JPEG or PNG file.')
        
     }, []);
 

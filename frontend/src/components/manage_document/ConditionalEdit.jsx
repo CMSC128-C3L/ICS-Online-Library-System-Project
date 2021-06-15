@@ -73,7 +73,7 @@ function ConditionalEdit(props){
   const getDocument = async() =>{
     let document;
     let options;
-    if(Object.entries(uData).length === 0){//empty
+    if(uData === '{}'){//empty
       options =  {}
     }else{//not empty
       options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
