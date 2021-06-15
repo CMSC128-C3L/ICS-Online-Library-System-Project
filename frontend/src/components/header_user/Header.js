@@ -45,7 +45,7 @@ function Header({name}) {
                     
                     {data.classification === 'Admin' ? <Button className="Button" onClick={() => history.push('/adminHome')}>Home</Button> : <Button className="Button" onClick={() => history.push('/')}>Home</Button>}
                     <Button className="Button" onClick={() => history.push('/search')}>Browse</Button>
-                    <Button className="Button" onClick={() => history.push('/tools')}>Tools</Button>
+                   
                 </div>
             
                {renderComponentsBasedOnState()}
