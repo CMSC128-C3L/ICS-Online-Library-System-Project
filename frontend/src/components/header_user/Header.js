@@ -17,11 +17,9 @@ function Header({name}) {
             return(
                 <div className="Header-container-right" >
                     <Login/>
-                    
                 </div>
             )
         }
-
         else{
             return(
                   <div className="Header-container-right" >
@@ -50,8 +48,7 @@ function Header({name}) {
                {renderComponentsBasedOnState()}
                 
             </div>
-                     
-
+                    
         </div>
     )
 }
