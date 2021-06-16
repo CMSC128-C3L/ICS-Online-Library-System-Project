@@ -34,7 +34,6 @@ function UserTableHeadMS(props){
                     <TableCell
                         key={headCell.id}
                         align={headCell.align}
-                        // padding='none'
                         sortDirection={orderBy === headCell.id? order : false}
                     >
                         <TableSortLabel

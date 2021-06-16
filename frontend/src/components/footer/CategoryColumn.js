@@ -18,7 +18,7 @@ function CategoryColumn(props){
         else if (item === "Thesis") item = "Theses"
         searchContext.setState({category: [item]})
         updateQueryString(searchContext);
-        console.log(searchContext)
+        
     }
     const title = <> <div className="category-title">{props.content.title}</div> <hr className="foothr"/> </>
     let links;

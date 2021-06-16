@@ -40,7 +40,7 @@ function EditCard({ card }){
                         "link": content.link,
                     },
                     options) 
-                console.log(res)         
+                      
             }catch(e){
                 console.log(e)
             }
@@ -59,7 +59,7 @@ function EditCard({ card }){
                 const res = await axios.post(`/api/advisory/uploads/${content._id}`,
                     formData,
                     imgOptions)
-                console.log(res)
+                
             }catch(e){
                 console.log(e)
             }

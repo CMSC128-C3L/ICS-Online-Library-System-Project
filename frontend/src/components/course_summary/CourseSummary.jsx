@@ -99,7 +99,7 @@ function CourseSummary(){
                 
                 data.push(temp);
             })
-            console.log(data)
+            
             doc.autoTable(
                 label,
                 data,

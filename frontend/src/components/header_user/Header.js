@@ -12,7 +12,6 @@ function Header({name}) {
     const history = useHistory();
     const {loggedUser, setLoggedUser} = useContext(UserContext)
     const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}'
-    console.log(data)
     const renderComponentsBasedOnState = () =>{
         if(data === '{}'){
             return(

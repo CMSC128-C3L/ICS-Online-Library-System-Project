@@ -101,9 +101,8 @@ function AuthorSummary(props){
                 let options = {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
 
                 const res = await axios.get(`/api/authorSummary/${name}`, options);
-                docs = res.data.summary
+                docs = res.data.summary;
 
-                console.log(docs)
             }catch(e){
                 console.log(e);
             }
@@ -119,10 +118,8 @@ function AuthorSummary(props){
 
     useEffect(() => {
         
-        // Fetch books with course == props.query
-        
-
-        fetchSummary()
+        // Fetch books with course === props.query
+        fetchSummary();
     }, [props.query])
 
 

@@ -30,7 +30,7 @@ function MultiDeleteUser({resetSelected, getUsers}){
                         params: {id: userId},
                     }
                     const res = await axios.delete(`/api/users/${userId}`, options)  
-                    console.log(res)         
+                            
                 }catch(e){
                     console.log(e)
                 }
