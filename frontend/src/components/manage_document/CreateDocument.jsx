@@ -40,7 +40,7 @@ function CreateDocument(props){
   const openCoverModal = () => {uploadCoverModal.current.open(props)};
 
   const displayFileName = (fileName) =>{
-    console.log(fileName.split('\\').pop());
+    
     return fileName.split('\\').pop();
   }
 
@@ -89,7 +89,7 @@ function CreateDocument(props){
 // for getting document type value
 const handleType  = (selectedItem)  =>{
   setSelectedValue(selectedItem);
-  console.log("content [type]: \n", selectedValue)
+  
   
   if(selectedValue=="Book") {
     setDoctype("book")
@@ -108,13 +108,13 @@ const handleType  = (selectedItem)  =>{
 const selectTopic  = (selectedItem)  =>{
   // method for assigning the topic of document
   setSelectedTopic(selectedItem);
-  console.log("content [topic]: \n", selectedTopic)
+  
 }
 
 const selectCourse  = (selectedItem)  =>{
   // method for assigning the course object of document
   setSelectedCourse(selectedItem);
-  console.log("content [course]: \n", selectedCourse)
+  
 }
 
 // useEffect for handling changes in tags input
