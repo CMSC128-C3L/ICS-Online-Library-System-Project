@@ -15,7 +15,6 @@ async function getAll(req, res){
 		const logs = await Logs.find({});
 		res.status(200).send(logs);
 	}catch(err){
-		console.log(err);
 		res.status(500).send();
 	}
 }
@@ -27,7 +26,6 @@ async function getOne(req, res){
 		if(!log) res.status(400).send();
 		else res.status(200).send(log);
 	}catch(err){
-		console.log(err);
 		res.status(500).send();
 	}
 }
@@ -45,7 +43,6 @@ async function updateRecord(req, res){
         const log = await Logs.findOneAndUpdate({user_id}, {$inc: {doc_count: 1}, $push:{doc_log:book_log}}, {new:true, rawResult:true, useFindAndModify:false});
         res.status(200).send();
 	}catch(err){
-		console.log(err);
 		res.status(500).send();
 	}
 }
@@ -66,7 +63,6 @@ async function recordUser(req, res){
 		const _id = newLog[0].log_date[0]._id;
 		res.status(201).send(_id); 
 	}catch(err){
-		console.log(err);
 		res.status(500).send();
 	}
 	
@@ -81,7 +77,6 @@ async function logoutUser(req, res){
 		if(!logout) res.status(400).send(); 
 		else res.status(201).send(); 
 	}catch(err){
-		console.log(err);
 		res.status(500).send();
 	}
 	
