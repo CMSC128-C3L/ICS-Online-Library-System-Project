@@ -14,7 +14,7 @@ function Logout() {
   const history = useHistory();
   const {loggedUser, setLoggedUser} = useContext(UserContext)
   const onSuccess = async () => {
-    // console.log(loggedUser.email);
+
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
     const logout_date = new Date();
     const record = await axios.post('/api/log/logout', {
@@ -30,9 +30,9 @@ function Logout() {
 
     var auth2 = window.gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-      console.log('User signed out.');
+
     });
-    console.log(localStorage.getItem('token'));
+
     const response = fetch('/api/users/logout', {
       method:'GET',
       headers: new Headers({
@@ -43,9 +43,9 @@ function Logout() {
     
 
     setLoggedUser({});
-    console.log(response);
+
     localStorage.removeItem('token'); 
-    console.log('Logout made successfully');
+
     history.push('/');
     alert('Logout made successfully');
   };
