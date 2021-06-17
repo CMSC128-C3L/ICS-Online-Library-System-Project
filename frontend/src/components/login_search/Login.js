@@ -19,9 +19,9 @@ function Login() {
 
   const onSuccess = async (res) => {
     var auth2 = window.gapi.auth2.getAuthInstance();
-    console.log('Login Success: currentUser:', res.profileObj);
+
     const id_token = res.getAuthResponse().id_token;
-    console.log(id_token);
+
 
     const response = await fetch('/api/users/login', {
       method: 'POST',
@@ -30,12 +30,12 @@ function Login() {
       },
       body: JSON.stringify({id_token})
     });
-    console.log(response);
+
 
     if(response.status == 401) {
       alert('Please log in with a up.edu.ph email.');
       auth2.signOut().then(function () {
-        console.log('User signed out.');
+
       });
     } else {
       
@@ -45,7 +45,7 @@ function Login() {
       const user = decode(data.token);
       setLoggedUser(user);
 
-      console.log('data', user);
+
       localStorage.setItem('token', data.token);
       history.push(`/adminHome`); //if success, redirect to user account
       alert(
@@ -58,7 +58,7 @@ function Login() {
 
 
   const onFailure = (res) => {
-    console.log('Login failed: res:', res);
+
     alert(
       `Failed to login.`
     );
