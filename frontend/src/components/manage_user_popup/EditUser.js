@@ -40,7 +40,7 @@ function EditUser(props){
                         const res = await axios.patch(`/api/users/${user._id}`, 
                             { "classification": currClassif }, 
                             options)  
-                        console.log(res)         
+                                 
                     }catch(e){
                         console.log(e)
                     }
