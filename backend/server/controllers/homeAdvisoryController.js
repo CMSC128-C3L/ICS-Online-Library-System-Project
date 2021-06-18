@@ -28,7 +28,6 @@ async function getAll(req, res) {
     const advisories = await HomeAdvisory.find();
     res.status(200).send(advisories);
   } catch(error) {
-    // console.log(error);
     res.status(500).send();
   }
 }
@@ -40,7 +39,6 @@ async function getOne(req, res) {
     if(!advisory) return res.status(404).send();
     res.send(advisory); 
   } catch(error) {
-    console.log(error);
     res.status(500).send();
   }
 }
@@ -58,7 +56,6 @@ async function update(req, res) {
     if(!advisory) return res.status(404).send();
     res.status(200).send(advisory);
   } catch(error) {
-    // console.log(error);
     res.status(400).send();
   }
 }
@@ -83,7 +80,6 @@ async function uploadThumbnail(req, res) {
 
     res.status(200).send({_id});
   } catch(err) {
-    console.log(err);
     res.status(40).send({message: "error"});
   }
 }
