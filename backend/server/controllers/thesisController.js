@@ -76,10 +76,8 @@ async function uploadFiles(req, res) {
     if(uploads.poster) 
       thesis.poster = cleanDirname(uploads.poster[0].path);
     
-     await thesis.save();
-    
+    await thesis.save();
     res.status(200).send();
-  
   } catch(error) {
     res.status(400).send();
   }

@@ -29,17 +29,14 @@ module.exports = {
 
 async function getAll(req, res) {
 	try{
-	//get All Sp
-	const sp = await Sp.find({type:"Special Problem"},restriction(req.user.classification));
-   
-    res.status(200).send(sp);
-
+    	//get All Sp
+    	const sp = await Sp.find({type:"Special Problem"},restriction(req.user.classification));
+        res.status(200).send(sp);
 	}catch(err){
-	res.status(400).send({message:"Error"});
-
+	   res.status(400).send({message:"Error"});
 	}
-	
 }
+
 async function getOne(req, res) {
 	try{
         //get id 
@@ -48,14 +45,11 @@ async function getOne(req, res) {
         let sp=await Sp.findOneAndUpdate({_id, type:"Special Problem"},{$inc: {view_count: 1}},{new: true}); //updated view_count
         sp=await Sp.findById({_id,type:"Special Problem"},restriction(req.user.classification)); //find the sp with restriction depending on user classification
         // restriction(sp.view_count);
-        if(sp!=null){
-            res.status(200).send(sp);
-        }else res.status(404).send({message:"Sp not found"});
+        if(sp!=null) res.status(200).send(sp);
+        else res.status(404).send({message:"Sp not found"});
     }catch(err){
-    res.status(400).send({message:"Error"});
-
+        res.status(400).send({message:"Error"});
     }
-
 }
 
 async function create(req, res) {
@@ -63,7 +57,6 @@ async function create(req, res) {
         let new_sp= new Sp(req.body);
         await new_sp.save();
         res.status(201).send(new_sp);
-
     }catch(err){
         res.status(400).send({message:"Error"});
     }
@@ -71,36 +64,31 @@ async function create(req, res) {
 
 async function deleteSp(req, res) {
     try {
-    let _id = req.params.id;
-    let sp = await Sp.findOneAndDelete({_id});
-    if(sp!=null){
-        res.status(200).send(sp);
-        return;
-    }
-    res.status(404).send({message:"Sp not found"});
-      } catch(err) {
+        let _id = req.params.id;
+        let sp = await Sp.findOneAndDelete({_id});
+        if(sp!=null){
+            res.status(200).send(sp);
+            return;
+        }
+        res.status(404).send({message:"Sp not found"});
+    }catch(err) {
         res.status(500).send();
-      }
+    }
 }
 
 async function update(req, res) {
     try{
         let _id = req.params.id;
         let query= {_id};
-       
         let sp = await Sp.findOneAndUpdate({_id}, req.body, {upsert: true, new: true}); //create the updated sp or new sp if the filter cannot find the sp 
         if(sp!=null){
             res.status(200).send(sp);
             return;
-        } 
-
-        res.status(404).send();
-       
-        }catch(err){
-            res.status(400).send({message:"Error"});
         }
-        
-    
+        res.status(404).send();
+    }catch(err){
+        res.status(400).send({message:"Error"});
+    }
 }
 
 
@@ -114,13 +102,11 @@ async function uploadSp(req, res){
           return;
         }
        //setting the file local path
-       
         if(req.files.journalFile!=null)sp.journal=cleanDirname(req.files.journalFile[0].path);
         if(req.files.posterFile!=null)sp.poster=cleanDirname(req.files.posterFile[0].path);
         if(req.files.spFile!=null)sp.file=cleanDirname(req.files.spFile[0].path);
         
         await sp.save();
-      
         res.status(200).send();
     }catch(err){
         res.status(400).send({message:"Error"});
@@ -152,9 +138,6 @@ async function downloadSp(req,res){
         
         res.download(filepath); //download the file
         return;
-        
-
-       
     }catch(err){
         res.status(400).send({message:"Error"});
     }
@@ -176,8 +159,6 @@ function restriction(classification){
     }
     return options;
 }
-
-
 
 function cleanDirname(dirname) {
     const dirToRemove = path.join(__dirname, '/../');
