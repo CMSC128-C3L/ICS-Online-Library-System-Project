@@ -239,7 +239,6 @@ function filterResults(data, classification){
 	switch(classification){
 		case 'Admin':
 			paper.source_code = data.source_code;
-			paper.view_count = data.view_count;
 			paper.download_count = data.download_count;
 			paper.view_journal_count = data.view_journal_count;
 			paper.download_journal_count = data.download_journal_count;
@@ -260,6 +259,7 @@ function filterResults(data, classification){
 			paper.pub_date = data.pub_date;
 			paper.abstract = data.abstract;
 			paper.topic = data.topic;
+			paper.view_count = data.view_count;
 	}
 
 	return paper;

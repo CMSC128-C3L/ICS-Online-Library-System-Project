@@ -140,7 +140,7 @@ function createOptions(classification) {
   if(!(higherPrivileges.includes(classification))) {
     options.file = 0;
     options.source_code = 0;
-    options.view_count = 0;
+    // options.view_count = 0;
     options.download_count = 0;
     options.view_journal_count = 0;
     options.download_journal_count = 0;
