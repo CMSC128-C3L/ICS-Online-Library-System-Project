@@ -30,7 +30,7 @@ function DeleteUser(props){
                         params: {id: user._id},
                     }
                     const res = await axios.delete(`/api/users/${user._id}`, options)  
-                    console.log(res)         
+     
                 }catch(e){
                     console.log(e)
                 }
