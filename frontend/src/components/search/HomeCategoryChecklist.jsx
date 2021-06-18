@@ -42,10 +42,10 @@ function HomeCategoryChecklist(props){
 
 	const handleChange = (item) =>{
 
-		console.log(item)
+
 		searchContext.dispatch({ type: props.action, item: item});	
 		updateQueryString(searchContext);
-		console.log(searchContext.state.category);
+
 	}
 
 	return(
