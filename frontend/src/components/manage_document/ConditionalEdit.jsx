@@ -43,7 +43,7 @@ function ConditionalEdit(props){
   // const {file, setFile} = useContext(FileContext)
   const [file, setFile] = useState([])
   const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
-  console.log(uData)
+  console.log("udata:" , uData)
   
   // Create reference to modal
   const saveModal = useRef(null)
@@ -73,7 +73,7 @@ function ConditionalEdit(props){
   const getDocument = async() =>{
     let document;
     let options;
-    if(uData === '{}'){//empty
+    if(Object.entries(loggedUser).length === 0){//empty
       options =  {}
     }else{//not empty
       options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
@@ -145,6 +145,7 @@ function ConditionalEdit(props){
     topic: "",
     code:"",
     journal: "",
+    manuscript: "",
     poster: "",
     file: ""
   })
@@ -159,6 +160,7 @@ function ConditionalEdit(props){
     topic: "",
     code:"",
     journal: "",
+    manuscript: "",
     poster: "",
     file: ""
   })
@@ -191,6 +193,7 @@ function ConditionalEdit(props){
       topic: document.topic,
       code: document.source_code,
       journal: document.journal,
+      manuscript: document.manuscript,
       poster: document.poster,
       file: document.file
     })
@@ -206,6 +209,7 @@ function ConditionalEdit(props){
       topic: document.topic,
       code: document.source_code,
       journal: document.journal,
+      manuscript: document.manuscript,
       poster: document.poster,
       file: document.file
     })
@@ -233,6 +237,7 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_journal") thesis.journal = target.value;
       else if(target.name==="thesis_poster") thesis.poster = target.value;
+      else if(target.name==="thesis_manuscript") thesis.manuscript = target.value;
       else if(target.name==="thesis_source_code") thesis.source_code = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
     }
@@ -243,6 +248,7 @@ function ConditionalEdit(props){
       else if(target.name==="sp_adviser") sp.adviser = target.value;
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
       else if(target.name==="sp_journal") sp.journal = target.value;
+      else if(target.name==="sp_manuscript") sp.manuscript = target.value;
       else if(target.name==="sp_poster") sp.poster = target.value;
       else if(target.name==="sp_source_code") sp.source_code = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
@@ -374,6 +380,7 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Journal: <input className="input-container" name="thesis_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Poster: <input className="input-container" name="thesis_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Manuscript: <input className="input-container" name="thesis_manuscript" type="text" defaultValue={document.manuscript} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Source Code: <input className="input-container" name="thesis_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
                       
                             <div className="main-text-tags">Tags:</div>
@@ -462,6 +469,7 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Journal: <input className="input-container" name="sp_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Poster: <input className="input-container" name="sp_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
+                            <div className="main-text-tags">Manuscript: <input className="input-container" name="sp_manuscript" type="text" defaultValue={document.manuscript} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Source Code: <input className="input-container" name="sp_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
   
                             <div className="main-text-tags">Tags:</div>
@@ -688,6 +696,7 @@ const handleUploadToggle = (event, newToggle) =>{
                             value={view}
                             exclusive
                             onChange={handleView}
+                            className={classes.toggleStyle}
                             aria-label="text alignment"
                           >
                             <ToggleButton value="poster" aria-label="left aligned">
@@ -696,12 +705,43 @@ const handleUploadToggle = (event, newToggle) =>{
                             <ToggleButton value="journal" aria-label="centered">
                               JOURNAL
                             </ToggleButton>
+                            <ToggleButton value="manuscript" aria-label="right aligned">
+                              MANUSCRIPT
+                            </ToggleButton>
                           </ToggleButtonGroup>
 
                           <div className="all-page-container">
-                          {doc_type=="sp"? 
-                          view=="journal"? <ViewPDF pdf={sp.journal}/>:<ViewPDF pdf={sp.poster}/>:
-                          view=="journal"? <ViewPDF pdf={document.file}/>:<ViewPDF pdf={thesis.poster}/>}
+                          {
+                          doc_type=="sp"? 
+                          (function(view){
+                            switch(view){
+                              // editable document
+                              case "journal":
+                                return(<ViewPDF pdf={sp.journal}/>)
+                              case "poster":
+                                return(<ViewPDF pdf={sp.poster}/>)
+                              case "manuscript":
+                                return(<ViewPDF pdf={sp.manuscript}/>)
+                                default:
+                                  return null
+                            } 
+                          })(view)
+                          : 
+                          (function(view){
+                            switch(view){
+                              // editable document
+                              case "journal":
+                                return(<ViewPDF pdf={thesis.journal}/>)
+                              case "poster":
+                                return(<ViewPDF pdf={thesis.poster}/>)
+                              case "manuscript":
+                                return(<ViewPDF pdf={thesis.manuscript}/>)
+                              default:
+                                return null
+                            } 
+                          })(view)
+
+                          }
                           </div>
                           
                           </div>
@@ -753,10 +793,9 @@ const useStyles = makeStyles(() => ({
       height:'10vh'
   },
   toggleStyle:{ 
-    backgroundColor: '#47ABD8', 
+    backgroundColor: '#95d2ec', 
+    color:'white',
     border:'transparent',
-    width:'10vh', 
-    height:'10vh'
   },
   boxStyle:{
     flexWrap: "wrap",

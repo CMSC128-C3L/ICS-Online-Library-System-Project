@@ -181,6 +181,7 @@ content: ", ";
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
+    padding:2%;
 }
 
 .download-journal{
@@ -188,6 +189,7 @@ content: ", ";
     width: 50%;
     height: 5vh;
 }
+
 @media (max-width: 880px) {
     .flex-row {
         margin-bottom: 5vh;
