@@ -44,17 +44,6 @@ function ConditionalIcon(props){
       {
         (function(userType){
           switch(userType){
-            case "Faculty":
-            case "Staff":
-              // Books has no materials to be downloaded
-              if(props.isBook) break; 
-              else{
-                return(
-                  <IconButton className={classes.downloadButton} onClick={props.handleDownload} aria-label="download">
-                    <DownloadIcon fontSize="large"/>
-                  </IconButton>
-                )
-              }
             case "Admin":
               return(
                 <div className={classes.editDelete}>
