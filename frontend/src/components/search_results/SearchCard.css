@@ -64,7 +64,7 @@
 
 .doc-title {
   grid-area: title;
-  padding: 0.75em;
+  padding: 0.45em;
   flex-wrap: nowrap;
   font-weight: 600;
 }

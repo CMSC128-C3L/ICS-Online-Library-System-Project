@@ -52,8 +52,41 @@ function ResultPane(props){
   const classes = useStyles();
   const history = useHistory();
   const [results, setResults] = useState([]);
+  const [sortType, setSortType] = useState("");
   const location = useLocation();
   const {id} = useParams();
+
+  // Sorting
+  const handleSortChange = (event) =>{
+    setSortType(event.target.value)
+  }
+
+  const getYear = (doc) => {
+    return doc.pub_date != null? doc.pub_date.split('-')[0] : doc.year
+  }
+
+  const sortResults = (results) => {
+    const docs = [...results]
+    if(sortType == "oldest"){
+      setResults(docs.sort(function(a, b) {
+        return getYear(a) - getYear(b)
+      }))
+    }
+    else if(sortType == "newest"){
+      setResults(docs.sort(function(a, b) {
+        return getYear(b) - getYear(a)
+      }))
+    }
+    else{
+      setResults(docs.sort(function(a, b) {
+        return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+      }))
+    }
+  }
+
+  useEffect(() => {
+    sortResults(results)
+  }, [sortType])
 
   // get docs based on query and filters
   const getDocuments = async() =>{
@@ -93,12 +126,8 @@ function ResultPane(props){
       // wait for promises to be resolved; extract data (array) from each res obj 
       const res = await Promise.all(promises)
       const data = res.map((res) => res.data)
-      // flatten data array and sort alphabetically; then update results
-      setResults(
-        data.flat().sort(function(a, b) {
-          return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
-        })
-      )
+      // flatten data array and sort results
+      sortResults(data.flat())
     }catch(err){
       console.log(err)
     }
@@ -206,7 +235,7 @@ function ResultPane(props){
       <div className= "result-header">
         <div className="sub-header-container">
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>
-          <SortDropdown/>
+          <SortDropdown handleChange={handleSortChange}/>
         </div>
 
         {/* multiple select only for admin; if admin, button will change depending if mult select is active or not */}
@@ -239,7 +268,7 @@ function ResultPane(props){
               </GridListTile>
             )
           }) :
-        // render cards w/o checkboxes, for all users including admin if mutl select not chosen
+        // render cards w/o checkboxes, for all users including admin if mult select not chosen
           pageResults.map((result, index) => {
             return(
               <GridListTile key= {index} classes={{tile: classes.tile}}>
