@@ -22,13 +22,11 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-If npm start doesn't work and the react-scripts is present in package.json, then just type this command:\
-`npm install`
-
-If react-scripts, axios, yarn are not present in package.json, run:\
+1. cd into frontend
+2. Install dependencies: `npm install`
+3. start by: `npm start`
+4. If react-scripts, axios, yarn are not present in package.json or error persists, run:\
 `npm update --force`\
-`npm install axios`\
-`npm install multiselect-react-dropdown`
 
 ### Backend: `npm run dev`
 
@@ -47,8 +45,14 @@ resulting directory: `backend/config`
 
 6. save dev.env, then start the server by: `npm run dev`
 
+### Additional Notes:
 
-NOTE: Use this space to attach useful examples of how the project can be used (e.g. screenshots, code examples and demos).
+To make the announcement section working:
+1. create a folder inside backend/server named `uploads`\
+resulting directory: `backend/server/uploads`\
+2. create subfolders inside that directory named `books`, `home_advisory`,`poster`, `sp`,`thesis`\
+resulting directory:\
+![ScreenShot](directory.png)
 
 ## Project Link
 https://github.com/CMSC128-C3L/ICS-Online-Library-System-Project

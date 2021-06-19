@@ -74,8 +74,6 @@ function DocumentCard(props){
         <div>
             {
             (function(document, userType){
-                console.log("[docard] document course: ", document.course)
-                console.log("[docard] user type: ", userType)
                 switch(document.type){
                     case "Book": //book
                         return(
@@ -152,11 +150,9 @@ function DocumentCard(props){
                                 }
 
                                 {/* check if source code is empty, if not, check if faculty and up to get access to source code */}
-                                {document.code == ""? null:
-                                userType=="Faculty" || userType=="Staff" || userType=="Admin"?<div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null
-                                }
+                                {(document.code !== '' || document.code !== undefined) && (isPrivileged(userType)) ? <div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null}
 
-                                {(document.file !== '' || document.file !== undefined) && (isPrivileged(userType)) ? <div className="download-buttons"><Button variant="contained" style={{backgroundColor: '#47abd8', color: "white", marginTop: "5%", marginBottom: "5%"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>Download Journal</Button> <Button style={{backgroundColor: '#ff4242', color: "white", marginBottom: "5%"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>Download Poster</Button></div> : null}
+                                {(document.file !== '' || document.file !== undefined) && (isPrivileged(userType)) ? <div className="download-buttons"><Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>Download Journal</Button> <Button style={{backgroundColor: '#ff4242', color: "white"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>Download Poster</Button></div> : null}
                                 </div>
                             </div>
                         )	
