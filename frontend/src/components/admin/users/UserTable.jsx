@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete';
 import SyncIcon from '@material-ui/icons/Sync';
 import EditIcon from '@material-ui/icons/Edit';
+import ViewListIcon from '@material-ui/icons/ViewList'
 import {getComparator, stableSort, formatDateObject} from '../../helpers/Helpers'
 import UserTablePaginationActions from './UserTablePaginationActions'
 import Modal from '../../manage_user_popup/Modal'
@@ -123,9 +124,14 @@ function UserTable(props) {
     const joinUserLogs = (users, logs) => {
         users.forEach((user) => {
             const index = logs.findIndex(log => log.user_id === user._id)
+            
             user.last_login = index !== -1 ? getLastLogin(logs[index]) : ""
             user.last_logout = index !== -1 ? getLastLogout(logs[index]) : ""
+            user.view_count = index !== -1 ? logs[index].doc_count : ""
+            user.view_doc_logs = index !== -1 ? logs[index].doc_logs : []
         })
+
+        console.log(logs)
     }
 
     const getUsers = async() =>{
@@ -280,7 +286,7 @@ function UserTable(props) {
                                         selected={isItemSelected}
                                     >
 
-                                        <TableCell padding="checkbox">
+                                        <TableCell padding="checkbox" width="5%">
                                             <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, person)} inputProps={{'aria-labelledby':labelId}}/>
                                         </TableCell>
                                         
@@ -291,6 +297,7 @@ function UserTable(props) {
                                         <TableCell align="left">{person.email}</TableCell>
                                         <TableCell align="left">{formatDateObject(person.last_login)}</TableCell>
                                         <TableCell align="left">{formatDateObject(person.last_logout)}</TableCell>
+                                        <TableCell align="center">{person.view_count}</TableCell>
                                         <TableCell align="center">{createClassificationCell(person.classification)}</TableCell>
                                         <TableCell align="center">
                                             <IconButton
@@ -324,7 +331,7 @@ function UserTable(props) {
                             <TableRow align="center">
                             <TablePagination
                                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                        colSpan={8}
+                                        colSpan={9}
                                         count={rowCount}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
