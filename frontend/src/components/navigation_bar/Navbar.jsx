@@ -58,7 +58,7 @@ function Navbar(props){
     return(
         <div className="Navbar">
                 {/* LEFT SIDE START */}
-                {/* <div className="leftSide"> <img src={icsLogo} alt="logo"/> </div> */}
+                <div className="leftSide"> <img src={icsLogo} alt="logo"/> </div>
                 {/* LEFT SIDE END */}
                 
                 {/* MIDDLE SIDE START */}
@@ -68,7 +68,7 @@ function Navbar(props){
                         <div className="search">
                             <div className="icon-input">
                                  <form onChange={ handleChange } onSubmit={ handleSubmit } action="">
-                                    <input type="text" placeholder="Search..." defaultValue={searchContext.state.query}/>
+                                    <input type="text" placeholder="Search..." className="search-bar" defaultValue={searchContext.state.query}/>
                                     <button type="submit" onClick={ handleSubmit }><img src={searchIcon} alt="SearchIcon" /></button>
                                 </form>
                             </div>

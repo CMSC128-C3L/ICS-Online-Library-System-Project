@@ -26,7 +26,7 @@ You will also see any lint errors in the console.
 2. Install dependencies: `npm install`
 3. start by: `npm start`
 4. If react-scripts, axios, yarn are not present in package.json or error persists, run:\
-`npm update --force`\
+`npm update --force`
 
 ### Backend: `npm run dev`
 
@@ -49,7 +49,7 @@ resulting directory: `backend/config`
 
 To make the announcement section working:
 1. create a folder inside backend/server named `uploads`\
-resulting directory: `backend/server/uploads`\
+resulting directory: `backend/server/uploads`
 2. create subfolders inside that directory named `books`, `home_advisory`,`poster`, `sp`,`thesis`\
 resulting directory:\
 ![ScreenShot](directory.png)
