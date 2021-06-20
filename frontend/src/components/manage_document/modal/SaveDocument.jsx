@@ -50,9 +50,9 @@ function SaveDocument(props){
         //post request to create and save document
         let response;
         const data = await Promise.all(courses);
-        console.log("save doc: ", typeof(props.book.author))
 
-        console.log('testing!!!!!!!!!')
+
+
         try {
             if(props.type=="book"){
                 response = await axios.post(`/api/books`, {
@@ -68,12 +68,12 @@ function SaveDocument(props){
                     topic: props.topic,
                     courses: data
                 } , options);
-                console.log("BOOK COVER UPLOAD");
+
                 if(cover.length > 0){
                     const formData = new FormData();
                     // formData.append("title", props.thesis.title);
                     formData.append("book_cover", cover[0]);
-                    console.log("uploading poster..")
+
                     try{
                         axios.post('/api/books/upload/'+response.data._id, formData, options);
 
@@ -98,13 +98,13 @@ function SaveDocument(props){
                     poster: props.thesis.poster
                 } , options);
                 
-                console.log("thesis save")
+
                 //upload document
                 if(file.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.thesis.title);
                     formData.append("thesisDocument", file[0]);
-                    console.log("uploading thesis..")
+
                     try{
                         axios.post(`/api/thesis/upload/${id}`, formData, options);
 
@@ -115,7 +115,7 @@ function SaveDocument(props){
                 }
             } else if(props.type=="sp"){
                 
-                console.log('here')
+
                 response = await axios.post(`/api/sp`, {
                     type: 'Special Problem',
                     id: props.sp.id,
@@ -135,7 +135,7 @@ function SaveDocument(props){
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
                     formData.append("spFile", file[0]);
-                    console.log("uploading sp..")
+
                     try{
                         axios.post(`/api/sp/upload/${id}`, formData, options);
 
