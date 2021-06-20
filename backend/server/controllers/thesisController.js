@@ -155,4 +155,5 @@ function cleanDirname(dirname) {
   const dirToRemove = path.join(__dirname, '/../');
   const cleanedDirname = dirname.replace(dirToRemove, "");
   return cleanedDirname
+  // return dirname
 }

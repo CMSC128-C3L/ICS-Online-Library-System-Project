@@ -8,6 +8,8 @@ import SaveIcon from '@material-ui/icons/Save'
 import axios from 'axios'
 import './Modal.css'
 import {FileContext} from '../FileContext'
+import {PosterContext} from '../PosterContext';
+import {ManuscriptContext} from '../ManuscriptContext';
 import {BookCoverContext} from '../BookCoverContext';
 
 function SaveDocument(props){
@@ -16,6 +18,8 @@ function SaveDocument(props){
     const classes = useStyles();
     const {id} = useParams();
     const {file, setFile} = useContext(FileContext);
+    const {poster, setPoster} = useContext(PosterContext);
+    const {manus, setManus} = useContext(ManuscriptContext);
     const {cover, setCover} = useContext(BookCoverContext);
 
     const confirmModal = useRef(null)
@@ -103,10 +107,12 @@ function SaveDocument(props){
                 if(file.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.thesis.title);
-                    formData.append("thesisDocument", file[0]);
+                    formData.append("journal", file[0]);
+                    formData.append("poster", poster[0]);
+                    formData.append("thesisDocument", manus[0]);
                     console.log("uploading thesis..")
                     try{
-                        axios.post(`/api/thesis/upload/${id}`, formData, options);
+                        axios.post('/api/thesis/upload/'+response.data._id, formData, options);
 
                         console.log("sucess!")
                     }catch(e){
@@ -134,10 +140,12 @@ function SaveDocument(props){
                 if(file.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
-                    formData.append("spFile", file[0]);
+                    formData.append("journalFile", file[0]);
+                    formData.append("posterFile", poster[0]);
+                    formData.append("spFile", manus[0]);
                     console.log("uploading sp..")
                     try{
-                        axios.post(`/api/sp/upload/${id}`, formData, options);
+                        axios.post('/api/sp/upload/'+response.data._id, formData, options);
 
                         console.log("sucess!")
                     }catch(e){

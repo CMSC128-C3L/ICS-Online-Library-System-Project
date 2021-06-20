@@ -1,31 +1,30 @@
 import React, {useContext, useCallback, useState, useEffect} from 'react'
 import { useDropzone } from 'react-dropzone'
-import { BookCoverContext } from '../BookCoverContext'
+import { ManuscriptContext } from '../ManuscriptContext'
 import Button from '@material-ui/core/Button'
 import './Modal.css'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { UserContext } from './Modal'
 
+function UploadManuscript({document}) {
 
-function UploadBookCover({document}) {
-
-    const {cover, setCover} = useContext(BookCoverContext)
-    const [tempCover, setTempCover] = useState([])
+    const {manus, setManus} = useContext(ManuscriptContext)
+    const [tempManus, setTempManus] = useState([])
     const {user, close} = useContext(UserContext)
     const [error, setError] = useState('')
 
-    const isImage = (acceptedFile) =>{
-        if(acceptedFile[0].type === 'image/jpeg' || acceptedFile[0].type === 'image/png') return true;
+    const isPDF = (acceptedFile) =>{
+        if(acceptedFile[0].type === 'application/pdf') return true;
         else return false;
     } 
     const onDrop = useCallback((acceptedFile) =>{
-        if(isImage(acceptedFile)) setTempCover(acceptedFile)
-        else return setError('File type not supported. Please only upload JPG/JPEG or PNG file.')
+        if(isPDF(acceptedFile)) setTempManus(acceptedFile)
+        else return setError('File type not supported. Please only upload PDF files.')
     }, []);
 
     const handleCancel = () => close()
     const handleSave = () =>{
-        setCover(tempCover)
+        setManus(tempManus)
         close()
     }
 
@@ -49,10 +48,10 @@ function UploadBookCover({document}) {
             <div className="file-status">
                 <p className="error">{error}</p>
                 <h3 className="upload-title">New File:</h3>
-                {tempCover.length > 0 ? (<p className="text">{tempCover[0].name}</p>) : (<p className="text">None</p>)}
+                {tempManus.length > 0 ? (<p className="text">{tempManus[0].name}</p>) : (<p className="text">None</p>)}
 
                 <h3 className="upload-title">Current Uploaded File:</h3>
-                {document.cover !== undefined ? (<p className="text">{document.cover}</p>) : (<p className="text">None</p>)}
+                {document.manus !== undefined ? (<p className="text">{document.manus}</p>) : (<p className="text">None</p>)}
             </div>
 
             <div className="confirm-cancel">
@@ -63,4 +62,4 @@ function UploadBookCover({document}) {
     )
 }
 
-export default UploadBookCover
+export default UploadManuscript
