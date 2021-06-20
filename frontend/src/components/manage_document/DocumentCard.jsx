@@ -42,7 +42,7 @@ function DocumentCard(props){
   
     const downloadFile = async() =>{
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
-        console.log(props.type, "typee")
+
     try{
       if(props.type === "Thesis") {
           console.log("thesis donwlaod")
@@ -74,8 +74,7 @@ function DocumentCard(props){
         <div>
             {
             (function(document, userType){
-                console.log("[docard] document course: ", document.course)
-                console.log("[docard] user type: ", userType)
+
                 switch(document.type){
                     case "Book": //book
                         return(
