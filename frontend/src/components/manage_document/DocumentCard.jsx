@@ -5,29 +5,7 @@ import decode from 'jwt-decode';
 import Button from '@material-ui/core/Button'
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
-const handleAuthorClick = (event) => {
-    console.log(event.target.value)
-    /** method to navigate to author summary here */
-}
-
-const handleCourseClick = (event) => {
-    console.log(event.target.value)
-    /** method to navigate to course summary here */
-}
-
-const handleAdviserClick = (event) => {
-    console.log(event.target.value)
-    /** method to navigate to author summary here
-     *  may be removed and absorbed in author click if method is the same
-     */
-}
-
-const isPrivileged = (user) =>{
-    if(user === "Faculty" || user === "Staff" || user === "Admin") return true
-    else return false
-}
-
-
+import {useHistory} from 'react-router';
 
 // functional component to render the details in document card format 
 // used in accessing document
@@ -39,6 +17,28 @@ function DocumentCard(props){
     Object.assign(topicObj, props.topic)
     Object.assign(courseObj, props.course)
     Object.assign(authorObj, props.author)
+
+    const history = useHistory();
+
+    const handleAuthorClick = (event) => {
+        console.log('author click', event.target.value)
+        history.push('/authorSummary/' + event.target.value);
+    }
+
+    const handleCourseClick = (event) => {
+        console.log('course click',event.target.value)
+        history.push('/courseSummary/' + event.target.value);
+    }
+
+    const handleAdviserClick = (event) => {
+        console.log('adviser click',event.target.value)
+        history.push('/adviserSummary/' + event.target.value);
+    }
+
+    const isPrivileged = (user) =>{
+        if(user === "Faculty" || user === "Staff" || user === "Admin") return true
+        else return false
+    }
   
     const downloadFile = async() =>{
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
@@ -86,7 +86,7 @@ function DocumentCard(props){
                                     <div className="text-tags"> Author: 
                                         <ul className="click-list">
                                         {Object.values(document.author).map((author) => {
-                                            return (<button className="click-text" key ={document.id} onClick={handleAuthorClick}>{author}</button>)
+                                            return (<button className="click-text" key ={document.id} value={author} onClick={handleAuthorClick}>{author}</button>)
                                         })}
                                         </ul>
                                     </div>
@@ -100,7 +100,7 @@ function DocumentCard(props){
                                     (<div className="text-tags">Course: 
                                         <ul className="click-list">
                                         {document.course.map((course) => {
-                                            return (<button className="click-text" key ={document.id} onClick={handleCourseClick}>{course}</button>)
+                                            return (<button className="click-text" key ={document.id} value={course} onClick={handleCourseClick}>{course}</button>)
                                         })}
                                         </ul>
                                     </div>)
@@ -126,7 +126,7 @@ function DocumentCard(props){
                                 <div className="text-tags"> Adviser: 
                                     <ul className="click-list">
                                     {Object.values(adviserObj).map((adviser) => {
-                                        return (<button className="click-text" key ={document.id} onClick={handleAdviserClick}>{adviser}</button>)
+                                        return (<button className="click-text" key ={document.id} value={adviser} onClick={handleAdviserClick}>{adviser}</button>)
                                     })}
                                     </ul>
                                 </div>
@@ -143,7 +143,7 @@ function DocumentCard(props){
                                 (<div className="text-tags"> Course: 
                                     <ul className="click-list">
                                     {Object.values(courseObj).map((course) => {
-                                        return (<button className="click-text" key ={document.id} onClick={handleCourseClick}>{course}</button>)
+                                        return (<button className="click-text" key ={document.id} value={course} onClick={handleCourseClick}>{course}</button>)
                                     })}
                                     </ul>
                                 </div>)

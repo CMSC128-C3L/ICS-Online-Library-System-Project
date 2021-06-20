@@ -39,7 +39,7 @@ function Search(props) {
     }
     return (                    
         <form className="Search-area">
-            <input onKeyDown={enterSubmit} onChange={handleChange} onSubmit={handleSubmit} className="App-search-bar" type="text" placeholder="Search..."/>
+            <input onKeyDown={enterSubmit} onChange={handleChange} onSubmit={handleSubmit} className="App-search-bar" type="text" placeholder=" Search..."/>
             
             <br/>
 
