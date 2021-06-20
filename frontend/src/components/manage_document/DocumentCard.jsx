@@ -4,6 +4,7 @@ import './DocumentCard.css'
 import decode from 'jwt-decode';
 import Button from '@material-ui/core/Button'
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import DescriptionIcon from '@material-ui/icons/Description';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
 import {useHistory} from 'react-router';
 
@@ -152,7 +153,19 @@ function DocumentCard(props){
                                 {/* check if source code is empty, if not, check if faculty and up to get access to source code */}
                                 {(document.code !== '' || document.code !== undefined) && (isPrivileged(userType)) ? <div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null}
 
-                                {(document.file !== '' || document.file !== undefined) && (isPrivileged(userType)) ? <div className="download-buttons"><Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>Download Journal</Button> <Button style={{backgroundColor: '#ff4242', color: "white"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>Download Poster</Button></div> : null}
+                                {(document.file !== '' || document.file !== undefined) && (isPrivileged(userType)) ? 
+                                <div className="download-buttons">
+                                    <Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<DescriptionIcon/>} onClick={() => downloadFile()}>
+                                    Download Journal
+                                    </Button> 
+                                    <Button variant="contained" style={{backgroundColor: '#95d2ec', color: "white"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>
+                                    Download Manuscript
+                                    </Button> 
+                                    <Button variant="contained" style={{backgroundColor: '#ff4242', color: "white"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>
+                                    Download Poster
+                                    </Button>
+                                </div> 
+                                : null}
                                 </div>
                             </div>
                         )	

@@ -430,6 +430,9 @@ const handleUploadToggle = (event, newToggle) =>{
                             <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
                               JOURNAL
                             </ToggleButton>
+                            <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                              MANUSCRIPT
+                            </ToggleButton>
                           </ToggleButtonGroup>
                           
                           {uploadToggle === 'file' ? 
@@ -520,6 +523,9 @@ const handleUploadToggle = (event, newToggle) =>{
                             </ToggleButton>
                             <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
                               JOURNAL
+                            </ToggleButton>
+                            <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                              MANUSCRIPT
                             </ToggleButton>
                           </ToggleButtonGroup>
                           
@@ -624,7 +630,7 @@ const handleUploadToggle = (event, newToggle) =>{
                     </div>
                   )
                 } 
-              } else { // if authenticated user, show option for posters/journals
+              } else { // if authenticated user, show option for posters/journals/manuscript
                 if(doc_type=="book"){
                   return(
                     <div> 
