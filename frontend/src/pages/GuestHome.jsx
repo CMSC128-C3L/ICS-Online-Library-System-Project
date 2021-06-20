@@ -3,7 +3,7 @@ import Header from '../components/header_user/Header'
 import Search from '../components/search/Search'
 import CardRow from '../components/cards/CardRow'
 import {UserContext} from '../components/user/UserContext'
-import bg from '../assets/physci.png';
+import bg from '../assets/physci1.png';
 
 export const ACTIONS = {
   updateQuery: 'UPDATE_QUERY',
