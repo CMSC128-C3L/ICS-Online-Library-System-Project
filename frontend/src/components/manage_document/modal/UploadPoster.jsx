@@ -21,7 +21,7 @@ function UploadPoster({document}) {
 
         if(isPDF(acceptedFile)) {
             setTempPoster(acceptedFile)
-            console.log("pdf accepted")
+
         }
         else return setError('File type not supported. Please only upload PDF files.')
        
