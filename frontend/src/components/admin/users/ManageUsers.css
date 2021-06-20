@@ -14,6 +14,12 @@
    overflow-x: auto;
 }
 
+.list-box {
+   height: 21rem;
+   width: 100%;
+   overflow: auto;
+}
+
 .iconbutton-view{
    max-width: 2.5em;
    max-height: 2.5em;

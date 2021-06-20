@@ -12,6 +12,7 @@ import UserTablePaginationActions from './UserTablePaginationActions'
 import Modal from '../../manage_user_popup/Modal'
 import EditUser from '../../manage_user_popup/EditUser'
 import DeleteUser from '../../manage_user_popup/DeleteUser'
+import DocListModal from './DocListModal'
 import MultiDeleteUser from './MultiDeleteUser'
 import UserTableHeadMS from './UserTableHeadMS'
 import './ManageUsers.css'
@@ -128,7 +129,7 @@ function UserTable(props) {
             user.last_login = index !== -1 ? getLastLogin(logs[index]) : ""
             user.last_logout = index !== -1 ? getLastLogout(logs[index]) : ""
             user.view_count = index !== -1 ? logs[index].doc_count : ""
-            user.view_doc_logs = index !== -1 ? logs[index].doc_logs : []
+            user.view_doc_logs = index !== -1 ? logs[index].doc_log : []
         })
 
         console.log(logs)
@@ -213,9 +214,11 @@ function UserTable(props) {
     const editModal = useRef(null)
     const deleteModal = useRef(null)
     const multiDeleteModal = useRef(null)
+    const viewDocListModal = useRef(null)
     const openEditModal = (user) => {editModal.current.open(user)}
     const openDeleteModal = (user) => {deleteModal.current.open(user)}
     const openMultiDeleteModal = (users) => {multiDeleteModal.current.open(users)}
+    const openViewDocListModal = (user) => {viewDocListModal.current.open(user)}
     
     return (
         <div className="manageusers manageusers-container">
@@ -223,6 +226,7 @@ function UserTable(props) {
                 <Modal ref={editModal}><EditUser getUsers={getUsers}/></Modal>
                 <Modal ref={deleteModal}><DeleteUser getUsers={getUsers}/></Modal>
                 <Modal ref={multiDeleteModal}><MultiDeleteUser getUsers={getUsers} resetSelected={() => setSelected([])}/></Modal>
+                <Modal ref={viewDocListModal}><DocListModal/></Modal>
                 
                 <Toolbar className="toolbar">
                     <input className="searchbar"
@@ -312,6 +316,13 @@ function UserTable(props) {
                                                 className="iconbutton-view"
                                                 onClick={() => openEditModal(person)}>
                                                 <EditIcon/>
+                                            </IconButton>
+
+                                            <IconButton
+                                                aria-label="view-list"
+                                                className="iconbutton-view"
+                                                onClick={() => openViewDocListModal(person)}>
+                                                <ViewListIcon/>
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
