@@ -1,7 +1,15 @@
 import './Footer.css'
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import {useHistory} from 'react-router-dom'
 import SearchContext from '../search_results/SearchContext'
 import updateQueryString from '../search_results/UpdateQueryString';
+export const ACTIONS = {
+    updateQuery: 'UPDATE_QUERY',
+    updateCategory: 'UPDATE_CATEGORY',
+    updateCourseCode: 'UPDATE_COURSE_CODE',
+    updateTopic: 'UPDATE_TOPIC',
+    reset: 'RESET'
+}
 
 function fixLinks(word) {
     if (word === "Home")  return "/adminHome"
@@ -13,12 +21,27 @@ function fixLinks(word) {
 
 function CategoryColumn(props){
     const searchContext = useContext(SearchContext);
+    const [query, setQuery] = useState('');
+    const history = useHistory();
     const handleChange = (item) =>{
-        if(item === "SP") item = 'Special Problems'
+        console.log(item)
+        if(item === "SP") {
+            item = 'Special Problems'
+            console.log(item)
+        }
         else if (item === "Thesis") item = "Theses"
-        searchContext.setState({category: [item]})
+        searchContext.dispatch({ type: props.action, item: item})
+        searchContext.dispatch({
+            type: props.action,
+			query: query
+		})
         updateQueryString(searchContext);
-        
+        history.push('/search');
+    }
+    const resetChange = () =>{
+        searchContext.dispatch({
+            type: ACTIONS.reset,
+		})
     }
     const title = <> <div className="category-title">{props.content.title}</div> <hr className="foothr"/> </>
     let links;
@@ -26,7 +49,9 @@ function CategoryColumn(props){
     // Render links if category serves as navigation tool
     // Else, show social media icons
     if(props.content.isNav)
-        links = <> <div className="column"> {(props.content.links.map(link => <a className="a" href={fixLinks(link)} onClick={() => handleChange(link)} key={link}> {link} </a>))} </div> </>
+        props.content.isSearch
+        ?   links = <> <div className="column"> {(props.content.links.map(link => link == 'Home' ? <a className="a" href={fixLinks(link)} onClick={() => resetChange()} key={link}> {link} </a> : <a className="a" onClick={() => handleChange(link)} key={link}> {link} </a>))} </div> </>
+        :   links = <> <div className="column"> {(props.content.links.map(link => <a className="a" href={fixLinks(link)} key={link}> {link} </a>))} </div> </>
     else{
         links = <> 
 

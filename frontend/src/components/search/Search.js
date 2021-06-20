@@ -25,10 +25,9 @@ function Search(props) {
     const handleSubmit = (event) =>{
         event.preventDefault()
         searchContext.dispatch({
-			type: props.action,
+            type: props.action,
 			query: query
 		})
-
         history.push('/search');
     }
 
