@@ -629,7 +629,7 @@ const handleUploadToggle = (event, newToggle) =>{
                     </div>
                   )
                 } 
-              } else { // if authenticated user, show option for posters/journals
+              } else { // if authenticated user, show option for posters/journals/manuscript
                 if(doc_type=="book"){
                   return(
                     <div> 
