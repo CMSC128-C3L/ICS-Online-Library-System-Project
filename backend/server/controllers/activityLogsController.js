@@ -7,8 +7,7 @@ module.exports = {
 	logoutUser,
 	getAll,
 	getOne,
-	updateRecord,
-	deleteRecord
+	updateRecord
 };
 
 async function getAll(req, res){
@@ -47,25 +46,6 @@ async function updateRecord(req, res){
         res.status(200).send();
 	}catch(err){
 		console.log(err);
-		res.status(500).send();
-	}
-}
-
-async function deleteRecord(req, res) {
-	try {
-		const user_id = req.params.user_id;
-		const _id = req.body.doc_id;
-		const log = await Logs.findOne({user_id});
-		if(!log) return res.status(404).send();
-		
-		const cleanedLog = log.doc_log.filter((doc) => {
-			return doc.doc_oid !== _id
-		});
-		log.doc_log = cleanedLog;
-		log.doc_count = cleanedLog.length;
-		await log.save();
-		res.status(200).send();
-	} catch(e) {
 		res.status(500).send();
 	}
 }

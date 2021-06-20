@@ -6,7 +6,6 @@ const User = require('../models/User.js');
 const bookFunc = require('./bookController.js');
 
 module.exports = {
-	findById,
   searchUser,
   searchAll,
   searchThesis,
@@ -32,22 +31,6 @@ async function searchUser(req, res) {
 		res.status(404).send();
 	}
 	
-}
-async function findById(req, res) {
-	try {
-		const _id = req.params.id;
-		const book = await Book.findOne({_id});
-		if(book) return res.send(book)
-		const thesis = await Thesis.findOne({_id});
-		if(thesis) return res.send(thesis)
-		const sp = await Thesis.findOne({_id});
-		if(sp) return res.send(sp);
-		console.log(book, thesis, sp);
-		res.status(404).send();
-	} catch(e) {
-		console.log(e)
-		res.status(500).send();
-	}
 }
 
 async function searchAll(req, res) {
