@@ -79,7 +79,7 @@ function ConditionalEdit(props){
   const getDocument = async() =>{
     let document;
     let options;
-    if(Object.entries(loggedUser).length === 0){//empty
+    if(uData === '{}'){//empty
       options =  {}
     }else{//not empty
       options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
@@ -429,6 +429,9 @@ const handleUploadToggle = (event, newToggle) =>{
                             <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
                               JOURNAL
                             </ToggleButton>
+                            <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                              MANUSCRIPT
+                            </ToggleButton>
                           </ToggleButtonGroup>
                           
                           {uploadToggle === 'file' ? 
@@ -519,6 +522,9 @@ const handleUploadToggle = (event, newToggle) =>{
                             </ToggleButton>
                             <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
                               JOURNAL
+                            </ToggleButton>
+                            <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                              MANUSCRIPT
                             </ToggleButton>
                           </ToggleButtonGroup>
                           

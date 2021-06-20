@@ -322,7 +322,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 )
                             case "sp":  //button for upload pdf/poster [sp]
                                 return(
-                                  <div className="document-card-container  uploads-container">
+                                  <div className="document-card-container uploads-container">
                                     <ToggleButtonGroup
                                     value={uploadToggle}
                                     exclusive
@@ -335,6 +335,9 @@ const handleUploadToggle = (event, newToggle) =>{
                                     </ToggleButton>
                                     <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
                                       JOURNAL
+                                    </ToggleButton>
+                                    <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                                      MANUSCRIPT
                                     </ToggleButton>
                                     </ToggleButtonGroup>
                                   
@@ -354,9 +357,37 @@ const handleUploadToggle = (event, newToggle) =>{
                                 )
                             case "thesis":  //button for upload pdf/poster [thesis]
                                 return(
-                                  <div className='document-card-container button-card-flex-column'>
-                                  <button className={classes.textStyle} onClick={props.handleUploadPDF}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={props.handleUploadPoster}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <div className="document-card-container uploads-container">
+                                    <ToggleButtonGroup
+                                    value={uploadToggle}
+                                    exclusive
+                                    className={classes.toggleStyle}
+                                    onChange={handleUploadToggle}
+                                    aria-label="text alignment"
+                                    >
+                                    <ToggleButton value="poster" className={classes.fontStyle} aria-label="left aligned">
+                                      POSTER
+                                    </ToggleButton>
+                                    <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
+                                      JOURNAL
+                                    </ToggleButton>
+                                    <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                                      MANUSCRIPT
+                                    </ToggleButton>
+                                    </ToggleButtonGroup>
+                                  
+                                    {uploadToggle === 'file' ? 
+                                    (  <div className="upload-navigation">
+                                      <h4>File</h4>
+                                      <Button onClick={() => openFileModal()}>Select New File</Button>
+                                      <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
+                                    </div>) : 
+
+                                    (<div className="upload-navigation">
+                                      <h4>Poster</h4>
+                                      <Button onClick={() => openPosterModal()}>Select New Poster</Button>
+                                      <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
+                                    </div>)}
                                   </div>
                                 )
                             default:
