@@ -112,6 +112,8 @@ function DocumentCard(props){
                                     (<div className="text-tags">Topic: {Object.values(document.topic).join(", ")}</div>)
                                     }
 
+                                    <div className="text-tags">Views: {document.view}</div>
+
                                 </div>
                             </div>
                         )
@@ -149,6 +151,8 @@ function DocumentCard(props){
                                     </ul>
                                 </div>)
                                 }
+
+                                <div className="text-tags">Views: {document.view}</div>
 
                                 {/* check if source code is empty, if not, check if faculty and up to get access to source code */}
                                 {(document.code !== '' || document.code !== undefined) && (isPrivileged(userType)) ? <div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null}

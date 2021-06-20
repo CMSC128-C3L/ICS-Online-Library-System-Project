@@ -585,6 +585,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 docISBN={document.isbn}
                                 topic={document.topic}
                                 course={document.course_code}
+                                view={document.view_count}
                             />
                             </div>
     
@@ -614,6 +615,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 yearPublished={document.pub_date}
                                 topic={document.topic}
                                 course={document.courses}
+                                view={document.view_count}
                               />  
                             </div>
                         </div>
@@ -651,6 +653,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 docISBN={document.isbn}
                                 topic={document.topic}
                                 course={document.course_code}
+                                view={document.view_count}
                             />
                             </div>
     
@@ -681,17 +684,19 @@ const handleUploadToggle = (event, newToggle) =>{
                               yearPublished={document.pub_date}
                               topic={document.topic}
                               course={document.courses}
+                              view={document.view_count}
                               />:
                               <DocumentCard
                               docID={document._id}
-                                type={document.type}
-                                title={document.title}
-                                author={document.author}
-                                adviser={document.adviser}
-                                yearPublished={document.pub_date}
-                                topic={document.topic}
-                                course={document.courses}
-                                code={document.source_code}
+                              type={document.type}
+                              title={document.title}
+                              author={document.author}
+                              adviser={document.adviser}
+                              yearPublished={document.pub_date}
+                              topic={document.topic}
+                              course={document.courses}
+                              code={document.source_code}
+                              view={document.view_count}
                               /> }
                             
                             </div>
