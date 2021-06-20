@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import Logout from '../login/Logout'
 import { UserContext } from '../user/UserContext';
 import Login from '../login/Login'
-import icsLogo from '../../assets/ics_logo.png';
+import icsLogo from '../../assets/ICS_Logo_Minimal.png';
 import decode from 'jwt-decode';
 export const ACTIONS = {
     updateQuery: 'UPDATE_QUERY',
@@ -34,32 +34,22 @@ export const ACTIONS = {
         else{
             return(
                   <div className="Header-container-right" >
-                    <Button className="Button" disabled>{data.given_name}</Button>
+                    <Button className="Button" disabled><p class = "p2">{data.given_name}</p></Button>
                     <Logout/>
                 </div>
             )
         }
     }
     return(
-        <div>
-            <div className="Logo-area">
-                <div className="Logo">
+        <div className="Header-container">
+            <div className="Header-container-left">
                 <img src={icsLogo} alt="logo" className="ics_icon"/> 
-                EyeCS: Window to Knowledge
-                </div>
+                {data.classification === 'Admin' ? <Button className="Button-current-page" onClick={() => history.push('/adminHome')}><p class = "p1">Home</p></Button> : <Button className="Button-current-page" onClick={() => history.push('/')}><p class = "p1">Home</p></Button>}
+                <Button className="Button" onClick={() => history.push('/search')}><p class = "p2">Browse</p></Button>
             </div>
-            <div className="Header-container">
-                <div className="Header-container-left">
-                    
-                    {data.classification === 'Admin' ? <Button className="Button" onClick={() => history.push('/adminHome')}>Home</Button> : <Button className="Button" onClick={() => {resetChange()}}>Home</Button>}
-                    <Button className="Button" onClick={() => history.push('/search')}>Browse</Button>
-                   
-                </div>
+        
+        {renderComponentsBasedOnState()}
             
-               {renderComponentsBasedOnState()}
-                
-            </div>
-                    
         </div>
     )
 }
