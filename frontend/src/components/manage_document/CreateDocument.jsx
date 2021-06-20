@@ -19,6 +19,8 @@ import { FileContext } from './FileContext';
 import { PosterContext } from './PosterContext'
 import {BookCoverContext} from './BookCoverContext';
 import UploadBookCover from './modal/UploadBookCover';
+import {ManuscriptContext} from './ManuscriptContext';
+
 /**
  * functional component
  * conditionally render the input attributes according to document type
