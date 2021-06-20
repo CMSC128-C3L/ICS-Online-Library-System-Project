@@ -62,12 +62,9 @@ function ResultPane(props){
     let promises = [];
 
     //if user has yet to select any category, set to all
-    console.log(searchContext)
+
     if((searchContext.state.category).toString() === "") categories = ['Books', 'Special Problems', 'Theses'];
-    console.log('categories: ', categories);
-    console.log('course code: ', searchContext.state.courseCode)
-    console.log('topics length: ', searchContext.state.topic.length)
-    console.log('string: ', queryString.stringify({topic: searchContext.state.topic}))
+
 
     if(searchContext.state.topic.length === 0) topicsQuery = "topic="
     else{
@@ -159,7 +156,7 @@ function ResultPane(props){
 
   // Multiple Select for Deletion
   const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
-  console.log(uData)
+
   const [selected, setSelected] = useState([])
   const [multSelect, setMultSelect] = useState(false)
 
@@ -185,11 +182,11 @@ function ResultPane(props){
   }
 
   const handleMultDelete = () => {
-    console.log("to be deleted...", selected)
+
     openMultiDeleteModal(selected)
   }
 
-  console.log(results)
+
 
   return(
     <Container className= "result-container">
