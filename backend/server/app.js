@@ -11,5 +11,7 @@ app.use(router);
 const path = require('path');
 app.use('/static/', express.static(path.join(__dirname, 'uploads/books')));
 app.use('/static/', express.static(path.join(__dirname, 'uploads/home_advisory')));
+app.use('/static/', express.static(path.join(__dirname, 'uploads/thesis')));
+app.use('/static/', express.static(path.join(__dirname, 'uploads/sp')));
 
 module.exports = app;

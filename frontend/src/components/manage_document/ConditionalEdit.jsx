@@ -126,6 +126,24 @@ function ConditionalEdit(props){
     }
   }
 
+  const getPath = (pdfFile) =>{
+    try{
+      console.log("PDF ",pdfFile);
+      const path_array = pdfFile.split('/');
+      let path;
+      if(path_array[0] === 'uploads'){
+        path = 'http://localhost:3000/static/'+path_array[2];
+      }else{
+        path = pdfFile;
+      }
+      console.log("PATH", path);
+      return path;
+    }catch (err){
+      //MAY ERROR
+    }
+  }
+
+
 
   useEffect(() => {
       getDocument()
@@ -742,11 +760,11 @@ const handleUploadToggle = (event, newToggle) =>{
                             switch(view){
                               // editable document
                               case "journal":
-                                return(<ViewPDF pdf={sp.journal}/>)
+                                return(<ViewPDF pdf={getPath(sp.journal)}/>)
                               case "poster":
-                                return(<ViewPDF pdf={sp.poster}/>)
+                                return(<ViewPDF pdf={getPath(sp.poster)}/>)
                               case "manuscript":
-                                return(<ViewPDF pdf={sp.file}/>)
+                                return(<ViewPDF pdf={getPath(sp.file)}/>)
                                 default:
                                   return null
                             } 
@@ -756,11 +774,11 @@ const handleUploadToggle = (event, newToggle) =>{
                             switch(view){
                               // editable document
                               case "journal":
-                                return(<ViewPDF pdf={thesis.journal}/>)
+                                return(<ViewPDF pdf={getPath(thesis.journal)}/>)
                               case "poster":
-                                return(<ViewPDF pdf={thesis.poster}/>)
+                                return(<ViewPDF pdf={getPath(thesis.poster)}/>)
                               case "manuscript":
-                                return(<ViewPDF pdf={thesis.file}/>)
+                                return(<ViewPDF pdf={getPath(thesis.file)}/>)
                               default:
                                 return null
                             } 
