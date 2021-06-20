@@ -12,7 +12,7 @@ const updateQueryString = (searchContext) =>{
     }
 
     url = url + "&courseCode=" + (searchContext.state.courseCode).toString().toLowerCase() + "&topic="
-    console.log(url);
+
     return url;
 
 
