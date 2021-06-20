@@ -27,6 +27,7 @@ import Button from '@material-ui/core/Button'
 import decode from 'jwt-decode';
 import {BookCoverContext} from './BookCoverContext';
 import UploadBookCover from './modal/UploadBookCover';
+import path from 'path';
 
 /**
  * functional component
@@ -745,7 +746,7 @@ const handleUploadToggle = (event, newToggle) =>{
                               case "poster":
                                 return(<ViewPDF pdf={sp.poster}/>)
                               case "manuscript":
-                                return(<ViewPDF pdf={sp.manuscript}/>)
+                                return(<ViewPDF pdf={sp.file}/>)
                                 default:
                                   return null
                             } 
@@ -759,7 +760,7 @@ const handleUploadToggle = (event, newToggle) =>{
                               case "poster":
                                 return(<ViewPDF pdf={thesis.poster}/>)
                               case "manuscript":
-                                return(<ViewPDF pdf={thesis.manuscript}/>)
+                                return(<ViewPDF pdf={thesis.file}/>)
                               default:
                                 return null
                             } 
