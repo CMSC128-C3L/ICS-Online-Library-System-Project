@@ -3,6 +3,7 @@ import Header from '../components/header_user/Header'
 import Search from '../components/search/Search'
 import CardRow from '../components/cards/CardRow'
 import {UserContext} from '../components/user/UserContext'
+import bg from '../assets/physci.png';
 
 export const ACTIONS = {
   updateQuery: 'UPDATE_QUERY',
@@ -24,7 +25,7 @@ function GuestHome() {
         }, [])
 
     return (
-        <div>
+        <div style = {{backgroundImage: `url(${bg})`,backgroundRepeat: 'no-repeat'}}>
             <Header/>
             <Search action={ ACTIONS.updateQuery }/>
             <CardRow/>
