@@ -20,6 +20,7 @@ import { PosterContext } from './PosterContext'
 import {BookCoverContext} from './BookCoverContext';
 import UploadBookCover from './modal/UploadBookCover';
 import {ManuscriptContext} from './ManuscriptContext';
+import UploadManuscript from './modal/UploadManuscript';
 
 /**
  * functional component
@@ -34,6 +35,7 @@ function CreateDocument(props){
   const [uploadToggle, setUploadToggle] = useState('file')
   const [poster, setPoster] = useState([]);
   const [file, setFile] = useState([])
+  const [manus, setManus] = useState([])
   const [selectedValue, setSelectedValue] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState([]);
@@ -43,13 +45,15 @@ function CreateDocument(props){
 
   // Create reference to modal
   const saveModal = useRef(null)
-  const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
+  const openSaveModal = (user, props) => {saveModal.current.open(user, props)};
   const uploadCoverModal = useRef(null);
   const openCoverModal = () => {uploadCoverModal.current.open(props)};
   const uploadFileModal = useRef(null);
-  const openFileModal = () => {uploadFileModal.current.open(props)}
+  const openFileModal = () => {uploadFileModal.current.open(props)};
   const uploadPosterModal = useRef(null);
-  const openPosterModal = () => {uploadPosterModal.current.open(props)}
+  const openPosterModal = () => {uploadPosterModal.current.open(props)};
+  const uploadManusModal = useRef(null);
+  const openManusModal = () => {uploadManusModal.current.open(props)};
 
   const displayFileName = (fileName) =>{
     return fileName.split('\\').pop();
@@ -143,7 +147,8 @@ const handleUploadToggle = (event, newToggle) =>{
   return(
     <div className="browsebg browsebg-container">
       {
-        <div> 
+        <div>
+            <ManuscriptContext.Provider value={{manus, setManus}}> 
             <BookCoverContext.Provider value={{cover, setCover}}>
             <FileContext.Provider value={{file, setFile}}>
             <PosterContext.Provider value={{poster, setPoster}}>
@@ -343,18 +348,32 @@ const handleUploadToggle = (event, newToggle) =>{
                                     </ToggleButton>
                                     </ToggleButtonGroup>
                                   
-                                    {uploadToggle === 'file' ? 
-                                    (  <div className="upload-navigation">
-                                      <h4>File</h4>
-                                      <Button onClick={() => openFileModal()}>Select New File</Button>
-                                      <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
-                                    </div>) : 
-
-                                    (<div className="upload-navigation">
-                                      <h4>Poster</h4>
-                                      <Button onClick={() => openPosterModal()}>Select New Poster</Button>
-                                      <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
-                                    </div>)}
+                                    {
+                                      (function(uploadToggle){
+                                        switch(uploadToggle){
+                                          case "file":
+                                            return (<div className="upload-navigation">
+                                              <h4>File</h4>
+                                              <Button onClick={() => openFileModal()}>Select New Journal</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
+                                            </div>)
+                                          case "poster":
+                                            return (<div className="upload-navigation">
+                                              <h4>Poster</h4>
+                                              <Button onClick={() => openPosterModal()}>Select New Poster</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
+                                            </div>)
+                                          case "manuscript":
+                                            return (<div className="upload-navigation">
+                                              <h4>Manuscript</h4>
+                                              <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {document.manus === undefined || document.manus === ''  ? <p>None</p> : <p>{displayFileName(document.manus)}</p>}</span>
+                                            </div>)
+                                          default:
+                                            return null;
+                                        }
+                                    })(uploadToggle)
+                                  }
                                   </div>
                                 )
                             case "thesis":  //button for upload pdf/poster [thesis]
@@ -377,19 +396,33 @@ const handleUploadToggle = (event, newToggle) =>{
                                       MANUSCRIPT
                                     </ToggleButton>
                                     </ToggleButtonGroup>
-                                  
-                                    {uploadToggle === 'file' ? 
-                                    (  <div className="upload-navigation">
-                                      <h4>File</h4>
-                                      <Button onClick={() => openFileModal()}>Select New File</Button>
-                                      <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
-                                    </div>) : 
 
-                                    (<div className="upload-navigation">
-                                      <h4>Poster</h4>
-                                      <Button onClick={() => openPosterModal()}>Select New Poster</Button>
-                                      <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
-                                    </div>)}
+                                    {
+                                      (function(uploadToggle){
+                                        switch(uploadToggle){
+                                          case "file":
+                                            return (<div className="upload-navigation">
+                                              <h4>File</h4>
+                                              <Button onClick={() => openFileModal()}>Select New Journal</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
+                                            </div>)
+                                          case "poster":
+                                            return (<div className="upload-navigation">
+                                              <h4>Poster</h4>
+                                              <Button onClick={() => openPosterModal()}>Select New Poster</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
+                                            </div>)
+                                          case "manuscript":
+                                            return (<div className="upload-navigation">
+                                              <h4>Manuscript</h4>
+                                              <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {document.manus === undefined || document.manus === ''  ? <p>None</p> : <p>{displayFileName(document.manus)}</p>}</span>
+                                            </div>)
+                                          default:
+                                            return null;
+                                        }
+                                    })(uploadToggle)
+                                  }
                                   </div>
                                 )
                             default:
@@ -446,6 +479,7 @@ const handleUploadToggle = (event, newToggle) =>{
             </PosterContext.Provider>
             </FileContext.Provider>
             </BookCoverContext.Provider>
+            </ManuscriptContext.Provider>
         </div>
     }
     </div>

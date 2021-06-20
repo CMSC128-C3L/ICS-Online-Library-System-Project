@@ -8,7 +8,7 @@ import { UserContext } from './Modal'
 
 function UploadManuscript({document}) {
 
-    const {manus, setManus} = useContext(FileContext)
+    const {manus, setManus} = useContext(ManuscriptContext)
     const [tempManus, setTempManus] = useState([])
     const {user, close} = useContext(UserContext)
     const [error, setError] = useState('')
@@ -18,7 +18,7 @@ function UploadManuscript({document}) {
         else return false;
     } 
     const onDrop = useCallback((acceptedFile) =>{
-        if(isPDF(acceptedFile)) setTempFile(acceptedFile)
+        if(isPDF(acceptedFile)) setTempManus(acceptedFile)
         else return setError('File type not supported. Please only upload PDF files.')
     }, []);
 
