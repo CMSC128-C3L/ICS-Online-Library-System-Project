@@ -79,7 +79,7 @@ function ConditionalEdit(props){
   const getDocument = async() =>{
     let document;
     let options;
-    if(Object.entries(loggedUser).length === 0){//empty
+    if(uData === '{}'){//empty
       options =  {}
     }else{//not empty
       options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
@@ -299,6 +299,7 @@ const handleUploadToggle = (event, newToggle) =>{
       
       <FileContext.Provider value={{file, setFile}}>
       <PosterContext.Provider value={{poster, setPoster}}>
+      <BookCoverContext.Provider value={{cover, setCover}}>
       <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} course={selectedCourse} type={doc_type}/></Modal>
       <Modal ref={uploadFileModal}><UploadFile document={document} /></Modal>
       <Modal ref={uploadPosterModal}><UploadPoster document={document} /></Modal>
@@ -768,6 +769,7 @@ const handleUploadToggle = (event, newToggle) =>{
           }
         })(allowEdit, doc_type, uData.classification)
     }
+    </BookCoverContext.Provider>
     </PosterContext.Provider>
     </FileContext.Provider>
     </div>

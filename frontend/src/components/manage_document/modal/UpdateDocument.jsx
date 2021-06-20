@@ -8,13 +8,16 @@ import axios from 'axios'
 import './Modal.css'
 import {FileContext} from '../FileContext'
 import {PosterContext} from '../PosterContext'
+import {BookCoverContext} from '../BookCoverContext';
+
 function UpdateDocument(props){
     const {user, close} = useContext(UserContext)
     const history = useHistory();  
     const classes = useStyles();
     const {id} = useParams();
-    const {file, setFile} = useContext(FileContext)
-    const {poster, setPoster} = useContext(PosterContext)
+    const {file, setFile} = useContext(FileContext);
+    const {poster, setPoster} = useContext(PosterContext);
+    const {cover, setCover} = useContext(BookCoverContext);
 
     //for modal confirmation
     const confirmModal = useRef(null)
@@ -67,6 +70,20 @@ function UpdateDocument(props){
                     topic: props.book.topic,
                     courses:data 
                 } , options);
+                console.log("BOOK COVER UPLOAD");
+                if(cover.length > 0){
+                    const formData = new FormData();
+                    // formData.append("title", props.thesis.title);
+                    formData.append("book_cover", cover[0]);
+                    console.log("uploading poster..")
+                    try{
+                        axios.post('/api/books/upload/'+response.data._id, formData, options);
+
+                        console.log("success!")
+                    }catch(e){
+                        console.log(e)
+                    }
+                }
             } else if(props.type=="thesis"){
 
                 console.log("this thesis lit man")
@@ -88,7 +105,7 @@ function UpdateDocument(props){
                 if(file.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.thesis.title);
-                    formData.append("thesisDocument", file[0]);
+                    formData.append("journal", file[0]);
                     console.log("uploading thesis..")
                     try{
                         axios.post(`/api/thesis/upload/${id}`, formData, options);
@@ -133,7 +150,7 @@ function UpdateDocument(props){
                 if(file.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
-                    formData.append("spFile", file[0]);
+                    formData.append("journalFile", file[0]);
                     try{
                         axios.post(`/api/sp/upload/${id}`, formData, options)
                         console.log('yasss')
