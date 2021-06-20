@@ -388,9 +388,6 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container"  name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Journal: <input className="input-container" name="thesis_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Poster: <input className="input-container" name="thesis_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Manuscript: <input className="input-container" name="thesis_manuscript" type="text" defaultValue={document.manuscript} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Source Code: <input className="input-container" name="thesis_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
                       
                             <div className="main-text-tags">Tags:</div>
@@ -481,9 +478,6 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Journal: <input className="input-container" name="sp_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Poster: <input className="input-container" name="sp_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Manuscript: <input className="input-container" name="sp_manuscript" type="text" defaultValue={document.manuscript} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Source Code: <input className="input-container" name="sp_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
   
                             <div className="main-text-tags">Tags:</div>
@@ -754,7 +748,7 @@ const handleUploadToggle = (event, newToggle) =>{
                            
                           doc_type=="sp"? 
                           (function(view){
-                            console.log("cond edit [journal]:", sp.journal)
+                            console.log("cond edit [journal]:", sp.file)
                             switch(view){
                               // editable document
                               case "journal":
