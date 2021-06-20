@@ -91,7 +91,7 @@ router.get('/api/log/user/:email', auth, Logs.getUserId);
 router.post('/api/log/login', auth, Logs.recordUser);
 router.post('/api/log/logout', auth, Logs.logoutUser);
 router.patch('/api/log/doc/:user_id', auth, Logs.updateRecord);
-router.delete('/api/log/doc/:user_id', Logs.deleteRecord);
+router.delete('/api/log/doc/:user_id', auth, isAdmin, Logs.deleteRecord);
 
 //author summary
 router.get('/api/authorSummary/:author', auth, isAdmin, AuthorSummary.getAuthorSummary);
