@@ -162,7 +162,7 @@ const handleUploadToggle = (event, newToggle) =>{
                       isObject={false} 
                       onSelect={(selectedValue)=> handleType(selectedValue)} 
                       onRemove={(selectedValue)=> handleType(selectedValue)}   
-                      style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} } 
+                      style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                       />
                   </div>
                   
@@ -194,7 +194,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                           isObject={false}
                                           onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                           onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                          style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                          style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                       />
 
                                       {/* This section is for topic of the document */}
@@ -207,7 +207,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                           isObject={false}
                                           onSelect={(selectedValue)=> selectTopic(selectedValue)} 
                                           onRemove={(selectedValue)=> selectTopic(selectedValue)}      
-                                          style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                          style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                       />
                                     </div>
                                 )
@@ -241,7 +241,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                         onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                     />
 
                                     {/* This section is for topic of the document */}
@@ -253,8 +253,8 @@ const handleUploadToggle = (event, newToggle) =>{
                                         closeIcon="cancel"
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectTopic(selectedValue)} 
-                                          onRemove={(selectedValue)=> selectTopic(selectedValue)}    
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        onRemove={(selectedValue)=> selectTopic(selectedValue)}    
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                     />
                                   </div>
                                 )
@@ -287,7 +287,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                         onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                     />
 
                                     {/* This section is for topic of the document */}
@@ -299,7 +299,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectTopic(selectedValue)} 
                                         onRemove={(selectedValue)=> selectTopic(selectedValue)}    
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                     />
                                 </div>
                                 )
