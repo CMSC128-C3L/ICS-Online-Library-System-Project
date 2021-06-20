@@ -1,5 +1,5 @@
 .Logo {
-    color: white;
+    color: transparent;
     font-size: 32pt;
     font-family: Ubuntu;
     font-weight: bold;
@@ -16,7 +16,7 @@
 }
 
 .Logo-area {
-    background-color: #47abdb;
+    background: transparent;
     height: 58px;
 }
 .App-search-bar {
@@ -29,19 +29,23 @@
 }
 
 .Header-container {
-    background-color: white;
+    background: transparent;
     display: grid;
-    border-bottom: 1px solid #95d2ec;
+    /*border-bottom: 1px solid #95d2ec;*/
     grid-template-columns: auto auto auto;
     /* column-gap: 10cm; */
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .Header-container-left {
+    background-color: transparent;
     margin-left: 5vw;
     display: flex;
 }
 
 .Header-container-right {
+    background-color: transparent;
     display: inline-grid;
     text-align: right;
     right: 0px;
@@ -51,7 +55,8 @@
 }
 
 .Button{
-    color: #47abdb !important;
+    background-color: transparent;
+    color: #848484 !important;
     margin: 1vw;
     height: 3.5vw;
     max-height: 3.5vw;
@@ -60,4 +65,44 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+}
+
+.Button-current-page{
+    color: #2082af !important;
+    margin: 1vw;
+    height: 3.5vw;
+    max-height: 3.5vw;
+    width: 10vw; 
+    margin-right: 2vw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+}
+
+.Button:hover{
+    border-bottom: 3px solid #47ABD8;
+}
+
+.Button-current-page:hover{
+    border-bottom: 3px solid #47ABD8;
+}
+
+.p1 {
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    font-weight: bold;
+}
+
+.p2 {
+    font-size: 14px;
+    font-family: 'Segoe UI';
+}
+
+.p1:hover{
+    color: #47ABD8;
+}
+
+.p2:hover{
+    color: #47ABD8;
 }
