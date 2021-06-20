@@ -39,7 +39,7 @@ function UpdateDocument(props){
     const handleUpdate = (user) => confirmModal.current.open(user)
     const handleCancel = () => close()
     const handleRoute = () => {
-        console.log("naguupdate na..")
+
         history.push({pathname: `/search/${id}`, state: { fromButtonEdit: false, type: props.type}})
     }
     const splitAuthors = (author) => {
@@ -69,7 +69,7 @@ function UpdateDocument(props){
                 } , options);
             } else if(props.type=="thesis"){
 
-                console.log("this thesis lit man")
+
                 response = await axios.patch(`/api/thesis/${id}`, {
                     title: props.thesis.title, 
                     author: splitAuthors(props.thesis.author),
@@ -83,13 +83,13 @@ function UpdateDocument(props){
                     poster: props.thesis.poster
                 } , options);
 
-                  console.log("thesis save")
+
                 //upload document
                 if(file.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.thesis.title);
                     formData.append("thesisDocument", file[0]);
-                    console.log("uploading thesis..")
+
                     try{
                         axios.post(`/api/thesis/upload/${id}`, formData, options);
 
@@ -104,7 +104,7 @@ function UpdateDocument(props){
                     const formData = new FormData();
                     formData.append("title", props.thesis.title);
                     formData.append("poster", poster[0]);
-                    console.log("uploading thesis poster..")
+
                     try{
                         axios.post(`/api/thesis/upload/${id}`, formData, options);
 
@@ -115,7 +115,7 @@ function UpdateDocument(props){
                 }
 
                 response = await axios.get(`/api/thesis/${id}`)
-                console.log("WOWOW Data: ", response.data);
+
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
                     title: props.sp.title, 
@@ -146,7 +146,7 @@ function UpdateDocument(props){
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
                     formData.append("posterFile ", poster[0]);
-                    console.log("uploading thesis poster..")
+
                     try{
                         axios.post(`/api/sp/upload/${id}`, formData, options);
 
