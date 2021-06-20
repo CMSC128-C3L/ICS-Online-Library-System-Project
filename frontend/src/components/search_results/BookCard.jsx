@@ -26,11 +26,10 @@ function BookCard(props) {
 			state: { fromButtonEdit: true, type: "book" }
 		   });
 
-		console.log('[BOOK] when edit button clicked: ', props.doc);
 	}
 
 	function handleDelete(){
-		console.log('[BOOK] when delete button clicked: ', props.doc);
+
 		openDeleteModal();
 	}
 
