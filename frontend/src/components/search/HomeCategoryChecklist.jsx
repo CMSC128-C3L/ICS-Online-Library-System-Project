@@ -31,7 +31,6 @@ function HomeCategoryChecklist(props){
 
 	const handleChange = (item) =>{
 
-
 		searchContext.dispatch({ type: props.action, item: item});	
 		updateQueryString(searchContext);
 

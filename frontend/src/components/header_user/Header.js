@@ -7,10 +7,21 @@ import { UserContext } from '../user/UserContext';
 import Login from '../login/Login'
 import icsLogo from '../../assets/ics_logo.png';
 import decode from 'jwt-decode';
-
-function Header({name}) {
-    const history = useHistory();
-    const {loggedUser, setLoggedUser} = useContext(UserContext)
+export const ACTIONS = {
+    updateQuery: 'UPDATE_QUERY',
+    updateCategory: 'UPDATE_CATEGORY',
+    updateCourseCode: 'UPDATE_COURSE_CODE',
+    updateTopic: 'UPDATE_TOPIC',
+    reset: 'RESET'
+  }
+  
+  function Header({name}) {
+      const history = useHistory();
+      const {loggedUser, setLoggedUser} = useContext(UserContext)
+      const resetChange = () => (
+          ACTIONS.reset,
+          history.push('/')
+      )
     const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}'
     const renderComponentsBasedOnState = () =>{
         if(data === '{}'){
@@ -40,7 +51,7 @@ function Header({name}) {
             <div className="Header-container">
                 <div className="Header-container-left">
                     
-                    {data.classification === 'Admin' ? <Button className="Button" onClick={() => history.push('/adminHome')}>Home</Button> : <Button className="Button" onClick={() => history.push('/')}>Home</Button>}
+                    {data.classification === 'Admin' ? <Button className="Button" onClick={() => history.push('/adminHome')}>Home</Button> : <Button className="Button" onClick={() => {resetChange()}}>Home</Button>}
                     <Button className="Button" onClick={() => history.push('/search')}>Browse</Button>
                    
                 </div>
