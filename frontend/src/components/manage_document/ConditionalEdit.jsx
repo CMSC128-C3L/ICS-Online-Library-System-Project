@@ -529,6 +529,21 @@ const handleUploadToggle = (event, newToggle) =>{
                             </ToggleButton>
                           </ToggleButtonGroup>
                           
+                          {
+                          (function(uploadToggle){
+                            switch(uploadToggle){
+                              case 'file':
+
+                              case 'manuscript':
+
+                              case 'poster':
+                                
+                              default:
+                                return null;
+                              }
+                              })(uploadToggle)
+                            }
+                                
                           {uploadToggle === 'file' ? 
                           (  <div className="upload-navigation">
                             <h4>File</h4>
@@ -544,7 +559,8 @@ const handleUploadToggle = (event, newToggle) =>{
                             <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
                             <Button onClick={() => downloadFile()}>Download Poster</Button>
                              <span style={{overflow: "hidden"}}>New File: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
-                          </div>)}
+                          </div>)
+                          }
                           </div>
                       </div>
   

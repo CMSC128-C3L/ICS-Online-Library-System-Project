@@ -31,7 +31,7 @@ const searchprop = {
     title: "Search",
     isNav: true,
     isSearch: true,
-    links: ["Home", "Books", "Journals", "SP", "Thesis"]
+    links: ["Home", "Books", "SP", "Thesis"]
 }
 
 const contactprop = {
