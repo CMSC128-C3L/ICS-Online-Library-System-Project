@@ -1,7 +1,7 @@
 import React from 'react'
 import AdminNav from '../components/admin/AdminNav'
 import Header from '../components/header_user/Header'
-import bg from '../assets/adminBackground.png';
+import bg from '../assets/adminBackground1.png';
 
 function AdminHome(props) {
     return (
