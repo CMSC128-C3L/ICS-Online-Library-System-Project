@@ -11,10 +11,11 @@ import IconButton from '@material-ui/core/IconButton';
 import queryString from 'query-string';
 import Modal from '../manage_user_popup/Modal';
 import MultiDeleteDoc from './modal/MultiDeleteDoc';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import decode from 'jwt-decode';
 
 //layout purposes
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import SortDropdown from './SortDropdown';
 import AddIcon from '@material-ui/icons/ImportContacts'
 import './SearchCard.css';
@@ -23,8 +24,7 @@ import './SearchCard.css';
 import BookCard from './BookCard';
 import ThesisCard from './ThesisCard';
 import SpCard from './SpCard';
-import { useLocation, useParams, useHistory} from 'react-router';
-import { Link} from 'react-router-dom';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   tile: {
@@ -53,8 +53,7 @@ function ResultPane(props){
   const history = useHistory();
   const [results, setResults] = useState([]);
   const [sortType, setSortType] = useState("");
-  const location = useLocation();
-  const {id} = useParams();
+  const twoColumnView = useMediaQuery('(min-width:1024px)');
 
   // Sorting
   const handleSortChange = (event) =>{
@@ -221,7 +220,7 @@ function ResultPane(props){
   console.log(results)
 
   return(
-    <Container className= "result-container">
+    <Container className= "result-container" maxWidth={false}>
       <Modal ref={multiDeleteModal}><MultiDeleteDoc selected={selected} getDocuments={getDocuments} setPage={setPage} resetSelected={() => setSelected([])}/></Modal>
 
       {/* add document only for admin */}
@@ -248,15 +247,18 @@ function ResultPane(props){
         }
         <button className={selected.length > 0 ? "tool-button mult-del" : "tool-button hide-btn"} onClick={handleMultDelete}>DELETE SELECTED</button>
         
-        <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+        {results.length > 0?
+          <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+          : null
+        }
       </div>
 
-      <GridList cellHeight={240} spacing={20} className={classes.gridList}>
+      <GridList className="result-grid-list" cellHeight={240} spacing={20} cols={twoColumnView? 2 : 1}>
         {multSelect?
         // render cards with checkboxes if admin chose multiple select
           pageResults.map((result, index) => {
             return(
-              <GridListTile key= {index} 
+              <GridListTile key= {index} className="grid-list-tile"
                 classes = {{
                   tile: selected.indexOf(result) !== -1? `${classes.tile} ${classes.tileGlow}` : classes.tile
                 }}>
@@ -278,8 +280,11 @@ function ResultPane(props){
           })
         }
       </GridList>
-
-      <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+      
+      {results.length > 0 ? 
+        <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+        : null
+      }
     </Container>
   );
 }
