@@ -136,7 +136,7 @@ function AdviserList(props){
    const history = useHistory();
 
   const handleAdviserClick = (event) => {
-    console.log(event.target.value)
+
     history.push('/adviserSummary/' + event.target.value);
     /** method to navigate to author summary here
      *  may be removed and absorbed in author click if method is the same
