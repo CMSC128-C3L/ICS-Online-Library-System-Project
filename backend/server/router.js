@@ -92,13 +92,13 @@ router.post('/api/log/logout', auth, Logs.logoutUser);
 router.patch('/api/log/doc/:user_id', auth, Logs.updateRecord);
 
 //author summary
-router.get('/api/authorSummary/:author', auth, isAdmin, AuthorSummary.getAuthorSummary);
+router.get('/api/authorSummary/:author', AuthorSummary.getAuthorSummary); // auth, isAdmin, 
 
 //adviser summary
-router.get('/api/adviserSummary/:adviser', auth, isAdmin, AdviserSummary.getAdviserSummary);
+router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
 
 //course summary
-router.get('/api/courseSummary/:course', auth, isAdmin, CourseSummary.getCourseSummary);
+router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
 
 //course details
 const Course = require('./controllers/courseController.js');

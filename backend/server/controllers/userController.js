@@ -51,13 +51,12 @@ async function login(req, res) {
       process.env.ACCESS_JWT_SECRET,
       { expiresIn: '1d' });
     // save token to user
+    // user.profile_picture = profile_picture;  //or gawing update
     user.tokens = user.tokens.concat({token});
     await user.save();
     // send token to request
-    // console.log({token});
     res.status(200).send({token});
   } catch(error) {
-    console.log(error)
     res.status(400).send();
   }
 }
@@ -73,7 +72,6 @@ async function logout(req, res) {
     res.status(200).send();
     
   } catch(error) {
-    // console.log(error);
     res.status(500).send();
   }
 }
