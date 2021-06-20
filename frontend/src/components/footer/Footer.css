@@ -10,6 +10,10 @@
     fill: #95D2EC;
 }
 
+.a:hover {
+    cursor: pointer;
+}
+
 .svg {
     fill: white;
     width: 1.5em;

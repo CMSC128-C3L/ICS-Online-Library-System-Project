@@ -406,9 +406,6 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container"  name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Journal: <input className="input-container" name="thesis_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Poster: <input className="input-container" name="thesis_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Manuscript: <input className="input-container" name="thesis_manuscript" type="text" defaultValue={document.manuscript} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Source Code: <input className="input-container" name="thesis_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
                       
                             <div className="main-text-tags">Tags:</div>
@@ -499,9 +496,6 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Journal: <input className="input-container" name="sp_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Poster: <input className="input-container" name="sp_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Manuscript: <input className="input-container" name="sp_manuscript" type="text" defaultValue={document.manuscript} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Source Code: <input className="input-container" name="sp_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
   
                             <div className="main-text-tags">Tags:</div>
@@ -548,6 +542,21 @@ const handleUploadToggle = (event, newToggle) =>{
                             </ToggleButton>
                           </ToggleButtonGroup>
                           
+                          {
+                          (function(uploadToggle){
+                            switch(uploadToggle){
+                              case 'file':
+
+                              case 'manuscript':
+
+                              case 'poster':
+                                
+                              default:
+                                return null;
+                              }
+                              })(uploadToggle)
+                            }
+                                
                           {uploadToggle === 'file' ? 
                           (  <div className="upload-navigation">
                             <h4>File</h4>
@@ -563,7 +572,8 @@ const handleUploadToggle = (event, newToggle) =>{
                             <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
                             <Button onClick={() => downloadFile()}>Download Poster</Button>
                              <span style={{overflow: "hidden"}}>New File: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
-                          </div>)}
+                          </div>)
+                          }
                           </div>
                       </div>
   
@@ -756,7 +766,7 @@ const handleUploadToggle = (event, newToggle) =>{
                            
                           doc_type=="sp"? 
                           (function(view){
-                            console.log("cond edit [journal]:", sp.journal)
+                            console.log("cond edit [journal]:", sp.file)
                             switch(view){
                               // editable document
                               case "journal":

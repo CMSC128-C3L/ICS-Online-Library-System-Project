@@ -11,10 +11,11 @@ import IconButton from '@material-ui/core/IconButton';
 import queryString from 'query-string';
 import Modal from '../manage_user_popup/Modal';
 import MultiDeleteDoc from './modal/MultiDeleteDoc';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import decode from 'jwt-decode';
 
 //layout purposes
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import SortDropdown from './SortDropdown';
 import AddIcon from '@material-ui/icons/ImportContacts'
 import './SearchCard.css';
@@ -23,8 +24,7 @@ import './SearchCard.css';
 import BookCard from './BookCard';
 import ThesisCard from './ThesisCard';
 import SpCard from './SpCard';
-import { useLocation, useParams, useHistory} from 'react-router';
-import { Link} from 'react-router-dom';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   tile: {
@@ -52,8 +52,40 @@ function ResultPane(props){
   const classes = useStyles();
   const history = useHistory();
   const [results, setResults] = useState([]);
-  const location = useLocation();
-  const {id} = useParams();
+  const [sortType, setSortType] = useState("");
+  const twoColumnView = useMediaQuery('(min-width:1024px)');
+
+  // Sorting
+  const handleSortChange = (event) =>{
+    setSortType(event.target.value)
+  }
+
+  const getYear = (doc) => {
+    return doc.pub_date != null? doc.pub_date.split('-')[0] : doc.year
+  }
+
+  const sortResults = (results) => {
+    const docs = [...results]
+    if(sortType == "oldest"){
+      setResults(docs.sort(function(a, b) {
+        return getYear(a) - getYear(b)
+      }))
+    }
+    else if(sortType == "newest"){
+      setResults(docs.sort(function(a, b) {
+        return getYear(b) - getYear(a)
+      }))
+    }
+    else{
+      setResults(docs.sort(function(a, b) {
+        return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+      }))
+    }
+  }
+
+  useEffect(() => {
+    sortResults(results)
+  }, [sortType])
 
   // get docs based on query and filters
   const getDocuments = async() =>{
@@ -93,12 +125,8 @@ function ResultPane(props){
       // wait for promises to be resolved; extract data (array) from each res obj 
       const res = await Promise.all(promises)
       const data = res.map((res) => res.data)
-      // flatten data array and sort alphabetically; then update results
-      setResults(
-        data.flat().sort(function(a, b) {
-          return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
-        })
-      )
+      // flatten data array and sort results
+      sortResults(data.flat())
     }catch(err){
       console.log(err)
     }
@@ -192,7 +220,7 @@ function ResultPane(props){
   console.log(results)
 
   return(
-    <Container className= "result-container">
+    <Container className= "result-container" maxWidth={false}>
       <Modal ref={multiDeleteModal}><MultiDeleteDoc selected={selected} getDocuments={getDocuments} setPage={setPage} resetSelected={() => setSelected([])}/></Modal>
 
       {/* add document only for admin */}
@@ -206,7 +234,7 @@ function ResultPane(props){
       <div className= "result-header">
         <div className="sub-header-container">
           <Typography className="total-results" variant="body1">{results.length + ' total results'}</Typography>
-          <SortDropdown/>
+          <SortDropdown handleChange={handleSortChange}/>
         </div>
 
         {/* multiple select only for admin; if admin, button will change depending if mult select is active or not */}
@@ -219,15 +247,18 @@ function ResultPane(props){
         }
         <button className={selected.length > 0 ? "tool-button mult-del" : "tool-button hide-btn"} onClick={handleMultDelete}>DELETE SELECTED</button>
         
-        <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+        {results.length > 0?
+          <Pagination className="search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+          : null
+        }
       </div>
 
-      <GridList cellHeight={240} spacing={20} className={classes.gridList}>
+      <GridList className="result-grid-list" cellHeight={240} spacing={20} cols={twoColumnView? 2 : 1}>
         {multSelect?
         // render cards with checkboxes if admin chose multiple select
           pageResults.map((result, index) => {
             return(
-              <GridListTile key= {index} 
+              <GridListTile key= {index} className="grid-list-tile"
                 classes = {{
                   tile: selected.indexOf(result) !== -1? `${classes.tile} ${classes.tileGlow}` : classes.tile
                 }}>
@@ -239,7 +270,7 @@ function ResultPane(props){
               </GridListTile>
             )
           }) :
-        // render cards w/o checkboxes, for all users including admin if mutl select not chosen
+        // render cards w/o checkboxes, for all users including admin if mult select not chosen
           pageResults.map((result, index) => {
             return(
               <GridListTile key= {index} classes={{tile: classes.tile}}>
@@ -249,8 +280,11 @@ function ResultPane(props){
           })
         }
       </GridList>
-
-      <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+      
+      {results.length > 0 ? 
+        <Pagination className="bottom-pg search-pagination" count={pageCount} page={page} onChange={handleChangePage}></Pagination>
+        : null
+      }
     </Container>
   );
 }

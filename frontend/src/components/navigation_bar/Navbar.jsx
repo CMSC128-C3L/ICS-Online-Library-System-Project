@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import './Navbar.css';
-import icsLogo from '../../assets/ics_logo.png';
+import icsLogo from '../../assets/ICS_Logo_Minimal_white.png';
 import searchIcon from '../../assets/magnifying_glass.png';
 import SearchContext from '../search_results/SearchContext';
 import { UserContext } from '../user/UserContext';

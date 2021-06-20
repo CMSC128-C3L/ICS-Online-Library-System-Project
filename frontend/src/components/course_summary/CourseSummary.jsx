@@ -11,8 +11,10 @@ import axios from 'axios'
 import { jsPDF } from "jspdf";
 import logo from '../../assets/ics_logo.jpg';
 import autoTable from 'jspdf-autotable';
+import decode from 'jwt-decode'
 
 function CourseSummary(){
+    const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
     const history = useHistory();
     let {id} = useParams();
     const goBack = () =>{
@@ -143,11 +145,11 @@ function CourseSummary(){
                 {/* Render course name depending on inquiry*/}
                 <h4 className="text text-center space-0">{summary.name}</h4>
 
-                <Button variant="contained" style={{color: "white", backgroundColor: "#47abdb", marginTop: "4vh"}} disableElevation startIcon={<GetAppIcon style={{color: "white"}}/>}
+                {uData.classification === "Admin" ? (<Button variant="contained" style={{color: "white", backgroundColor: "#47abdb", marginTop: "4vh"}} disableElevation startIcon={<GetAppIcon style={{color: "white"}}/>}
                     onClick={getPDF}
                 >
                     Generate summary report
-                </Button>
+                </Button>):null}
             </div>
             
             <div className="row content margin-3">

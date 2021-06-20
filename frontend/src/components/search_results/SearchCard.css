@@ -1,4 +1,4 @@
-.result-container {
+.MuiContainer-root.result-container {
   width: 100%;
   padding: 1em 2em 1em 2em;
 }
@@ -42,7 +42,8 @@
   grid-template-areas:
   "doc-cover title title"
   "doc-cover doc-book-content doc-icons";
-  width: 90%;
+  width: 500px;
+  max-width: 100%;
   height: 220px;
 }
 
@@ -53,13 +54,14 @@
   grid-template-areas:
   "title title"
   "doc-content doc-icons";
-  width: 90%;
+  width: 500px;
+  max-width: 100%;
   height: 220px;
 }
 
 .doc-cover {
   grid-area: doc-cover;
-  object-fit:cover;
+  object-fit: contain;
 }
 
 .doc-title {

@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select';
 import './SearchCard.css';
 
 
-function SortDropdown(props){
+function SortDropdown({ handleChange }){
 
   return(
     <div className='sort'>
@@ -14,7 +14,7 @@ function SortDropdown(props){
       <Select
         native
         id="sort-label"
-        onChange={'temporaryHandleChange'}
+        onChange={(e) => {handleChange(e)}}
         style={{height:'5vh'}}
         inputProps={{
           name: 'sort',
@@ -23,7 +23,7 @@ function SortDropdown(props){
         <option value=""> </option>
         <option value="newest">Newest</option>
         <option value="oldest">Oldest</option>
-        <option value="alphabetical order">Alphabetical Order</option>
+        <option value="alphabetical">Alphabetical Order</option>
       </Select>
     </FormControl>
     </div>
