@@ -135,7 +135,10 @@ function ConditionalEdit(props){
   const getPath = (pdfFile) =>{
     try{
       console.log("PDF ",pdfFile);
-      const path_array = pdfFile.split('/');
+      let path_array = pdfFile.split('/');
+      if(path_array.length == 1){ //delimiter must be '\'
+        path_array = pdfFile.split('\\');
+      }
       let path;
       if(path_array[0] === 'uploads'){
         path = 'http://localhost:3000/static/'+path_array[2];

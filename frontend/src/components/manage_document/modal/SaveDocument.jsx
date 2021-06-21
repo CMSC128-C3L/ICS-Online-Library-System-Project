@@ -104,12 +104,13 @@ function SaveDocument(props){
                 
                 console.log("thesis save")
                 //upload document
-                if(file.length > 0){
+                if(file.length > 0 || poster.length > 0 || manus.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.thesis.title);
-                    formData.append("journal", file[0]);
-                    formData.append("poster", poster[0]);
-                    formData.append("thesisDocument", manus[0]);
+                    if(file.length>0) formData.append("journal", file[0]);
+                    if(poster.length>0) formData.append("poster", poster[0]);
+                    if(manus.length>0) formData.append("thesisDocument", manus[0]);
+
                     console.log("uploading thesis..")
                     try{
                         axios.post('/api/thesis/upload/'+response.data._id, formData, options);
@@ -137,12 +138,12 @@ function SaveDocument(props){
                     poster: props.sp.poster  
                 } , options);
 
-                if(file.length > 0){
+                if(file.length > 0 || poster.length > 0 || manus.length > 0){
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
-                    formData.append("journalFile", file[0]);
-                    formData.append("posterFile", poster[0]);
-                    formData.append("spFile", manus[0]);
+                    if(file.length>0) formData.append("journalFile", file[0]);
+                    if(poster.length>0) formData.append("posterFile", poster[0]);
+                    if(manus.length>0) formData.append("spFile", manus[0]);
                     console.log("uploading sp..")
                     try{
                         axios.post('/api/sp/upload/'+response.data._id, formData, options);
