@@ -260,6 +260,7 @@ function filterResults(data, classification){
 			paper.abstract = data.abstract;
 			paper.topic = data.topic;
 			paper.view_count = data.view_count;
+			paper.courses = data.courses;
 	}
 
 	return paper;
