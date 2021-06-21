@@ -23,12 +23,11 @@ function ConditionalTools(){
   const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}'
   const history = useHistory();
   const searchContext = useContext(SearchContext);
-  const resetChange = () => (
-    console.log('memomeowm'),
+  const resetChange = (path) => (
     searchContext.dispatch({ type: ACTIONS.reset2 }),
     updateQueryString(searchContext),
     console.log(searchContext.state.category),
-    history.push('/')
+    history.push(path)
   )
   
   return(
@@ -39,7 +38,7 @@ function ConditionalTools(){
             case "Admin":
               return(
                 <div className="links">
-                  <Button className="a" onClick={() => history.push('/adminHome')}>Home</Button>
+                  <Button className="a" onClick={() => resetChange('/adminHome')}>Home</Button>
                   <Button className="a" onClick={() => history.push('/adminHome/manageDocuments')}>Browse</Button>
                 </div>
               )
@@ -47,7 +46,7 @@ function ConditionalTools(){
               return(
                 <div className="links">
                   
-                  <Button className="a" onClick={() => resetChange()}>Home</Button>
+                  <Button className="a" onClick={() => resetChange('/')}>Home</Button>
                   <Button className="a" onClick={() => history.push('/search')}>Browse</Button>
                 </div>
               )	

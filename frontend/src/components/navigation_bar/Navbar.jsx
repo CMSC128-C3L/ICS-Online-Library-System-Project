@@ -12,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import updateQueryString from '../search_results/UpdateQueryString';
 import decode from 'jwt-decode';
 
+
+
 function Navbar(props){
     const {loggedUser, setLoggedUser} = useContext(UserContext)
     const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}'
