@@ -8,7 +8,7 @@ function Card(props){
         let img = new Image()
         img.src = props.content.image
 
-        if(img.complete) return true;
+        if(img.complete || props.content.updated) return true;
         else return false;
     }
 
