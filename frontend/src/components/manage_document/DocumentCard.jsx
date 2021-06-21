@@ -47,10 +47,10 @@ function DocumentCard(props){
     try{
       if(props.type === "Thesis") {
           console.log("thesis donwlaod")
-        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+        let popUp = window.open("http://localhost:5000/api/thesis/download/2/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }else if(props.type === "Special Problem"){
           console.log("sp downlaod")
-        let popUp = window.open("http://localhost:5000/api/sp/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+        let popUp = window.open("http://localhost:5000/api/sp/download/2/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }
     }catch(e){
       
@@ -62,9 +62,23 @@ function DocumentCard(props){
     
     try{
       if(props.type === "Thesis") {
-        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+        let popUp = window.open("http://localhost:5000/api/thesis/download/0/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }else if(props.type === "Special Problem"){
-        let popUp = window.open("http://localhost:5000/api/sp/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+        let popUp = window.open("http://localhost:5000/api/sp/download/0/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  const downloadJournal = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+    
+    try{
+      if(props.type === "Thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/1/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+      }else if(props.type === "Special Problem"){
+        let popUp = window.open("http://localhost:5000/api/sp/download/1/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }
     }catch(e){
       console.log(e)
@@ -159,7 +173,7 @@ function DocumentCard(props){
 
                                 {(document.file !== '' || document.file !== undefined) && (isPrivileged(userType)) ? 
                                 <div className="download-buttons">
-                                    <Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<DescriptionIcon/>} onClick={() => downloadFile()}>
+                                    <Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<DescriptionIcon/>} onClick={() => downloadJournal()}>
                                     Download Journal
                                     </Button> 
                                     <Button variant="contained" style={{backgroundColor: '#95d2ec', color: "white"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>
