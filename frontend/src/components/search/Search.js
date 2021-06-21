@@ -18,6 +18,8 @@ function Search(props) {
     const history = useHistory();
     const searchContext = useContext(SearchContext)
     const category = {'name': 'Category', 'list': ["Books", "Special Problems", "Theses"]};
+   
+
     const handleChange = (event) =>{
 		setQuery(event.target.value);
     };
@@ -38,6 +40,7 @@ function Search(props) {
     }
     return (                    
         <form className="Search-area">
+            
             <input onKeyDown={enterSubmit} onChange={handleChange} onSubmit={handleSubmit} className="App-search-bar" type="text" placeholder=" Search..."/>
             
             <br/>

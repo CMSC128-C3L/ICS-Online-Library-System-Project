@@ -23,12 +23,16 @@ function ConditionalTools(){
   const data = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}'
   const history = useHistory();
   const searchContext = useContext(SearchContext);
-  const resetChange = (path) => (
-    searchContext.dispatch({ type: ACTIONS.reset2 }),
-    updateQueryString(searchContext),
-    console.log(searchContext.state.category),
+  const resetChange = (path) => {
+    searchContext.state.query = ''
+    searchContext.state.category = []
+    searchContext.state.courseCode = ''
+    searchContext.state.topic = []
+    
+    updateQueryString(searchContext)
+    console.log(searchContext.state.category)
     history.push(path)
-  )
+  }
   
   return(
     <div className="button-links">
