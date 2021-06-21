@@ -25,7 +25,6 @@ function ThesisCard(props) {
 	}
 
 	function handleEdit(){
-		console.log('[THESIS] when edit button clicked: ', props.doc);
 		history.push({ 
 			pathname: `/search/editDocument/${props.doc._id}`,
 			state: { fromButtonEdit: true,type: "thesis"}
@@ -33,7 +32,6 @@ function ThesisCard(props) {
 	}
 
 	function handleDelete(){
-		console.log('[THESIS] when delete button clicked: ', props.doc);
 		openDeleteModal();
 	}
 

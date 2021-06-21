@@ -60,7 +60,7 @@ function UpdateDocument(props){
         try {
 
             // console.log("manus", manus[0].name);
-            console.log('handle submit after promise', props.type)
+           
             if(props.type=="book"){
                 response = await axios.patch(`/api/books/${id}`, {
                     title: props.book.title, 
@@ -72,16 +72,14 @@ function UpdateDocument(props){
                     topic: props.book.topic,
                     courses:data 
                 } , options);
-                console.log("BOOK COVER UPLOAD");
+
                 if(cover.length > 0){
                     const formData = new FormData();
                     // formData.append("title", props.thesis.title);
                     formData.append("book_cover", cover[0]);
-                    console.log("uploading poster..")
                     try{
                         axios.post('/api/books/upload/'+response.data._id, formData, options);
 
-                        console.log("success!")
                     }catch(e){
                         console.log(e)
                     }
@@ -105,7 +103,7 @@ function UpdateDocument(props){
                 //upload document
 
                 if(file.length > 0 || poster.length > 0 || manus.length > 0){
-                        const formData = new FormData();
+                    const formData = new FormData();
                     formData.append("title", props.thesis.title);
                     if(file.length > 0)  formData.append("journal", file[0]);
                     if(poster.length > 0) formData.append("poster", poster[0]);
@@ -135,7 +133,6 @@ function UpdateDocument(props){
 
                 if(file.length > 0 || poster.length > 0 || manus.length > 0){
 
-                    console.log("filee")
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
                     if(file.length > 0)  formData.append("journalFile", file[0]);
@@ -144,17 +141,12 @@ function UpdateDocument(props){
 
                     try{
                         axios.post(`/api/sp/upload/${id}`, formData, options);
-
-                        console.log("nice")
                     }catch(e){
                         console.log(e)
                     }
                 }
                 
             }
-
-
-            console.log('Returned data:', response.data);
             handleRoute()
         } catch (e) {
             console.log(`Axios request failed: ${e}`);
@@ -164,7 +156,7 @@ function UpdateDocument(props){
     // if confirmed then close modal and redirect to search page to see changes
     useEffect(async() => {
         if(confirmed){
-            console.log("confirmed!!")
+
             handleSubmit();
             close();
         }
@@ -177,7 +169,7 @@ function UpdateDocument(props){
 
             {
                 (function(document){
-                    console.log("document card value: ", document.type)
+                   
                     switch(document.type){
                         case "book":
                             return(<h3 className="text prompt"> Save changes to"{props.book.title}" {props.book.year}? </h3>)

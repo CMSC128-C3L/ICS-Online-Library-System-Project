@@ -48,7 +48,6 @@ export default class AboutUs extends React.Component {
     } 
     searchName(name) {
         for (let i = 0; i < roster.length; i++){
-            console.log(roster[i].name)
             if(roster[i].name == name){
                 this.setState({obj: roster[i]})
                 this.setState({modalIsOpen: !this.state.modalIsOpen})
@@ -57,7 +56,7 @@ export default class AboutUs extends React.Component {
         }
     }
     render() {
-        console.log(this.state.obj)
+
         return (
             <>
                 <Modal isOpen={this.state.modalIsOpen} style={customStyles}>

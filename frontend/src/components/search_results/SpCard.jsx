@@ -25,7 +25,6 @@ function SpCard(props) {
 	}
 
 	function handleEdit(){
-		console.log('[SP] when edit button clicked: ', props.doc);
 		history.push({ 
 			pathname: `/search/editDocument/${props.doc._id}`,
 			state: { fromButtonEdit: true, type: "sp" }
@@ -33,7 +32,6 @@ function SpCard(props) {
 	}
 
 	function handleDelete(){
-		console.log('[SP] when delete button clicked: ', props.doc);
 		openDeleteModal();
 	}
 

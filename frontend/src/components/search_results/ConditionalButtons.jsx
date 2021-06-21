@@ -32,7 +32,6 @@ function ConditionalButtons(props){
 	const openAddModal = (user, props) => {addModal.current.open(user, props)}
 
   const handleAdd = () =>{
-    console.log('[DOCUMENT] when add button clicked: ');
 		openAddModal();
   }
 

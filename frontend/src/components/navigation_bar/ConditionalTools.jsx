@@ -30,7 +30,6 @@ function ConditionalTools(){
     searchContext.state.topic = []
     
     updateQueryString(searchContext)
-    console.log(searchContext.state.category)
     history.push(path)
   }
   

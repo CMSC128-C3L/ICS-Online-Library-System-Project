@@ -107,7 +107,7 @@ function ConditionalEdit(props){
 
 
         setDocument(document.data); 
-        console.log("data:\n", document.data)
+
         const log = await axios.patch('/api/log/doc/'+uData.user_id,{doc_id:id});
     }catch(e){
         console.log(e)
@@ -162,7 +162,6 @@ function ConditionalEdit(props){
 
   const getPath = (pdfFile) =>{
     try{
-      console.log("PDF ",pdfFile);
       let path_array = pdfFile.split('/');
       if(path_array.length == 1){ //delimiter must be '\'
         path_array = pdfFile.split('\\');
@@ -173,7 +172,7 @@ function ConditionalEdit(props){
       }else{
         path = pdfFile;
       }
-      console.log("PATH", path);
+
       return path;
     }catch (err){
       //MAY ERROR
@@ -338,7 +337,7 @@ function ConditionalEdit(props){
   useEffect(() => {
     selectTopic(selectedTopic)
     selectCourse(selectedCourse)
-    console.log(manus);
+
 }, [selectedTopic, selectedCourse, manus])
 
 const [view, setView] = useState('journal');
@@ -722,8 +721,6 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className='image-card-container' >
                               <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
                             </div>
-
-                            {console.log("[conditional edit] document course: ", document.course_code)}
                             <div className='document-card-flex-column' key={document.id}>
                             <DocumentCard
                                 docID={document._id}
@@ -822,7 +819,7 @@ const handleUploadToggle = (event, newToggle) =>{
                            
                           doc_type=="sp"? 
                           (function(view){
-                            console.log("cond edit [journal]:", sp.file)
+                            
                             switch(view){
                               // editable document
                               case "journal":

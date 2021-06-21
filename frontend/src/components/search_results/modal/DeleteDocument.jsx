@@ -47,7 +47,7 @@ function DeleteDocument(props){
             } else if(props.type=="Special Problem"){
                 response = await axios.delete(`/api/sp/${props.sp._id}`, options);
             }
-            console.log('Returned data:', response.data);
+
         } catch (e) {
             console.log(`Axios request failed: ${e}`);
         }
@@ -68,7 +68,7 @@ function DeleteDocument(props){
             <DeleteIcon className={classes.iconStyle}/>
             {
                 (function(document){
-                    console.log("document card value: ", document.type)
+                    
                     
                     switch(document.type){
                         case "Book":

@@ -22,17 +22,14 @@ function DocumentCard(props){
     const history = useHistory();
 
     const handleAuthorClick = (event) => {
-        console.log('author click', event.target.value)
         history.push('/authorSummary/' + event.target.value);
     }
 
     const handleCourseClick = (event) => {
-        console.log('course click',event.target.value)
         history.push('/courseSummary/' + event.target.value);
     }
 
     const handleAdviserClick = (event) => {
-        console.log('adviser click',event.target.value)
         history.push('/adviserSummary/' + event.target.value);
     }
 
@@ -46,10 +43,8 @@ function DocumentCard(props){
 
     try{
       if(props.type === "Thesis") {
-          console.log("thesis donwlaod")
         let popUp = window.open("http://localhost:5000/api/thesis/download/2/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }else if(props.type === "Special Problem"){
-          console.log("sp downlaod")
         let popUp = window.open("http://localhost:5000/api/sp/download/2/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }
     }catch(e){
@@ -151,12 +146,12 @@ function DocumentCard(props){
                                 <div className="text-tags">Publishing Date: {document.yearPublished}</div>
                                 
                                 {/* check if topic is undefined since input field is not required. do not show if undefined */}
-                                {Object.keys(topicObj).length==0? console.log("[sp/thesis topic] undefined"): 
+                                {Object.keys(topicObj).length==0? null: 
                                 (<div className="text-tags">Topic: {Object.values(topicObj).join(", ")}</div>)
                                 }
 
                                 {/* clickable course, if undefined do not show */}
-                                {Object.keys(courseObj).length==0? console.log("[sp/thesis course] undefined"): 
+                                {Object.keys(courseObj).length==0? null: 
                                 (<div className="text-tags"> Course: 
                                     <ul className="click-list">
                                     {Object.values(courseObj).map((course) => {
@@ -170,7 +165,6 @@ function DocumentCard(props){
 
                                 {/* check if source code is empty, if not, check if faculty and up to get access to source code */}
                                 {(document.code !== '' || document.code !== undefined) && (isPrivileged(userType)) ? <div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null}
-                                {console.log('test', document)}
                                 {(isPrivileged(userType)) ? 
                                 <div className="download-buttons">
                                     {document.journal ? (<Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<DescriptionIcon/>} onClick={() => downloadJournal()}>

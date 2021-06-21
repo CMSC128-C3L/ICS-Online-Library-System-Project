@@ -17,10 +17,7 @@ export const ACTIONS = {
 function GuestHome() {
     const {loggedUser, setLoggedUser} = useContext(UserContext) 
 
-    //check to see if user is still logged in
-        useEffect(() => {
-            console.log('user', loggedUser)
-        }, [])
+
 
     return (
         <div style = {{

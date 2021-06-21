@@ -37,7 +37,7 @@ function MultiDeleteDoc(props){
           else typeRoute = "sp"
 
           const res = await axios.delete(`/api/${typeRoute}/${doc._id}`, options)
-          console.log(res)
+
 
         }catch(e){
           console.log(e)

@@ -23,7 +23,6 @@ function JournalCard(props) {
 	}
 
 	function handleEdit(){
-		console.log('[JOURNAL] when edit button clicked: ', props.doc);
 		history.push({ 
 			pathname: `/search/editDocument/${props.doc._id}`,
 			state: { fromButtonEdit: true, type: "journal"}
@@ -31,7 +30,6 @@ function JournalCard(props) {
 	}
 
 	function handleDelete(){
-		console.log('[JOURNAL] when delete button clicked: ', props.doc);
 		openDeleteModal();
 	}
 
