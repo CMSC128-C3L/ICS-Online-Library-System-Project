@@ -40,9 +40,10 @@ function EditCard({ card }){
                         "link": content.link,
                     },
                     options) 
-                      
+                console.log("status", res.status);
             }catch(e){
                 console.log(e)
+                
             }
         }
 
