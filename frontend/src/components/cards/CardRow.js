@@ -23,13 +23,6 @@ function CardRow({edit, handleEdit}){
         const getCards = async () => {
             try{
                 announcements = await axios.get('/api/advisory/')
-                for(let i = 0; i < 3; i++){
-                    if(!imageExists(announcements.data[i].image)){
-                        if(announcements.data[i].header === "Advisory") announcements.data[i].image = defaultAdvisoryImg
-                        else if(announcements.data[i].header === "News") announcements.data[i].image = defaultNewsImg
-                        else announcements.data[i].image = defaultFeaturedImg
-                    }
-                }
                 setCards(announcements.data)
             }catch(e){}
         }

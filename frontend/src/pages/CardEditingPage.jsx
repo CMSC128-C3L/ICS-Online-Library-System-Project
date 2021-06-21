@@ -27,9 +27,7 @@ function CardEditingPage() {
         const getCard = async () => {
             try{
                 announcements = await axios.get('/api/advisory/')
-                if(!imageExists(announcements.data[index].image)){
-                    announcements.data[index].image = featuredImg
-                }
+
                 setCard(announcements.data[index])
             }catch(e){console.log("error in card fetching")}
         }
