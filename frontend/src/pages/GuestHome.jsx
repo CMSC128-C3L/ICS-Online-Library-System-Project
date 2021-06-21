@@ -25,7 +25,11 @@ function GuestHome() {
         }, [])
 
     return (
-        <div style = {{backgroundImage: `url(${bg})`,backgroundRepeat: 'no-repeat'}}>
+        <div style = {{
+            backgroundImage: `url(${bg})`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundPositionY: '-0.25cm'}}>
             <Header/>
             <Search action={ ACTIONS.updateQuery }/>
             <CardRow/>

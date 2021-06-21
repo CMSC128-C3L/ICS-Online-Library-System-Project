@@ -5,7 +5,10 @@ import bg from '../assets/adminBackground1.png';
 
 function AdminHome(props) {
     return (
-        <div style = {{backgroundImage: `url(${bg})`,backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
+        <div style = {{
+            backgroundImage: `url(${bg})`,
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'}}>
             <Header name={props.match.params.id}></Header>
             <AdminNav></AdminNav>
         </div> 
