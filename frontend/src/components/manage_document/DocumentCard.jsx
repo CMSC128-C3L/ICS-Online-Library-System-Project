@@ -170,18 +170,18 @@ function DocumentCard(props){
 
                                 {/* check if source code is empty, if not, check if faculty and up to get access to source code */}
                                 {(document.code !== '' || document.code !== undefined) && (isPrivileged(userType)) ? <div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null}
-
-                                {(document.file !== '' || document.file !== undefined) && (isPrivileged(userType)) ? 
+                                {console.log('test', document)}
+                                {(isPrivileged(userType)) ? 
                                 <div className="download-buttons">
-                                    <Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<DescriptionIcon/>} onClick={() => downloadJournal()}>
+                                    {document.journal ? (<Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<DescriptionIcon/>} onClick={() => downloadJournal()}>
                                     Download Journal
-                                    </Button> 
-                                    <Button variant="contained" style={{backgroundColor: '#95d2ec', color: "white"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>
+                                    </Button>) : null} 
+                                    {document.file ? (<Button variant="contained" style={{backgroundColor: '#95d2ec', color: "white"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>
                                     Download Manuscript
-                                    </Button> 
-                                    <Button variant="contained" style={{backgroundColor: '#ff4242', color: "white"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>
+                                    </Button>) : null }
+                                    {document.poster ? (<Button variant="contained" style={{backgroundColor: '#ff4242', color: "white"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>
                                     Download Poster
-                                    </Button>
+                                    </Button>) : null}
                                 </div> 
                                 : null}
                                 </div>

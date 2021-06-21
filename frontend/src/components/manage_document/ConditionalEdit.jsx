@@ -735,7 +735,6 @@ const handleUploadToggle = (event, newToggle) =>{
                                 docISBN={document.isbn}
                                 topic={document.topic}
                                 course={document.course_code}
-                                view={document.view_count}
                             />
                             </div>
     
@@ -779,6 +778,9 @@ const handleUploadToggle = (event, newToggle) =>{
                               course={document.courses}
                               code={document.source_code}
                               view={document.view_count}
+                              file={document.file}
+                              journal={document.journal}
+                              poster={document.poster}
                               /> }
                             
                             </div>
