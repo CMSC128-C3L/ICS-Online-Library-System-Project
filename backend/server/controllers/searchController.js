@@ -122,9 +122,9 @@ async function advanceSearchBook(req, res) {
 		let data;
 		
 		if(typeof(topics) === 'object' && courseCode != ''){//it's an array 
-			data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], 'courses.code': courseCode, topic: { $all : topics}});
+			data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}], 'courses.code': courseCode, topic: { $in : topics}});
 		}else if(typeof(topics) === 'object' && courseCode === ''){
-			data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {'courses.code':{$regex: query}}], topic: { $all : topics}});
+			data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {'courses.code':{$regex: query}}], topic: { $in : topics}});
 		}else if (topics === '' && courseCode != ''){//it's empty
 			data = await Book.find({$or:[{title: {$regex: query}}, {author:{$regex: query}}, {isbn:{$regex: query}}, {publisher:{$regex: query}}, {description:{$regex: query}}, {topic:{$regex: query}}], 'courses.code': courseCode});
 		}else if(topics === '' && courseCode === ''){
@@ -139,7 +139,7 @@ async function advanceSearchBook(req, res) {
 		const book = data.map(item => bookFunc.bookBase(item));
 		if(book != null) res.status(200).send(book);
 		else res.status(404).send("Book not found!");
-	}catch{
+	}catch (err){
 		res.status(500).send();
 	}
 }
@@ -153,9 +153,9 @@ async function advanceSearchThesis(req, res) {
 		let thesis_data;
 
 		if(typeof(topics) === 'object' && courseCode != ''){//it's an array 
-			thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], 'courses.code': courseCode, topic:{$all:topics}});
+			thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], 'courses.code': courseCode, topic:{$in:topics}});
 		}else if(typeof(topics) === 'object' && courseCode === ''){
-			thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}},  {'courses.code':{$regex: query}}], topic:{$all:topics}});
+			thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}},  {'courses.code':{$regex: query}}], topic:{$in:topics}});
 		}else if (topics === '' && courseCode != ''){//it's empty
 			thesis_data = await Thesis.find({type:'Thesis', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}], 'courses.code': courseCode});
 		}else if(topics === '' && courseCode === ''){
@@ -172,7 +172,7 @@ async function advanceSearchThesis(req, res) {
 			res.status(200).send(thesis);
 		}
 		else res.status(404).send("Thesis not found!");
-	}catch{
+	}catch (err){
 		res.status(500).send();
 	}
 }
@@ -186,9 +186,9 @@ async function advanceSearchSp(req, res) {
 		let sp_data;
 
 		if(typeof(topics) === 'object' && courseCode != ''){//it's an array 
-			sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], 'courses.code': courseCode, topic:{$all:topics}});
+			sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}], 'courses.code': courseCode, topic:{$in:topics}});
 		}else if(typeof(topics) === 'object' && courseCode === ''){
-			sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}},  {'courses.code':{$regex: query}}], topic:{$all:topics}});
+			sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}},  {'courses.code':{$regex: query}}], topic:{$in:topics}});
 		}else if (topics === '' && courseCode != ''){//it's empty
 			sp_data = await Sp.find({type:'Special Problem', $or:[{title: {$regex: query}}, {author:{$regex: query}}, {adviser:{$regex: query}}, {abstract:{$regex: query}}, {topic:{$regex: query}}], 'courses.code': courseCode});
 		}else if(topics === '' && courseCode === ''){
@@ -205,7 +205,7 @@ async function advanceSearchSp(req, res) {
 			res.status(200).send(sp);
 		}
 		else res.status(404).send("SP not found!");
-	}catch{
+	}catch (err){
 		res.status(500).send();
 	}
 }
