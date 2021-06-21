@@ -468,7 +468,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 return (<div className="upload-navigation"> 
                                 <h4>File</h4>
                                 <Button onClick={() => openFileModal()}>Select New File</Button>
-                                <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
+                                <p>Current File: {document.journal === undefined || document.journal === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
                                 <Button onClick={() => downloadFile()}>Download File</Button>
                                 <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
                                 </div>)
@@ -486,7 +486,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 return  (<div className="upload-navigation">
                                 <h4>Manuscript</h4>
                                 <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
-                                <span style={{overflow: "hidden"}}>Current Uploaded Manuscript: {document.manus === undefined || document.manus === ''  ? <p>None</p> : <p>{displayFileName(document.manus)}</p>}</span>
+                                <span style={{overflow: "hidden"}}>Current Uploaded Manuscript: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
                                 <Button onClick={() => downloadFile()}>Download Manuscript</Button>
                                 <span style={{overflow: "hidden"}}>New Manuscript: {manus.length === 0  ? <p>None</p> : <p>{displayFileName(manus[0].name)}</p>}</span>
                                 </div>)
@@ -574,7 +574,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 return (<div className="upload-navigation"> 
                                 <h4>File</h4>
                                 <Button onClick={() => openFileModal()}>Select New File</Button>
-                                <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
+                                <p>Current File: {document.journal === undefined || document.journal === '' ? <p>None</p> : <p>{displayFileName(document.journal)}</p>}</p>
                                 <Button onClick={() => downloadFile()}>Download File</Button>
                                 <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
                                 </div>)
@@ -592,7 +592,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 return  (<div className="upload-navigation">
                                 <h4>Manuscript</h4>
                                 <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
-                                <span style={{overflow: "hidden"}}>Current Uploaded Manuscript: {document.manus === undefined || document.manus === ''  ? <p>None</p> : <p>{displayFileName(document.manus)}</p>}</span>
+                                <span style={{overflow: "hidden"}}>Current Uploaded Manuscript: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
                                 <Button onClick={() => downloadFile()}>Download Manuscript</Button>
                                 <span style={{overflow: "hidden"}}>New Manuscript: {manus.length === 0  ? <p>None</p> : <p>{displayFileName(manus[0].name)}</p>}</span>
                                 </div>)
