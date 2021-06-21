@@ -25,10 +25,9 @@ function Search(props) {
     const handleSubmit = (event) =>{
         event.preventDefault()
         searchContext.dispatch({
-			type: props.action,
+            type: props.action,
 			query: query
 		})
-
         history.push('/search');
     }
 
@@ -39,7 +38,7 @@ function Search(props) {
     }
     return (                    
         <form className="Search-area">
-            <input onKeyDown={enterSubmit} onChange={handleChange} onSubmit={handleSubmit} className="App-search-bar" type="text" placeholder="Search..."/>
+            <input onKeyDown={enterSubmit} onChange={handleChange} onSubmit={handleSubmit} className="App-search-bar" type="text" placeholder=" Search..."/>
             
             <br/>
 

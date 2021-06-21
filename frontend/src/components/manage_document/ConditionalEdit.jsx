@@ -8,6 +8,7 @@ import axios from 'axios';
 import DownloadIcon from '@material-ui/icons/GetApp';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
+import UploadIcon from '@material-ui/icons/Backup';
 import DocumentCard from './DocumentCard';
 import Modal from './modal/Modal';
 import UpdateDocument from './modal/UpdateDocument';
@@ -24,6 +25,11 @@ import UploadFile from './modal/UploadFile';
 import UploadPoster from './modal/UploadPoster';
 import Button from '@material-ui/core/Button'
 import decode from 'jwt-decode';
+import {BookCoverContext} from './BookCoverContext';
+import { ManuscriptContext } from './ManuscriptContext';
+import UploadBookCover from './modal/UploadBookCover';
+import path from 'path';
+import UploadManuscript from './modal/UploadManuscript';
 
 /**
  * functional component
@@ -37,13 +43,16 @@ function ConditionalEdit(props){
   const {id} = useParams();
   const [selectedValue, setSelectedValue] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [cover, setCover] = useState([]);
   const {loggedUser, setLoggedUser} = useContext(UserContext); 
   const [uploadToggle, setUploadToggle] = useState('file')
   const [poster, setPoster] = useState([]);
+  const [manus, setManus] = useState([]);
+
   // const {file, setFile} = useContext(FileContext)
   const [file, setFile] = useState([])
   const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
-  console.log(uData)
+  // console.log("udata:" , uData)
   
   // Create reference to modal
   const saveModal = useRef(null)
@@ -52,7 +61,10 @@ function ConditionalEdit(props){
   const openFileModal = () => {uploadFileModal.current.open(props)}
   const uploadPosterModal = useRef(null);
   const openPosterModal = () => {uploadPosterModal.current.open(props)}
-
+  const uploadCoverModal = useRef(null);
+  const openCoverModal = () => {uploadCoverModal.current.open(props)}
+  const uploadManusModal = useRef(null);
+  const openManusModal = () => {uploadManusModal.current.open(props)}
   //get flag whether the edit button from manage document is clicked
   let location = useLocation();
   let allowEdit, doc_type;
@@ -68,6 +80,7 @@ function ConditionalEdit(props){
   const getCourseCode = (data) => {
     return data.code;
   }
+
 
   //get the specific document data 
   const getDocument = async() =>{
@@ -94,7 +107,7 @@ function ConditionalEdit(props){
 
 
         setDocument(document.data); 
-        console.log("conditional edit data:\n", document.data)
+        console.log("data:\n", document.data)
         const log = await axios.patch('/api/log/doc/'+uData.user_id,{doc_id:id});
     }catch(e){
         console.log(e)
@@ -105,19 +118,68 @@ function ConditionalEdit(props){
     return fileName.split('\\').pop();
   }
 
-  const downloadFile = async() =>{
+  const downloadPoster = async() =>{
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
  
     try{
       if(doc_type === "thesis") {
-        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+id, '_parent');
+        let popUp = window.open("http://localhost:5000/api/thesis/download/0/"+localStorage.getItem('token')+"/"+id, '_parent');
       }else if(doc_type === "sp"){
-        let popUp = window.open("http://localhost:5000/api/sp/download/"+localStorage.getItem('token')+"/"+id, '_parent');
+        let popUp = window.open("http://localhost:5000/api/sp/download/0/"+localStorage.getItem('token')+"/"+id, '_parent');
       }
     }catch(e){
       console.log(e)
     }
   }
+
+  const downloadJournal = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+ 
+    try{
+      if(doc_type === "thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/1/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }else if(doc_type === "sp"){
+        let popUp = window.open("http://localhost:5000/api/sp/download/1/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  const downloadFile = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+ 
+    try{
+      if(doc_type === "thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/2/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }else if(doc_type === "sp"){
+        let popUp = window.open("http://localhost:5000/api/sp/download/2/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  const getPath = (pdfFile) =>{
+    try{
+      console.log("PDF ",pdfFile);
+      let path_array = pdfFile.split('/');
+      if(path_array.length == 1){ //delimiter must be '\'
+        path_array = pdfFile.split('\\');
+      }
+      let path;
+      if(path_array[0] === 'uploads'){
+        path = 'http://localhost:3000/static/'+path_array[2];
+      }else{
+        path = pdfFile;
+      }
+      console.log("PATH", path);
+      return path;
+    }catch (err){
+      //MAY ERROR
+    }
+  }
+
 
 
   useEffect(() => {
@@ -145,6 +207,7 @@ function ConditionalEdit(props){
     topic: "",
     code:"",
     journal: "",
+    manuscript: "",
     poster: "",
     file: ""
   })
@@ -159,6 +222,7 @@ function ConditionalEdit(props){
     topic: "",
     code:"",
     journal: "",
+    manuscript: "",
     poster: "",
     file: ""
   })
@@ -191,6 +255,7 @@ function ConditionalEdit(props){
       topic: document.topic,
       code: document.source_code,
       journal: document.journal,
+      manuscript: document.manuscript,
       poster: document.poster,
       file: document.file
     })
@@ -206,6 +271,7 @@ function ConditionalEdit(props){
       topic: document.topic,
       code: document.source_code,
       journal: document.journal,
+      manuscript: document.manuscript,
       poster: document.poster,
       file: document.file
     })
@@ -233,6 +299,7 @@ function ConditionalEdit(props){
       else if(target.name==="thesis_pub_date") thesis.pub_date = target.value;
       else if(target.name==="thesis_journal") thesis.journal = target.value;
       else if(target.name==="thesis_poster") thesis.poster = target.value;
+      else if(target.name==="thesis_manuscript") thesis.manuscript = target.value;
       else if(target.name==="thesis_source_code") thesis.source_code = target.value;
       else if(target.name==="thesis_abstract") thesis.abstract = target.value;
     }
@@ -243,6 +310,7 @@ function ConditionalEdit(props){
       else if(target.name==="sp_adviser") sp.adviser = target.value;
       else if(target.name==="sp_pub_date") sp.pub_date = target.value;
       else if(target.name==="sp_journal") sp.journal = target.value;
+      else if(target.name==="sp_manuscript") sp.manuscript = target.value;
       else if(target.name==="sp_poster") sp.poster = target.value;
       else if(target.name==="sp_source_code") sp.source_code = target.value;
       else if(target.name==="sp_abstract") sp.abstract = target.value;
@@ -252,7 +320,6 @@ function ConditionalEdit(props){
   // for tags input value
   const selectTopic  = (selectedItem)  =>{
     setSelectedTopic(selectedItem);
-    console.log("content [select]: \n", selectedTopic)
     
     if(doc_type=="book") book.topic = selectedTopic
     else if(doc_type=="sp") sp.topic = selectedTopic
@@ -262,7 +329,6 @@ function ConditionalEdit(props){
   const selectCourse  = (selectedItem)  =>{
     // method for assigning the course object of document
     setSelectedCourse(selectedItem);
-    console.log("content [course]: \n", selectedCourse)
 
     if(doc_type=="book") book.courses = selectedCourse
     else if(doc_type=="sp") sp.courses = selectedCourse
@@ -272,31 +338,33 @@ function ConditionalEdit(props){
   useEffect(() => {
     selectTopic(selectedTopic)
     selectCourse(selectedCourse)
-}, [selectedTopic, selectedCourse])
+    console.log(manus);
+}, [selectedTopic, selectedCourse, manus])
 
 const [view, setView] = useState('journal');
 
 const handleView = (event, newToggle) => {
   setView(newToggle);
-  console.log("toggle: ", newToggle);
 };
 
 const handleUploadToggle = (event, newToggle) =>{
   setUploadToggle(newToggle);
-  console.log('upload toggle: ', newToggle);
 }
 
   return(
     <div className="browsebg browsebg-container">
       
+      <ManuscriptContext.Provider value={{manus, setManus}}>
       <FileContext.Provider value={{file, setFile}}>
       <PosterContext.Provider value={{poster, setPoster}}>
+      <BookCoverContext.Provider value={{cover, setCover}}>
       <Modal ref={saveModal}><UpdateDocument book={book} sp={sp} thesis={thesis} course={selectedCourse} type={doc_type}/></Modal>
       <Modal ref={uploadFileModal}><UploadFile document={document} /></Modal>
       <Modal ref={uploadPosterModal}><UploadPoster document={document} /></Modal>
+      <Modal ref={uploadCoverModal}><UploadBookCover document={document} /></Modal>
+      <Modal ref={uploadManusModal}><UploadManuscript document={document}/></Modal>
       {
         (function(allowEdit, doc_type, userType){
-          console.log("CONDITIONAL EDIT USER TYPE", userType)
           switch(allowEdit){
             // editable document
             case true:
@@ -306,8 +374,12 @@ const handleUploadToggle = (event, newToggle) =>{
                   <div> 
                       <div className='document-card-flex-row'>
                           {/* document thumbnail not editable */}
-                          <div className='image-card-container card-content' >
+                          <div className='image-card-container document-card-flex-column' >
                           <img src={document.book_cover_img} alt="" className={classes.imageStyle}></img>
+                          
+                          <UploadIcon className={classes.iconStyle} style={{alignSelf:'center'}}/>
+                          <button className={classes.textStyle} onClick={() => openCoverModal()}>UPLOAD THUMBNAIL</button>
+                          <span style={{overflow: "hidden"}}>Book Cover: {cover.length === 0  ? <p>None</p> :  <p>{cover[0].name}</p>}</span>
                           </div>
                           
                           {/* document attributes are editable*/}
@@ -343,6 +415,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 selectedValues={document.course_code}
                             />
                           </div>
+
                           
                           
                       </div>
@@ -372,8 +445,6 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className="main-text-tags">Author: <input className="input-container" name="thesis_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container"  name="thesis_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="thesis_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Journal: <input className="input-container" name="thesis_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Poster: <input className="input-container" name="thesis_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Source Code: <input className="input-container" name="thesis_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
                       
                             <div className="main-text-tags">Tags:</div>
@@ -401,36 +472,55 @@ const handleUploadToggle = (event, newToggle) =>{
                             />
                           </div>
                           <div className="document-card-container  uploads-container">
-                              <ToggleButtonGroup
+                            <ToggleButtonGroup
                             value={uploadToggle}
                             exclusive
+                            className={classes.toggleStyle}
                             onChange={handleUploadToggle}
                             aria-label="text alignment"
                           >
-                            <ToggleButton value="poster" aria-label="left aligned">
+                            <ToggleButton value="poster" className={classes.fontStyle} aria-label="left aligned">
                               POSTER
                             </ToggleButton>
-                            <ToggleButton value="file" aria-label="centered">
+                            <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
                               JOURNAL
+                            </ToggleButton>
+                            <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                              MANUSCRIPT
                             </ToggleButton>
                           </ToggleButtonGroup>
                           
-                          {uploadToggle === 'file' ? 
-                          (  <div className="upload-navigation"> 
-                            <h4>File</h4>
-                            <Button onClick={() => openFileModal()}>Select New File</Button>
-                            <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
-                            <Button onClick={() => downloadFile()}>Download File</Button>
-                            <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
-                          </div>) : 
-                          
-                         (<div className="upload-navigation">
-                            <h4>Poster</h4>
-                            <Button onClick={() => openPosterModal()}>Select New Poster</Button>
-                            <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
-                            <Button onClick={() => downloadFile()}>Download Poster</Button>
-                             <span style={{overflow: "hidden"}}>New Poster: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
-                          </div>)}
+                          {function(uploadToggle){
+                            switch(uploadToggle){
+                              case "file":
+                                return (<div className="upload-navigation"> 
+                                <h4>File</h4>
+                                <Button onClick={() => openFileModal()}>Select New File</Button>
+                                <p>Current File: {document.journal === undefined || document.journal === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
+                                <Button onClick={() => downloadJournal()}>Download File</Button>
+                                <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
+                                </div>)
+
+                              case "poster":
+                                return  (<div className="upload-navigation">
+                                <h4>Poster</h4>
+                                <Button onClick={() => openPosterModal()}>Select New Poster</Button>
+                                <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
+                                <Button onClick={() => downloadPoster()}>Download Poster</Button>
+                                <span style={{overflow: "hidden"}}>New Poster: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
+                                </div>)
+
+                              case "manuscript":
+                                return  (<div className="upload-navigation">
+                                <h4>Manuscript</h4>
+                                <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
+                                <span style={{overflow: "hidden"}}>Current Uploaded Manuscript: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
+                                <Button onClick={() => downloadFile()}>Download Manuscript</Button>
+                                <span style={{overflow: "hidden"}}>New Manuscript: {manus.length === 0  ? <p>None</p> : <p>{displayFileName(manus[0].name)}</p>}</span>
+                                </div>)
+                            }
+                          }(uploadToggle)              
+                        }
                           </div>
                         
                       </div>
@@ -460,8 +550,6 @@ const handleUploadToggle = (event, newToggle) =>{
                             <div className="main-text-tags">Author: <input className="input-container" name="sp_author" type="text" defaultValue={document.author} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Adviser: <input className="input-container" name="sp_adviser" type="text" defaultValue={document.adviser} onChange={handleInputChange}/></div>
                             <div className="main-text-tags">Publishing Date: <input className="input-container" name="sp_pub_date" type="date" defaultValue={document.pub_date} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Journal: <input className="input-container" name="sp_journal" type="text" defaultValue={document.journal} onChange={handleInputChange}/> </div>
-                            <div className="main-text-tags">Poster: <input className="input-container" name="sp_poster" type="text" defaultValue={document.poster} onChange={handleInputChange}/> </div>
                             <div className="main-text-tags">Source Code: <input className="input-container" name="sp_source_code" type="text" defaultValue={document.source_code} onChange={handleInputChange}/> </div>
   
                             <div className="main-text-tags">Tags:</div>
@@ -493,33 +581,52 @@ const handleUploadToggle = (event, newToggle) =>{
                             <ToggleButtonGroup
                             value={uploadToggle}
                             exclusive
+                            className={classes.toggleStyle}
                             onChange={handleUploadToggle}
                             aria-label="text alignment"
                           >
-                            <ToggleButton value="poster" aria-label="left aligned">
+                            <ToggleButton value="poster" className={classes.fontStyle} aria-label="left aligned">
                               POSTER
                             </ToggleButton>
-                            <ToggleButton value="file" aria-label="centered">
+                            <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
                               JOURNAL
+                            </ToggleButton>
+                            <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                              MANUSCRIPT
                             </ToggleButton>
                           </ToggleButtonGroup>
                           
-                          {uploadToggle === 'file' ? 
-                          (  <div className="upload-navigation">
-                            <h4>File</h4>
-                            <Button onClick={() => openFileModal()}>Select New File</Button>
-                            <p>Current File: {document.file === undefined || document.file === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
-                            <Button onClick={() => downloadFile()}>Download File</Button>
-                            <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
-                          </div>) : 
-                          
-                          (<div className="upload-navigation">
-                            <h4>Poster</h4>
-                            <Button onClick={() => openPosterModal()}>Select New Poster</Button>
-                            <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
-                            <Button onClick={() => downloadFile()}>Download Poster</Button>
-                             <span style={{overflow: "hidden"}}>New File: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
-                          </div>)}
+                          {function(uploadToggle){
+                            switch(uploadToggle){
+                              case "file":
+                                return (<div className="upload-navigation"> 
+                                <h4>File</h4>
+                                <Button onClick={() => openFileModal()}>Select New File</Button>
+                                <p>Current File: {document.journal === undefined || document.journal === '' ? <p>None</p> : <p>{displayFileName(document.journal)}</p>}</p>
+                                <Button onClick={() => downloadJournal()}>Download File</Button>
+                                <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
+                                </div>)
+
+                              case "poster":
+                                return  (<div className="upload-navigation">
+                                <h4>Poster</h4>
+                                <Button onClick={() => openPosterModal()}>Select New Poster</Button>
+                                <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
+                                <Button onClick={() => downloadPoster()}>Download Poster</Button>
+                                <span style={{overflow: "hidden"}}>New Poster: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
+                                </div>)
+
+                              case "manuscript":
+                                return  (<div className="upload-navigation">
+                                <h4>Manuscript</h4>
+                                <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
+                                <span style={{overflow: "hidden"}}>Current Uploaded Manuscript: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
+                                <Button onClick={() => downloadFile()}>Download Manuscript</Button>
+                                <span style={{overflow: "hidden"}}>New Manuscript: {manus.length === 0  ? <p>None</p> : <p>{displayFileName(manus[0].name)}</p>}</span>
+                                </div>)
+                            }
+                          }(uploadToggle)
+                        }
                           </div>
                       </div>
   
@@ -560,6 +667,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 docISBN={document.isbn}
                                 topic={document.topic}
                                 course={document.course_code}
+                                view={document.view_count}
                             />
                             </div>
     
@@ -589,6 +697,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 yearPublished={document.pub_date}
                                 topic={document.topic}
                                 course={document.courses}
+                                view={document.view_count}
                               />  
                             </div>
                         </div>
@@ -605,7 +714,7 @@ const handleUploadToggle = (event, newToggle) =>{
                     </div>
                   )
                 } 
-              } else { // if authenticated user, show option for posters/journals
+              } else { // if authenticated user, show option for posters/journals/manuscript
                 if(doc_type=="book"){
                   return(
                     <div> 
@@ -656,17 +765,22 @@ const handleUploadToggle = (event, newToggle) =>{
                               yearPublished={document.pub_date}
                               topic={document.topic}
                               course={document.courses}
+                              view={document.view_count}
                               />:
                               <DocumentCard
                               docID={document._id}
-                                type={document.type}
-                                title={document.title}
-                                author={document.author}
-                                adviser={document.adviser}
-                                yearPublished={document.pub_date}
-                                topic={document.topic}
-                                course={document.courses}
-                                code={document.source_code}
+                              type={document.type}
+                              title={document.title}
+                              author={document.author}
+                              adviser={document.adviser}
+                              yearPublished={document.pub_date}
+                              topic={document.topic}
+                              course={document.courses}
+                              code={document.source_code}
+                              view={document.view_count}
+                              file={document.file}
+                              journal={document.journal}
+                              poster={document.poster}
                               /> }
                             
                             </div>
@@ -688,20 +802,54 @@ const handleUploadToggle = (event, newToggle) =>{
                             value={view}
                             exclusive
                             onChange={handleView}
+                            className={classes.toggleStyle}
                             aria-label="text alignment"
                           >
-                            <ToggleButton value="poster" aria-label="left aligned">
+                            <ToggleButton value="poster" className={classes.fontStyle} aria-label="left aligned">
                               POSTER
                             </ToggleButton>
-                            <ToggleButton value="journal" aria-label="centered">
+                            <ToggleButton value="journal" className={classes.fontStyle} aria-label="centered">
                               JOURNAL
+                            </ToggleButton>
+                            <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                              MANUSCRIPT
                             </ToggleButton>
                           </ToggleButtonGroup>
 
                           <div className="all-page-container">
-                          {doc_type=="sp"? 
-                          view=="journal"? <ViewPDF pdf={sp.journal}/>:<ViewPDF pdf={sp.poster}/>:
-                          view=="journal"? <ViewPDF pdf={document.file}/>:<ViewPDF pdf={thesis.poster}/>}
+                          {
+                           
+                          doc_type=="sp"? 
+                          (function(view){
+                            console.log("cond edit [journal]:", sp.file)
+                            switch(view){
+                              // editable document
+                              case "journal":
+                                return(<ViewPDF pdf={getPath(sp.journal)}/>)
+                              case "poster":
+                                return(<ViewPDF pdf={getPath(sp.poster)}/>)
+                              case "manuscript":
+                                return(<ViewPDF pdf={getPath(sp.file)}/>)
+                                default:
+                                  return null
+                            } 
+                          })(view)
+                          : 
+                          (function(view){
+                            switch(view){
+                              // editable document
+                              case "journal":
+                                return(<ViewPDF pdf={getPath(thesis.journal)}/>)
+                              case "poster":
+                                return(<ViewPDF pdf={getPath(thesis.poster)}/>)
+                              case "manuscript":
+                                return(<ViewPDF pdf={getPath(thesis.file)}/>)
+                              default:
+                                return null
+                            } 
+                          })(view)
+
+                          }
                           </div>
                           
                           </div>
@@ -716,8 +864,10 @@ const handleUploadToggle = (event, newToggle) =>{
           }
         })(allowEdit, doc_type, uData.classification)
     }
+    </BookCoverContext.Provider>
     </PosterContext.Provider>
     </FileContext.Provider>
+    </ManuscriptContext.Provider>
     </div>
   )
 }
@@ -737,6 +887,12 @@ const useStyles = makeStyles(() => ({
       border:'transparent',
       fontFamily:'Arial',
   },
+  fontStyle: {
+    '&:hover': {
+        color: "white",
+     },
+    color: 'black'
+  },
   iconStyle: {
       '&:hover': {
           color: "#b3e5fc",
@@ -753,10 +909,9 @@ const useStyles = makeStyles(() => ({
       height:'10vh'
   },
   toggleStyle:{ 
-    backgroundColor: '#47ABD8', 
-    border:'transparent',
-    width:'10vh', 
-    height:'10vh'
+    backgroundColor: '#95d2ec', 
+    color:'white',
+    // border:'transparent',
   },
   boxStyle:{
     flexWrap: "wrap",
@@ -773,7 +928,8 @@ const useStyles = makeStyles(() => ({
       width: '45vh', 
       height: '70vh', 
       margin: '1em',
-      objectFit: 'cover'
+      objectFit: 'cover',
+      alignSelf:'center'
   }
 }));
 

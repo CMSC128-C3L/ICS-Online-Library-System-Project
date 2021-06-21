@@ -11,8 +11,10 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 import logo from '../../assets/ics_logo.jpg';
+import decode from 'jwt-decode'
 
 function AdviserSummary(props){
+    const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
     const history = useHistory();
 
     const goBack = () =>{
@@ -128,13 +130,14 @@ function AdviserSummary(props){
                     <ArrowBackIcon/>
                     BACK TO SEARCH PAGE
                  </Button>
+                 <img className="pfp" src="https://www.w3schools.com/howto/img_avatar.png"/>
                 <h1 className="text title-case text-center space-0">{summary.name}</h1>
                 <h4 className="text text-center space-0">{summary.title}</h4>
-               <Button variant="contained" style={{color: "white", backgroundColor: "#47abdb", marginTop: "4vh"}} disableElevation startIcon={<GetAppIcon style={{color: "white"}}/>}
+                {uData.classification === "Admin" ? (<Button variant="contained" style={{color: "white", backgroundColor: "#47abdb", marginTop: "4vh"}} disableElevation startIcon={<GetAppIcon style={{color: "white"}}/>}
                     onClick={getPDF}
                 >
                     Generate summary report
-                </Button>
+                </Button>):null}
             </div>
             
             <div className="row content ">

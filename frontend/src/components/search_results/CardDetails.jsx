@@ -5,8 +5,6 @@ import {useHistory} from 'react-router'
 
 function getYear(date){
   return String(date).split('-')[0]
-
-
 }
 
 function Title(props){

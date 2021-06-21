@@ -21,6 +21,7 @@ import CardEditingPage from './pages/CardEditingPage'
 import AboutUs from './pages/AboutUs'
 import EditCardsPage from './pages/EditCardsPage'
 import { FileContext } from './components/manage_document/FileContext';
+import ScrollToTop from './components/scrolltotop/ScrollToTop';
 export const ACTIONS = {
   updateQuery: 'UPDATE_QUERY',
   updateCategory: 'UPDATE_CATEGORY',
@@ -77,6 +78,9 @@ function App() {
         case ACTIONS.reset:
         return { initialState };
 
+        case ACTIONS.reset2:
+        return { ...state, query: '', category: [] };
+
         default:
           return state;
       }
@@ -87,6 +91,7 @@ function App() {
     <div className="App">
     <SearchContext.Provider value={{ state: state, dispatch: dispatch }}>
       <BrowserRouter>
+        <ScrollToTop />
         <Switch>
           <UserContext.Provider value={{loggedUser, setLoggedUser}}>
             <Route exact path="/loggedIn/" component={GuestHome} />
@@ -111,8 +116,8 @@ function App() {
             <Route exact path="/" component={GuestHome} />
           </UserContext.Provider>
         </Switch>
+        <Footer />
       </BrowserRouter>
-      <Footer></Footer>
     </SearchContext.Provider>   
     </div>
   )

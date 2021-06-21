@@ -5,7 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import {Box} from "@material-ui/core";
 import UploadIcon from '@material-ui/icons/Backup';
 import SaveIcon from '@material-ui/icons/Save';
-import EditIcon from '@material-ui/icons/Edit';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import Button from '@material-ui/core/Button';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import {Multiselect} from 'multiselect-react-dropdown';
 import Modal from './modal/Modal';
 import SaveDocument from './modal/SaveDocument';
@@ -13,9 +15,15 @@ import './DocumentCard.css';
 import { useForm } from 'react-hook-form';
 import {classification, course, topics} from './Choices.jsx'
 
-import {FileContext} from './FileContext';
+import { FileContext } from './FileContext';
+import UploadFile from './modal/UploadFile';
+import { PosterContext } from './PosterContext'
+import UploadPoster from './modal/UploadPoster';
 import {BookCoverContext} from './BookCoverContext';
 import UploadBookCover from './modal/UploadBookCover';
+import {ManuscriptContext} from './ManuscriptContext';
+import UploadManuscript from './modal/UploadManuscript';
+
 /**
  * functional component
  * conditionally render the input attributes according to document type
@@ -26,6 +34,10 @@ function CreateDocument(props){
   const classes = useStyles();
   const [doc_type, setDoctype] = useState([]);
   const [cover, setCover] = useState([]);
+  const [uploadToggle, setUploadToggle] = useState('file')
+  const [poster, setPoster] = useState([]);
+  const [file, setFile] = useState([])
+  const [manus, setManus] = useState([])
   const [selectedValue, setSelectedValue] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState([]);
@@ -35,12 +47,17 @@ function CreateDocument(props){
 
   // Create reference to modal
   const saveModal = useRef(null)
-  const openSaveModal = (user, props) => {saveModal.current.open(user, props)}
+  const openSaveModal = (user, props) => {saveModal.current.open(user, props)};
   const uploadCoverModal = useRef(null);
   const openCoverModal = () => {uploadCoverModal.current.open(props)};
+  const uploadFileModal = useRef(null);
+  const openFileModal = () => {uploadFileModal.current.open(props)};
+  const uploadPosterModal = useRef(null);
+  const openPosterModal = () => {uploadPosterModal.current.open(props)};
+  const uploadManusModal = useRef(null);
+  const openManusModal = () => {uploadManusModal.current.open(props)};
 
   const displayFileName = (fileName) =>{
-    
     return fileName.split('\\').pop();
   }
 
@@ -63,8 +80,6 @@ function CreateDocument(props){
     adviser: getValues("THESIS_Adviser"),
     author: getValues("THESIS_Author"),
     pub_date: getValues("THESIS_Date"),
-    journal: getValues("THESIS_Journal"),
-    poster: getValues("THESIS_Poster"),
     source_code: getValues("THESIS_Source_Code"),
     abstract: getValues("THESIS_Abstract"),
     topic: "",
@@ -78,8 +93,6 @@ function CreateDocument(props){
     adviser: getValues("SP_Adviser"),
     author: getValues("SP_Author"),
     pub_date: getValues("SP_Date"),
-    journal: getValues("SP_Journal"),
-    poster: getValues("SP_Poster"),
     source_code: getValues("SP_Source_Code"),
     abstract: getValues("SP_Abstract"),
     topic: [],
@@ -124,34 +137,27 @@ useEffect(() => {
   selectCourse(selectedCourse)
 }, [selectedValue, selectedTopic, selectedCourse])
 
+const handleUploadToggle = (event, newToggle) =>{
+  setUploadToggle(newToggle);
+  console.log('upload toggle: ', newToggle);
+}
+
   return(
     <div className="browsebg browsebg-container">
       {
-        <div> 
+        <div>
+            <ManuscriptContext.Provider value={{manus, setManus}}> 
             <BookCoverContext.Provider value={{cover, setCover}}>
+            <FileContext.Provider value={{file, setFile}}>
+            <PosterContext.Provider value={{poster, setPoster}}>
             <Modal ref={saveModal}><SaveDocument book={book} sp={sp} thesis={thesis} course={selectedCourse} topic={selectedTopic} type={doc_type}/></Modal>
             <Modal ref={uploadCoverModal}><UploadBookCover document={document} /></Modal>
-            <div className='document-card-flex-row'>
-                {/* document thumbnail should be uploadable, should reflect uploaded image */}
-                {/* <div className='image-card-container card-content' >
-                <img alt="INSERT A THUMBNAIL" className={classes.imageStyle}></img>
-                </div> */}
+            <Modal ref={uploadFileModal}><UploadFile document={document} /></Modal>
+            <Modal ref={uploadPosterModal}><UploadPoster document={document} /></Modal>
+            <Modal ref={uploadManusModal}><UploadManuscript document={document} /></Modal>
+            
 
-                {(function(doc_type){
-                    switch(doc_type){
-                    case "book": //if book, can upload book cover image
-                        return(
-                          <div className='document-card-container button-card-flex-column'>
-                          <UploadIcon className={classes.iconStyle} style={{alignSelf:'center'}}/>
-                          <button className={classes.textStyle} onClick={"insert upload function"}>UPLOAD THUMBNAIL</button>
-                          </div>
-                          )
-                    default: 
-                      return null;
-                    }
-                  })(doc_type)
-                  }
-                
+            <div className='document-card-flex-row'>         
                 {/* document attributes are editable*/}
                 <div className='document-card-container document-card-flex-column' key={""}>
                   <div className="main-text-tags">Classification: 
@@ -164,7 +170,7 @@ useEffect(() => {
                       isObject={false} 
                       onSelect={(selectedValue)=> handleType(selectedValue)} 
                       onRemove={(selectedValue)=> handleType(selectedValue)}   
-                      style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} } 
+                      style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                       />
                   </div>
                   
@@ -196,7 +202,7 @@ useEffect(() => {
                                           isObject={false}
                                           onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                           onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                          style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                          style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                       />
 
                                       {/* This section is for topic of the document */}
@@ -209,7 +215,7 @@ useEffect(() => {
                                           isObject={false}
                                           onSelect={(selectedValue)=> selectTopic(selectedValue)} 
                                           onRemove={(selectedValue)=> selectTopic(selectedValue)}      
-                                          style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                          style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                       />
                                     </div>
                                 )
@@ -226,10 +232,6 @@ useEffect(() => {
                                     {errors.SP_Adviser && <div className="warning">Adviser field is required</div>}
                                     <div className="main-text-tags">Publishing Date: <input className="input-container" type="date" placeholder="Publishing Date" {...register("SP_Date", {required: true, min: 1})} /> </div>
                                     {errors.SP_Date && <div className="warning">Publishing Date field is required</div>}
-                                    <div className="main-text-tags">Journal: <input className="input-container" name="sp_journal" type="text" placeholder="Journal" {...register("SP_Journal", {required: true, min: 1})} /> </div>
-                                    {errors.SP_Journal && <div className="warning">Journal field is required</div>}
-                                    <div className="main-text-tags">Poster: <input className="input-container" name="sp_poster" type="text" placeholder="Poster" {...register("SP_Poster", {required: true, min: 1})} /> </div>
-                                    {errors.SP_Poster && <div className="warning">Poster field is required</div>}
                                     <div className="main-text-tags">Source Code: <input className="input-container" name="sp_source_code" type="text" placeholder="Source Code" {...register("SP_Source_Code", {required: true, min: 1})} /> </div>
                                     {errors.SP_Source_Code && <div className="warning">Source Code field is required</div>}
 
@@ -243,7 +245,7 @@ useEffect(() => {
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                         onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                     />
 
                                     {/* This section is for topic of the document */}
@@ -255,8 +257,8 @@ useEffect(() => {
                                         closeIcon="cancel"
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectTopic(selectedValue)} 
-                                          onRemove={(selectedValue)=> selectTopic(selectedValue)}    
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        onRemove={(selectedValue)=> selectTopic(selectedValue)}    
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                     />
                                   </div>
                                 )
@@ -273,10 +275,6 @@ useEffect(() => {
                                     {errors.THESIS_Adviser && <div className="warning">Adviser field is required</div>}
                                     <div className="main-text-tags">Publishing Date: <input className="input-container" type="date" placeholder="Publishing Date" {...register("THESIS_Date", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Date && <div className="warning">Publishing Date field is required</div>}
-                                    <div className="main-text-tags">Journal: <input className="input-container" name="thesis_journal" type="text" placeholder="Journal" {...register("THESIS_Journal", {required: true, min: 1})}/> </div>
-                                    {errors.THESIS_Journal && <div className="warning">Journal field is required</div>}
-                                    <div className="main-text-tags">Poster: <input className="input-container" name="thesis_poster" type="text" placeholder="Poster" {...register("THESIS_Poster", {required: true, min: 1})}/> </div>
-                                    {errors.THESIS_Poster && <div className="warning">Poster field is required</div>}
                                     <div className="main-text-tags">Source Code: <input className="input-container" name="thesis_source_code" type="text" placeholder="Source Code" {...register("THESIS_Source_Code", {required: true, min: 1})}/> </div>
                                     {errors.THESIS_Source_Code && <div className="warning">Source Code field is required</div>}
 
@@ -289,7 +287,7 @@ useEffect(() => {
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectCourse(selectedValue)} 
                                         onRemove={(selectedValue)=> selectCourse(selectedValue)}   
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                     />
 
                                     {/* This section is for topic of the document */}
@@ -301,7 +299,7 @@ useEffect(() => {
                                         isObject={false}
                                         onSelect={(selectedValue)=> selectTopic(selectedValue)} 
                                         onRemove={(selectedValue)=> selectTopic(selectedValue)}    
-                                        style= { {searchBox: { border: "none", "border-bottom": "1px solid lightGray", "border-radius": "0px", width: '100%' }} }
+                                        style= { {searchBox: { border: "none", "borderBottom": "1px solid lightGray", "borderRadius": "0px", width: '100%' }} } 
                                     />
                                 </div>
                                 )
@@ -317,23 +315,107 @@ useEffect(() => {
                             case "book":  //button for upload pdf/thumbnail [book]
                                 return(
                                   <div className='document-card-container button-card-flex-column'>
-                                  <button className={classes.textStyle} onClick={props.handleUploadPDF}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={() => openCoverModal()}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <UploadIcon className={classes.iconStyle} style={{alignSelf:'center'}}/>
+                                  <button className={classes.textStyle} onClick={() => openCoverModal()}>UPLOAD THUMBNAIL</button>
                                   <span style={{overflow: "hidden"}}>Book Cover: {cover.length === 0  ? <p>None</p> :  <p>{cover[0].name}</p>}</span>
                                   </div>
                                 )
                             case "sp":  //button for upload pdf/poster [sp]
                                 return(
-                                  <div className='document-card-container button-card-flex-column'>
-                                  <button className={classes.textStyle} onClick={props.handleUploadPDF}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={props.handleUploadPoster}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <div className="document-card-container uploads-container">
+                                    <ToggleButtonGroup
+                                    value={uploadToggle}
+                                    exclusive
+                                    className={classes.toggleStyle}
+                                    onChange={handleUploadToggle}
+                                    aria-label="text alignment"
+                                    >
+                                    <ToggleButton value="poster" className={classes.fontStyle} aria-label="left aligned">
+                                      POSTER
+                                    </ToggleButton>
+                                    <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
+                                      JOURNAL
+                                    </ToggleButton>
+                                    <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                                      MANUSCRIPT
+                                    </ToggleButton>
+                                    </ToggleButtonGroup>
+                                  
+                                    {
+                                      (function(uploadToggle){
+                                        switch(uploadToggle){
+                                          case "file":
+                                            return (<div className="upload-navigation">
+                                              <h4>Journal</h4>
+                                              <Button onClick={() => openFileModal()}>Select New Journal</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {file.length === 0  ? <p>None</p> : <p>{displayFileName(file[0].name)}</p>}</span>
+                                            </div>)
+                                          case "poster":
+                                            return (<div className="upload-navigation">
+                                              <h4>Poster</h4>
+                                              <Button onClick={() => openPosterModal()}>Select New Poster</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {poster.length === 0  ? <p>None</p> : <p>{displayFileName(poster[0].name)}</p>}</span>
+                                            </div>)
+                                          case "manuscript":
+                                            return (<div className="upload-navigation">
+                                              <h4>Manuscript</h4>
+                                              <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {manus.length === 0  ? <p>None</p> : <p>{displayFileName(manus[0].name)}</p>}</span>
+                                            </div>)
+                                          default:
+                                            return null;
+                                        }
+                                    })(uploadToggle)
+                                  }
                                   </div>
                                 )
                             case "thesis":  //button for upload pdf/poster [thesis]
                                 return(
-                                  <div className='document-card-container button-card-flex-column'>
-                                  <button className={classes.textStyle} onClick={props.handleUploadPDF}><UploadIcon className={classes.iconStyle}/> UPLOAD PDF</button>
-                                  <button className={classes.textStyle} onClick={props.handleUploadPoster}><UploadIcon className={classes.iconStyle}/> UPLOAD THUMBNAIL</button>
+                                  <div className="document-card-container uploads-container">
+                                    <ToggleButtonGroup
+                                    value={uploadToggle}
+                                    exclusive
+                                    className={classes.toggleStyle}
+                                    onChange={handleUploadToggle}
+                                    aria-label="text alignment"
+                                    >
+                                    <ToggleButton value="poster" className={classes.fontStyle} aria-label="left aligned">
+                                      POSTER
+                                    </ToggleButton>
+                                    <ToggleButton value="file" className={classes.fontStyle} aria-label="centered">
+                                      JOURNAL
+                                    </ToggleButton>
+                                    <ToggleButton value="manuscript" className={classes.fontStyle} aria-label="right aligned">
+                                      MANUSCRIPT
+                                    </ToggleButton>
+                                    </ToggleButtonGroup>
+
+                                    {
+                                      (function(uploadToggle){
+                                        switch(uploadToggle){
+                                          case "file":
+                                            return (<div className="upload-navigation">
+                                              <h4>Journal</h4>
+                                              <Button onClick={() => openFileModal()}>Select New Journal</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {file.length === 0  ? <p>None</p> : <p>{displayFileName(file[0].name)}</p>}</span>
+                                            </div>)
+                                          case "poster":
+                                            return (<div className="upload-navigation">
+                                              <h4>Poster</h4>
+                                              <Button onClick={() => openPosterModal()}>Select New Poster</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {poster.length === 0  ? <p>None</p> : <p>{displayFileName(poster[0].name)}</p>}</span>
+                                            </div>)
+                                          case "manuscript":
+                                            return (<div className="upload-navigation">
+                                              <h4>Manuscript</h4>
+                                              <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
+                                              <span style={{overflow: "hidden"}}>Current File: {manus.length === 0  ? <p>None</p> : <p>{displayFileName(manus[0].name)}</p>}</span>
+                                            </div>)
+                                          default:
+                                            return null;
+                                        }
+                                    })(uploadToggle)
+                                  }
                                   </div>
                                 )
                             default:
@@ -386,8 +468,11 @@ useEffect(() => {
                 <div className = "button-right">
                   <button className={classes.saveStyle} onClick={handleSubmit(openSaveModal)}><SaveIcon className={classes.iconStyle}/></button>
                 </div>
-            </div>
+            </div>   
+            </PosterContext.Provider>
+            </FileContext.Provider>
             </BookCoverContext.Provider>
+            </ManuscriptContext.Provider>
         </div>
     }
     </div>
@@ -416,6 +501,16 @@ const useStyles = makeStyles(() => ({
       color:'black', 
       width:'5vh', 
       height:'5vh'
+  },
+  fontStyle: {
+    '&:hover': {
+        color: "white",
+     },
+    color: 'black'
+  },
+  toggleStyle:{ 
+    backgroundColor: '#95d2ec', 
+    color:'white'
   },
   saveStyle:{ 
       backgroundColor: '#47ABD8', 

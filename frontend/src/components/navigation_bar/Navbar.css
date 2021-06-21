@@ -2,6 +2,10 @@ button:hover{
   cursor: pointer;
 }
 
+.search-bar{
+  outline: none;
+}
+
 .Navbar {
   background-color: #47abd8;
   width: 100%;
@@ -11,12 +15,19 @@ button:hover{
 }
 
 .Navbar .leftSide{
-  width: 10%;
-  height: 120px;
+  width: 20%;
+  height: auto;
   font-family: Arial, Helvetica, sans-serif;
+  /* background-color: black; */
   justify-content: center;
-  padding-left: 2vh;
+  /* padding-left: 2vh; */
   display: flex;
+}
+
+.Navbar .leftSide img{
+  width: 30vh;
+  height: 5vh;
+  padding: 20% 1%;
 }
 
 .Navbar .middleSide{

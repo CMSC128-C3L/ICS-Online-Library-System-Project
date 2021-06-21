@@ -18,6 +18,7 @@ function EditCard({ card }){
     const [description, setDescription] = useState(card.description)
     const [link, setLink] = useState(card.link)
     const [displayImage, setDisplayImage] = useState(card.image)
+    const [updated, setUpdated] = useState(false)
 
     // To track changes needed for saving
     const [imageToUpload, setImageToUpload] = useState()
@@ -40,9 +41,10 @@ function EditCard({ card }){
                         "link": content.link,
                     },
                     options) 
-                      
+               
             }catch(e){
                 console.log(e)
+                
             }
         }
 
@@ -79,6 +81,7 @@ function EditCard({ card }){
     const handleUpload = (e) => {
         setDisplayImage(URL.createObjectURL(e.target.files[0]))
         setImageToUpload(e.target.files[0])
+        setUpdated(true)
     }
 
     const handleClear = (e) => {
@@ -98,7 +101,8 @@ function EditCard({ card }){
                 title: title,
                 description, description,
                 image: displayImage,
-                link: link
+                link: link,
+                updated: updated
             }
         })
     }, [header, title, description, link, displayImage])

@@ -8,6 +8,7 @@ const headCells = [
     { id: 'email', sortable: true, align: 'left', disablePadding: false, label: 'Email' },
     { id: 'last_login', sortable: true, align: 'left', disablePadding: false, label: 'Last Logged In' },
     { id: 'last_logout', sortable: true, align: 'left', disablePadding: false, label: 'Last Logged Out' },
+    { id: 'view_count', sortable: true, align: 'left', disablePadding: false, label: 'View Count' },
     { id: 'classification', sortable: false, align: 'center', disablePadding: false, label: 'Classification' },
     { id: 'actions', sortable: false, align: 'center', disablePadding: false, label: 'Actions' }
 ]

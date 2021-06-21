@@ -4,30 +4,9 @@ import './DocumentCard.css'
 import decode from 'jwt-decode';
 import Button from '@material-ui/core/Button'
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import DescriptionIcon from '@material-ui/icons/Description';
 import FindInPageIcon from '@material-ui/icons/FindInPage';
-const handleAuthorClick = (event) => {
-    console.log(event.target.value)
-    /** method to navigate to author summary here */
-}
-
-const handleCourseClick = (event) => {
-    console.log(event.target.value)
-    /** method to navigate to course summary here */
-}
-
-const handleAdviserClick = (event) => {
-    console.log(event.target.value)
-    /** method to navigate to author summary here
-     *  may be removed and absorbed in author click if method is the same
-     */
-}
-
-const isPrivileged = (user) =>{
-    if(user === "Faculty" || user === "Staff" || user === "Admin") return true
-    else return false
-}
-
-
+import {useHistory} from 'react-router';
 
 // functional component to render the details in document card format 
 // used in accessing document
@@ -39,6 +18,28 @@ function DocumentCard(props){
     Object.assign(topicObj, props.topic)
     Object.assign(courseObj, props.course)
     Object.assign(authorObj, props.author)
+
+    const history = useHistory();
+
+    const handleAuthorClick = (event) => {
+        console.log('author click', event.target.value)
+        history.push('/authorSummary/' + event.target.value);
+    }
+
+    const handleCourseClick = (event) => {
+        console.log('course click',event.target.value)
+        history.push('/courseSummary/' + event.target.value);
+    }
+
+    const handleAdviserClick = (event) => {
+        console.log('adviser click',event.target.value)
+        history.push('/adviserSummary/' + event.target.value);
+    }
+
+    const isPrivileged = (user) =>{
+        if(user === "Faculty" || user === "Staff" || user === "Admin") return true
+        else return false
+    }
   
     const downloadFile = async() =>{
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
@@ -46,10 +47,10 @@ function DocumentCard(props){
     try{
       if(props.type === "Thesis") {
           console.log("thesis donwlaod")
-        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+        let popUp = window.open("http://localhost:5000/api/thesis/download/2/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }else if(props.type === "Special Problem"){
           console.log("sp downlaod")
-        let popUp = window.open("http://localhost:5000/api/sp/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+        let popUp = window.open("http://localhost:5000/api/sp/download/2/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }
     }catch(e){
       
@@ -61,9 +62,23 @@ function DocumentCard(props){
     
     try{
       if(props.type === "Thesis") {
-        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+        let popUp = window.open("http://localhost:5000/api/thesis/download/0/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }else if(props.type === "Special Problem"){
-        let popUp = window.open("http://localhost:5000/api/sp/download/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+        let popUp = window.open("http://localhost:5000/api/sp/download/0/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  const downloadJournal = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+    
+    try{
+      if(props.type === "Thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/1/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
+      }else if(props.type === "Special Problem"){
+        let popUp = window.open("http://localhost:5000/api/sp/download/1/"+localStorage.getItem('token')+"/"+props.docID, '_parent');
       }
     }catch(e){
       console.log(e)
@@ -74,7 +89,6 @@ function DocumentCard(props){
         <div>
             {
             (function(document, userType){
-
                 switch(document.type){
                     case "Book": //book
                         return(
@@ -87,7 +101,7 @@ function DocumentCard(props){
                                     <div className="text-tags"> Author: 
                                         <ul className="click-list">
                                         {Object.values(document.author).map((author) => {
-                                            return (<button className="click-text" key ={document.id} onClick={handleAuthorClick}>{author}</button>)
+                                            return (<button className="click-text" key ={document.id} value={author} onClick={handleAuthorClick}>{author}</button>)
                                         })}
                                         </ul>
                                     </div>
@@ -101,7 +115,7 @@ function DocumentCard(props){
                                     (<div className="text-tags">Course: 
                                         <ul className="click-list">
                                         {document.course.map((course) => {
-                                            return (<button className="click-text" key ={document.id} onClick={handleCourseClick}>{course}</button>)
+                                            return (<button className="click-text" key ={document.id} value={course} onClick={handleCourseClick}>{course}</button>)
                                         })}
                                         </ul>
                                     </div>)
@@ -111,6 +125,8 @@ function DocumentCard(props){
                                     {Object.keys(document.topic).length==0? console.log("[book topic] undefined"): 
                                     (<div className="text-tags">Topic: {Object.values(document.topic).join(", ")}</div>)
                                     }
+
+                                    <div className="text-tags">Views: {document.view}</div>
 
                                 </div>
                             </div>
@@ -127,7 +143,7 @@ function DocumentCard(props){
                                 <div className="text-tags"> Adviser: 
                                     <ul className="click-list">
                                     {Object.values(adviserObj).map((adviser) => {
-                                        return (<button className="click-text" key ={document.id} onClick={handleAdviserClick}>{adviser}</button>)
+                                        return (<button className="click-text" key ={document.id} value={adviser} onClick={handleAdviserClick}>{adviser}</button>)
                                     })}
                                     </ul>
                                 </div>
@@ -144,18 +160,30 @@ function DocumentCard(props){
                                 (<div className="text-tags"> Course: 
                                     <ul className="click-list">
                                     {Object.values(courseObj).map((course) => {
-                                        return (<button className="click-text" key ={document.id} onClick={handleCourseClick}>{course}</button>)
+                                        return (<button className="click-text" key ={document.id} value={course} onClick={handleCourseClick}>{course}</button>)
                                     })}
                                     </ul>
                                 </div>)
                                 }
 
-                                {/* check if source code is empty, if not, check if faculty and up to get access to source code */}
-                                {document.code == ""? null:
-                                userType=="Faculty" || userType=="Staff" || userType=="Admin"?<div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null
-                                }
+                                <div className="text-tags">Views: {document.view}</div>
 
-                                {(document.file !== '' || document.file !== undefined) && (isPrivileged(userType)) ? <div className="download-buttons"><Button variant="contained" style={{backgroundColor: '#47abd8', color: "white", marginTop: "5%", marginBottom: "5%"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>Download Journal</Button> <Button style={{backgroundColor: '#ff4242', color: "white", marginBottom: "5%"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>Download Poster</Button></div> : null}
+                                {/* check if source code is empty, if not, check if faculty and up to get access to source code */}
+                                {(document.code !== '' || document.code !== undefined) && (isPrivileged(userType)) ? <div className="text-tags">Source Code: <a className="a-tags" href={document.code}>{document.code}</a></div>:null}
+                                {console.log('test', document)}
+                                {(isPrivileged(userType)) ? 
+                                <div className="download-buttons">
+                                    {document.journal ? (<Button variant="contained" style={{backgroundColor: '#47abd8', color: "white"}} startIcon={<DescriptionIcon/>} onClick={() => downloadJournal()}>
+                                    Download Journal
+                                    </Button>) : null} 
+                                    {document.file ? (<Button variant="contained" style={{backgroundColor: '#95d2ec', color: "white"}} startIcon={<MenuBookIcon />} onClick={() => downloadFile()}>
+                                    Download Manuscript
+                                    </Button>) : null }
+                                    {document.poster ? (<Button variant="contained" style={{backgroundColor: '#ff4242', color: "white"}} startIcon={<FindInPageIcon/>} onClick={() => downloadPoster()}>
+                                    Download Poster
+                                    </Button>) : null}
+                                </div> 
+                                : null}
                                 </div>
                             </div>
                         )	

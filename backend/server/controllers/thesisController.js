@@ -36,27 +36,22 @@ async function getAll(req, res) {
     const thesis = await Thesis.find({type:'Thesis'}, createOptions(req.user.classification));
     res.status(200).send(thesis);
   } catch(error) {
-    // console.log(error);
     res.status(500).send();
   }
 }
 
 async function getOne(req, res) {
-  console.log("GET ONE");
   try {
     const _id = req.params.id;
     const thesis = await Thesis.findOneAndUpdate({_id, type:'Thesis'}, {$inc: {view_count: 1}}).select(createOptions(req.user.classification));
     if(!thesis) return res.status(404).send();
-    console.log(thesis);
     res.send(thesis); 
   } catch(error) {
-    console.log(error);
     res.status(500).send();
   }
 }
 
 async function create(req, res) {
-  console.log(req.body);
   try {
     const thesis = new Thesis(req.body);
     await thesis.save();
@@ -81,42 +76,45 @@ async function uploadFiles(req, res) {
     if(uploads.poster) 
       thesis.poster = cleanDirname(uploads.poster[0].path);
     
-     await thesis.save();
-    
+    await thesis.save();
     res.status(200).send();
-  
   } catch(error) {
-    console.log(error);
     res.status(400).send();
   }
 }
 
 async function download(req, res) {
   try {
+    const type = req.params.type;
     const _id = req.params.id;
     const token = req.params.token;
     const thesis = await Thesis.findOneAndUpdate({_id, type:'Thesis'}, {$inc: {download_count: 1}});
     if(!thesis) return res.status(404).send();
 
     const decoded = jwt.verify(token, process.env.ACCESS_JWT_SECRET);
-    console.log(decoded.classification);
     const notAllowed = ["Student", "Guest"];
     if(notAllowed.includes(decoded.classification)) 
       return res.status(403).send();
-    if(thesis.file === '') return res.status(404).send();
-    const filepath = path.join(__dirname, `/../${thesis.file}`);
-    // const filepath = thesis.file;
 
-    console.log(filepath);
+    let filepath;
+    if(type == 0){ //poster
+      if(thesis.poster === '') return res.status(404).send();
+      filepath = path.join(__dirname, `/../${thesis.poster}`);
+    }else if(type == 1){ //journal
+      if(thesis.journal === '') return res.status(404).send();
+      filepath = path.join(__dirname, `/../${thesis.journal}`);
+    }else if(type ==2){ //manus
+      if(thesis.file === '') return res.status(404).send();
+      filepath = path.join(__dirname, `/../${thesis.file}`);
+    }
+
     res.download(filepath);
   } catch(error) {
-    console.log(error);
     res.status(500).send();
   }
 }
 
 async function update(req, res) {
-  console.log(req.body);
   try {
     const thesisUpdate = req.body;
     const _id = req.params.id;
@@ -128,7 +126,6 @@ async function update(req, res) {
     if(!thesis) return res.status(404).send();
     res.status(200).send(thesis);
   } catch(error) {
-    // console.log(error);
     res.status(400).send();
   }
 }
@@ -140,7 +137,6 @@ async function deleteOne(req, res) {
     if(!thesis) return res.status(404).send();
     res.status(200).send(thesis);
   } catch(error) {
-    // console.log(error);
     res.status(500).send();
   }
 }
@@ -152,7 +148,7 @@ function createOptions(classification) {
   if(!(higherPrivileges.includes(classification))) {
     options.file = 0;
     options.source_code = 0;
-    options.view_count = 0;
+    // options.view_count = 0;
     options.download_count = 0;
     options.view_journal_count = 0;
     options.download_journal_count = 0;
@@ -169,4 +165,5 @@ function cleanDirname(dirname) {
   const dirToRemove = path.join(__dirname, '/../');
   const cleanedDirname = dirname.replace(dirToRemove, "");
   return cleanedDirname
+  // return dirname
 }

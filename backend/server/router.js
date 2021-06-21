@@ -25,7 +25,7 @@ router.delete('/api/users/:id', auth, isAdmin, User.deleteOne);
 router.get('/api/thesis/', auth, Thesis.getAll);
 router.get('/api/thesis/:id', auth, Thesis.getOne);
 router.post('/api/thesis', auth, isAdmin, Thesis.create);
-router.get('/api/thesis/download/:token/:id', Thesis.download);
+router.get('/api/thesis/download/:type/:token/:id', Thesis.download);
 router.post('/api/thesis/upload/:id', auth, isAdmin, Thesis.uploadFields, Thesis.uploadFiles);
 router.patch('/api/thesis/:id', auth, isAdmin, Thesis.update);
 router.delete('/api/thesis/:id', auth, isAdmin, Thesis.deleteOne);
@@ -35,7 +35,7 @@ router.delete('/api/thesis/:id', auth, isAdmin, Thesis.deleteOne);
 const Sp = require('./controllers/spController.js');
 router.get('/api/sp',auth, Sp.getAll);
 router.get('/api/sp/:id',auth, Sp.getOne);
-router.get('/api/sp/download/:token/:id',Sp.downloadSp);
+router.get('/api/sp/download/:type/:token/:id',Sp.downloadSp);
 router.post('/api/sp',auth, isAdmin, Sp.create);
 router.patch('/api/sp/:id', auth, isAdmin, Sp.update);
 router.delete('/api/sp/:id', auth, isAdmin, Sp.deleteSp);
@@ -92,13 +92,13 @@ router.post('/api/log/logout', auth, Logs.logoutUser);
 router.patch('/api/log/doc/:user_id', auth, Logs.updateRecord);
 
 //author summary
-router.get('/api/authorSummary/:author', auth, isAdmin, AuthorSummary.getAuthorSummary);
+router.get('/api/authorSummary/:author', AuthorSummary.getAuthorSummary); // auth, isAdmin, 
 
 //adviser summary
-router.get('/api/adviserSummary/:adviser', auth, isAdmin, AdviserSummary.getAdviserSummary);
+router.get('/api/adviserSummary/:adviser', AdviserSummary.getAdviserSummary);
 
 //course summary
-router.get('/api/courseSummary/:course', auth, isAdmin, CourseSummary.getCourseSummary);
+router.get('/api/courseSummary/:course', CourseSummary.getCourseSummary);
 
 //course details
 const Course = require('./controllers/courseController.js');

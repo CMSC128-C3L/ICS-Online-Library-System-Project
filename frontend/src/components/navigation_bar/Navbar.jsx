@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import './Navbar.css';
-import icsLogo from '../../assets/ics_logo.png';
+import icsLogo from '../../assets/ICS_Logo_Minimal_white.png';
 import searchIcon from '../../assets/magnifying_glass.png';
 import SearchContext from '../search_results/SearchContext';
 import { UserContext } from '../user/UserContext';
@@ -11,6 +11,8 @@ import ConditionalTools from './ConditionalTools';
 import Button from '@material-ui/core/Button';
 import updateQueryString from '../search_results/UpdateQueryString';
 import decode from 'jwt-decode';
+
+
 
 function Navbar(props){
     const {loggedUser, setLoggedUser} = useContext(UserContext)
@@ -58,7 +60,7 @@ function Navbar(props){
     return(
         <div className="Navbar">
                 {/* LEFT SIDE START */}
-                {/* <div className="leftSide"> <img src={icsLogo} alt="logo"/> </div> */}
+                <div className="leftSide"> <img src={icsLogo} alt="logo"/> </div>
                 {/* LEFT SIDE END */}
                 
                 {/* MIDDLE SIDE START */}
@@ -68,7 +70,7 @@ function Navbar(props){
                         <div className="search">
                             <div className="icon-input">
                                  <form onChange={ handleChange } onSubmit={ handleSubmit } action="">
-                                    <input type="text" placeholder="Search..." defaultValue={searchContext.state.query}/>
+                                    <input type="text" placeholder="Search..." className="search-bar" defaultValue={searchContext.state.query}/>
                                     <button type="submit" onClick={ handleSubmit }><img src={searchIcon} alt="SearchIcon" /></button>
                                 </form>
                             </div>

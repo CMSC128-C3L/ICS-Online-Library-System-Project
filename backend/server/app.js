@@ -1,9 +1,16 @@
 const express = require('express');
 
+
 const router = require('./router.js');
 require('./database/connection.js');
 
 const app = express();
+var cors = require('cors');
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200,
+  }
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(router);
 
@@ -11,5 +18,7 @@ app.use(router);
 const path = require('path');
 app.use('/static/', express.static(path.join(__dirname, 'uploads/books')));
 app.use('/static/', express.static(path.join(__dirname, 'uploads/home_advisory')));
+app.use('/static/', express.static(path.join(__dirname, 'uploads/thesis')));
+app.use('/static/', express.static(path.join(__dirname, 'uploads/sp')));
 
 module.exports = app;

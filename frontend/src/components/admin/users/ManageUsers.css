@@ -2,13 +2,12 @@
 .navpagination{
    display: flex;
    flex-direction: row;
-   /* margin: 0.5vh; */
 }
 
 .usertable-container{
    display: block;
    margin-bottom: 5vh;
-   max-width: 65vw;
+   max-width: 75vw;
    justify-content: center;
    align-items: center;
    border: 1px solid #47abd8;
@@ -61,7 +60,7 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   min-width: 62.5vw;
+   min-width: 72.5vw;
 }
 
 .toolbar-tools {

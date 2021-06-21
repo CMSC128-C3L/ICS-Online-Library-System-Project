@@ -30,7 +30,7 @@
 }
 
 .adminbg{
-  background-image: url('../../assets/adminBackground.png');
+  /*background-image: url('../../assets/adminBackground.png');*/
   background-repeat: no-repeat;
   background-size: auto;
   background-position: center;

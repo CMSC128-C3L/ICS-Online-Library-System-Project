@@ -38,7 +38,7 @@
     border: #47abd8 solid;
     border-radius: 1em;
     background: white;
-    padding: 1vh;
+    /* padding: 1vh; */
 }
 
 .document-card-container{
@@ -179,8 +179,9 @@ content: ", ";
 .download-buttons{
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    padding:2%;
 }
 
 .download-journal{
@@ -188,6 +189,7 @@ content: ", ";
     width: 50%;
     height: 5vh;
 }
+
 @media (max-width: 880px) {
     .flex-row {
         margin-bottom: 5vh;
