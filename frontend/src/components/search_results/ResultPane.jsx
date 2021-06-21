@@ -123,6 +123,7 @@ function ResultPane(props){
       const res = await Promise.all(promises)
       const data = res.map((res) => res.data)
       // flatten data array and sort results
+      console.log(data)
       sortResults(data.flat())
     }catch(err){
       console.log(err)
