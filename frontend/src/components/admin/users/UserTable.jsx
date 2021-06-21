@@ -163,9 +163,7 @@ function UserTable(props) {
                         || person.email.toLowerCase().includes(search.toLowerCase()) 
                         || person.classification.toLowerCase().includes(search.toLowerCase())
                     )
-                    &&  
-                        // Filter current user
-                        currentUserName.toLowerCase() !== person.name.toLowerCase()
+                   
                 )
             }))
     }, [currentUser.family_name, currentUser.given_name, search])
