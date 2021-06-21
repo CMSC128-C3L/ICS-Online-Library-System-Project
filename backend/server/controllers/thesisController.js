@@ -146,7 +146,6 @@ function createOptions(classification) {
   const higherPrivileges = ['Faculty', 'Staff', 'Admin'];
   // If not higher privilige
   if(!(higherPrivileges.includes(classification))) {
-    options.file = 0;
     options.source_code = 0;
     // options.view_count = 0;
     options.download_count = 0;
@@ -155,6 +154,7 @@ function createOptions(classification) {
   }
   // Add additional restrictions for guests
   if(classification === 'Guest') {
+    options.file = 0;
     options.journal = 0;
     options.poster = 0;
   }

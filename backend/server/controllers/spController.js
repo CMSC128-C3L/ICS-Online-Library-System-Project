@@ -154,7 +154,6 @@ async function downloadSp(req,res){
 function restriction(classification){
     const options={};
     if(classification === 'Guest' || classification === 'Student'){
-        options.file=0;
         options.source_code=0;
         // options.view_count=0;
         options.download_count=0;
@@ -163,6 +162,7 @@ function restriction(classification){
         if(classification === 'Guest'){
             options.journal=0;
             options.poster=0;
+            options.file=0;
         }
     }
     return options;
