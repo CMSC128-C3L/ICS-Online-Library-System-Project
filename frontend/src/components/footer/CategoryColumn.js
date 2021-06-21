@@ -8,7 +8,8 @@ export const ACTIONS = {
     updateCategory: 'UPDATE_CATEGORY',
     updateCourseCode: 'UPDATE_COURSE_CODE',
     updateTopic: 'UPDATE_TOPIC',
-    reset: 'RESET'
+    reset: 'RESET',
+    reset2: 'RESET2'
 }
 
 function fixLinks(word) {
@@ -30,11 +31,15 @@ function CategoryColumn(props){
             console.log(item)
         }
         else if (item === "Thesis") item = "Theses"
+        searchContext.dispatch({ type: props.reset2 })
+        console.log(searchContext)
         searchContext.dispatch({ type: props.action, item: item})
-        searchContext.dispatch({
-            type: props.action,
-			query: query
-		})
+        if (props.action2) {
+            searchContext.dispatch({
+                type: props.action2,
+                query: query
+            })
+        }
         updateQueryString(searchContext);
         history.push('/search');
     }
