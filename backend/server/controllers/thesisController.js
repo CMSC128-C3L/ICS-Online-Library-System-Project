@@ -85,6 +85,7 @@ async function uploadFiles(req, res) {
 
 async function download(req, res) {
   try {
+    const type = req.params.type;
     const _id = req.params.id;
     const token = req.params.token;
     const thesis = await Thesis.findOneAndUpdate({_id, type:'Thesis'}, {$inc: {download_count: 1}});
@@ -94,9 +95,18 @@ async function download(req, res) {
     const notAllowed = ["Student", "Guest"];
     if(notAllowed.includes(decoded.classification)) 
       return res.status(403).send();
-    if(thesis.file === '') return res.status(404).send();
-    const filepath = path.join(__dirname, `/../${thesis.file}`);
-    // const filepath = thesis.file;
+
+    let filepath;
+    if(type == 0){ //poster
+      if(thesis.poster === '') return res.status(404).send();
+      filepath = path.join(__dirname, `/../${thesis.poster}`);
+    }else if(type == 1){ //journal
+      if(thesis.journal === '') return res.status(404).send();
+      filepath = path.join(__dirname, `/../${thesis.journal}`);
+    }else if(type ==2){ //manus
+      if(thesis.file === '') return res.status(404).send();
+      filepath = path.join(__dirname, `/../${thesis.file}`);
+    }
 
     res.download(filepath);
   } catch(error) {

@@ -118,14 +118,42 @@ function ConditionalEdit(props){
     return fileName.split('\\').pop();
   }
 
+  const downloadPoster = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+ 
+    try{
+      if(doc_type === "thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/0/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }else if(doc_type === "sp"){
+        let popUp = window.open("http://localhost:5000/api/sp/download/0/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
+
+  const downloadJournal = async() =>{
+    let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
+ 
+    try{
+      if(doc_type === "thesis") {
+        let popUp = window.open("http://localhost:5000/api/thesis/download/1/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }else if(doc_type === "sp"){
+        let popUp = window.open("http://localhost:5000/api/sp/download/1/"+localStorage.getItem('token')+"/"+id, '_parent');
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
+
   const downloadFile = async() =>{
     let options =  {headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')}, }
  
     try{
       if(doc_type === "thesis") {
-        let popUp = window.open("http://localhost:5000/api/thesis/download/"+localStorage.getItem('token')+"/"+id, '_parent');
+        let popUp = window.open("http://localhost:5000/api/thesis/download/2/"+localStorage.getItem('token')+"/"+id, '_parent');
       }else if(doc_type === "sp"){
-        let popUp = window.open("http://localhost:5000/api/sp/download/"+localStorage.getItem('token')+"/"+id, '_parent');
+        let popUp = window.open("http://localhost:5000/api/sp/download/2/"+localStorage.getItem('token')+"/"+id, '_parent');
       }
     }catch(e){
       console.log(e)
@@ -469,7 +497,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 <h4>File</h4>
                                 <Button onClick={() => openFileModal()}>Select New File</Button>
                                 <p>Current File: {document.journal === undefined || document.journal === '' ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</p>
-                                <Button onClick={() => downloadFile()}>Download File</Button>
+                                <Button onClick={() => downloadJournal()}>Download File</Button>
                                 <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
                                 </div>)
 
@@ -478,7 +506,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 <h4>Poster</h4>
                                 <Button onClick={() => openPosterModal()}>Select New Poster</Button>
                                 <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
-                                <Button onClick={() => downloadFile()}>Download Poster</Button>
+                                <Button onClick={() => downloadPoster()}>Download Poster</Button>
                                 <span style={{overflow: "hidden"}}>New Poster: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
                                 </div>)
 
@@ -575,7 +603,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 <h4>File</h4>
                                 <Button onClick={() => openFileModal()}>Select New File</Button>
                                 <p>Current File: {document.journal === undefined || document.journal === '' ? <p>None</p> : <p>{displayFileName(document.journal)}</p>}</p>
-                                <Button onClick={() => downloadFile()}>Download File</Button>
+                                <Button onClick={() => downloadJournal()}>Download File</Button>
                                 <span style={{overflow: "hidden"}}>New File: {file.length === 0  ? <p>None</p> :  <p>{file[0].name}</p>}</span>
                                 </div>)
 
@@ -584,7 +612,7 @@ const handleUploadToggle = (event, newToggle) =>{
                                 <h4>Poster</h4>
                                 <Button onClick={() => openPosterModal()}>Select New Poster</Button>
                                 <span style={{overflow: "hidden"}}>Current Uploaded Poster: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
-                                <Button onClick={() => downloadFile()}>Download Poster</Button>
+                                <Button onClick={() => downloadPoster()}>Download Poster</Button>
                                 <span style={{overflow: "hidden"}}>New Poster: {poster.length === 0  ? <p>None</p> :  <p>{poster[0].name}</p>}</span>
                                 </div>)
 
