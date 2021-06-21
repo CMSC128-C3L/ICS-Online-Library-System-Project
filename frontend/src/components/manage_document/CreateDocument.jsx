@@ -397,19 +397,19 @@ const handleUploadToggle = (event, newToggle) =>{
                                             return (<div className="upload-navigation">
                                               <h4>Journal</h4>
                                               <Button onClick={() => openFileModal()}>Select New Journal</Button>
-                                              <span style={{overflow: "hidden"}}>Current File: {document.file === undefined || document.file === ''  ? <p>None</p> : <p>{displayFileName(document.file)}</p>}</span>
+                                              <span style={{overflow: "hidden"}}>Current File: {file.length === 0  ? <p>None</p> : <p>{displayFileName(file[0].name)}</p>}</span>
                                             </div>)
                                           case "poster":
                                             return (<div className="upload-navigation">
                                               <h4>Poster</h4>
                                               <Button onClick={() => openPosterModal()}>Select New Poster</Button>
-                                              <span style={{overflow: "hidden"}}>Current File: {document.poster === undefined || document.poster === ''  ? <p>None</p> : <p>{displayFileName(document.poster)}</p>}</span>
+                                              <span style={{overflow: "hidden"}}>Current File: {poster.length === 0  ? <p>None</p> : <p>{displayFileName(poster[0].name)}</p>}</span>
                                             </div>)
                                           case "manuscript":
                                             return (<div className="upload-navigation">
                                               <h4>Manuscript</h4>
                                               <Button onClick={() => openManusModal()}>Select New Manuscript</Button>
-                                              <span style={{overflow: "hidden"}}>Current File: {document.manus === undefined || document.manus === ''  ? <p>None</p> : <p>{displayFileName(document.manus)}</p>}</span>
+                                              <span style={{overflow: "hidden"}}>Current File: {manus.length === 0  ? <p>None</p> : <p>{displayFileName(manus[0].name)}</p>}</span>
                                             </div>)
                                           default:
                                             return null;
