@@ -78,6 +78,9 @@ function App() {
         case ACTIONS.reset:
         return { initialState };
 
+        case ACTIONS.reset2:
+        return { ...state, query: '', category: [] };
+
         default:
           return state;
       }

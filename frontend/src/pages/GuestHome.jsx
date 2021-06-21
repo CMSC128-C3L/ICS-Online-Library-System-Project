@@ -14,8 +14,6 @@ export const ACTIONS = {
 }
 
 
-
-
 function GuestHome() {
     const {loggedUser, setLoggedUser} = useContext(UserContext) 
 
