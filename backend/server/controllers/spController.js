@@ -116,7 +116,8 @@ async function uploadSp(req, res){
 
 async function downloadSp(req,res){
     try{
-        let _id = req.params.id;
+        const type = req.params.type;
+        const _id = req.params.id;
         const token = req.params.token;
         const decoded = jwt.verify(token, process.env.ACCESS_JWT_SECRET);
         
@@ -130,11 +131,18 @@ async function downloadSp(req,res){
             res.status(404).send({message:"Sp not found"});
             return;
         }
-        if(sp.file===''){
-            res.status(404).send({message:"Sp file not found"});
-            return;
+
+        let filepath;
+        if(type == 0){ //poster
+          if(sp.poster==='') return res.status(404).send({message:"Sp poster not found"});
+          filepath = path.join(__dirname, `/../${sp.poster}`);
+        }else if(type == 1){ //journal
+          if(sp.journal==='') return res.status(404).send({message:"Sp journal not found"});
+          filepath = path.join(__dirname, `/../${sp.journal}`);
+        }else if(type ==2){ //manus
+          if(sp.file==='') return res.status(404).send({message:"Sp file not found"});
+          filepath = path.join(__dirname, `/../${sp.file}`);
         }
-        const filepath = path.join(__dirname, `/../${sp.file}`);
         
         res.download(filepath); //download the file
         return;
