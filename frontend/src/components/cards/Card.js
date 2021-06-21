@@ -1,7 +1,4 @@
 import './Card.css'
-import advisoryImg from '../../assets/announcements/Advisory.png'
-import featuredImg from '../../assets/announcements/Featured.png'
-import newsImg from '../../assets/announcements/News.png'
 function Card(props){
     return (
         <div className="margin-bot-2">

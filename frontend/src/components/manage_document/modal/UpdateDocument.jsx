@@ -59,7 +59,7 @@ function UpdateDocument(props){
         
         try {
 
-            console.log("manus", manus[0].name);
+            // console.log("manus", manus[0].name);
             console.log('handle submit after promise', props.type)
             if(props.type=="book"){
                 response = await axios.patch(`/api/books/${id}`, {

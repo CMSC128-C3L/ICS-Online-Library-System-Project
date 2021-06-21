@@ -12,7 +12,7 @@ import { jsPDF } from "jspdf";
 import logo from '../../assets/ics_logo.jpg';
 import autoTable from 'jspdf-autotable';
 import decode from 'jwt-decode'
-
+import {getYear} from '../../components/search_results/CardDetails'
 function CourseSummary(){
     const uData = (localStorage.length != 0) ? decode(localStorage.getItem('token')) : '{}';
     const history = useHistory();
@@ -182,7 +182,7 @@ function ResultsArea(props){
                             title={doc.title}
                             author={doc.author}
                             category={doc.type}
-                            year={doc.year}
+                            year={getYear(doc.pub_date)}
                             topic={doc.topic}
                         />
                         )
