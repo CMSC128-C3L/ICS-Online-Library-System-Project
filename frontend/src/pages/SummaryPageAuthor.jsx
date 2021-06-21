@@ -10,8 +10,4 @@ function SummaryPageAuthor(props){
     )
 }
 
-const works = () => {
-    
-}
-
 export default SummaryPageAuthor

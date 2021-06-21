@@ -130,6 +130,7 @@ function AdviserSummary(props){
                     <ArrowBackIcon/>
                     BACK TO SEARCH PAGE
                  </Button>
+                 <img className="pfp" src="https://www.w3schools.com/howto/img_avatar.png"/>
                 <h1 className="text title-case text-center space-0">{summary.name}</h1>
                 <h4 className="text text-center space-0">{summary.title}</h4>
                 {uData.classification === "Admin" ? (<Button variant="contained" style={{color: "white", backgroundColor: "#47abdb", marginTop: "4vh"}} disableElevation startIcon={<GetAppIcon style={{color: "white"}}/>}

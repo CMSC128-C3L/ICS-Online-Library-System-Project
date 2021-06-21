@@ -49,7 +49,7 @@ export default class AboutUs extends React.Component {
     searchName(name) {
         for (let i = 0; i < roster.length; i++){
             console.log(roster[i].name)
-            if(roster[i].nname == name){
+            if(roster[i].name == name){
                 this.setState({obj: roster[i]})
                 this.setState({modalIsOpen: !this.state.modalIsOpen})
                 break
@@ -67,7 +67,7 @@ export default class AboutUs extends React.Component {
                     <div className="modalContainer">
                         {this.state.obj ? <img src={this.state.obj.picture} className="prof" style={{width: '50%'}}/> : '{}'}
                         <div className="modalTitle">{this.state.obj.name}</div><br/>
-                        <div className="modalSubtitle">{this.state.obj.nname}</div><br/>
+                        <div className="modalSubtitle">{this.state.obj.email}</div><br/>
                         {this.state.obj.description}
                     </div>
                 </Modal>
@@ -98,7 +98,7 @@ export default class AboutUs extends React.Component {
                         Frontend
                     </div>
                     <div className="card-grid">
-                        <div className="person-card" onClick={() => {this.searchName("Jeri")}}>
+                        <div className="person-card" onClick={() => {this.searchName("Jeri Mia Ogbinar")}}>
                             <div className="profile-picture">
                                 <img src={jeri} style={{width: '75%'}}/>
                             </div>
@@ -106,7 +106,7 @@ export default class AboutUs extends React.Component {
                                 Jeri
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Keisha")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Keisha Rae Cadacio")}} >
                             <div className="profile-picture">
                                 <img src={keisha} style={{width: '75%'}}/>
                             </div>
@@ -114,7 +114,7 @@ export default class AboutUs extends React.Component {
                                 Keisha
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Alwin")}} >
+                        <div className="person-card" onClick={() => {this.searchName("John Alwin Pamintuan")}} >
                             <div className="profile-picture">
                                 <img src={alwin} style={{width: '75%'}}/>
                             </div>
@@ -122,7 +122,7 @@ export default class AboutUs extends React.Component {
                                 Alwin
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Rener")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Rener Ramirez")}} >
                             <div className="profile-picture">
                                 <img src={rener} style={{width: '75%'}}/>
                             </div>
@@ -130,7 +130,7 @@ export default class AboutUs extends React.Component {
                                 Rener
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Elsha")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Elsha Siochi")}} >
                             <div className="profile-picture">
                                 <img src={elsha} style={{width: '75%'}}/>
                             </div>
@@ -144,7 +144,7 @@ export default class AboutUs extends React.Component {
                         Backend
                     </div>
                     <div className="card-grid">
-                        <div className="person-card" onClick={() => {this.searchName("Janos")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Trestan Janos Garcia")}} >
                             <div className="profile-picture">
                                 <img src={janos} style={{width: '75%'}}/>
                             </div>
@@ -152,7 +152,7 @@ export default class AboutUs extends React.Component {
                                 Janos
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Aaron")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Aaron Alba")}} >
                             <div className="profile-picture">
                                 <img src={aaron} style={{width: '75%'}}/>
                             </div>
@@ -160,7 +160,7 @@ export default class AboutUs extends React.Component {
                                 Aaron
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Ralf")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Ralf Wrandon Bautista")}} >
                             <div className="profile-picture">
                                 <img src={ralf} style={{width: '75%'}}/>
                             </div>
@@ -168,7 +168,7 @@ export default class AboutUs extends React.Component {
                                 Ralf
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Sam")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Samuel Jade Ferrer")}} >
                             <div className="profile-picture">
                                 <img src={sam} style={{width: '75%'}}/>
                             </div>
@@ -176,7 +176,7 @@ export default class AboutUs extends React.Component {
                                 Sam
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Vince")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Dann Vincent Palmes")}} >
                             <div className="profile-picture">
                                 <img src={vince} style={{width: '75%'}}/>
                             </div>
@@ -190,7 +190,7 @@ export default class AboutUs extends React.Component {
                         Database
                     </div>
                     <div className="card-grid">
-                        <div className="person-card" onClick={() => {this.searchName("Neo")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Marveen Antonio Bernabe")}} >
                             <div className="profile-picture">
                                 <img src={neo} style={{width: '75%'}}/>
                             </div>
@@ -198,7 +198,7 @@ export default class AboutUs extends React.Component {
                                 Neo
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Tin")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Kristine Labador")}} >
                             <div className="profile-picture">
                                 <img src={tin} style={{width: '75%'}}/>
                             </div>
@@ -206,7 +206,7 @@ export default class AboutUs extends React.Component {
                                 Tin
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Lester")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Lester Jan Bautista")}} >
                             <div className="profile-picture">
                                 <img src={lester} style={{width: '75%'}}/>
                             </div>
@@ -214,7 +214,7 @@ export default class AboutUs extends React.Component {
                                 Lester
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Bullet")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Carl Vincent Pua")}} >
                             <div className="profile-picture">
                                 <img src={bullet} style={{width: '75%'}}/>
                             </div>
@@ -222,7 +222,7 @@ export default class AboutUs extends React.Component {
                                 Bullet
                             </div>
                         </div>
-                        <div className="person-card" onClick={() => {this.searchName("Robert")}} >
+                        <div className="person-card" onClick={() => {this.searchName("Robert Franklin Bangcoro")}} >
                             <div className="profile-picture">
                                 <img src={robert} style={{width: '75%'}}/>
                             </div>
