@@ -105,10 +105,11 @@ function ConditionalEdit(props){
           document.data.courses = courses;
         }
 
-
+        let userData = JSON.parse(localStorage.getItem('userData'));
+        console.log(userData)
         setDocument(document.data); 
 
-        const log = await axios.patch('/api/log/doc/'+uData.user_id,{doc_id:id});
+        const log = await axios.patch('/api/log/doc/'+userData.user_id,{doc_id:id});
     }catch(e){
         console.log(e)
     }

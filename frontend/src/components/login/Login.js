@@ -67,6 +67,10 @@ function Login() {
       user.user_id = user_id.data;
       user.log_id = record.data;
 
+     
+
+      localStorage.setItem('userData', JSON.stringify(user));
+      
       setLoggedUser(user);
       history.push(`/adminHome`); //if success, redirect to user account
       // refreshTokenSetup(res);

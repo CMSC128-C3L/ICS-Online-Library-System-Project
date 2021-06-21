@@ -10,7 +10,7 @@ const clientId = '138358192531-fu4c71u8ev4vbh1mv1aa6ebudt1d7g4h.apps.googleuserc
 
 function Logout() {
   const history = useHistory();
-  const {loggedUser, setLoggedUser} = useContext(UserContext)
+  const loggedUser = JSON.parse(localStorage.getItem('userData'));
   const onSuccess = () => {
     var auth2 = window.gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -24,10 +24,9 @@ function Logout() {
       })
     });
 
-    setLoggedUser({});
-
+   
     localStorage.removeItem('token'); 
-
+    localStorage.removeItem('userData');
     history.push('/');
     alert('Logout made successfully');
   };
