@@ -158,4 +158,4 @@ function AdviserList(props){
 }
 
 
-export {Title, CourseListUpdate, CustomDate, Category, AuthorList, Isbn, CourseList, TopicList, AdviserList}
+export {Title, CourseListUpdate, CustomDate, Category, AuthorList, Isbn, CourseList, TopicList, AdviserList, getYear}
