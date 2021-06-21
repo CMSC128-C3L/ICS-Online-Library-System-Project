@@ -9,6 +9,7 @@ import './Modal.css'
 import {FileContext} from '../FileContext'
 import {PosterContext} from '../PosterContext'
 import {BookCoverContext} from '../BookCoverContext';
+import { ManuscriptContext } from '../ManuscriptContext'
 
 function UpdateDocument(props){
     const {user, close} = useContext(UserContext)
@@ -18,7 +19,7 @@ function UpdateDocument(props){
     const {file, setFile} = useContext(FileContext);
     const {poster, setPoster} = useContext(PosterContext);
     const {cover, setCover} = useContext(BookCoverContext);
-
+    const {manus, setManus} = useContext(ManuscriptContext);
     //for modal confirmation
     const confirmModal = useRef(null)
     const [confirmed, setConfirmed] = useState(false)
@@ -58,6 +59,7 @@ function UpdateDocument(props){
         
         try {
 
+            console.log("manus", manus[0].name);
             console.log('handle submit after promise', props.type)
             if(props.type=="book"){
                 response = await axios.patch(`/api/books/${id}`, {
@@ -100,38 +102,25 @@ function UpdateDocument(props){
                     poster: props.thesis.poster
                 } , options);
 
-                  console.log("thesis save")
                 //upload document
-                if(file.length > 0){
-                    const formData = new FormData();
+
+                if(file.length > 0 || poster.length > 0 || manus.length > 0){
+                        const formData = new FormData();
                     formData.append("title", props.thesis.title);
-                    formData.append("journal", file[0]);
-                    console.log("uploading thesis..")
+                    if(file.length > 0)  formData.append("journal", file[0]);
+                    if(poster.length > 0) formData.append("poster", poster[0]);
+                    if(manus.length > 0) formData.append("thesisDocument", manus[0]);
+
                     try{
                         axios.post(`/api/thesis/upload/${id}`, formData, options);
-
-                        console.log("sucess!")
                     }catch(e){
                         console.log(e)
                     }
                 }
+                   
+              
 
-                //upload poster
-                if(poster.length > 0){
-                    const formData = new FormData();
-                    formData.append("title", props.thesis.title);
-                    formData.append("poster", poster[0]);
-                    console.log("uploading thesis poster..")
-                    try{
-                        axios.post(`/api/thesis/upload/${id}`, formData, options);
-
-                        console.log("sucess!")
-                    }catch(e){
-                        console.log(e)
-                    }
-                }
-
-                response = await axios.get(`/api/thesis/${id}`)
+                response = await axios.get(`/api/thesis/${id}`, options);
                 console.log("WOWOW Data: ", response.data);
             } else if(props.type=="sp"){
                 response = await axios.patch(`/api/sp/${id}`, {
@@ -147,27 +136,20 @@ function UpdateDocument(props){
                     poster: props.sp.poster  
                 } , options);
                 
-                if(file.length > 0){
-                    const formData = new FormData();
-                    formData.append("title", props.sp.title);
-                    formData.append("journalFile", file[0]);
-                    try{
-                        axios.post(`/api/sp/upload/${id}`, formData, options)
-                        console.log('yasss')
-                    }catch(e){
-                        console.log(e)
-                    }
-                }
 
-                 if(poster.length > 0){
+                if(file.length > 0 || poster.length > 0 || manus.length > 0){
+
+                    console.log("filee")
                     const formData = new FormData();
                     formData.append("title", props.sp.title);
-                    formData.append("posterFile ", poster[0]);
-                    console.log("uploading thesis poster..")
+                    if(file.length > 0)  formData.append("journalFile", file[0]);
+                    if(poster.length > 0) formData.append("posterFile", poster[0]);
+                    if(manus.length > 0) formData.append("spFile", manus[0]);
+
                     try{
                         axios.post(`/api/sp/upload/${id}`, formData, options);
 
-                        console.log("sucess!")
+                        console.log("nice")
                     }catch(e){
                         console.log(e)
                     }
