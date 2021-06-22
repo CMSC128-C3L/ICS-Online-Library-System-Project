@@ -13,15 +13,6 @@ function AdminDocManagement({match}) {
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             minHeight: '50vh'}}>
-        
-        {/* <div style={{
-            background-image: url();
-            background-repeat: no-repeat;
-            background-size:cover;
-            background-position: center;
-            min-height: 50vh;
-
-        }}> */}
             <Header></Header>
             <EditPage/>
         </div>
