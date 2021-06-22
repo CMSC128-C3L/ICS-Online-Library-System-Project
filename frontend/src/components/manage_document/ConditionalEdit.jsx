@@ -352,7 +352,7 @@ const handleUploadToggle = (event, newToggle) =>{
 }
 
   return(
-    <div className="browsebg browsebg-container">
+    <div className="browsebg-container">
       
       <ManuscriptContext.Provider value={{manus, setManus}}>
       <FileContext.Provider value={{file, setFile}}>
